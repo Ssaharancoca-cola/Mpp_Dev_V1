@@ -1,0 +1,49 @@
+﻿
+@model List<Model.DimensionName>
+
+@{
+    ViewBag.Title = "Menu";
+}
+
+<table>
+    <tr>
+        <td>
+            @Html.ActionLink("Home", "Index", "Home")
+        </td>
+        <td></td>
+        <td style="padding-left:719px;">
+            @Html.DropDownList("dll", Model.Select(item => new SelectListItem
+            {
+                Value = Convert.ToString(item.Dimension),
+            Text = Convert.ToString(item.Dimension.ToString())
+            }), new { @id = "ddlDim" })
+        </td>
+    </tr>
+</table>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        debugger;
+        $('#ddlDim')[0].selectedIndex = @Context.Session.GetInt32("selectedIndex");
+    });
+
+    $("#ddlDim").change(function () {
+        
+        var selectedIndex = this.options[this.selectedIndex].index;
+        var selectedValue = this.options[this.selectedIndex].value;
+        var selecteddropdownvalue = this.options[this.selectedIndex].text;
+
+        $.post('@Url.Action("ShowSubMenu", "Menu")', { dropdownvalue: selectedValue, dropdowndata: selecteddropdownvalue,
+            selectedIndex: selectedIndex},
+            function (data){
+                if(data.indexOf("error")== 0){
+                    alert(data.replace("error", ""));
+                }
+                else{
+                    $('#trmenu').html(data);
+                    $('#viewPlaceHolder').empty();
+                    $('#AttributeDetail').empty();
+                }
+            });
+    });
+</script>

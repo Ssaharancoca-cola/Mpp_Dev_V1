@@ -1,0 +1,22 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "jquery@3.7.0",
+      "destination": "Scripts/jquery/"
+    },
+    {
+      "library": "jquery.form@4.3.0",
+      "destination": "Scripts/jquery/jquery.form/"
+    },
+    {
+      "library": "jquery-ajax-unobtrusive@3.2.6",
+      "destination": "Scripts/jquery/jquery-ajax-unobtrusive/"
+    },
+    {
+      "library": "datepicker@1.0.10",
+      "destination": "Scripts/datepicker/"
+    }
+  ]
+}
