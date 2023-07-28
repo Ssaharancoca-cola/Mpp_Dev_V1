@@ -20,10 +20,10 @@ namespace DAL.Common
             int sessionID = 0;
             try
             {
-                //using (MPP_Context mPP_Context = new MPP_Context("MPPAppContext"))
-                //{
-                //   // sessionID = mPP_Context.Database.SqlQuery<int>("SELECT MPP_APP.SEQ_SESSION.NEXTVAL AS SESSION_ID FROM DUAL").FirstOrDefault();
-                //}
+                using (MPP_Context mPP_Context = new MPP_Context("MPPAppContext"))
+                {
+                    // sessionID = mPP_Context.Database.SqlQueryRaw<int>("SELECT MPP_APP.SEQ_SESSION.NEXTVAL AS SESSION_ID FROM DUAL").FirstOrDefault();
+                }
             }
             catch (Exception ex)
             {
