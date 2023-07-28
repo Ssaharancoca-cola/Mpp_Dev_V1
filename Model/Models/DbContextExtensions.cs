@@ -37,12 +37,6 @@ namespace Model.Models
         private bool _valueSet = false;
 
         public TValue _value;
-        private string iResult;
-
-        public OutputParameter(string iResult)
-        {
-            this.iResult = iResult;
-        }
 
         public TValue Value
         {

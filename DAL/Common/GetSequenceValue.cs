@@ -39,13 +39,13 @@ namespace DAL.Common
             return nextVal;
         }
         //Get Max Id for Entity Type
-        //public int GetMaxIdForEntityType()
-        //{
-        //    using (MPP_Context mPP_Context = new MPP_Context())
-        //    {
-        //        var nextVal = mPP_Context.Database.SqlQuery<int>("select max(ID) from entity_type").FirstOrDefault();
-        //        return nextVal;
-        //    }
-        //}
+        public int GetMaxIdForEntityType()
+        {
+            using (MPP_Context mPP_Context = new MPP_Context())
+            {
+                var nextVal = mPP_Context.Database.SqlQueryRaw<int>("select max(ID) from Mpp_Core.entity_type").FirstOrDefault();
+                return nextVal;
+            }
+        }
     }
 }

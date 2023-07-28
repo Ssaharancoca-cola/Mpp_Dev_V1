@@ -18,8 +18,8 @@ namespace DAL.Common
         public const string search = "search";
         public const string update = "update";
         public const string suppliedCode = "SUPPLIED_CODE";
-        public const string cascombo = "CASCOMBO"; 
-
+        public const string cascombo = "CASCOMBO";
+        public const string dateFromColumnName = "DATE_FROM";
 
     }
 }

@@ -34,6 +34,7 @@ namespace Model.Models
 
         protected void OnModelCreatingGeneratedProcedures(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<MPP_LOAD_CHKResult>().HasNoKey().ToView(null);
         }
     }
 
@@ -84,6 +85,53 @@ namespace Model.Models
             var _ = await _context.Database.ExecuteSqlRawAsync("EXEC @returnValue = [dbo].[MPP_ENTITY_SEC_BASE_VIEWS_FN_PROC] @I_ENTITY_TYPE_ID, @I_USER_ID, @I_RESULT OUTPUT", sqlParameters, cancellationToken);
 
             I_RESULT.SetValue(parameterI_RESULT.Value);
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
+        }
+
+        public virtual async Task<List<MPP_LOAD_CHKResult>> MPP_LOAD_CHKAsync(string i_Session_id, int? i_entity_type_id, string i_user_id, string i_suppress_warnings, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                new SqlParameter
+                {
+                    ParameterName = "i_Session_id",
+                    Size = 50,
+                    Value = i_Session_id ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "i_entity_type_id",
+                    Value = i_entity_type_id ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.Int,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "i_user_id",
+                    Size = 50,
+                    Value = i_user_id ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "i_suppress_warnings",
+                    Size = 100,
+                    Value = i_suppress_warnings ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                parameterreturnValue,
+            };
+            var _ = await _context.SqlQueryAsync<MPP_LOAD_CHKResult>("EXEC @returnValue = [dbo].[MPP_LOAD_CHK] @i_Session_id, @i_entity_type_id, @i_user_id, @i_suppress_warnings", sqlParameters, cancellationToken);
+
             returnValue?.SetValue(parameterreturnValue.Value);
 
             return _;

@@ -17,13 +17,7 @@ namespace Model.Models
             : base(options)
         {
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Data Source=zwdmyad0001;Initial Catalog=MPP_DEV;Persist Security Info=True;User ID=MPP_DEV_APP;Password=LASyYbj0ZX#B;TrustServerCertificate=True");
-            }
-        }
+
         public virtual DbSet<Dimension> Dimension { get; set; }
         public virtual DbSet<Entity> Entity { get; set; }
         public virtual DbSet<EntityType> EntityType { get; set; }
@@ -33,20 +27,9 @@ namespace Model.Models
         public virtual DbSet<MppConfig> MppConfig { get; set; }
         public virtual DbSet<MppUser> MppUser { get; set; }
         public virtual DbSet<MppUserPrivilage> MppUserPrivilage { get; set; }
-        //Entity Model
-        public DbSet<UserInfo> UserInfo { get; set; }
-        public DbSet<DimensionName> DimensionName { get; set; }
-        public DbSet<Previleges> Previleges { get; set; }
-        public DbSet<DropDownData> DropDownData {get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Entity Model
-            modelBuilder.Entity<UserInfo>().HasNoKey();
-            modelBuilder.Entity<DimensionName>().HasNoKey();
-            modelBuilder.Entity<Previleges>().HasNoKey();
-            modelBuilder.Entity<DropDownData>().HasNoKey();
-
             modelBuilder.Entity<Dimension>(entity =>
             {
                 entity.HasKey(e => e.DimensionName);
@@ -285,32 +268,35 @@ namespace Model.Models
 
             modelBuilder.Entity<EntityTypeAttrLov>(entity =>
             {
-                entity.HasKey(e => new { e.EntityTypeId, e.AttrName })
-                    .HasName("ENTITY_TYPE_ATTR_LOV_PK");
+                entity.HasKey(e => new { e.AttrName, e.EntityTypeId, e.ValidValues })
+                    .HasName("PK__ENTITY_T__6B57F4BB10120E73");
 
                 entity.ToTable("ENTITY_TYPE_ATTR_LOV", "MPP_CORE");
 
-                entity.Property(e => e.EntityTypeId).HasColumnName("ENTITY_TYPE_ID");
-
                 entity.Property(e => e.AttrName)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
+                    .HasMaxLength(500)
                     .HasColumnName("ATTR_NAME");
 
-                entity.Property(e => e.SortOrder)
-                    .HasMaxLength(10)
-                    .HasColumnName("SORT_ORDER")
-                    .IsFixedLength();
+                entity.Property(e => e.EntityTypeId).HasColumnName("ENTITY_TYPE_ID");
 
                 entity.Property(e => e.ValidValues)
-                    .HasMaxLength(50)
+                    .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("VALID_VALUES");
 
+                entity.Property(e => e.SortOrder).HasColumnName("SORT_ORDER");
+
                 entity.Property(e => e.ValueName)
-                    .HasMaxLength(50)
+                    .IsRequired()
+                    .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("VALUE_NAME");
+
+                entity.HasOne(d => d.EntityTypeAttr)
+                    .WithMany(p => p.EntityTypeAttrLov)
+                    .HasForeignKey(d => new { d.EntityTypeId, d.AttrName })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ETAL_ETID_ANAME");
             });
 
             modelBuilder.Entity<EntityTypeRelation>(entity =>
