@@ -116,6 +116,7 @@ namespace DAL
                         entity_Type_Attr_Detail.AttrName = item.AttrName;
                         entity_Type_Attr_Detail.IsMandatoryFlag = item.IsMandatoryFlag;
                         entity_Type_Attr_Detail.IsListable = item.IsListable;
+                        entity_Type_Attr_Detail.Isvisible = item.Isvisible;
                         entity_Type_Attr_Detail.CasQuery = item.CasQuery;
                         entity_Type_Attr_Detail.CasDrop = item.CasDrop;
                         string selectQuery = "select parent_entity_type_id from MPP_CORE.entity_type_attr where entity_type_id = " + entityId + "and attr_name='" + item.AttrName + "'";
