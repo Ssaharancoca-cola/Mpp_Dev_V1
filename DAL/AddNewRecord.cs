@@ -24,16 +24,16 @@ namespace DAL
             int sessionID = 0;
             try
             {
-                using (GetSessionValue getSessionValue = new GetSessionValue())
-                {
-                    sessionID = getSessionValue.GetNextSessionValue(out outMsg);
-                    if (outMsg != Constant.statusSuccess) return outMsg;
-                }
-                using(GetSequenceValue getSequenceValue = new GetSequenceValue())
-                {
-                    ldOid = getSequenceValue.GetNextSequanceValue("MPP_CORE.SEQ_LD_OID", out outMsg);
-                    if (outMsg != Constant.statusSuccess) return outMsg;
-                }
+                //using (GetSessionValue getSessionValue = new GetSessionValue())
+                //{
+                //    sessionID = getSessionValue.GetNextSessionValue(out outMsg);
+                //    if (outMsg != Constant.statusSuccess) return outMsg;
+                //}
+                //using(GetSequenceValue getSequenceValue = new GetSequenceValue())
+                //{
+                //    ldOid = getSequenceValue.GetNextSequanceValue("MPP_CORE.SEQ_LD_OID", out outMsg);
+                //    if (outMsg != Constant.statusSuccess) return outMsg;
+                //}
                 using (MPP_Context mPP_Context = new MPP_Context())
                 {
                     inputTableName = mPP_Context.EntityType.Where(x => x.Id == entityTypeId).Select(x => x.InputTableName).FirstOrDefault();

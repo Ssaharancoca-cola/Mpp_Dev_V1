@@ -2,6 +2,7 @@ using DAL.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Identity.Client;
 using Model.Models;
 using MPP;
@@ -12,23 +13,35 @@ using System.Threading;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddSessionStateTempDataProvider();
+builder.Services.AddRazorPages().AddSessionStateTempDataProvider();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 builder.Services.AddTransient<MenuViewComponent>();
 builder.Services.AddTransient<SubMenuViewComponent>();
 builder.Services.AddTransient<ShowAttributeViewComponent>();
 builder.Services.AddScoped<LogError>();
 
+// Add Session Services
+builder.Services.AddMemoryCache();
+builder.Services.AddSession();
+builder.Services.AddSession(options =>
+{
+    options.Cookie.Name = ".Mpp.Session";
+    options.IdleTimeout = TimeSpan.FromMinutes(20); // Customize the session timeout
+});
+
+//Add the IWebHostEnvironment service
+builder.Services.AddSingleton<IHostEnvironment>(builder.Environment);
 //builder.Services.AddControllersWithViews(options =>
 //{
 //    options.Filters.Add(new SessionTimeoutDimensionAttribute());
 //});
-builder.Services.AddSession(); // Add Session Services
 
-//Add the IWebHostEnvironment service
-builder.Services.AddSingleton<IHostEnvironment>(builder.Environment);
 
 builder.Services.AddDbContext<MPP_Context>(
-        options => options.UseSqlServer(builder.Configuration.GetConnectionString("Data Source=zwdmyad0001;Initial Catalog=MPP_DEV;Persist Security Info=True;User ID=MPP_DEV_APP;Password=LASyYbj0ZX#B;TrustServerCertificate=True")));
+     options => options.UseSqlServer(builder.Configuration.GetConnectionString("Data Source=zwdmyad0001;Initial Catalog=MPP_DEV;Persist Security Info=True;User ID=MPP_DEV_APP;Password=LASyYbj0ZX#B;TrustServerCertificate=True")));  
+     //  options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionStrings")));
 
 var app = builder.Build();
 

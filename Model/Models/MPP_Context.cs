@@ -18,18 +18,96 @@ namespace Model.Models
         {
         }
 
+        public virtual DbSet<DimBusinessorg> DimBusinessorg { get; set; }
         public virtual DbSet<Dimension> Dimension { get; set; }
         public virtual DbSet<Entity> Entity { get; set; }
         public virtual DbSet<EntityType> EntityType { get; set; }
         public virtual DbSet<EntityTypeAttr> EntityTypeAttr { get; set; }
         public virtual DbSet<EntityTypeAttrLov> EntityTypeAttrLov { get; set; }
         public virtual DbSet<EntityTypeRelation> EntityTypeRelation { get; set; }
+        public virtual DbSet<LdEntCountry> LdEntCountry { get; set; }
+        public virtual DbSet<LdEntCountryGroup> LdEntCountryGroup { get; set; }
+        public virtual DbSet<LdEntEntity> LdEntEntity { get; set; }
+        public virtual DbSet<LdEntSubGroup> LdEntSubGroup { get; set; }
+        public virtual DbSet<LdEntityGroup> LdEntityGroup { get; set; }
+        public virtual DbSet<LdEntitySite> LdEntitySite { get; set; }
+        public virtual DbSet<LoadEntity> LoadEntity { get; set; }
         public virtual DbSet<MppConfig> MppConfig { get; set; }
         public virtual DbSet<MppUser> MppUser { get; set; }
         public virtual DbSet<MppUserPrivilage> MppUserPrivilage { get; set; }
+        public virtual DbSet<Querytext2> Querytext2 { get; set; }
+        public virtual DbSet<Querytexttype2> Querytexttype2 { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Data Source=zwdmyad0001;Initial Catalog=MPP_DEV;Persist Security Info=True;User ID=MPP_DEV_APP;Password=LASyYbj0ZX#B;TrustServerCertificate=True");
+            }
+        }
+        //Entity Model
+        public DbSet<UserInfo> UserInfo { get; set; }
+        public DbSet<DimensionName> DimensionName { get; set; }
+        public DbSet<Previleges> Previleges { get; set; }
+        public DbSet<DropDownData> DropDownData { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Entity Model
+            modelBuilder.Entity<UserInfo>().HasNoKey();
+            modelBuilder.Entity<DimensionName>().HasNoKey();
+            modelBuilder.Entity<Previleges>().HasNoKey();
+            modelBuilder.Entity<DropDownData>().HasNoKey();
+            modelBuilder.Entity<DimBusinessorg>(entity =>
+            {
+                entity.ToTable("DIM_BUSINESSORG", "MPP_APP");
+
+                entity.Property(e => e.Id)
+                    .ValueGeneratedNever()
+                    .HasColumnName("ID");
+
+                entity.Property(e => e.DateFrom)
+                    .HasColumnType("date")
+                    .HasColumnName("DATE_FROM");
+
+                entity.Property(e => e.DateTo)
+                    .HasColumnType("date")
+                    .HasColumnName("DATE_TO");
+
+                entity.Property(e => e.Dlevel)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("DLEVEL");
+
+                entity.Property(e => e.EditLevel).HasColumnName("EDIT_LEVEL");
+
+                entity.Property(e => e.EntCountryGroupLoid).HasColumnName("ENT_COUNTRY_GROUP_LOID");
+
+                entity.Property(e => e.EntCountryGroupOid).HasColumnName("ENT_COUNTRY_GROUP_OID");
+
+                entity.Property(e => e.EntCountryLoid).HasColumnName("ENT_COUNTRY_LOID");
+
+                entity.Property(e => e.EntCountryOid).HasColumnName("ENT_COUNTRY_OID");
+
+                entity.Property(e => e.EntEntityLoid).HasColumnName("ENT_ENTITY_LOID");
+
+                entity.Property(e => e.EntEntityOid).HasColumnName("ENT_ENTITY_OID");
+
+                entity.Property(e => e.EntGroupLoid).HasColumnName("ENT_GROUP_LOID");
+
+                entity.Property(e => e.EntGroupOid).HasColumnName("ENT_GROUP_OID");
+
+                entity.Property(e => e.EntSiteLoid).HasColumnName("ENT_SITE_LOID");
+
+                entity.Property(e => e.EntSiteOid).HasColumnName("ENT_SITE_OID");
+
+                entity.Property(e => e.EntSubGroupLoid).HasColumnName("ENT_SUB_GROUP_LOID");
+
+                entity.Property(e => e.EntSubGroupOid).HasColumnName("ENT_SUB_GROUP_OID");
+
+                entity.Property(e => e.Oid).HasColumnName("OID");
+            });
+
             modelBuilder.Entity<Dimension>(entity =>
             {
                 entity.HasKey(e => e.DimensionName);
@@ -325,6 +403,950 @@ namespace Model.Models
                 entity.Property(e => e.ToBeFlattened).HasColumnName("TO_BE_FLATTENED");
             });
 
+            modelBuilder.Entity<LdEntCountry>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("LD_ENT_COUNTRY", "MPP_APP");
+
+                entity.Property(e => e.ActiveFlag)
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .HasColumnName("ACTIVE_FLAG");
+
+                entity.Property(e => e.ApproverId)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("APPROVER_ID");
+
+                entity.Property(e => e.ApproverLevel)
+                    .HasMaxLength(10)
+                    .HasColumnName("APPROVER_LEVEL")
+                    .IsFixedLength();
+
+                entity.Property(e => e.Comments)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("COMMENTS");
+
+                entity.Property(e => e.CreatedOn)
+                    .HasColumnType("datetime")
+                    .HasColumnName("CREATED_ON");
+
+                entity.Property(e => e.CurrentEditLevel).HasColumnName("CURRENT_EDIT_LEVEL");
+
+                entity.Property(e => e.DateFrom)
+                    .HasColumnType("date")
+                    .HasColumnName("DATE_FROM");
+
+                entity.Property(e => e.DateTo)
+                    .HasColumnType("date")
+                    .HasColumnName("DATE_TO");
+
+                entity.Property(e => e.DummyFlag)
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .HasColumnName("DUMMY_FLAG");
+
+                entity.Property(e => e.EntCountryCode)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_COUNTRY_CODE");
+
+                entity.Property(e => e.EntCountryDesc)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_COUNTRY_DESC");
+
+                entity.Property(e => e.EntCountryGroupCode)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_COUNTRY_GROUP_CODE");
+
+                entity.Property(e => e.EntCountryLongName)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_COUNTRY_LONG_NAME");
+
+                entity.Property(e => e.EntCountryShortName)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_COUNTRY_SHORT_NAME");
+
+                entity.Property(e => e.ErrorMessage)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("ERROR_MESSAGE");
+
+                entity.Property(e => e.InputRowId)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("INPUT_ROW_ID");
+
+                entity.Property(e => e.LastModifiedBy)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("LAST_MODIFIED_BY");
+
+                entity.Property(e => e.LastUpdateTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("LAST_UPDATE_TIME");
+
+                entity.Property(e => e.LdOid).HasColumnName("LD_OID");
+
+                entity.Property(e => e.RecLockFlag).HasColumnName("REC_LOCK_FLAG");
+
+                entity.Property(e => e.RowSecFlag).HasColumnName("ROW_SEC_FLAG");
+
+                entity.Property(e => e.RowStatus).HasColumnName("ROW_STATUS");
+
+                entity.Property(e => e.SessionId)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("SESSION_ID");
+
+                entity.Property(e => e.SortOrder)
+                    .HasColumnType("numeric(18, 0)")
+                    .HasColumnName("SORT_ORDER");
+
+                entity.Property(e => e.SourceSystemCode)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("SOURCE_SYSTEM_CODE");
+
+                entity.Property(e => e.TreatNullsAsNulls).HasColumnName("TREAT_NULLS_AS_NULLS");
+
+                entity.Property(e => e.UserId)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("USER_ID");
+
+                entity.Property(e => e.UserLevel)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("USER_LEVEL");
+
+                entity.Property(e => e.WarningMessage)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("WARNING_MESSAGE");
+            });
+
+            modelBuilder.Entity<LdEntCountryGroup>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("LD_ENT_COUNTRY_GROUP", "MPP_APP");
+
+                entity.Property(e => e.ActiveFlag)
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .HasColumnName("ACTIVE_FLAG");
+
+                entity.Property(e => e.ApproverId)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("APPROVER_ID");
+
+                entity.Property(e => e.ApproverLevel)
+                    .HasMaxLength(10)
+                    .HasColumnName("APPROVER_LEVEL")
+                    .IsFixedLength();
+
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnType("date")
+                    .HasColumnName("CREATED_DATE");
+
+                entity.Property(e => e.CreatedUserId)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("CREATED_USER_ID");
+
+                entity.Property(e => e.CurrentEditLevel).HasColumnName("CURRENT_EDIT_LEVEL");
+
+                entity.Property(e => e.DateFrom)
+                    .HasColumnType("date")
+                    .HasColumnName("DATE_FROM");
+
+                entity.Property(e => e.DateTo)
+                    .HasColumnType("date")
+                    .HasColumnName("DATE_TO");
+
+                entity.Property(e => e.DummyFlag)
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .HasColumnName("DUMMY_FLAG");
+
+                entity.Property(e => e.EffectiveEndDate)
+                    .HasColumnType("date")
+                    .HasColumnName("EFFECTIVE_END_DATE");
+
+                entity.Property(e => e.EffectiveStartDate)
+                    .HasColumnType("date")
+                    .HasColumnName("EFFECTIVE_START_DATE");
+
+                entity.Property(e => e.EntCountryGroupCode)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_COUNTRY_GROUP_CODE");
+
+                entity.Property(e => e.EntCountryGroupDesc)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_COUNTRY_GROUP_DESC");
+
+                entity.Property(e => e.EntCountryGroupLongName)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_COUNTRY_GROUP_LONG_NAME");
+
+                entity.Property(e => e.EntCountryGroupShortName)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_COUNTRY_GROUP_SHORT_NAME");
+
+                entity.Property(e => e.EntityOid).HasColumnName("ENTITY_OID");
+
+                entity.Property(e => e.ErrorMessage)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("ERROR_MESSAGE");
+
+                entity.Property(e => e.InputRowId).HasColumnName("INPUT_ROW_ID");
+
+                entity.Property(e => e.LastModifiedBy)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("LAST_MODIFIED_BY");
+
+                entity.Property(e => e.LastUpdateTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("LAST_UPDATE_TIME");
+
+                entity.Property(e => e.LdOid).HasColumnName("LD_OID");
+
+                entity.Property(e => e.RecLockFlag).HasColumnName("REC_LOCK_FLAG");
+
+                entity.Property(e => e.RowSecFlag).HasColumnName("ROW_SEC_FLAG");
+
+                entity.Property(e => e.RowStatus).HasColumnName("ROW_STATUS");
+
+                entity.Property(e => e.SessionId)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("SESSION_ID");
+
+                entity.Property(e => e.SortOrder)
+                    .HasColumnType("numeric(18, 0)")
+                    .HasColumnName("SORT_ORDER");
+
+                entity.Property(e => e.SourceSystemCode)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("SOURCE_SYSTEM_CODE");
+
+                entity.Property(e => e.TreatNullsAsNulls).HasColumnName("TREAT_NULLS_AS_NULLS");
+
+                entity.Property(e => e.UpdateDate)
+                    .HasColumnType("date")
+                    .HasColumnName("UPDATE_DATE");
+
+                entity.Property(e => e.UpdatedUserid)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("UPDATED_USERID");
+
+                entity.Property(e => e.UserId)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("USER_ID");
+
+                entity.Property(e => e.UserLevel).HasColumnName("USER_LEVEL");
+
+                entity.Property(e => e.WarningMessage)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("WARNING_MESSAGE");
+            });
+
+            modelBuilder.Entity<LdEntEntity>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("LD_ENT_ENTITY", "MPP_APP");
+
+                entity.Property(e => e.ActiveFlag)
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .HasColumnName("ACTIVE_FLAG");
+
+                entity.Property(e => e.ApproverId)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("APPROVER_ID");
+
+                entity.Property(e => e.ApproverLevel)
+                    .HasMaxLength(10)
+                    .HasColumnName("APPROVER_LEVEL")
+                    .IsFixedLength();
+
+                entity.Property(e => e.Comments)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("COMMENTS");
+
+                entity.Property(e => e.CreatedOn)
+                    .HasColumnType("datetime")
+                    .HasColumnName("CREATED_ON");
+
+                entity.Property(e => e.CurrentEditLevel).HasColumnName("CURRENT_EDIT_LEVEL");
+
+                entity.Property(e => e.DateFrom)
+                    .HasColumnType("date")
+                    .HasColumnName("DATE_FROM");
+
+                entity.Property(e => e.DateTo)
+                    .HasColumnType("date")
+                    .HasColumnName("DATE_TO");
+
+                entity.Property(e => e.DummyFlag)
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .HasColumnName("DUMMY_FLAG");
+
+                entity.Property(e => e.EntEntityCode)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_ENTITY_CODE");
+
+                entity.Property(e => e.EntEntityDesc)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_ENTITY_DESC");
+
+                entity.Property(e => e.EntEntityLongName)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_ENTITY_LONG_NAME");
+
+                entity.Property(e => e.EntEntityShortName)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_ENTITY_SHORT_NAME");
+
+                entity.Property(e => e.EntGroupCode)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_GROUP_CODE");
+
+                entity.Property(e => e.ErrorMessage)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("ERROR_MESSAGE");
+
+                entity.Property(e => e.InputRowId)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("INPUT_ROW_ID");
+
+                entity.Property(e => e.LastModifiedBy)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("LAST_MODIFIED_BY");
+
+                entity.Property(e => e.LastUpdateTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("LAST_UPDATE_TIME");
+
+                entity.Property(e => e.LdOid).HasColumnName("LD_OID");
+
+                entity.Property(e => e.RecLockFlag).HasColumnName("REC_LOCK_FLAG");
+
+                entity.Property(e => e.RowSecFlag).HasColumnName("ROW_SEC_FLAG");
+
+                entity.Property(e => e.RowStatus).HasColumnName("ROW_STATUS");
+
+                entity.Property(e => e.SessionId)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("SESSION_ID");
+
+                entity.Property(e => e.SortOrder)
+                    .HasColumnType("numeric(18, 0)")
+                    .HasColumnName("SORT_ORDER");
+
+                entity.Property(e => e.SourceSystemCode)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("SOURCE_SYSTEM_CODE");
+
+                entity.Property(e => e.TreatNullsAsNulls).HasColumnName("TREAT_NULLS_AS_NULLS");
+
+                entity.Property(e => e.UserId)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("USER_ID");
+
+                entity.Property(e => e.UserLevel)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("USER_LEVEL");
+
+                entity.Property(e => e.WarningMessage)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("WARNING_MESSAGE");
+            });
+
+            modelBuilder.Entity<LdEntSubGroup>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("LD_ENT_SUB_GROUP", "MPP_APP");
+
+                entity.Property(e => e.ActiveFlag)
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .HasColumnName("ACTIVE_FLAG");
+
+                entity.Property(e => e.ApproverId)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("APPROVER_ID");
+
+                entity.Property(e => e.ApproverLevel)
+                    .HasMaxLength(10)
+                    .HasColumnName("APPROVER_LEVEL")
+                    .IsFixedLength();
+
+                entity.Property(e => e.Comments)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("COMMENTS");
+
+                entity.Property(e => e.CreatedOn)
+                    .HasColumnType("datetime")
+                    .HasColumnName("CREATED_ON");
+
+                entity.Property(e => e.CurrentEditLevel).HasColumnName("CURRENT_EDIT_LEVEL");
+
+                entity.Property(e => e.DateFrom)
+                    .HasColumnType("date")
+                    .HasColumnName("DATE_FROM");
+
+                entity.Property(e => e.DateTo)
+                    .HasColumnType("date")
+                    .HasColumnName("DATE_TO");
+
+                entity.Property(e => e.DummyFlag)
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .HasColumnName("DUMMY_FLAG");
+
+                entity.Property(e => e.EntEntityCode)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_ENTITY_CODE");
+
+                entity.Property(e => e.EntSubGroupCode)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_SUB_GROUP_CODE");
+
+                entity.Property(e => e.EntSubGroupDesc)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_SUB_GROUP_DESC");
+
+                entity.Property(e => e.EntSubGroupLongName)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_SUB_GROUP_LONG_NAME");
+
+                entity.Property(e => e.EntSubGroupShortName)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_SUB_GROUP_SHORT_NAME");
+
+                entity.Property(e => e.ErrorMessage)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("ERROR_MESSAGE");
+
+                entity.Property(e => e.InputRowId)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("INPUT_ROW_ID");
+
+                entity.Property(e => e.LastModifiedBy)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("LAST_MODIFIED_BY");
+
+                entity.Property(e => e.LastUpdateTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("LAST_UPDATE_TIME");
+
+                entity.Property(e => e.LdOid).HasColumnName("LD_OID");
+
+                entity.Property(e => e.RecLockFlag).HasColumnName("REC_LOCK_FLAG");
+
+                entity.Property(e => e.RowSecFlag).HasColumnName("ROW_SEC_FLAG");
+
+                entity.Property(e => e.RowStatus).HasColumnName("ROW_STATUS");
+
+                entity.Property(e => e.SessionId)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("SESSION_ID");
+
+                entity.Property(e => e.SortOrder)
+                    .HasColumnType("numeric(18, 0)")
+                    .HasColumnName("SORT_ORDER");
+
+                entity.Property(e => e.SourceSystemCode)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("SOURCE_SYSTEM_CODE");
+
+                entity.Property(e => e.TreatNullsAsNulls).HasColumnName("TREAT_NULLS_AS_NULLS");
+
+                entity.Property(e => e.UserId)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("USER_ID");
+
+                entity.Property(e => e.UserLevel)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("USER_LEVEL");
+
+                entity.Property(e => e.WarningMessage)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("WARNING_MESSAGE");
+            });
+
+            modelBuilder.Entity<LdEntityGroup>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("LD_ENTITY_GROUP", "MPP_APP");
+
+                entity.Property(e => e.ActiveFlag)
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .HasColumnName("ACTIVE_FLAG");
+
+                entity.Property(e => e.ApproverId)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("APPROVER_ID");
+
+                entity.Property(e => e.ApproverLevel)
+                    .HasMaxLength(10)
+                    .HasColumnName("APPROVER_LEVEL")
+                    .IsFixedLength();
+
+                entity.Property(e => e.Comments)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("COMMENTS");
+
+                entity.Property(e => e.CreatedOn)
+                    .HasColumnType("datetime")
+                    .HasColumnName("CREATED_ON");
+
+                entity.Property(e => e.CurrentEditLevel).HasColumnName("CURRENT_EDIT_LEVEL");
+
+                entity.Property(e => e.DateFrom)
+                    .HasColumnType("date")
+                    .HasColumnName("DATE_FROM");
+
+                entity.Property(e => e.DateTo)
+                    .HasColumnType("date")
+                    .HasColumnName("DATE_TO");
+
+                entity.Property(e => e.DummyFlag)
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .HasColumnName("DUMMY_FLAG");
+
+                entity.Property(e => e.EntCountryCode)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_COUNTRY_CODE");
+
+                entity.Property(e => e.EntGroupCode)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_GROUP_CODE");
+
+                entity.Property(e => e.EntGroupDesc)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_GROUP_DESC");
+
+                entity.Property(e => e.EntGroupLongName)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_GROUP_LONG_NAME");
+
+                entity.Property(e => e.EntGroupShortName)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_GROUP_SHORT_NAME");
+
+                entity.Property(e => e.ErrorMessage)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("ERROR_MESSAGE");
+
+                entity.Property(e => e.InputRowId)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("INPUT_ROW_ID");
+
+                entity.Property(e => e.LastModifiedBy)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("LAST_MODIFIED_BY");
+
+                entity.Property(e => e.LastUpdateTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("LAST_UPDATE_TIME");
+
+                entity.Property(e => e.LdOid).HasColumnName("LD_OID");
+
+                entity.Property(e => e.RecLockFlag).HasColumnName("REC_LOCK_FLAG");
+
+                entity.Property(e => e.RowSecFlag).HasColumnName("ROW_SEC_FLAG");
+
+                entity.Property(e => e.RowStatus).HasColumnName("ROW_STATUS");
+
+                entity.Property(e => e.SessionId)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("SESSION_ID");
+
+                entity.Property(e => e.SortOrder)
+                    .HasColumnType("numeric(18, 0)")
+                    .HasColumnName("SORT_ORDER");
+
+                entity.Property(e => e.SourceSystemCode)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("SOURCE_SYSTEM_CODE");
+
+                entity.Property(e => e.TreatNullsAsNulls).HasColumnName("TREAT_NULLS_AS_NULLS");
+
+                entity.Property(e => e.UserId)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("USER_ID");
+
+                entity.Property(e => e.UserLevel)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("USER_LEVEL");
+
+                entity.Property(e => e.WarningMessage)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("WARNING_MESSAGE");
+            });
+
+            modelBuilder.Entity<LdEntitySite>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("LD_ENTITY_SITE", "MPP_APP");
+
+                entity.Property(e => e.ActiveFlag)
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .HasColumnName("ACTIVE_FLAG");
+
+                entity.Property(e => e.AddressLine1)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("ADDRESS_LINE_1");
+
+                entity.Property(e => e.AddressLine2)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("ADDRESS_LINE_2");
+
+                entity.Property(e => e.ApproverId)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("APPROVER_ID");
+
+                entity.Property(e => e.ApproverLevel)
+                    .HasMaxLength(10)
+                    .HasColumnName("APPROVER_LEVEL")
+                    .IsFixedLength();
+
+                entity.Property(e => e.AssocciateName)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("ASSOCCIATE_NAME");
+
+                entity.Property(e => e.CityName)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("CITY_NAME");
+
+                entity.Property(e => e.Comments)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("COMMENTS");
+
+                entity.Property(e => e.CountryName)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("COUNTRY_NAME");
+
+                entity.Property(e => e.CreatedOn)
+                    .HasColumnType("datetime")
+                    .HasColumnName("CREATED_ON");
+
+                entity.Property(e => e.CurrentEditLevel).HasColumnName("CURRENT_EDIT_LEVEL");
+
+                entity.Property(e => e.DateFrom)
+                    .HasColumnType("date")
+                    .HasColumnName("DATE_FROM");
+
+                entity.Property(e => e.DateTo)
+                    .HasColumnType("date")
+                    .HasColumnName("DATE_TO");
+
+                entity.Property(e => e.DummyFlag)
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .HasColumnName("DUMMY_FLAG");
+
+                entity.Property(e => e.EntSiteCode)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_SITE_CODE");
+
+                entity.Property(e => e.EntSiteDesc)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_SITE_DESC");
+
+                entity.Property(e => e.EntSiteLongName)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_SITE_LONG_NAME");
+
+                entity.Property(e => e.EntSiteShortName)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_SITE_SHORT_NAME");
+
+                entity.Property(e => e.EntSubGroupCode)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_SUB_GROUP_CODE");
+
+                entity.Property(e => e.EntitySiteDesc)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("ENTITY_SITE_DESC");
+
+                entity.Property(e => e.ErrorMessage)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("ERROR_MESSAGE");
+
+                entity.Property(e => e.InputRowId)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("INPUT_ROW_ID");
+
+                entity.Property(e => e.LastModifiedBy)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("LAST_MODIFIED_BY");
+
+                entity.Property(e => e.LastUpdateTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("LAST_UPDATE_TIME");
+
+                entity.Property(e => e.Latitude)
+                    .HasColumnType("decimal(19, 8)")
+                    .HasColumnName("LATITUDE");
+
+                entity.Property(e => e.LdOid).HasColumnName("LD_OID");
+
+                entity.Property(e => e.LocationName)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("LOCATION_NAME");
+
+                entity.Property(e => e.Longitude)
+                    .HasColumnType("decimal(19, 8)")
+                    .HasColumnName("LONGITUDE");
+
+                entity.Property(e => e.OtherLocationName)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("OTHER_LOCATION_NAME");
+
+                entity.Property(e => e.Pincode)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("PINCODE");
+
+                entity.Property(e => e.RecLockFlag).HasColumnName("REC_LOCK_FLAG");
+
+                entity.Property(e => e.Remarks)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("REMARKS");
+
+                entity.Property(e => e.RowSecFlag).HasColumnName("ROW_SEC_FLAG");
+
+                entity.Property(e => e.RowStatus).HasColumnName("ROW_STATUS");
+
+                entity.Property(e => e.SessionId)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("SESSION_ID");
+
+                entity.Property(e => e.SiteType)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("SITE_TYPE");
+
+                entity.Property(e => e.SortOrder)
+                    .HasColumnType("numeric(18, 0)")
+                    .HasColumnName("SORT_ORDER");
+
+                entity.Property(e => e.SourceSystemCode)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("SOURCE_SYSTEM_CODE");
+
+                entity.Property(e => e.StateName)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("STATE_NAME");
+
+                entity.Property(e => e.TreatNullsAsNulls).HasColumnName("TREAT_NULLS_AS_NULLS");
+
+                entity.Property(e => e.UserId)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("USER_ID");
+
+                entity.Property(e => e.UserLevel)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("USER_LEVEL");
+
+                entity.Property(e => e.WarningMessage)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("WARNING_MESSAGE");
+            });
+
+            modelBuilder.Entity<LoadEntity>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("LOAD_ENTITY", "MPP_APP");
+
+                entity.Property(e => e.ActiveFlag)
+                    .HasMaxLength(1)
+                    .IsUnicode(false)
+                    .HasColumnName("ACTIVE_FLAG");
+
+                entity.Property(e => e.ApproverId)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("APPROVER_ID");
+
+                entity.Property(e => e.ApproverLevel).HasColumnName("APPROVER_LEVEL");
+
+                entity.Property(e => e.ApproverStatus)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("APPROVER_STATUS");
+
+                entity.Property(e => e.Comments)
+                    .IsUnicode(false)
+                    .HasColumnName("COMMENTS");
+
+                entity.Property(e => e.CreatedOn).HasColumnName("CREATED_ON");
+
+                entity.Property(e => e.CurrentEditLevel).HasColumnName("CURRENT_EDIT_LEVEL");
+
+                entity.Property(e => e.DateFrom)
+                    .HasColumnType("date")
+                    .HasColumnName("DATE_FROM");
+
+                entity.Property(e => e.DummyFlag)
+                    .HasMaxLength(1)
+                    .IsUnicode(false)
+                    .HasColumnName("DUMMY_FLAG");
+
+                entity.Property(e => e.ErrorMessage)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("ERROR_MESSAGE");
+
+                entity.Property(e => e.InputRowId).HasColumnName("INPUT_ROW_ID");
+
+                entity.Property(e => e.LdOid).HasColumnName("LD_OID");
+
+                entity.Property(e => e.OsgOutletSegmentGroupCode)
+                    .IsUnicode(false)
+                    .HasColumnName("OSG_OUTLET_SEGMENT_GROUP_CODE");
+
+                entity.Property(e => e.OsgOutletSegmentGroupLongName)
+                    .IsUnicode(false)
+                    .HasColumnName("OSG_OUTLET_SEGMENT_GROUP_LONG_NAME");
+
+                entity.Property(e => e.OsgOutletSegmentGroupShortName)
+                    .IsUnicode(false)
+                    .HasColumnName("OSG_OUTLET_SEGMENT_GROUP_SHORT_NAME");
+
+                entity.Property(e => e.ProductGroupId)
+                    .HasMaxLength(250)
+                    .IsUnicode(false)
+                    .HasColumnName("PRODUCT_GROUP_ID");
+
+                entity.Property(e => e.RecLockFlag).HasColumnName("REC_LOCK_FLAG");
+
+                entity.Property(e => e.RowSecFlag).HasColumnName("ROW_SEC_FLAG");
+
+                entity.Property(e => e.RowStatus).HasColumnName("ROW_STATUS");
+
+                entity.Property(e => e.SessionId)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("SESSION_ID");
+
+                entity.Property(e => e.SortOrder).HasColumnName("SORT_ORDER");
+
+                entity.Property(e => e.SourceSystemName)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("SOURCE_SYSTEM_NAME");
+
+                entity.Property(e => e.TreatNullsAsNulls).HasColumnName("TREAT_NULLS_AS_NULLS");
+
+                entity.Property(e => e.UserId)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("USER_ID");
+
+                entity.Property(e => e.UserLevel).HasColumnName("USER_LEVEL");
+
+                entity.Property(e => e.WarningMessage)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("WARNING_MESSAGE");
+            });
+
             modelBuilder.Entity<MppConfig>(entity =>
             {
                 entity.HasKey(e => e.ParamName)
@@ -427,9 +1449,250 @@ namespace Model.Models
                 entity.Property(e => e.UpdateFlag).HasColumnName("UPDATE_FLAG");
             });
 
+            modelBuilder.Entity<Querytext2>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("QUERYTEXT2", "MPP_APP");
+
+                entity.Property(e => e.CurrentEditLevel).HasColumnName("CURRENT_EDIT_LEVEL");
+
+                entity.Property(e => e.DateFrom)
+                    .HasColumnType("datetime")
+                    .HasColumnName("DATE_FROM");
+
+                entity.Property(e => e.Dt1)
+                    .HasColumnType("datetime")
+                    .HasColumnName("DT1");
+
+                entity.Property(e => e.Dt10)
+                    .HasColumnType("datetime")
+                    .HasColumnName("DT10");
+
+                entity.Property(e => e.Dt2)
+                    .HasColumnType("datetime")
+                    .HasColumnName("DT2");
+
+                entity.Property(e => e.Dt3)
+                    .HasColumnType("datetime")
+                    .HasColumnName("DT3");
+
+                entity.Property(e => e.Dt4)
+                    .HasColumnType("datetime")
+                    .HasColumnName("DT4");
+
+                entity.Property(e => e.Dt5)
+                    .HasColumnType("datetime")
+                    .HasColumnName("DT5");
+
+                entity.Property(e => e.Dt6)
+                    .HasColumnType("datetime")
+                    .HasColumnName("DT6");
+
+                entity.Property(e => e.Dt7)
+                    .HasColumnType("datetime")
+                    .HasColumnName("DT7");
+
+                entity.Property(e => e.Dt8)
+                    .HasColumnType("datetime")
+                    .HasColumnName("DT8");
+
+                entity.Property(e => e.Dt9)
+                    .HasColumnType("datetime")
+                    .HasColumnName("DT9");
+
+                entity.Property(e => e.EntityInternalCode)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("ENTITY_INTERNAL_CODE");
+
+                entity.Property(e => e.EntityTypeId).HasColumnName("ENTITY_TYPE_ID");
+
+                entity.Property(e => e.ErrorMessage)
+                    .IsUnicode(false)
+                    .HasColumnName("ERROR_MESSAGE");
+
+                entity.Property(e => e.InputRowId).HasColumnName("INPUT_ROW_ID");
+
+                entity.Property(e => e.MandatoryAttrErrMesg)
+                    .IsUnicode(false)
+                    .HasColumnName("MANDATORY_ATTR_ERR_MESG");
+
+                entity.Property(e => e.SessionId).HasColumnName("SESSION_ID");
+
+                entity.Property(e => e.SourceSystemCode)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("SOURCE_SYSTEM_CODE");
+
+                entity.Property(e => e.SuppliedCode1)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("SUPPLIED_CODE1");
+
+                entity.Property(e => e.SuppliedCode2)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("SUPPLIED_CODE2");
+
+                entity.Property(e => e.SuppliedCode3)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("SUPPLIED_CODE3");
+
+                entity.Property(e => e.SuppliedCode4)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("SUPPLIED_CODE4");
+
+                entity.Property(e => e.SuppliedCode5)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("SUPPLIED_CODE5");
+
+                entity.Property(e => e.TreatNullsAsNulls).HasColumnName("TREAT_NULLS_AS_NULLS");
+
+                entity.Property(e => e.Vc0)
+                    .IsUnicode(false)
+                    .HasColumnName("VC0");
+
+                entity.Property(e => e.Vc1)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC1");
+
+                entity.Property(e => e.Vc10)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC10");
+
+                entity.Property(e => e.Vc11)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC11");
+
+                entity.Property(e => e.Vc12)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC12");
+
+                entity.Property(e => e.Vc13)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC13");
+
+                entity.Property(e => e.Vc14)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC14");
+
+                entity.Property(e => e.Vc15)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC15");
+
+                entity.Property(e => e.Vc2)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC2");
+
+                entity.Property(e => e.Vc3)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC3");
+
+                entity.Property(e => e.Vc4)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC4");
+
+                entity.Property(e => e.Vc5)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC5");
+
+                entity.Property(e => e.Vc6)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC6");
+
+                entity.Property(e => e.Vc7)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC7");
+
+                entity.Property(e => e.Vc8)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC8");
+
+                entity.Property(e => e.Vc9)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC9");
+
+                entity.Property(e => e.WarningMessage)
+                    .IsUnicode(false)
+                    .HasColumnName("WARNING_MESSAGE");
+            });
+
+            modelBuilder.Entity<Querytexttype2>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("QUERYTEXTTYPE2", "MPP_APP");
+
+                entity.Property(e => e.CurrentEditLevel).HasColumnName("CURRENT_EDIT_LEVEL");
+
+                entity.Property(e => e.DateFrom)
+                    .HasColumnType("date")
+                    .HasColumnName("DATE_FROM");
+
+                entity.Property(e => e.EntityInternalCode)
+                    .HasMaxLength(502)
+                    .IsUnicode(false)
+                    .HasColumnName("ENTITY_INTERNAL_CODE");
+
+                entity.Property(e => e.EntityTypeId).HasColumnName("ENTITY_TYPE_ID");
+
+                entity.Property(e => e.ErrorMessage)
+                    .IsRequired()
+                    .HasMaxLength(35)
+                    .IsUnicode(false)
+                    .HasColumnName("ERROR_MESSAGE");
+
+                entity.Property(e => e.InputRowId).HasColumnName("INPUT_ROW_ID");
+
+                entity.Property(e => e.IsIdentifyingRelation).HasColumnName("IS_IDENTIFYING_RELATION");
+
+                entity.Property(e => e.ParentEntityTypeId).HasColumnName("PARENT_ENTITY_TYPE_ID");
+
+                entity.Property(e => e.ParentInternalCode)
+                    .HasMaxLength(502)
+                    .IsUnicode(false)
+                    .HasColumnName("PARENT_INTERNAL_CODE");
+
+                entity.Property(e => e.SessionId)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("SESSION_ID");
+
+                entity.Property(e => e.SourceSystemCode)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("SOURCE_SYSTEM_CODE");
+
+                entity.Property(e => e.TreatNullsAsNulls).HasColumnName("TREAT_NULLS_AS_NULLS");
+            });
+
             modelBuilder.HasSequence<int>("EditLevel", "MPP_CORE");
 
             modelBuilder.HasSequence<int>("OIDSEQUENCE", "MPP_CORE");
+
+            modelBuilder.HasSequence("SEQ_SESSION", "MPP_APP")
+                .StartsAt(328718)
+                .HasMin(1)
+                .HasMax(2147483647);
 
             OnModelCreatingGeneratedProcedures(modelBuilder);
             OnModelCreatingPartial(modelBuilder);

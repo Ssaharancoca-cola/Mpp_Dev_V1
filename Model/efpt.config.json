@@ -4,7 +4,7 @@
    "ContextNamespace": null,
    "DefaultDacpacSchema": null,
    "FilterSchemas": false,
-   "IncludeConnectionString": false,
+   "IncludeConnectionString": true,
    "ModelNamespace": null,
    "OutputContextPath": null,
    "OutputPath": "Models",
@@ -15,6 +15,46 @@
    "SelectedToBeGenerated": 0,
    "T4TemplatePath": null,
    "Tables": [
+      {
+         "Name": "[MPP_APP].[DIM_BUSINESSORG]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[MPP_APP].[LD_ENT_COUNTRY]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[MPP_APP].[LD_ENT_COUNTRY_GROUP]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[MPP_APP].[LD_ENT_ENTITY]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[MPP_APP].[LD_ENT_SUB_GROUP]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[MPP_APP].[LD_ENTITY_GROUP]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[MPP_APP].[LD_ENTITY_SITE]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[MPP_APP].[LOAD_ENTITY]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[MPP_APP].[QUERYTEXT2]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[MPP_APP].[QUERYTEXTTYPE2]",
+         "ObjectType": 0
+      },
       {
          "Name": "[MPP_CORE].[DIMENSION]",
          "ObjectType": 0
@@ -50,6 +90,10 @@
       {
          "Name": "[MPP_CORE].[MPP_USER_PRIVILAGE]",
          "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[GET_VIEW_NAME]",
+         "ObjectType": 1
       },
       {
          "Name": "[dbo].[MPP_ENTITY_SEC_BASE_VIEWS_FN_PROC]",

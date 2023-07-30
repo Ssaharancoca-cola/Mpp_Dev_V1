@@ -1,0 +1,134 @@
+﻿@if (ViewData.ModelState.IsValid & (Context.Session.GetString("SelectedDimensionData") != null & Context.Session.GetString("EntityName") != null))
+{
+    var columnData = (TempData["columnData"]);
+    TempData.Keep();
+    string[] colName = Convert.ToString(columnData).Split(',');
+
+
+    var ListOfRecordsForUpdate = (List<Dictionary<string, string>>)(TempData["ListOfRecordsForUpdate"]);
+    TempData.Keep();
+    string[] spliEntityName = Context.Session.GetString("EntityName").ToString().Trim(' ').Split(' ');
+
+    var entityName = "";
+    foreach (var item in ListOfRecordsForUpdate[0].Keys)
+    {
+        if (item.ToString().Split('_').Last().ToLower() == "oid")
+        {
+            entityName = item.ToString().Trim().Split('_')[0].ToString();
+            break;
+        }
+    }
+    if (entityName.ToLower().Trim() != spliEntityName[0].ToString().Trim().ToLower())
+    {
+        spliEntityName[0] = entityName;
+    }
+
+    if (ListOfRecordsForUpdate.Count() > 0)
+    {
+        <table>
+            <tr style="width:100%;height:31px;background-color:White">
+                <td colspan="2" style="padding-left:5px">
+                    <label style="color:#ef75da;font-family:Georgia;font-size:13pt;font-weight:bold">Context.Session.GetString("SelectedDimensionData").ToString() ></label>
+                    <label style="color:black;font-family:Georgia;font-weight:bold">Context.Session.GetString("EntityName").ToString()</label>
+                </td>
+            </tr>
+            <tr style="width:100%; height:25px">
+                <td colspan="2" style="width: 100%;padding-left:10px;padding-top:10px;" align="left">
+                    <label style="color:#ef75da;font-size:12pt;font-weight:bold">Mass Update</label>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-left:10px;padding-right:10px;padding-bottom: 20px" valign="top">
+                    <hr style="width:100%;height:2px;background-color:#084083;" />
+                </td>
+            </tr>
+            <tr align="center">
+                <td>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="8">
+                        <tr valign="middle" style="background-image:url(../../Images/TableTop.jpg);background-repeat:repeat-x;height:100%">
+                            <td height="48" class="whiteTextNormal">
+                            <td height="46" class="whiteTextNormal">
+                                    @Html.Label(@Context.Session.GetString("EntityName").ToString(), "", new { @class = "whiteTextNormal", @id = "lblcaption" })
+
+                                | <span class="whiteTextNormal">
+                                    Total Records : <strong>
+                                            @Html.Label(ListOfRecordsForUpdate.Count().ToString(), "", new { @class = "whiteTextNormal", @id = "lblTotalRecords" })
+
+
+                                    </strong>
+                                </span> | <span class="whiteTextNormal">
+                                    <label class="whiteTextNormal" id="lblPageDetails"></label>
+
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="panelDataGridSearch">
+                        <table border="0" id="tblsearchdata" rules="cols" class="alternate_color width-100 table">
+                            <thead>
+                                <tr class="gridheader resultHeader">
+                                    @foreach (var data in colName)
+                                    {
+                                        if (data == "Current_Edit_Level" || data == "INPUT_ROW_ID")
+                                        { continue; }
+                                        else
+                                        {
+                                            <th>
+                                                @Html.Label(@data, "", new { @class = "colorWhite" })
+
+                                            </th>
+                                        }
+                                    }
+                                </tr>
+                            </thead>
+                            @foreach (var item in ListOfRecordsForUpdate)
+                            {
+                                <tr class="trgriddata">
+                                    @foreach (var data in item)
+                                    {
+                                        if (data.Key == "DATE_FROM")
+                                        {
+                                            <td class="griddata">
+                                                @Convert.ToDateTime(@data.Value).ToShortDateString()
+                                            </td>
+                                        }
+                                        else if (data.Key == "CURRENT_EDIT_LEVEL" || data.Key == "INPUT_ROW_ID")
+                                        {
+                                            <td style="display:none">
+                                                <input type="hidden" id="hdnCurrentEditLevel" value=@data.Value />
+                                            </td>
+                                        }
+                                        else if (data.Key.Contains("oID") & data.Key.Contains(spliEntityName[0].ToString().ToUpper()))
+                                        {
+                                            continue;
+                                        }
+                                        else
+                                        {
+                                            <td class="griddata">
+                                                @data.Value
+                                            </td>
+                                        }
+
+                                    }
+
+                                </tr>
+                            }
+
+                        </table>
+
+                    </div>
+
+
+                </td>
+
+
+            </tr>
+
+
+        </table>
+    }
+}
+else
+{
+    <script>alert('Session expire. Please login again')</script>
+}

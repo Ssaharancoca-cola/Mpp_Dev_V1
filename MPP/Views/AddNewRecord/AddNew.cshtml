@@ -1,0 +1,227 @@
+﻿@model List<Model.Entity_Type_Attr_Detail>
+
+@{
+    ViewData["Title"] = "AddNewRecord";
+}
+
+@section Scripts {
+
+    <form id="AddNewRecordForm" method="post">
+
+        <table style="width: 100%">
+            <thead>
+                <tr>
+                    <td colspan="2" class="title">
+                        @{
+                            if (Context.Session.GetInt32("SelectedDimensionData") != null && Context.Session.GetString("EntityName") != null)
+                            {
+                                <label>Context.Session.GetString("SelectedDimensionData") ></label>
+                                <label>Context.Session.GetString("EntityName")</label>
+                            }
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <hr />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="add-new">Add New</td>
+                </tr>
+                <tr>
+                    <td class="divider">
+                        <hr />
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var menuOption in Model)
+                {
+                    if (@menuOption.Isvisible != "N")
+                    {
+                        <span class="width-49 padding_0_2 fleft">
+                            @if (@menuOption.DisplayType.ToLower() != "checkboxlist")
+                            {
+                                if (@menuOption.AttrDisplayName.ToUpper() == ("SORT ORDER"))
+                                {
+                                    <span class="fleft width-44 whiteText alignright">@menuOption.AttrDisplayName<label id="lblSORT_ORDER_FORMAT" class="sortlimit"></label></span>
+                                }
+                                else
+                                {
+                                    <span class="fleft width-44 whiteText alignright">
+                                        @menuOption.AttrDisplayName
+                                    </span>
+                                }
+                            }
+                            <span class="pad_left_0_2">
+                                @switch (@menuOption.DisplayType.ToLower())
+                                {
+                                    case "textbox":
+                                        <input type="text" style="width:45%" maxlength="@menuOption.AttrLength" name="@menuOption.AttrName" id="@menuOption.AttrName" />
+                                        break;
+                                    case "datepicker":
+                                        <input type="text" style="width:45%" name="@menuOption.AttrName" id="@menuOption.AttrName" class="datepicker" />
+                                        break;
+                                    case "combobox":
+                                        @Html.DropDownListFor(m => menuOption.EntityTypeId, new SelectList(menuOption.dropDownDataList, "VALID_VALUES", "VALUE_NAME"), "--Select--", new {@id= menuOption.AttrName, @Name = menuOption.AttrName, style ="width: 45%;"})
+                                        break;
+                                    case "Parcombo":
+                                        @Html.DropDownListFor(m => menuOption.EntityTypeId, new SelectList(menuOption.dropDownDataList, "VALID_VALUES", "VALUE_NAME"), "--Select--", new {@id= menuOption.AttrName, @Name = menuOption.AttrName, style ="width: 45%;", @onchange = "CallChangefunc('" + menuOption.CasDrop + "', this.value)" })
+                                        break;
+                                    case "cascombo":
+                                        @Html.DropDownList(menuOption.AttrName, new SelectList(string.Empty, "Value", "Text"), "--Select--", new {@style = "width:45%;" })
+                                        break;
+                                    case "userbox":
+                                        <input type="text" style="width:45%" maxlength=@menuOption.AttrLength name=@menuOption.AttrName id=@menuOption.AttrName />
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+                            </span>
+                        </span>
+                    }
+                }
+                <tr style="width: 106%;padding-top:16px">
+                    <td style="width: 50%;padding-left:270px;">
+
+                        Effective Date
+                    </td>
+                    <td style="width: 56%" align="left">
+                        <input type="text" class="SortButton" style="width:45%" readonly name=txtEffectiveDate id=txtEffectiveDate />
+
+                    </td>
+
+                </tr>
+                <tr align="center" style="width: 100%; display :none" class="pageheadernfooter">
+                    <td style="width: 56%" align="right"></td>
+                    <td style="width: 56%" align="left">
+                        <input type="text" class="SortButton" style="width:45%" name="txtEditLevel" id="txtEditLevel" />
+                    </td>
+
+                </tr>
+                <tr align="center" style="width: 100%;padding-top:10px">
+                    <td></td>
+
+                    <td style="width: 50%" align="left">
+                        <button type="submit" class="button" id="btnSave" name="Command" value="Save" title="Save"></button>
+                        <button type="submit" class. ommand" value="Cancel" title="Cancel></button>
+                    <button type="submit" title="Ignore &Save" style="width: 20@px;display:none” id="btnSupress" name="Command" value=‘width:75px; "><img src=" ~ /Images/Save_But
+
+                    </td>
+                </tr>
+                <tr align="center" style="width: 106%;">
+                    <td colspan="2" style="width: 100%" align="center">
+                <tr align="center" style="width: 106%;">
+                    <td colspan="2" style="width: 100%" align="center">
+                        <div style="color:red" id="lblErrorMsg"></div>
+                    </td>
+                </tr>
+        </table>
+
+
+        <div id="divLoading" class="loader">
+            <img alt="Loading, please wait" style="position: absolute; top: 30%; left: 45%; width:110px; height:110px" src="~/Images/spinner.gif" />
+        </div>
+        <div id="displayMessage"></div>
+        <input type="hidden" id="cmdName" name="cmdName" value="displayMessage" />
+        <button type="submit" title="Save">Submit</button>
+        <button type="submit" title="Cancel">Cancel</button>
+    </form>
+
+
+    <script>
+
+        $(document).ready(function () {
+            $("#AddNewRecordForm").on("submit", function (event) {
+                event.preventDefault();
+
+                $.ajax({
+                    url: "/AddNewRecord/SaveRecord",
+                    type: "POST",
+                    data: $(this).serialize(),
+                    beforeSend: onBegin, // Optional, a function to call before sending the request
+                    complete: onComplete, // Optional, a function to call once the request completes with success or error
+                    success: onSuccess, // Optional, a function to call if the request is successful
+                    error: onError // Optional, a function to call if the request encounters an error
+                });
+            });
+
+            $("#btnCancel").click(function () {
+                $("#cmdName").val("AttributeDetail");
+                $("#viewPlaceHolder").empty();
+            });
+
+            $(function () {
+                $("#txtEffectiveDate").datepicker({
+                    changeMonth: true, changeYear: true, yearRange: "2000:2038"
+                });
+            });
+
+            $("#txtEffectiveDate").datepicker();
+
+            $(function () {
+                $(".datepicker").datepicker({
+                    changeMonth: true, changeYear: true, yearRange: "2000:2038"
+                });
+            });
+
+            function CallChangefunc(val, parcombo) {
+                $('#' + val).empty();
+
+                //alert(parcombo);
+
+                $.ajax({
+                    type: "POST",
+                    url: "Search/GetCasCombo",
+                    dataType: "json",
+                    data: { Id: parcombo, cId: val },
+                    success: function (data) {
+                        $('#' + val).append('<option value="">-Select-</option>');
+                        $.each(data, function (index, value) {
+                            $('#' + val).append('<option value="' + value.Value + '">' + value.Text + '</option>');
+                        });
+                    }
+                });
+            };
+
+            function onBegin() {
+                $("#divLoading").show();
+            }
+
+            function onSuccess(result) {
+                if (result.length > 1000) {
+                    var fileId = "AttributeDetail";
+                    $('#' + fileId).html(result);
+                }
+                else {
+                    if (result.indexOf("error") === -1) {
+                        alert("Data Save Successfully");
+
+                        $.post('@Url.Action("ShowAttribute", "Menu", new { area = "" })', { entityTypeId: '@Context.Session.GetString("EntityTypeID")', entityName: '@Context.Session.GetString("EntityName")', viewType: null },
+                            function (data) {
+                                if (data.indexOf("Access denied") > -1) {
+                                    alert(data);
+                                }
+                                else {
+                                    $('#AttributeDetail').empty();
+                                    $('#AttributeDetail').html(data);
+
+                                    $('#lblCaption').html('@Context.Session.GetString("EntityName")');
+                                    $('#viewPlaceHolder').empty();
+                                }
+                            });
+
+                    } else {
+                        alert(result.replace("error", ""));
+                    }
+                }
+            }
+
+            function onComplete() {
+                $('#divLoading').hide();
+            }
+        });
+    </script>
+}

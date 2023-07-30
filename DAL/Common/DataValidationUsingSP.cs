@@ -21,9 +21,9 @@ namespace DAL.Common
             string outMsg = Constant.statusSuccess;
             try
             {
-                using (MPP_ContextProcedures mPP_Context = new MPP_ContextProcedures())
+                using (MPP_Context mPP_Context = new MPP_Context())
                 {
-                    mPP_Context.MPP_LOAD_CHKAsync(sessionId, entityTypeId, userID.ToUpper(), suppressWarning);
+                    mPP_Context.Procedures.MPP_LOAD_CHKAsync(sessionId, entityTypeId, userID.ToUpper(), suppressWarning);
                 }
             }
             catch (Exception ex)

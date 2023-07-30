@@ -14,15 +14,17 @@ namespace DAL.Common
         {
             
         }
-        public string GetViewName(int entityTypeId, string userName, out string viewName)
+        public  string GetViewName(int entityTypeId, string userName, out string viewName)
         {
             string outMsg = Constant.statusSuccess;            
             try
             {
-                using (MPP_ContextProcedures mPP_Context = new MPP_ContextProcedures())
+                using (MPP_Context mPP_Context = new MPP_Context())
                 {
-                    var viewnameParameter = new ObjectParameter("view_name", typeof(string));
-                     mPP_Context.GetViewName(entityTypeId, userName.ToUpper(), viewnameParameter, viewName = viewnameParameter.Value.ToString());
+                    var viewNameOutput = new OutputParameter<string>();
+
+                     mPP_Context.Procedures.GET_VIEW_NAMEAsync(entityTypeId, userName.ToUpper(), viewNameOutput);
+                    viewName = viewNameOutput.Value;
                 }
             }
             catch (Exception ex)

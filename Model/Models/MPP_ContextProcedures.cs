@@ -47,6 +47,49 @@ namespace Model.Models
             _context = context;
         }
 
+        public virtual async Task<int> GET_VIEW_NAMEAsync(int? i_entity_type_id, string i_user_id, OutputParameter<string> view_name, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterview_name = new SqlParameter
+            {
+                ParameterName = "view_name",
+                Size = 255,
+                Direction = System.Data.ParameterDirection.InputOutput,
+                Value = view_name?._value ?? Convert.DBNull,
+                SqlDbType = System.Data.SqlDbType.VarChar,
+            };
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                new SqlParameter
+                {
+                    ParameterName = "i_entity_type_id",
+                    Value = i_entity_type_id ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.Int,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "i_user_id",
+                    Size = 255,
+                    Value = i_user_id ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                parameterview_name,
+                parameterreturnValue,
+            };
+            var _ = await _context.Database.ExecuteSqlRawAsync("EXEC @returnValue = [dbo].[GET_VIEW_NAME] @i_entity_type_id, @i_user_id, @view_name OUTPUT", sqlParameters, cancellationToken);
+
+            view_name.SetValue(parameterview_name.Value);
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
+        }
+
         public virtual async Task<int> MPP_ENTITY_SEC_BASE_VIEWS_FN_PROCAsync(int? I_ENTITY_TYPE_ID, string I_USER_ID, OutputParameter<string> I_RESULT, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterI_RESULT = new SqlParameter
@@ -90,7 +133,7 @@ namespace Model.Models
             return _;
         }
 
-        public virtual async Task<List<MPP_LOAD_CHKResult>> MPP_LOAD_CHKAsync(string i_Session_id, int? i_entity_type_id, string i_user_id, string i_suppress_warnings, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        public virtual async Task<List<MPP_LOAD_CHKResult>> MPP_LOAD_CHKAsync(string i_Session_id, string i_entity_type_id, string i_user_id, decimal? i_suppress_warnings, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter
             {
@@ -104,29 +147,30 @@ namespace Model.Models
                 new SqlParameter
                 {
                     ParameterName = "i_Session_id",
-                    Size = 50,
+                    Size = 100,
                     Value = i_Session_id ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.VarChar,
                 },
                 new SqlParameter
                 {
                     ParameterName = "i_entity_type_id",
+                    Size = 100,
                     Value = i_entity_type_id ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.Int,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
                 },
                 new SqlParameter
                 {
                     ParameterName = "i_user_id",
-                    Size = 50,
+                    Size = 100,
                     Value = i_user_id ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.VarChar,
                 },
                 new SqlParameter
                 {
                     ParameterName = "i_suppress_warnings",
-                    Size = 100,
+                    Precision = 18,
                     Value = i_suppress_warnings ?? Convert.DBNull,
-                    SqlDbType = System.Data.SqlDbType.VarChar,
+                    SqlDbType = System.Data.SqlDbType.Decimal,
                 },
                 parameterreturnValue,
             };

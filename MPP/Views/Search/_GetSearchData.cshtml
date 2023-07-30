@@ -1,0 +1,303 @@
+﻿
+<link href="~/css/Masters.css" rel="stylesheet" />
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
+<script src="~/js/Attribute.js"></script>
+
+
+@if (ViewData.ModelState.IsValid)
+{
+    <div class="panelDataGridsearch">
+        @{
+            var datalist = ViewData["datalist"] as List<Dictionary<string, string>>;
+            var total = ViewData["totalRecord"];
+
+            var pagecount = Math.Ceiling(Convert.ToDouble(total) / 56);
+        }
+
+        @if (datalist != null && datalist.Count > 0)
+        {
+            <div style="display:none">totalrecord @total</div>
+
+            <table id="tblsearchdata" rules="cols" style="font-size:small" class="alternate_color width-100 table">
+                <thead>
+                    <tr class="gridheader resultHeader">
+                        <th width="25px">
+                            <input type="checkbox" class="chkSelectAll" title="Select All" />
+                        </th>
+                        @foreach (var data in datalist)
+                        {
+                            <th style="white-space:nowrap">
+                                <a asp-action="Index" asp-route-sortOrder="@(data.Keys + "~" + ViewBag.sortId)" class="colorWhite">@data.Keys</a>
+                            </th>
+
+
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var data in datalist)
+                    {
+                        <tr class="trgriddata">
+                            <td><input type="checkbox" class="checkbox" /></td>
+                            @foreach (var item in data)
+                            {
+                                if (item.Key.ToString() == "OID")
+                                {
+                                    <td style="display:none" id="hdnOID">
+                                        <input type="hidden" name="hdnOID" id="hdnOID" value="@item.Value.ToString()" />
+                                    </td>
+                                }
+                                else if (item.Key.ToString() == "Effective Date")
+                                {
+                                    <td class="griddata">@Convert.ToDateTime(item.Value).ToShortDateString()</td>
+                                }
+                                else if (item.Key.ToString() == "Total Record")
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    <td>
+                                        <a class="griddata">@item.Value.ToString()</a>
+                                    </td>
+                                }
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+    <div class="panelDataGrid" style="background:#d9edf9;overflow:hidden;">
+        <table width="100%" border="0" cellspacing="0" cellpadding="1">
+            <tr>
+                <td style="padding-left:25px">
+                    <input type="image" id="btnUpdate" value="submit" src="~/Images/Update_Button.gif" alt="submit Button">
+                    <strong>
+                        @if (Context.Session.GetInt32("currentPageNo") != null)
+                        {
+                            @if (Context.Session.GetInt32("currentPageNo") == 1)
+
+                            {
+                                <text>
+                                    <label class="griddatadisabled" style="margin-left:30px" disabled id="btnPrevious">&lt;Prev</label>
+                                </text>
+                            }
+                            else
+                            {
+                                <text>
+                                    <label class="griddata" style="margin-left:30px" id="btnPrevious">
+                                        &lt;Prev
+                                    </label>
+                                </text>
+                            }
+                            int uniqueTotal = 125; // Set the total value with a unique variable name
+                            if ((Math.Round((decimal)uniqueTotal / 50)) < Context.Session.GetInt32("currentPageNo") || Math.Round((decimal)uniqueTotal / 50) == Context.Session.GetInt32("currentPageNo"))
+                            {
+                                <text>
+                                    <label class="griddatadisabled" disabled id="btnNext">Next&gt;</label>
+                                </text>
+                            }
+
+                            else
+                            {
+                                <text>
+                                    <label class="griddata" id="btnNext">Next&gt;</label>
+                                </text>
+                            }
+                        }
+                        else
+                        {
+                            <script>alert("Session expired. Please login again.")</script>
+                        }
+                    </strong>
+                    <span style="margin-left:100px">
+                        Page: Context.Session.GetInt32("currentPageNo") of
+                        @if (Math.Round((decimal)total / 50) == 0)
+                        {
+                            <label>1</label>
+                        }
+                        else
+                        {
+                            <label>@Math.Ceiling((decimal)total / 50)</label>
+                        }
+                    </span>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    <script>
+        //select all checkboxes
+
+        $(document).ready(function () {
+
+            $(".trgriddata").click(function (evt) {
+
+                var row = $(this);
+
+                var OID = row.find('input[type="hidden"]')[1].value;
+                if (evt.target.className == "griddata") {
+
+                    $.post('@(Url.Action("ShowHistoryDetails", "History"))', { OID: OID },
+                        function (data) {
+
+                            if (data.indexOf("error") == 0) {
+                                alert(data.replace("error", ""));
+                            }
+                            else {
+                                $("#AttributeDetail").empty();
+                                $("#viewPlaceHolder").empty();
+
+                                $('#AttributeDetail').html(data);
+                            }
+                        });
+                }
+            });
+        });
+
+        $("#chkselectAll").change(function () {
+            var status = this.checked;
+            $(".checkbox").each(function () {
+                this.checked = status;
+            });
+        });
+
+        $(".paging").click(function (e) {
+            e.preventDefault();
+            $.ajax({
+
+                url: this.href,
+
+                type: 'POST',
+
+                cache: false,
+
+                success: function (result) {
+                    $("#viewPlaceHolder").html(result);
+
+                }
+            });
+        });
+        $(".colorWhite").click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: this.href,
+                type: 'POST',
+                cache: false,
+                success: function (result) {
+                    $("#viewPlaceHolder").html(result);
+                }
+            });
+        });
+
+        $("#btnNext").click(function (e) {
+            $.post('@Url.Action("Paging", "Search")', { ActionType: "next" },
+                function (data) {
+                    if (data.indexOf("error") == 0) {
+                        alert(data.replace("error", ""));
+                    }
+                    else {
+                        $('#viewPlaceHolder').html(data);
+                    }
+                });
+        });
+
+        $("#btnPrevious").click(function (e) {
+            $.post('@Url.Action("Paging", "Search")', { ActionType: "previous" },
+                function (data) {
+                    if (data.indexOf("error") == 0) {
+                        alert(data.replace("error", ""));
+                    }
+                    else {
+                        $('#viewPlaceHolder').html(data);
+                    }
+                });
+        });
+        $("#btnUpdate").click(function (e) {
+            var OID = "";
+            $('#tblsearchdata').find('tr').each(function () {
+                var row = $(this);
+                if (row.find('input[type="checkbox"]').is(":checked")) {
+                    try {
+                        OID += row.find('input[type="hidden"]')[1].value + ",";
+                    } catch (ex) {
+                        // Handle exception if necessary
+                    }
+                }
+            });
+
+            if (OID == "") {
+                alert("Please select at least one record to update");
+                return false;
+            }
+
+            $.post('@Url.Action("GetSelectedRecordForUpdate", "Update")', { OIDList: OID, ActionType: "searchupdate" },
+                function (data) {
+        @*if ('@Session["EntityTypeID"]' == null || '@Session["EntityName"]' == null) {
+                    alert('Session expired. Please login again.');
+                    return false;
+                    *@}
+                            if (data.indexOf("error") >= 0) {
+                alert(data.replace("error", ""));
+            } else {
+                $('#AttributeDetail').empty();
+                $('#viewPlaceHolder').empty();
+                $('#btnUpdate').hide();
+                $('#AttributeDetail').html(data);
+
+                $.post('@Url.Action("ShowAttribute", "Menu")', {
+                                                            { EntityTypeId: evt.currentTarget.id, entityName: evt.currentTarget.innerText, viewType: "update" },
+
+                                },
+            function (data) {
+                if (data.indexOf("error") >= 0) {
+                    alert(data.replace("error", ""));
+                } else {
+                    $('#viewPlaceHolder').html(data);
+                }
+            });
+                            }
+                        }
+                    );
+                });
+
+
+    </script>
+
+
+    <style type="text/css">
+        .griddatadisabled {
+            color: gray;
+            text-decoration: none;
+        }
+
+        .griddata {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+            white-space: nowrap;
+            font-family: arial;
+            font-size: 11pt;
+            // FIXED: Added value before 'pt' font-weight: normal;
+            font-style: normal;
+            color: #000000;
+        }
+
+        .gridpager {
+            font-weight: bold;
+            background-color: #d9edf9;
+            font-family: verdana, helvetica, arial;
+            color: #EFFFFF;
+            font-size: 11px;
+        }
+    </style>
+
+}

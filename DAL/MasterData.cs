@@ -161,7 +161,7 @@ namespace DAL
                             //else
                             //{
                             //    List<DropDownData> dropDownDataList = new List<DropDownData>();
-                            //    listBoxQuery = Convert.ToString(item.ListBoxQuery).ToUpper().Split(new string[] {"FROM"}, StringSplitOptions.None);
+                            //    listBoxQuery = Convert.ToString(item.ListBoxQuery).ToUpper().Split(new string[] { "FROM" }, StringSplitOptions.None);
                             //    insertAliasName = listBoxQuery[0].Insert(listBoxQuery[0].IndexOf(','), " AS VALID_VALUES ");
                             //    insertAliasName = insertAliasName.Insert(insertAliasName.Length - 1, " AS VALUE_NAME ");
                             //    string ListBoxSelectQuery = Convert.ToString(item.ListBoxQuery.ToUpper());
