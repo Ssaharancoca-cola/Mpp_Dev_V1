@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
     $("#btnAddNew").click(function () {
+        debugger;
         $("#cmdName")[0].value = "AttributeDetail";
         $('#viewPlaceHolder').empty();
         $('#btnUpdate').hide();

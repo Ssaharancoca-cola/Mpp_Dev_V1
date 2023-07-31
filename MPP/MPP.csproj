@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Scripts\**" />
+    <Content Remove="Scripts\**" />
+    <EmbeddedResource Remove="Scripts\**" />
+    <None Remove="Scripts\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="wwwroot\js\Attribute.js" />
   </ItemGroup>
 
@@ -35,7 +42,6 @@
 
   <ItemGroup>
     <Folder Include="Content\" />
-    <Folder Include="Scripts\" />
   </ItemGroup>
 
   <ItemGroup>

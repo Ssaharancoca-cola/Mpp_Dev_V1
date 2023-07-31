@@ -12,17 +12,19 @@ using DAL.Common;
 
 namespace MPP.Controllers
 {
-        [SessionTimeoutEntity]
-        [SessionTimeoutDimension]
-        public class SearchController : Controller
-       {
+    [SessionTimeoutEntity]
+    [SessionTimeoutDimension]
+    public class SearchController : Controller
+    {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public SearchController(IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
         }
+
         List<SearchParameter> fieldCollection = new List<SearchParameter>();
+
         public PartialViewResult Index(string sortOrder)
         {
             List<Entity_Type_Attr_Detail> attributeList = new List<Entity_Type_Attr_Detail>();
@@ -62,7 +64,7 @@ namespace MPP.Controllers
             TempData["dataList"] = resultQuery;
             return PartialView("_GetSearchData", resultQuery);
         }
-        public async Task<IActionResult> GetSearchData(FormCollection form, string Command)
+        public async Task<IActionResult> GetSearchData(IFormCollection form, string Command)
         {
             ViewBag.sortId = "";
             int totalRecord = 0;
@@ -73,13 +75,13 @@ namespace MPP.Controllers
             string columnData = string.Empty;
             string OIDColumnName = string.Empty;
             string outMsg = Constant.statusSuccess;
-            ViewBag["currentPageNo"] = currentPageNo;
+            ViewData["currentPageNo"] = currentPageNo;
             List<string> rowData = new List<string>();
             List<Dictionary<string, string>> dataList = new List<Dictionary<string, string>>();
             List<Entity_Type_Attr_Detail> attributeList = new List<Entity_Type_Attr_Detail>();
 
             string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
-           // outMsg = CheckUserAccessRights(Command, userName[1]);
+            // outMsg = CheckUserAccessRights(Command, userName[1]);
             if (outMsg != Constant.statusSuccess)
                 return Content(outMsg);
             #region SearchAndViewAll
@@ -90,9 +92,9 @@ namespace MPP.Controllers
                     attributeList = (List<Entity_Type_Attr_Detail>)TempData["attributeList"];
                     TempData.Keep();
                     if (Command == "Search")
-                        fieldCollection = GetSearchCriteria(form, attributeList, out outMsg);
+                        fieldCollection = GetSearchCriteria((FormCollection)form, attributeList, out outMsg);
 
-                    outMsg = outMsg == Constant.statusSuccess ? ValidateData(fieldCollection, form, Command) : outMsg;
+                    outMsg = outMsg == Constant.statusSuccess ? ValidateData(fieldCollection, (FormCollection)form, Command) : outMsg;
                     if (outMsg != Constant.statusSuccess)
                         return Content("error" + outMsg);
 
@@ -136,6 +138,7 @@ namespace MPP.Controllers
                 return PartialView("_GetSearchData");
             }
             #endregion SearchAndViewAll
+
             #region AddNewExportImport
             else if (Command == "AddNew" || Command == "Export" || Command == "Import")
             {
@@ -493,4 +496,4 @@ namespace MPP.Controllers
             return Json(new SelectList(casCombo, "Value", "Text"));
         }
     }
-    }
+}

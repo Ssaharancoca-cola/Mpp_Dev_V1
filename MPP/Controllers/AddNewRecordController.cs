@@ -25,7 +25,7 @@ namespace MPP.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult SaveRecord(FormCollection form, string Command)
+        public IActionResult SaveRecord(IFormCollection form, string Command)
         {
             try
             {

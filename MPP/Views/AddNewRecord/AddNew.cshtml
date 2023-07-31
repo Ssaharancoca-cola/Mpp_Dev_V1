@@ -11,8 +11,6 @@
     ViewData["Title"] = "AddNewRecord";
 }
 
-@section Scripts {
-
     <form id="AddNewRecordForm" method="post">
 
         <table style="width: 100%">
@@ -140,11 +138,12 @@
     <script>
 
         $(document).ready(function () {
+            
             $("#AddNewRecordForm").on("submit", function (event) {
                 event.preventDefault();
-
+                debugger;
                 $.ajax({
-                    url: "/AddNewRecord/SaveRecord",
+                    url: "AddNewRecord/SaveRecord",
                     type: "POST",
                     data: $(this).serialize(),
                     beforeSend: onBegin, // Optional, a function to call before sending the request
@@ -161,7 +160,7 @@
 
             $(function () {
                 $("#txtEffectiveDate").datepicker({
-                    changeMonth: true, changeYear: true, yearRange: "2000:2038"
+                    changeMonth: true, changeYear: true, yearRange: "2023:2050"
                 });
             });
 
@@ -169,7 +168,7 @@
 
             $(function () {
                 $(".datepicker").datepicker({
-                    changeMonth: true, changeYear: true, yearRange: "2000:2038"
+                    changeMonth: true, changeYear: true, yearRange: "2023:2050"
                 });
             });
 
@@ -230,4 +229,3 @@
             }
         });
     </script>
-}
