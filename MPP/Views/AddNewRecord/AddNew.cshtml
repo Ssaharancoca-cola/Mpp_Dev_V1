@@ -1,4 +1,11 @@
 ﻿@model List<Model.Entity_Type_Attr_Detail>
+<!-- Add the necessary CSS for jQuery UI -->
+<link rel="stylesheet" href="~/lib/jquery/dist/jquery-ui.min.css" asp-append-version="true" />
+
+<!-- Add both jQuery and jQuery UI script files -->
+<script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+<script src="~/lib/jquery/dist/jquery-ui.min.js" asp-append-version="true"></script>
+<script src="~/js/Attribute.js" type="text/javascript"></script>
 
 @{
     ViewData["Title"] = "AddNewRecord";
@@ -106,9 +113,8 @@
 
                     <td style="width: 50%" align="left">
                         <button type="submit" class="button" id="btnSave" name="Command" value="Save" title="Save"></button>
-                        <button type="submit" class. ommand" value="Cancel" title="Cancel></button>
-                    <button type="submit" title="Ignore &Save" style="width: 20@px;display:none” id="btnSupress" name="Command" value=‘width:75px; "><img src=" ~ /Images/Save_But
-
+                        <button type="submit" class="command" value="Cancel" title="Cancel"></button>
+                        <button type="submit" title="Ignore & Save" style="width: 20px; display:none;" id="btnSupress" name="Command" value="width:75px;"><img src="~/Images/Save_But" alt=""></button>
                     </td>
                 </tr>
                 <tr align="center" style="width: 106%;">
@@ -168,7 +174,7 @@
             });
 
             function CallChangefunc(val, parcombo) {
-                $('#' + val).empty();
+                $('#' + val).empty()
 
                 //alert(parcombo);
 

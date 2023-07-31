@@ -23,7 +23,12 @@ namespace DAL.Common
         public const string notValidAdUser = "The user with the given id is not a valid user in AD";
         public const string formatMisMatch = "Format Mismatch";
         public const string dataSaveSuccessFully = "Data Save SuccessFully";
-        
+        public const string noRecordFound = "No Record Found";
+        public const string selectAtleastOneSearchCriteria = "Please select At least One Search Criteria";
+        public const string toDateGreaterThanFromDate = "Please enter 'To Date' Greater Then 'From Date'";
+        public const string datedatatype = "System.DateTime";
+        public const string mdmAppDataBaseConnName = "MPP_Context";
+        public const string mandatoryField = " please enter values in atleast one field apart from effective date";
 
     }
 }

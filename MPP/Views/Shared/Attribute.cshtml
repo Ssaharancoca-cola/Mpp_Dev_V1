@@ -1,7 +1,13 @@
 ﻿@model List<Model.Entity_Type_Attr_Detail>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
-<script src="~/js/Attribute.js"></script>
+<!-- Add the necessary CSS for jQuery UI -->
+<link rel="stylesheet" href="~/lib/jquery/dist/jquery-ui.min.css" asp-append-version="true" />
+
+<!-- Add both jQuery and jQuery UI script files -->
+<script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+<script src="~/lib/jquery/dist/jquery-ui.min.js" asp-append-version="true"></script>
+<script src="~/js/Attribute.js" type="text/javascript"></script>
+
 
 @if (ViewData.ModelState.IsValid)
 {

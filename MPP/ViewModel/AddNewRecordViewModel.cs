@@ -32,37 +32,37 @@ namespace MPP.ViewModel
             return outMsg;
 
         }
-        //public async Task<List<Entity_Type_Attr_Detail>> GetAddNewField(int entityTypeId)
-        //{
-        //    List<Entity_Type_Attr_Detail> entityAttrList = new List<Entity_Type_Attr_Detail>();
-        //    string outMsg = Constant.statusSuccess;
-        //    try
-        //    {
-        //        string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
-        //        using (PrevilegesDataViewModel objPrevilegesDataViewModel = new PrevilegesDataViewModel())
-        //        {
-        //            Previleges previlegesData = objPrevilegesDataViewModel.GetPrevileges(userName[1], entityTypeId, out outMsg);
-        //            if (previlegesData == null || previlegesData.READ_FLAG != 1)
-        //            {
-        //                outMsg = Constant.accessDenied;
-        //            }
-        //        }
-        //        using (MenuViewModel objMenuViewModel = new MenuViewModel())
-        //        {
-        //            entityAttrList = await objMenuViewModel.ShowAttributeDataAsync(entityTypeId, "", userName[1].ToUpper());
-        //        }
-        //        entityAttrList = entityAttrList.OrderBy(x => x.AttrDisplayOrder).ToList();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        using (LogError objLogError = new LogError())
-        //        {
-        //            objLogError.LogErrorInTextFile(ex);
-        //        }
-        //        outMsg = ex.Message;
-        //    }
-        //    return entityAttrList;
-        //}
+        public async Task<List<Entity_Type_Attr_Detail>> GetAddNewField(int entityTypeId)
+        {
+            List<Entity_Type_Attr_Detail> entityAttrList = new List<Entity_Type_Attr_Detail>();
+            string outMsg = Constant.statusSuccess;
+            try
+            {
+                string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
+                using (PrevilegesDataViewModel objPrevilegesDataViewModel = new PrevilegesDataViewModel())
+                {
+                    Previleges previlegesData = objPrevilegesDataViewModel.GetPrevileges(userName[1], entityTypeId, out outMsg);
+                    if (previlegesData == null || previlegesData.READ_FLAG != 1)
+                    {
+                        outMsg = Constant.accessDenied;
+                    }
+                }
+                using (MenuViewModel objMenuViewModel = new MenuViewModel())
+                {
+                    (entityAttrList, outMsg) = await objMenuViewModel.ShowAttributeDataAsync(entityTypeId, "", userName[1].ToUpper());
+                }
+                entityAttrList = entityAttrList.OrderBy(x => x.AttrDisplayOrder).ToList();
+            }
+            catch (Exception ex)
+            {
+                using (LogError objLogError = new LogError())
+                {
+                    objLogError.LogErrorInTextFile(ex);
+                }
+                outMsg = ex.Message;
+            }
+            return entityAttrList;
+        }
 
     }
 }

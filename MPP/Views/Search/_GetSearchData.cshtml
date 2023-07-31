@@ -245,7 +245,7 @@
                     alert('Session expired. Please login again.');
                     return false;
                     *@}
-                            if (data.indexOf("error") >= 0) {
+                                                    if (data.indexOf("error") >= 0) {
                 alert(data.replace("error", ""));
             } else {
                 $('#AttributeDetail').empty();
@@ -254,9 +254,9 @@
                 $('#AttributeDetail').html(data);
 
                 $.post('@Url.Action("ShowAttribute", "Menu")', {
-                                                            { EntityTypeId: evt.currentTarget.id, entityName: evt.currentTarget.innerText, viewType: "update" },
+                                                                                    { EntityTypeId: evt.currentTarget.id, entityName: evt.currentTarget.innerText, viewType: "update" },
 
-                                },
+                                                        },
             function (data) {
                 if (data.indexOf("error") >= 0) {
                     alert(data.replace("error", ""));
@@ -264,10 +264,10 @@
                     $('#viewPlaceHolder').html(data);
                 }
             });
-                            }
-                        }
-                    );
-                });
+                                                    }
+                                                }
+                                            );
+                                        });
 
 
     </script>
