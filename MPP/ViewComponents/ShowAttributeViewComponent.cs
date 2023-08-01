@@ -3,6 +3,7 @@ using DAL.Common;
 using Microsoft.AspNetCore.Mvc;
 using Model;
 using MPP.ViewModel;
+using Newtonsoft.Json;
 
 namespace MPP.ViewComponents
 {
@@ -43,7 +44,13 @@ namespace MPP.ViewComponents
                     (attributeList, outMsg) = await menuViewModel.ShowAttributeDataAsync(entityTypeId, viewType, userName[1].ToString());
                 }
                 attributeList = attributeList.OrderBy(x => x.AttrDisplayOrder).ToList();
-                // TempData["attributeList"] = attributeList;
+                 //TempData["attributeList"] = attributeList;
+               
+
+                // Serialize to JSON
+                string attributeListJson = JsonConvert.SerializeObject(attributeList);
+                TempData["attributeList"] = attributeListJson;
+
             }
             catch (Exception ex)
             {

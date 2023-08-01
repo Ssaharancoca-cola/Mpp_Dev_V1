@@ -9,6 +9,7 @@ using System.Reflection;
 using MPP.ViewModel;
 using System.Text;
 using DAL.Common;
+using Newtonsoft.Json;
 
 namespace MPP.Controllers
 {
@@ -81,7 +82,7 @@ namespace MPP.Controllers
             List<Entity_Type_Attr_Detail> attributeList = new List<Entity_Type_Attr_Detail>();
 
             string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
-            // outMsg = CheckUserAccessRights(Command, userName[1]);
+             outMsg = CheckUserAccessRights(Command, userName[1]);
             if (outMsg != Constant.statusSuccess)
                 return Content(outMsg);
             #region SearchAndViewAll
@@ -89,8 +90,10 @@ namespace MPP.Controllers
             {
                 try
                 {
-                    attributeList = (List<Entity_Type_Attr_Detail>)TempData["attributeList"];
-                    TempData.Keep();
+                    attributeList = (List<Entity_Type_Attr_Detail>)ViewBag["attributeList"];
+
+                   
+                    // TempData.Keep();
                     if (Command == "Search")
                         fieldCollection = GetSearchCriteria((FormCollection)form, attributeList, out outMsg);
 
