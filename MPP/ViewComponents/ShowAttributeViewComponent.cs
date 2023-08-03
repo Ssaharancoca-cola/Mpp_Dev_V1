@@ -28,7 +28,7 @@ namespace MPP.ViewComponents
                 ViewData["SelectedDimensionValue"] = HttpContext.Session.GetString("SelectedDimensionValue");
                 ViewData["EntityTypeID"] = entityTypeId;
                 ViewData["EntityName"] = HttpContext.Session.GetString("EntityName");
-                // ViewData["selectedIndex"] = HttpContext.Session.GetString("selectedIndex");
+                 ViewData["selectedIndex"] = HttpContext.Session.GetString("selectedIndex");
                 string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
                 using (PrevilegesDataViewModel previlegesDataViewModel = new PrevilegesDataViewModel())
                 {
@@ -43,9 +43,7 @@ namespace MPP.ViewComponents
                 {
                     (attributeList, outMsg) = await menuViewModel.ShowAttributeDataAsync(entityTypeId, viewType, userName[1].ToString());
                 }
-                attributeList = attributeList.OrderBy(x => x.AttrDisplayOrder).ToList();
-                 //TempData["attributeList"] = attributeList;
-               
+                attributeList = attributeList.OrderBy(x => x.AttrDisplayOrder).ToList();               
 
                 // Serialize to JSON
                 string attributeListJson = JsonConvert.SerializeObject(attributeList);

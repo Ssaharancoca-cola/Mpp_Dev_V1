@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Model.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,8 +24,21 @@ namespace DAL.Common
             {
                 using (MPP_Context mPP_Context = new MPP_Context())
                 {
-                    //MPPAppContext
-                     sessionID = mPP_Context.Database.SqlQueryRaw<int>("SELECT MPP_APP.SEQ_SESSION.NEXTVAL AS SESSION_ID FROM DUAL").FirstOrDefault();
+                    using (var command = mPP_Context.Database.GetDbConnection().CreateCommand())
+                    {
+                        mPP_Context.Database.GetDbConnection().Open();
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "GetNextSequenceValue";
+
+                        var sequenceNameParam = new SqlParameter("@sequenceName", SqlDbType.NVarChar) { Value = "MPP_APP.SEQ_SESSION" };
+                        command.Parameters.Add(sequenceNameParam);
+
+                        var nextValueParam = new SqlParameter("@nextValue", SqlDbType.Int) { Direction = ParameterDirection.Output };
+                        command.Parameters.Add(nextValueParam);
+
+                        command.ExecuteNonQuery();
+                        sessionID = (int)nextValueParam.Value;
+                    }
                 }
             }
             catch (Exception ex)

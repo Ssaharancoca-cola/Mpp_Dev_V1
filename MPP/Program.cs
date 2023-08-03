@@ -20,6 +20,7 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<MenuViewComponent>();
 builder.Services.AddTransient<SubMenuViewComponent>();
 builder.Services.AddTransient<ShowAttributeViewComponent>();
+builder.Services.AddTransient<GetSearchDataViewComponent>();
 builder.Services.AddScoped<LogError>();
 
 // Add Session Services

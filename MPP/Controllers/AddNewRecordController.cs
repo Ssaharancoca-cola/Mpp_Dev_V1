@@ -4,8 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Model;
 using MPP.Filter;
 using MPP.ViewModel;
+using Newtonsoft.Json;
+using System.DirectoryServices;
 using System.Linq;
-using System.Reflection.PortableExecutable;
 using System.Text;
 
 namespace MPP.Controllers
@@ -14,11 +15,14 @@ namespace MPP.Controllers
     [SessionTimeoutEntity]
     public class AddNewRecordController : Controller
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;     
-
-        public AddNewRecordController(IHttpContextAccessor httpContextAccessor)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ILogger<AddNewRecordController> _logger;
+        private readonly IConfiguration _configuration;
+        public AddNewRecordController(IHttpContextAccessor httpContextAccessor, ILogger<AddNewRecordController> logger, IConfiguration configuration)  
         {
-            _httpContextAccessor = httpContextAccessor;            
+            _httpContextAccessor = httpContextAccessor;
+            _logger = logger;
+            _configuration = configuration;
         }
         public ActionResult Index()
         {
@@ -38,7 +42,13 @@ namespace MPP.Controllers
                     StringBuilder errMsg = new StringBuilder();
                     Dictionary<string, string> attrValues = new Dictionary<string, string>();
                     List<Entity_Type_Attr_Detail> attributeList = new List<Entity_Type_Attr_Detail>();
-                    attributeList = (List<Entity_Type_Attr_Detail>)TempData["attributeList"];
+
+                    string serializedAttributeList = TempData["attributeList"] as string;
+
+                    if (serializedAttributeList != null)
+                    {
+                        attributeList = JsonConvert.DeserializeObject<List<Entity_Type_Attr_Detail>>(serializedAttributeList);
+                    }
                     TempData.Keep();
                     string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
                     using (PrevilegesDataViewModel objPrevilegesDataViewModel = new PrevilegesDataViewModel())
@@ -64,18 +74,18 @@ namespace MPP.Controllers
                         }
                         else if (data.DisplayType.ToUpper() == "USERBOX" && !string.IsNullOrEmpty(form[data.AttrName]))
                         {
-                            //UserInfo adUserInfo = GetADUserInfo(form[data.AttrName], out outMsg);
+                            UserInfo adUserInfo = GetADUserInfo(form[data.AttrName], out outMsg);
 
-                            //if (adUserInfo != null)
-                            //{
-                            //    value = form[data.AttrName];
-                            //}
-                            //else
-                            //{
-                            //    ModelState.AddModelError("error", Constant.notValidAdUser);
-                            //    errMsg.Append(Constant.notValidAdUser);
-                            //    errMsg.Append(Environment.NewLine);
-                            //}
+                            if (adUserInfo != null)
+                            {
+                                value = form[data.AttrName];
+                            }
+                            else
+                            {
+                                ModelState.AddModelError("error", Constant.notValidAdUser);
+                                errMsg.Append(Constant.notValidAdUser);
+                                errMsg.Append(Environment.NewLine);
+                            }
                         }
                         else if (data.DisplayType.ToUpper() == "CHECKBOXLIST" && isMandatory == "1")
                         {
@@ -138,7 +148,7 @@ namespace MPP.Controllers
 
                         else if (data.Isvisible == "N")
                         {
-                            attrValues.Add(data.AttrName, "UNKNOWN");
+                            attrValues.Add(data.AttrName, null);
                         }
                         else if (data.AttrDataType.ToUpper() == "DT")
                         {
@@ -162,7 +172,7 @@ namespace MPP.Controllers
                     Dictionary<string, string> attrValuesbp = new Dictionary<string, string>(attrValues);
 
                     attrValues.Add("CURRENT_EDIT_LEVEL", editLevel);
-                    attrValues.Add("DATE_FROM", effectivedate);
+                   // attrValues.Add("DATE_FROM", effectivedate);
                     attrValues.Add("USER_NAME", userName[1]);
 
 
@@ -174,21 +184,21 @@ namespace MPP.Controllers
 
                     using (AddNewRecordViewModel objAddNewRecordViewModel = new AddNewRecordViewModel())
                     {
-                        outMsg = objAddNewRecordViewModel.SaveRecord(attributeList, attrValues, entityTypeId, userName[1], btnSuppressWarning, "MDM_UI_NEW", languageCode);
+                        outMsg = objAddNewRecordViewModel.SaveRecord(attributeList, attrValues, entityTypeId, userName[1], btnSuppressWarning, "MPP_UI_NEW", languageCode);
                     }
-                    //if (outMsg == Constant.statusSuccess)
-                    //{
-                    //    MailManagerViewModel objMAilManagerViewModel = new MailManagerViewModel();
-                    //    string url = Request.Url.GetLeftPart(UriPartial.Authority) + ConfigurationManager.AppSettings["Link"].ToString();
-                    //    objMAilManagerViewModel.Mail("1", "record", Convert.ToInt32(Session["EntityTypeID"]), Convert.ToString(Session["EntityName"]),
-                    //    Convert.ToString(Session["SelectedDimensionData"]), url, Constant.addNew, out outMsg);
-                    //}
-                    //else
-                    //    return Content(outMsg + "error");
+                    if (outMsg == Constant.statusSuccess)
+                    {
+                        //MailManagerViewModel objMAilManagerViewModel = new MailManagerViewModel();
+                        //string url = Request.Url.GetLeftPart(UriPartial.Authority) + ConfigurationManager.AppSettings["Link"].ToString();
+                        //objMAilManagerViewModel.Mail("1", "record", Convert.ToInt32(Session["EntityTypeID"]), Convert.ToString(Session["EntityName"]),
+                        //Convert.ToString(Session["SelectedDimensionData"]), url, Constant.addNew, out outMsg);
+                    }
+                    else
+                        return Content(outMsg + "error");
 
                     return Content(Constant.dataSaveSuccessFully);
-                    //TempData["message"] = Constant.dataSaveSuccessFully;
-                    // return RedirectToRoute(new { controller = "Menu", action = "ShowAttribute", entityTypeId = Convert.ToInt32(Session["EntityTypeID"]), entityName = Convert.ToString(Session["EntityName"]), viewType = "search" });
+                    TempData["message"] = Constant.dataSaveSuccessFully;
+                     return RedirectToRoute(new { controller = "Menu", action = "ShowAttribute", entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")), entityName = Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")), viewType = "search" });
                 }
                 else if (Command == "Cancel")
 
@@ -207,44 +217,44 @@ namespace MPP.Controllers
             return Content(Constant.commonErrorMsg);
 
         }
-        //private UserInfo GetADUserInfo(string userId, out string outMsg)
-        //{
-        //    UserInfo userInfo = null;
-        //    outMsg = Constant.statusSuccess;
-        //    try
-        //    {
-        //        string LDAPPATH = ConfigurationManager.AppSettings["LDAPPATH"].ToString();
-        //        string LDAPUserId = ConfigurationManager.AppSettings["LDAPUserId"].ToString();
-        //        string LDAPPwd = ConfigurationManager.AppSettings["LDAPPWD"].ToString();
-        //        DirectoryEntry entry = new DirectoryEntry(LDAPPATH, LDAPUserId, LDAPPwd, AuthenticationTypes.ServerBind | AuthenticationTypes.FastBind);
-        //        // DirectoryEntry entry = new DirectoryEntry(LDAPPATH, "ldapadminin", "Apac123", AuthenticationTypes.ServerBind | AuthenticationTypes.FastBind);
-        //        DirectorySearcher search = new DirectorySearcher(entry);
-        //        search.SearchScope = SearchScope.Subtree;
-        //        string UserId = userId;
-        //        search.Filter = "(&(objectClass=user)(samaccountname=" + UserId + "))";
-        //        search.PropertiesToLoad.Add("sAMAccountName");
-        //        search.PropertiesToLoad.Add("givenName");
-        //        search.PropertiesToLoad.Add("sn");
-        //        search.PropertiesToLoad.Add("mail");
-        //        SearchResult result = search.FindOne();
-        //        if (result != null)
-        //        {
-        //            entry = result.GetDirectoryEntry();
-        //            userInfo = new UserInfo();
-        //            userInfo.UserID = entry.Properties["sAMAccountName"].Value.ToString();
-        //            userInfo.UserName = entry.Properties["givenName"].Value.ToString() + " " + entry.Properties["sn"].Value.ToString();
-        //            userInfo.UserEmail = entry.Properties["mail"].Value.ToString();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        using (LogErrorViewModel objLogErrorViewModel = new LogErrorViewModel())
-        //        {
-        //            objLogErrorViewModel.LogErrorInTextFile(ex);
-        //        }
-        //        outMsg = ex.Message;
-        //    }
-        //    return userInfo;
-        //}
+        private UserInfo GetADUserInfo(string userId, out string outMsg)
+        {
+            UserInfo userInfo = null;
+            outMsg = Constant.statusSuccess;
+            try
+            {
+                string LDAPPATH = _configuration["LDAP:LDAPPATH"];
+                string LDAPUserId = _configuration["LDAP:LDAPUserId"];
+                string LDAPPwd = _configuration["LDAP:LDAPPWD"];
+                DirectoryEntry entry = new DirectoryEntry(LDAPPATH, LDAPUserId, LDAPPwd, AuthenticationTypes.ServerBind | AuthenticationTypes.FastBind);
+                // DirectoryEntry entry = new DirectoryEntry(LDAPPATH, "ldapadminin", "Apac123", AuthenticationTypes.ServerBind | AuthenticationTypes.FastBind);
+                DirectorySearcher search = new DirectorySearcher(entry);
+                search.SearchScope = SearchScope.Subtree;
+                string UserId = userId;
+                search.Filter = "(&(objectClass=user)(samaccountname=" + UserId + "))";
+                search.PropertiesToLoad.Add("sAMAccountName");
+                search.PropertiesToLoad.Add("givenName");
+                search.PropertiesToLoad.Add("sn");
+                search.PropertiesToLoad.Add("mail");
+                SearchResult result = search.FindOne();
+                if (result != null)
+                {
+                    entry = result.GetDirectoryEntry();
+                    userInfo = new UserInfo();
+                    userInfo.UserId = entry.Properties["sAMAccountName"].Value.ToString();
+                    userInfo.UserName = entry.Properties["givenName"].Value.ToString() + " " + entry.Properties["sn"].Value.ToString();
+                    userInfo.UserEmail = entry.Properties["mail"].Value.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                using (LogErrorViewModel objLogErrorViewModel = new LogErrorViewModel())
+                {
+                    objLogErrorViewModel.LogErrorInTextFile(ex);
+                }
+                outMsg = ex.Message;
+            }
+            return userInfo;
+        }
     }
 }

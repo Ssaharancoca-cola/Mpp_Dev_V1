@@ -28,7 +28,6 @@ namespace DAL
                 using (MPP_Context objmdmContext = new MPP_Context())
                 {
                      dataType = objmdmContext.Database.SqlQueryRaw<string>(sqlQuery).FirstOrDefault();
-
                 }
             }
             catch (Exception ex)
@@ -57,7 +56,7 @@ namespace DAL
             {
                 using (GetViewDetail objviewdetail = new GetViewDetail())
                 {
-                    outMsg = objviewdetail.GetViewName(entityTypeId, UserName.ToUpper(), out viewName);
+                    outMsg = objviewdetail.GetViewName(entityTypeId, UserName.ToUpper(),out viewName);
                     if (outMsg != Constant.statusSuccess || string.IsNullOrEmpty(viewName))
                         return dsResult;
                     if (viewName.Length > 100)
@@ -79,10 +78,10 @@ namespace DAL
                     {
                         tableName = viewName.Split('.');
                     }
-                  //  outMsg = objviewdetail.GetOIDColumnNameByEntityId(entityTypeId, out OIDColumnName);
+                   outMsg = objviewdetail.GetOIDColumnNameByEntityId(entityTypeId, out OIDColumnName);
                     if (outMsg != Constant.statusSuccess || string.IsNullOrEmpty(OIDColumnName))
                         return dsResult;
-                  //  outMsg = objviewdetail.GetFieldList(entityTypeId, out fieldList, out attrNameList);
+                    outMsg = objviewdetail.GetFieldList(entityTypeId, out fieldList, out attrNameList);
                     if (outMsg != Constant.statusSuccess || string.IsNullOrEmpty(fieldList) || attrNameList.Count() == 0)
                         return dsResult;
 
@@ -127,24 +126,19 @@ namespace DAL
                 string strSortClause = GetSortClause(SortBy, SortOrder, tableName);
                 int RowStart = ((PageNo - 1) * PageSize) + 1;
                 int RowEnd = PageNo * PageSize;
-                //Dictionary<string, string> PropNameType = new Dictionary<string, string>();
-                //using (GetViewDetail objGetViewDetail = new GetViewDetail())
-                //{
-                //    PropNameType = objGetViewDetail.GetPropertyInfo();
-                //    strAsSelectClause = objGetViewDetail.GetStrAsSelectClause(strSelectClause, attrNameList, PropNameType, OIDColumnName, out mapClassAndDatabaseProp, out outMsg);
 
-                //}
                 strSubQuery2 = " ( select count(*) total_records from " + " ( " + tableName + " ) " + strWhereClause + " ) ";
                 strSubQuery1 = " select rownum recno, t.* from " + " ( " + tableName + " ) " + " t " + strWhereClause;
                 strSubQuery1 = " ( select t.* from (" + strSubQuery1 + ") t Where recno >= " + RowStart + " and recno <=  " + RowEnd + " ) ";
 
-                // strQuery.Append("Select " + strAsSelectClause.Remove(strAsSelectClause.Length - 1, 1) + " from ( Select " + strSelectClause + ", recno, total_records, ceil(total_records / " + PageSize + ") total_pages from ");
                 strQuery.Append("Select *  from ( Select " + strSelectClause + ", recno, total_records, ceil(total_records / " + PageSize + ") total_pages from ");
                 strQuery.Append(strSubQuery1);
                 strQuery.Append(" t1, ");
                 strQuery.Append(strSubQuery2);
                 strQuery.Append(" t2 ");
                 searchQuery = strQuery.ToString();
+
+
 
             }
             catch (Exception ex)
@@ -166,7 +160,7 @@ namespace DAL
             string strAsSelectClause = string.Empty;
             try
             {
-                fieldList = fieldList + "," + "DATE_FROM" + "," + OIDColumnName;
+                //fieldList = fieldList + "," + "DATE_FROM" + "," + OIDColumnName;
                 StringBuilder strQuery = new StringBuilder();
                 string strWhereClause = GetWhereClause(searchParameter, tableName);
                 string strSelectClause = (fieldList == "*" ? "t.*" : fieldList);
@@ -174,22 +168,26 @@ namespace DAL
                 int RowStart = ((PageNo - 1) * PageSize) + 1;
                 int RowEnd = PageNo * PageSize;
                 Dictionary<string, string> PropNameType = new Dictionary<string, string>();
-                //using (GetViewDetail objGetViewDetail = new GetViewDetail())
-                //{
-                //    PropNameType = objGetViewDetail.GetPropertyInfo();
-                //    strAsSelectClause = objGetViewDetail.GetStrAsSelectClause(strSelectClause, attrNameList, PropNameType, OIDColumnName, out mapClassAndDatabaseProp,out outMsg);
 
-                //}
-                // strQuery.Append("Select " + strAsSelectClause.Remove(strAsSelectClause.Length - 1, 1) + " from ( Select " + strSelectClause + ", row_number() over(order by " + strSortClause + " ) recno, count(*) over() Total_Records, ceil((count(*) over()) / " + PageSize.ToString() + ") Total_Pages from ");
-                strQuery.Append("Select * from ( Select " + strSelectClause + ", row_number() over(order by " + strSortClause + " ) recno, count(*) over() Total_Records, ceil((count(*) over()) / " + PageSize.ToString() + ") Total_Pages from ");
-                strQuery.Append(" ( " + tableName + " ) ");
+                //strQuery.Append("Select * from ( Select " + strSelectClause + ", row_number() over(order by " + strSortClause + " ) recno, count(*) over() Total_Records, ceil((count(*) over()) / " + PageSize.ToString() + ") Total_Pages from ");
+                //strQuery.Append(" ( " + tableName + " ) ");
+                //strQuery.Append(" t ");
+                //strQuery.Append(strWhereClause);
+                //strQuery.Append(") Where recno between ");
+                //strQuery.Append(RowStart.ToString());
+                //strQuery.Append(" and ");
+                //strQuery.Append(RowEnd.ToString());
+                //searchQuery = strQuery.ToString();
+                strQuery.Append("Select * from ( Select " + strSelectClause + ", row_number() over(order by " + strSortClause + " ) recno, count(*) over() Total_Records, CEILING((count(*) over()) / " + PageSize.ToString() + ") Total_Pages from ");
+                strQuery.Append("  " + tableName + "  ");
                 strQuery.Append(" t ");
                 strQuery.Append(strWhereClause);
-                strQuery.Append(") Where recno between ");
+                strQuery.Append(") AS SUBQUERY Where recno between ");
                 strQuery.Append(RowStart.ToString());
                 strQuery.Append(" and ");
                 strQuery.Append(RowEnd.ToString());
                 searchQuery = strQuery.ToString();
+
 
             }
             catch (Exception ex)
@@ -277,14 +275,29 @@ namespace DAL
                                         {
                                             rValue = rValue.Replace(@"\?", strQuestionPlaceholder);
                                         }
-                                        if (rValue.Contains("*") || rValue.Contains("?"))
-                                            op = " Like ";
-                                        else
-                                            op = " = ";
-                                        rValue = "'" + rValue.ToUpper().Replace("\'", "\'\'").Replace('*', '%').Replace('?', '_') + "'";
+                                        //if (rValue.Contains("*") || rValue.Contains("?"))
+                                        //    op = " Like ";
+                                        //else
+                                        //    op = " = ";
+                                        //rValue = "'" + rValue.ToUpper().Replace("\'", "\'\'").Replace('*', '%').Replace('?', '_') + "'";
 
-                                        rValue = rValue.Replace(strStarPlaceholder, @"*");
-                                        rValue = rValue.Replace(strQuestionPlaceholder, @"?");
+                                        //rValue = rValue.Replace(strStarPlaceholder, @"*");
+                                        //rValue = rValue.Replace(strQuestionPlaceholder, @"?");
+                                        //if (rValue.Contains("*") || rValue.Contains("?"))
+                                        //    op = " Like ";
+                                        else
+                                            op = " LIKE ";
+                                        if (op == " LIKE ")
+                                        {
+                                            rValue = "  '%" + rValue + "%'";
+                                        }
+                                        else
+                                        {
+                                            rValue = "'" + rValue.ToUpper().Replace("\'", "\'\'").Replace('*', '%').Replace('?', '_') + "'";
+
+                                            rValue = rValue.Replace(strStarPlaceholder, @"*");
+                                            rValue = rValue.Replace(strQuestionPlaceholder, @"?");
+                                        }
                                         break;
                                     case "NUMERIC":
                                     case "INTEGER":
@@ -430,16 +443,16 @@ namespace DAL
         {
             string strSortClause = "";
 
-            if (SortBy.ToUpper() == "PROPERTY_ID" || SortBy.ToUpper() == "SUB_CHAIN_CODE" || SortBy.ToUpper() == "CHAIN_CODE" || SortBy.ToUpper() == "CORPORATE_CHAIN_CODE")
-            {
-                strSortClause = "TO_NUMBER(" + SortBy + ")";
-            }
-            else
-            {
-                strSortClause = SortBy;
-            }
+            //if (SortBy.ToUpper() == "PROPERTY_ID" || SortBy.ToUpper() == "SUB_CHAIN_CODE" || SortBy.ToUpper() == "CHAIN_CODE" || SortBy.ToUpper() == "CORPORATE_CHAIN_CODE")
+            //{
+            //    strSortClause = "TO_NUMBER(" + SortBy + ")";
+            //}
+            //else
+            //{
+            //    strSortClause = SortBy;
+            //}
 
-            strSortClause += " " + SortOrder;
+            //strSortClause += " " + SortOrder;
 
             // Formulate additional sort by to make ensure unique sorting 
             if (tableName.ToUpper().StartsWith("MPP_APP.FL_"))
@@ -450,7 +463,7 @@ namespace DAL
                 }
                 else
                 {
-                    strSortClause += ", " + tableName.ToUpper().Replace("MPP_APP.FL_", "") + "_OID ASC ";
+                    strSortClause +=  tableName.ToUpper().Replace("MPP_APP.FL_", "") + "_OID ASC ";
                 }
             }
 

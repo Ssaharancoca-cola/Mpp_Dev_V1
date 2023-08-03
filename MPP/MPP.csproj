@@ -33,6 +33,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.DirectoryServices" Version="7.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,7 +50,7 @@
     <None Include="wwwroot\Images\Header_New.png" />
     <None Include="wwwroot\Images\Homepage.png" />
     <None Include="wwwroot\Images\spinner.gif" />
-    <None Include="wwwroot\js\Attribute.js" />
+    <None Include="wwwroot\js\attribute.js" />
   </ItemGroup>
 
 </Project>

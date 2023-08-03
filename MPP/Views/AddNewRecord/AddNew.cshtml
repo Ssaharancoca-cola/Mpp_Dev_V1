@@ -1,231 +1,248 @@
 ﻿@model List<Model.Entity_Type_Attr_Detail>
-<!-- Add the necessary CSS for jQuery UI -->
-<link rel="stylesheet" href="~/lib/jquery/dist/jquery-ui.min.css" asp-append-version="true" />
 
-<!-- Add both jQuery and jQuery UI script files -->
-<script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
-<script src="~/lib/jquery/dist/jquery-ui.min.js" asp-append-version="true"></script>
-<script src="~/js/Attribute.js" type="text/javascript"></script>
-
-@{
-    ViewData["Title"] = "AddNewRecord";
-}
-
-    <form id="AddNewRecordForm" method="post">
-
-        <table style="width: 100%">
-            <thead>
-                <tr>
-                    <td colspan="2" class="title">
-                        @{
-                            if (Context.Session.GetInt32("SelectedDimensionData") != null && Context.Session.GetString("EntityName") != null)
-                            {
-                                <label>Context.Session.GetString("SelectedDimensionData") ></label>
-                                <label>Context.Session.GetString("EntityName")</label>
-                            }
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <hr />
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" class="add-new">Add New</td>
-                </tr>
-                <tr>
-                    <td class="divider">
-                        <hr />
-                    </td>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var menuOption in Model)
-                {
-                    if (@menuOption.Isvisible != "N")
-                    {
-                        <span class="width-49 padding_0_2 fleft">
-                            @if (@menuOption.DisplayType.ToLower() != "checkboxlist")
-                            {
-                                if (@menuOption.AttrDisplayName.ToUpper() == ("SORT ORDER"))
-                                {
-                                    <span class="fleft width-44 whiteText alignright">@menuOption.AttrDisplayName<label id="lblSORT_ORDER_FORMAT" class="sortlimit"></label></span>
-                                }
-                                else
-                                {
-                                    <span class="fleft width-44 whiteText alignright">
-                                        @menuOption.AttrDisplayName
-                                    </span>
-                                }
-                            }
-                            <span class="pad_left_0_2">
-                                @switch (@menuOption.DisplayType.ToLower())
-                                {
-                                    case "textbox":
-                                        <input type="text" style="width:45%" maxlength="@menuOption.AttrLength" name="@menuOption.AttrName" id="@menuOption.AttrName" />
-                                        break;
-                                    case "datepicker":
-                                        <input type="text" style="width:45%" name="@menuOption.AttrName" id="@menuOption.AttrName" class="datepicker" />
-                                        break;
-                                    case "combobox":
-                                        @Html.DropDownListFor(m => menuOption.EntityTypeId, new SelectList(menuOption.dropDownDataList, "VALID_VALUES", "VALUE_NAME"), "--Select--", new {@id= menuOption.AttrName, @Name = menuOption.AttrName, style ="width: 45%;"})
-                                        break;
-                                    case "Parcombo":
-                                        @Html.DropDownListFor(m => menuOption.EntityTypeId, new SelectList(menuOption.dropDownDataList, "VALID_VALUES", "VALUE_NAME"), "--Select--", new {@id= menuOption.AttrName, @Name = menuOption.AttrName, style ="width: 45%;", @onchange = "CallChangefunc('" + menuOption.CasDrop + "', this.value)" })
-                                        break;
-                                    case "cascombo":
-                                        @Html.DropDownList(menuOption.AttrName, new SelectList(string.Empty, "Value", "Text"), "--Select--", new {@style = "width:45%;" })
-                                        break;
-                                    case "userbox":
-                                        <input type="text" style="width:45%" maxlength=@menuOption.AttrLength name=@menuOption.AttrName id=@menuOption.AttrName />
-                                        break;
-
-                                    default:
-                                        break;
-                                }
-                            </span>
-                        </span>
-                    }
-                }
-                <tr style="width: 106%;padding-top:16px">
-                    <td style="width: 50%;padding-left:270px;">
-
-                        Effective Date
-                    </td>
-                    <td style="width: 56%" align="left">
-                        <input type="text" class="SortButton" style="width:45%" readonly name=txtEffectiveDate id=txtEffectiveDate />
-
-                    </td>
-
-                </tr>
-                <tr align="center" style="width: 100%; display :none" class="pageheadernfooter">
-                    <td style="width: 56%" align="right"></td>
-                    <td style="width: 56%" align="left">
-                        <input type="text" class="SortButton" style="width:45%" name="txtEditLevel" id="txtEditLevel" />
-                    </td>
-
-                </tr>
-                <tr align="center" style="width: 100%;padding-top:10px">
-                    <td></td>
-
-                    <td style="width: 50%" align="left">
-                        <button type="submit" class="button" id="btnSave" name="Command" value="Save" title="Save"></button>
-                        <button type="submit" class="command" value="Cancel" title="Cancel"></button>
-                        <button type="submit" title="Ignore & Save" style="width: 20px; display:none;" id="btnSupress" name="Command" value="width:75px;"><img src="~/Images/Save_But" alt=""></button>
-                    </td>
-                </tr>
-                <tr align="center" style="width: 106%;">
-                    <td colspan="2" style="width: 100%" align="center">
-                <tr align="center" style="width: 106%;">
-                    <td colspan="2" style="width: 100%" align="center">
-                        <div style="color:red" id="lblErrorMsg"></div>
-                    </td>
-                </tr>
-        </table>
+<link href="~/css/Masters.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="~/js/attribute.js"></script>
 
 
-        <div id="divLoading" class="loader">
-            <img alt="Loading, please wait" style="position: absolute; top: 30%; left: 45%; width:110px; height:110px" src="~/Images/spinner.gif" />
-        </div>
-        <div id="displayMessage"></div>
-        <input type="hidden" id="cmdName" name="cmdName" value="displayMessage" />
-        <button type="submit" title="Save">Submit</button>
-        <button type="submit" title="Cancel">Cancel</button>
-    </form>
+<script>
+    function onBegin() {
+        $('#divLoading').show();
+
+    }
+    function onSuccess(result) {
+           debugger;
+        if (result.length > 1000) {
+            var fileId = "AttributeDetail";
+            $('#' + fileId).html(result);
 
 
-    <script>
-
-        $(document).ready(function () {
-            
-            $("#AddNewRecordForm").on("submit", function (event) {
-                event.preventDefault();
+        }
+        else {
+            if (result.indexOf("error") == -1) {
                 debugger;
-                $.ajax({
-                    url: "AddNewRecord/SaveRecord",
-                    type: "POST",
-                    data: $(this).serialize(),
-                    beforeSend: onBegin, // Optional, a function to call before sending the request
-                    complete: onComplete, // Optional, a function to call once the request completes with success or error
-                    success: onSuccess, // Optional, a function to call if the request is successful
-                    error: onError // Optional, a function to call if the request encounters an error
-                });
-            });
+                alert("Data Save Successfully");
+                $.post('@Url.Action("ShowAttribute", "Menu")', { entityTypeId: '@Context.Session.GetInt32("EntityTypeID")', entityName: '@Context.Session.GetString("EntityName")', viewType: "search" },
+                    function (data) {
+                        if (data.indexOf("Access denied") > -1) {
+                            alert(data);
+                        }
+                        else {
+                            $('#AttributeDetail').empty();
 
-            $("#btnCancel").click(function () {
-                $("#cmdName").val("AttributeDetail");
-                $("#viewPlaceHolder").empty();
-            });
+                            $('#AttributeDetail').html(data);
 
-            $(function () {
-                $("#txtEffectiveDate").datepicker({
-                    changeMonth: true, changeYear: true, yearRange: "2023:2050"
-                });
-            });
+                            $('#lblcaption').html('@Context.Session.GetString("EntityName")');
+                            $('#viewPlaceHolder').empty();
+                        }
 
-            $("#txtEffectiveDate").datepicker();
-
-            $(function () {
-                $(".datepicker").datepicker({
-                    changeMonth: true, changeYear: true, yearRange: "2023:2050"
-                });
-            });
-
-            function CallChangefunc(val, parcombo) {
-                $('#' + val).empty()
-
-                //alert(parcombo);
-
-                $.ajax({
-                    type: "POST",
-                    url: "Search/GetCasCombo",
-                    dataType: "json",
-                    data: { Id: parcombo, cId: val },
-                    success: function (data) {
-                        $('#' + val).append('<option value="">-Select-</option>');
-                        $.each(data, function (index, value) {
-                            $('#' + val).append('<option value="' + value.Value + '">' + value.Text + '</option>');
-                        });
-                    }
-                });
-            };
-
-            function onBegin() {
-                $("#divLoading").show();
+                    });
             }
+            else
+                alert(result.replace("error", ""))
+        }
+    }
 
-            function onSuccess(result) {
-                if (result.length > 1000) {
-                    var fileId = "AttributeDetail";
-                    $('#' + fileId).html(result);
+
+    function onComplete() {
+        $('#divLoading').hide();
+    }
+</script>
+
+<form id="formid">
+    <table style="width: 100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="width:100%;height:31px;">
+            <td colspan="2" style="padding-left:5px">
+                @if (Context.Session.GetString("SelectedDimensionData") != null && Context.Session.GetString("EntityName") != null)
+                {
+
+                    <label style="color:#0f75da;font-family:Georgia;font-size:13pt;font-weight:bold">@Context.Session.GetString("SelectedDimensionData").ToString() ></label>
+                    <label style="color:black;font-family:Georgia;font-weight:bold">@Context.Session.GetString("EntityName").ToString()</label>
                 }
-                else {
-                    if (result.indexOf("error") === -1) {
-                        alert("Data Save Successfully");
 
-                        $.post('@Url.Action("ShowAttribute", "Menu", new { area = "" })', { entityTypeId: '@Context.Session.GetString("EntityTypeID")', entityName: '@Context.Session.GetString("EntityName")', viewType: null },
-                            function (data) {
-                                if (data.indexOf("Access denied") > -1) {
-                                    alert(data);
-                                }
-                                else {
-                                    $('#AttributeDetail').empty();
-                                    $('#AttributeDetail').html(data);
+            </td>
+        </tr>
 
-                                    $('#lblCaption').html('@Context.Session.GetString("EntityName")');
-                                    $('#viewPlaceHolder').empty();
-                                }
-                            });
+        <tr style="width:100%">
+            <td>
+                <span style="height:30px">
+                    <hr />
+                </span>
+            </td>
 
-                    } else {
-                        alert(result.replace("error", ""));
+        </tr>
+
+
+        <tr style="width:100%; height:25px">
+            <td colspan="2" style="width: 100%;padding-left:10px;padding-top:10px;" align="left">
+                <label style="color:#0f75da;font-size:12pt;font-weight:bold">Add New</label>
+
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-left:10px;padding-right:10px;padding-bottom:20px" valign="top">
+                <hr style="width:100%;height:2px;background-color:#084083;" />
+            </td>
+        </tr>
+    </table>
+    <table width="100%" border="0" cellspacing="2" cellpadding="0">
+        @foreach (var menuOption in Model)
+        {
+
+            if (@menuOption.Isvisible != "N")
+            {
+                <tr style="width: 100%;padding-top:10px">
+                    <td style="width: 50%;padding-left:270px;">
+                        @menuOption.AttrDisplayName
+                    </td>
+                    <td style="width: 50%" align="left">
+
+                    @switch (@menuOption.DisplayType.ToLower())
+                    {
+                        case "textbox":
+                            <input type="text" style="width:45%" maxlength="@menuOption.AttrLength" name="@menuOption.AttrName" id="@menuOption.AttrName" />
+                            break;
+                        case "datepicker":
+                            <input type="text" style="width:45%" name="@menuOption.AttrName" id="@menuOption.AttrName" class="datepicker" />
+                            break;
+                        case "combobox":
+                                <select id="@menuOption.AttrName" name="@menuOption.AttrName" style="width: 45%;">
+                                    <option value="">--Select--</option>
+                                    @foreach (var item in @menuOption.dropDownDataList)
+                                    {
+                                        <option value="@item.VALID_VALUES">@item.VALUE_NAME</option>
+                                    }
+                                </select>
+                                break;
+                        case "Parcombo":
+                            @Html.DropDownListFor(m => menuOption.EntityTypeId, new SelectList(menuOption.dropDownDataList, "VALID_VALUES", "VALUE_NAME"), "--Select--", new {@id= menuOption.AttrName, @Name = menuOption.AttrName, style ="width: 45%;", @onchange = "CallChangefunc('" + menuOption.CasDrop + "', this.value)" })
+                            break;
+                        case "cascombo":
+                            @Html.DropDownList(menuOption.AttrName, new SelectList(string.Empty, "Value", "Text"), "--Select--", new {@style = "width:45%;" })
+                            break;
+                        case "userbox":
+                            <input type="text" style="width:45%" maxlength=@menuOption.AttrLength name=@menuOption.AttrName id=@menuOption.AttrName />
+                            break;
+
+                        default:
+                            break;
                     }
-                }
+                    </td>
+                </tr>
             }
+        }
+        <tr style="width: 100%;padding-top:10px">
+            <td style="width: 50%;padding-left:270px;">
 
-            function onComplete() {
-                $('#divLoading').hide();
+                Effective Date
+            </td>
+            <td style="width: 50%" align="left">
+                <input type="text" class="SortButton" style="width:45%" readonly name=txtEffectiveDate id=txtEffectiveDate />
+
+
+            </td>
+        </tr>
+        <tr align="center" style="width: 100%; display:none" class="pageheadernfooter">
+            <td style="width: 50%" align="right"></td>
+            <td style="width: 50%" align="left">
+                <input type="text" class="SortButton" style="width:45%" name="txtEditLevel" id="txtEditLevel" />
+
+            </td>
+        </tr>
+        <tr align="center" style="width: 100%;padding-top:10px">
+            <td></td>
+            <td style="width: 50%" align="left">
+                <button type="submit" class="button" id="btnSave" name="Command" value="Save" title="Save" style="width:75px;"><img src="~/Images/Import.png" alt="Save" /></button>
+                <button type="submit" class="button" id="btnCancel" name="Command" value="Cancel" title="Cancel" style="width:75px;"><img src="~/Images/Export.png" alt="Cancel" /></button>
+                <button type="submit" title="Ignore & Save" class="button" style="width:200px;display:none" id="btnSupress" name="Command" value="IgnoreSave"><img src="~/Images/AddNew.png" alt="Ignore & Save" /></button>
+
+            </td>
+        </tr>
+        <tr align="center" style="width: 100%;">
+            <td colspan="2" style="width: 100%" align="center">
+                <div style="color:red" id="lblErrorMsg"></div>
+
+            </td>
+        </tr>
+
+    </table>
+    <div id="divLoading" class="loader">
+
+        <img alt="Loading, please wait" style="position: absolute; top: 30%; left: 45%; width:110px; height:110px" src="~/Images/spinner.gif" />
+
+    </div>
+<input type="hidden" id="cmdName" name="cmdName" value="displayMessage" />
+
+<div id="displayMessage"></div>
+</form>
+<script>
+    $(document).ready(function () {
+        debugger;
+        $("#btnCancel").click(function () {
+            $("#cmdName")[0].value = "AttributeDetail";
+            $('#viewPlaceHolder').empty();
+
+        });
+        $(function () {
+            $("#txtEffectiveDate").datepicker({
+                changeMonth: true, changeYear: true, yearRange: "2023:2050"
+            });
+        });
+    });
+
+    $(function () {
+        $(".datepicker").datepicker({
+            changeMonth: true, changeYear: true, yearRange: "2023:2050"
+        });
+        $('#formid').on('submit', submitFormWithAjax);
+    });
+
+    function CallChangefunc(val, parcombo) {
+        $('#' + val + '').empty();
+
+        //alert(parcombo);
+
+        $.ajax({
+            type: "POST",
+            url: "Search/GetCasCombo",
+            datatype: "Json",
+            data: { Id: parcombo, cId: val },
+            success: function (data) {
+                $('#' + val + '').append('<option value="">--Select--</option>');
+                $.each(data, function (index, value) {
+                    $('#' + val + '').append('<option value="' + value.Value + '">' + value.Text + '</option>');
+                });
             }
         });
-    </script>
+    };
+
+    function submitFormWithAjax(event) {
+        event.preventDefault();
+        let commandValue = $(document.activeElement).attr("value");
+        // Declare an object to store the form data
+        let form = {};
+
+        // Loop through form elements and collect the data
+        $('#formid input, #formid select').each(function () {
+            form[$(this).attr('name')] = $(this).val();
+        });
+        form['Command'] = commandValue;
+        debugger;
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("SaveRecord", "AddNewRecord")',
+            data: form,
+            success: function (data) {
+                debugger;
+                // Update your DOM based on the received data.
+                onSuccess(data);
+                console.log("Success", data);
+            },
+            error: function (err) {
+                console.error("Error", err);
+            }
+        });
+    }
+
+</script>
+

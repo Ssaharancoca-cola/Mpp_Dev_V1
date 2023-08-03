@@ -5,9 +5,8 @@
 <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
 <script src="~/lib/jquery/dist/jquery-ui.min.js" asp-append-version="true"></script>
 <script src="~/js/attribute.js"></script>
-
-@if (ViewData.ModelState.IsValid)
-{
+ 
+<form id="formid">
     <table border="0" cellspacing="0" cellpadding="0" class="width-100 margin-top-0_1em inputFormDtls">
         <tr style="width:100%;height:31px;">
             <td colspan="2" style="padding-left:5px">
@@ -54,7 +53,13 @@
                                             <input type="text" style="width:45%" name="@menuOption.AttrName" id="@menuOption.AttrName" class="datepicker" />
                                             break;
                                         case "combobox":
-                                            @Html.DropDownListFor(m => menuOption.EntityTypeId, new SelectList(menuOption.dropDownDataList, "VALID_VALUES", "VALUE_NAME"), "--Select--", new {@id= menuOption.AttrName, @Name = menuOption.AttrName, style ="width: 45%;"})
+                                            <select id="@menuOption.AttrName" name="@menuOption.AttrName" style="width: 45%;">
+                                                <option value="">--Select--</option>
+                                                @foreach (var item in @menuOption.dropDownDataList)
+                                                {
+                                                    <option value="@item.VALID_VALUES">@item.VALUE_NAME</option>
+                                                }
+                                            </select>
                                             break;
                                         case "Parcombo":
                                             @Html.DropDownListFor(m => menuOption.EntityTypeId, new SelectList(menuOption.dropDownDataList, "VALID_VALUES", "VALUE_NAME"), "--Select--", new {@id= menuOption.AttrName, @Name = menuOption.AttrName, style ="width: 45%;", @onchange = "CallChangefunc('" + menuOption.CasDrop + "', this.value)" })
@@ -123,58 +128,64 @@
         </div>
         <input type="hidden" id="cmdName" name="cmdName" value="viewPlaceHolder" />
     </div>
-
-}
-<script>
+ </form>
+    <script>
     $(document).ready(function () {
         $(".datepicker").datepicker({
             changeMonth: true, changeYear: true, yearRange: "2023:2050"
         });
-
-
-
-        $('#btnWorkFlow, #btnViewAll, #btnImport, #btnExport, #btnAddNew, #btnSearch').click(function (e) {
-            e.preventDefault();
-            let command = $(this).attr('value');
-            let data = { /* add the necessary data parameters in this object */ };
-
-
-
-            $.ajax({
-                type: "POST",
-                url: "Search/GetSearchData",
-                dataType: "json",
-                data: {
-                    Command: command,
-                },
-                success: function (response) {
-                    // Process the response
-                },
-                error: function () {
-                    // Handle error
-                }
-            });
-        });
+        $('#formid').on('submit', submitFormWithAjax);
+        
     });
 
 
+            function CallChangefunc(val, parcombo) {
+                $('#' + val + '').empty();
 
-    function CallChangefunc(val, parcombo) {
-        $('#' + val + '').empty();
-
-
-
-        $.ajax({
-            type: "POST",
-            url: "Search/GetCasCombo",
-            datatype: "Json",
-            data: { Id: parcombo, cId: val },
-            success: function (data) {
-                $('#' + val + '').append('<option value="">--Select--</option>');
-                $.each(data, function (index, value) {
-                    $('#' + val + '').append('<option value="' + value.Value + '">' + value.Text + '</option>');
+                $.ajax({
+                    type: "POST",
+                    url: "Search/GetCasCombo",
+                    datatype: "Json",
+                    data: { Id: parcombo, cId: val },
+                    success: function (data) {
+                        $('#' + val + '').append('<option value="">--Select--</option>');
+                        $.each(data, function (index, value) {
+                            $('#' + val + '').append('<option value="' + value.Value + '">' + value.Text + '</option>');
+                        });
+                    }
                 });
+            };
+
+    function submitFormWithAjax(event) {
+        event.preventDefault();
+        let commandValue = $(document.activeElement).attr("value");
+        // Declare an object to store the form data
+        let form = {};
+
+        // Loop through form elements and collect the data
+        $('#formid input, #formid select').each(function () {
+            form[$(this).attr('name')] = $(this).val();
+        });
+        form['Command'] = commandValue;
+        debugger;
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetSearchData", "Search")',
+            data: form,
+            
+            success: function (data) {
+                debugger;
+                // Update your DOM based on the received data.
+                onSuccess(data);
+                console.log("Success", data);
+            },
+            error: function (err) {
+                console.error("Error", err);
             }
         });
-    };
-</script>
+    }
+
+
+
+        
+    </script>

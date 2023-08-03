@@ -90,25 +90,57 @@
 </div>
 <script>
     $(document).ready(function () {
-
         $(document).ajaxStart(function () {
-            //debugger;
+            // debugger;
             $('#divLoading').show();
+
+        });
+        $(document).ajaxComplete(function () {
+            //  debugger;
+            $('#divLoading').hide();
+
         });
 
-        $(document).ajaxComplete(function () {
-            $('#divLoading').hide();
-        });
 
         function Session() {
             $("#lblHome").hide();
+               debugger;
             $("#trContent").hide();
             $("#trDropDownData").show();
             $("#trAdminContent").hide();
             $("#trAdminDisplayAllUsers").hide();
             $('#divDisplayAllUsers').hide();
-            $('#ddlDimension option:eq(0)').attr('selected', 'selected');
-        };        
-    });
-</script>
+            //$("#ddlDimension option:selected").text('Please Select Dimension');
+            $('#ddlDimension option:eq(0)').attr('selected', 'selected'); // Select first option
+        };
+        $(".Attribute").click(function (evt) {
 
+            var entityName = evt.currentTarget.innerText;
+            $.post('@Url.Action( "ShowAttribute", "Menu")', { EntityTypeId: evt.currentTarget.id, entityName: evt.currentTarget.innerText, viewType: "search" },
+                function (data) {
+                    if (data.indexOf("Access denied") > -1) {
+                        alert(data);
+                    }
+
+                    else if (data.indexOf("error") == 0) {
+
+                        alert(data.replace("error", ""));
+                    }
+                    else {
+                        $('#AttributeDetail').empty();
+
+                        $('#AttributeDetail').html(data);
+
+                        $('#lblcaption').html(entityName);
+                        $('#viewPlaceHolder').empty();
+                        $('#btnUpdate').hide();
+
+                    }
+
+                });
+            //$("#AttributeDetail").load("/Menu/ShowAttribute", { EntityTypeId: evt.currentTarget.id, entityName: evt.currentTarget.innerText,viewType :"search" })
+            //$('#viewPlaceHolder').empty();
+        });
+    });
+
+</script>

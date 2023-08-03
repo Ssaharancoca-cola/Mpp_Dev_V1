@@ -15,70 +15,7 @@ namespace MPP.Controllers
     [SessionTimeoutDimension]
     public class MenuController : Controller
     {
-        ///<summary>
-        /// This method will return partial view which will display menu bar on top 
-        ///</summary>
-        ///<returns>Partial View</returns>
-        public IActionResult Menu()
-        {
-            string outMsg = Constant.statusSuccess;
-            List<DimensionName> dimensionList = new List<DimensionName>();
-            try
-            {
-                outMsg = CheckUserAccessRights();
-                if (outMsg != Constant.statusSuccess)
-                    return View("~/Views/Shared/UnauthorizedAccess.cshtml");
-                using (MenuViewModel objMenuViewModel = new MenuViewModel())
-                {
-                    dimensionList = objMenuViewModel.ShowMenuData(out outMsg);
-                    return PartialView("~/Views/Shared/Menu.cshtml", dimensionList);
-                }
-            }
-            catch (Exception ex)
-            {
-                outMsg = ex.Message;
-                using (LogErrorViewModel logErrorViewModel = new LogErrorViewModel())
-                {
-                    logErrorViewModel.LogErrorInTextFile(ex);
-                }
-                return Content(Constant.commonErrorMsg);
-            }
-        }
-
-        // [ChildActionOnly]
-        ///<summary>
-        /// This method will return partial view which will display sub menu bar on left hand side
-        ///</summary>
-        ///<returns>Partial View</returns>
-        public IActionResult SubMenu()
-        {
-            List<EntityType> entityTypeList = new List<EntityType>();
-            string outMsg = Constant.statusSuccess;
-            try
-            {
-                string SelectedDimensionValue = HttpContext.Session.GetString("SelectedDimensionValue");
-                using (MenuViewModel objMenuViewModel = new MenuViewModel())
-                {
-                    entityTypeList = objMenuViewModel.ShowSubMenuData(SelectedDimensionValue, out outMsg);
-                }
-                entityTypeList = entityTypeList.OrderBy(x => x.DisplayOrder).ToList();
-            }
-            catch (Exception ex)
-            {
-                using (LogErrorViewModel logErrorViewModel = new LogErrorViewModel())
-                {
-                    logErrorViewModel.LogErrorInTextFile(ex);
-                }
-                outMsg = ex.Message;
-                return Content(outMsg);
-            }
-            return PartialView("~/Views/Shared/SubMenu.cshtml", entityTypeList);
-        }
-
-        /// <summary>
-        /// This method will return partial view which will display Attributes
-        /// </summary>
-        /// <returns>Partial View</returns>
+       
         [HttpPost]
         public async Task<IActionResult> ShowAttribute(int entityTypeId, string entityName, string viewType)
         {

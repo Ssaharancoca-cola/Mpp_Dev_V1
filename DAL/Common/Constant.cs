@@ -9,6 +9,7 @@ namespace DAL.Common
     public static class Constant
     {
         public const string sessionID = "Session_ID";
+        public const string ldOID = "LD_OID";
         public const string statusSuccess = "Success";
         public const string notNull = "can not be null.";
         public const string accessDenied = "Access denied";
@@ -27,8 +28,12 @@ namespace DAL.Common
         public const string selectAtleastOneSearchCriteria = "Please select At least One Search Criteria";
         public const string toDateGreaterThanFromDate = "Please enter 'To Date' Greater Then 'From Date'";
         public const string datedatatype = "System.DateTime";
-        public const string mdmAppDataBaseConnName = "MPP_Context";
+        public const string mppAppDataBaseConnName = "MPP_Context";
         public const string mandatoryField = " please enter values in atleast one field apart from effective date";
-
+        public const string rowStatus = "ROW_STATUS";
+        public const string ActionTypeWhileUpdateFromWorkFlow = "workFlowUpdate";
+        public const string ActionTypeWhileUpdateFromSearch = "searchupdate";
+        public const string effectiveDateMandatoryField = "Please enter effective date, its mandatory field";
+        public const string importSuccessFullyMessage = "Record has been Imported SuccessFully ";
     }
 }
