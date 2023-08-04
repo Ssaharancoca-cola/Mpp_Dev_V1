@@ -1,9 +1,9 @@
 ﻿@model List<Model.Entity_Type_Attr_Detail>
 
-<link href="~/css/Masters.css" rel="stylesheet" />
-<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<link rel="stylesheet" href="~/lib/jquery/dist/jquery-ui.min.css" asp-append-version="true" />
+<script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+<script src="~/lib/jquery/dist/jquery-ui.min.js" asp-append-version="true"></script>
 <script src="~/js/attribute.js"></script>
-
 
 <script>
     function onBegin() {
@@ -139,7 +139,6 @@
             <td style="width: 50%" align="left">
                 <input type="text" class="SortButton" style="width:45%" readonly name=txtEffectiveDate id=txtEffectiveDate />
 
-
             </td>
         </tr>
         <tr align="center" style="width: 100%; display:none" class="pageheadernfooter">
@@ -188,14 +187,16 @@
                 changeMonth: true, changeYear: true, yearRange: "2023:2050"
             });
         });
-    });
-
-    $(function () {
-        $(".datepicker").datepicker({
-            changeMonth: true, changeYear: true, yearRange: "2023:2050"
-        });
         $('#formid').on('submit', submitFormWithAjax);
     });
+        $(function () {
+            $(".datepicker").datepicker({
+                changeMonth: true, changeYear: true, yearRange: "2023:2050"
+            });
+        });
+       
+
+    
 
     function CallChangefunc(val, parcombo) {
         $('#' + val + '').empty();
@@ -235,8 +236,7 @@
             success: function (data) {
                 debugger;
                 // Update your DOM based on the received data.
-                onSuccess(data);
-                console.log("Success", data);
+                onSuccess(data);                
             },
             error: function (err) {
                 console.error("Error", err);

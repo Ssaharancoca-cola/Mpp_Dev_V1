@@ -152,7 +152,7 @@ namespace MPP.Controllers
                         }
                         else if (data.AttrDataType.ToUpper() == "DT")
                         {
-                            string dateC = value == null || value == "" ? "TRUNC(SYSDATE)" : "to_date('" + (DateTime.Parse(value)).ToString("MM/dd/yyyy") + "','MM/DD/YYYY')"; ;
+                            string dateC = value == null || value == "" ? "convert(date,getdate())" : "to_date('" + (DateTime.Parse(value)).ToString("MM/dd/yyyy") + "','MM/DD/YYYY')"; ;
                             attrValues.Add(data.AttrName, dateC);
                         }
                         else
@@ -167,12 +167,12 @@ namespace MPP.Controllers
                     string editLevel = string.IsNullOrEmpty(editLevelInput) ? "NULL" : editLevelInput.ToString();
 
                     form.TryGetValue("txtEffectiveDate", out var effectiveDateInput);
-                    string effectivedate = string.IsNullOrEmpty(effectiveDateInput) ? "TRUNC(SYSDATE)" : "to_date('" + (DateTime.Parse(effectiveDateInput.ToString())).ToString("MM/dd/yyyy") + "','MM/DD/YYYY')";
+                    string effectivedate = string.IsNullOrEmpty(effectiveDateInput) ? "convert(date,getdate())" : "to_date('" + (DateTime.Parse(effectiveDateInput.ToString())).ToString("MM/dd/yyyy") + "','MM/DD/YYYY')";
 
                     Dictionary<string, string> attrValuesbp = new Dictionary<string, string>(attrValues);
 
                     attrValues.Add("CURRENT_EDIT_LEVEL", editLevel);
-                   // attrValues.Add("DATE_FROM", effectivedate);
+                    attrValues.Add("DATE_FROM", effectivedate);
                     attrValues.Add("USER_NAME", userName[1]);
 
 

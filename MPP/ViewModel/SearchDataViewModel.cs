@@ -84,7 +84,7 @@ namespace MPP.ViewModel
                                     listRowData.Add(colName, dataRow[i].ToString());
                                 strRowDetail.Append(dataRow[i].ToString() + ",");
                             }
-                            if (strcolName == "TOTAL_RECORDS")
+                            if (strcolName.ToUpper() == "TOTAL_RECORDS")
                             {
                                 totalRecord = Convert.ToInt32(dataRow[i]);
                             }

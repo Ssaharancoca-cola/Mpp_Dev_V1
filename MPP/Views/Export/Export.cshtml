@@ -1,1 +1,195 @@
-﻿
+﻿@model List<Model.Entity_Type_Attr_Detail>
+
+<form id="formid">
+    <table style="width: 100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="width:100%;height:31px;">
+            <td colspan="2" style="padding-left:5px">
+                @if (Context.Session.GetString("SelectedDimensionData") != null && Context.Session.GetString("EntityName") != null)
+                {
+
+                    <label style="color:#0f75da;font-family:Georgia;font-size:13pt;font-weight:bold">@Context.Session.GetString("SelectedDimensionData").ToString() ></label>
+                    <label style="color:black;font-family:Georgia;font-weight:bold">@Context.Session.GetString("EntityName").ToString()</label>
+                }
+            </td>
+        </tr>
+
+        <tr style="width:100%">
+            <td colspan="2">
+
+                <hr />
+            </td>
+
+        </tr>
+        <tr style="width:100%; height:25px">
+            <td colspan="2" style="width: 100%;padding-left:10px;padding-top:8px;" align="left">
+                <label style="color:#0f75da;font-size:12pt;font-weight:bold">Export</label>
+            </td>
+        </tr>
+        <tr style="width:100%;">
+            <td colspan="2" style="padding-left:10px;padding-right:10px;padding-bottom:20px" valign="top">
+                <hr style="width:100%;height:2px;background-color:#084083;" />
+            </td>
+        </tr>
+        <tr style="width: 100%;padding-top:8px;">
+            <td style="width: 50%;padding-left:270px;">
+                <label id="lblSelectAll" CssClass="editlabel">Select All :</label>
+            </td>
+            <td style="width: 50%" align="left">
+                @Html.CheckBox("chkSelectAll", new { @class = "chkSelectAll" })
+            </td>
+        </tr>
+        @foreach (var menuOption in Model)
+        {
+
+            if (@menuOption.Isvisible != "N")
+            {
+                <tr style="width: 100%;padding-top:8px;">
+
+                    <td style="width: 50%;padding-left:270px;">
+                        <label id=@menuOption.AttrName CssClass="editlabel">
+                            @menuOption.AttrDisplayName :
+                        </label>
+
+                    </td>
+                    <td style="width: 50%" align="left">
+                        @if (@menuOption.AttrDataType == "SUPPLIED_CODE")
+                        {
+                            @Html.CheckBox(@menuOption.AttrName, new { @class = "checkbox", @checked = true, @disabled = true })
+                        }
+                        else
+                        {
+                            @Html.CheckBox(@menuOption.AttrName, new { @class = "label" })
+                        }
+
+                    </td>
+                </tr>
+            }
+        }
+        <tr style="width: 100%;padding-top:8px;">
+
+            <td style="width: 50%;padding-left:270px;">
+                <label id="lblEffectiveDate" CssClass="editlabel">
+                    Effective Date :
+                </label>
+
+            </td>
+            <td style="width: 50%" align="left">
+                @Html.CheckBox("DATE_FROM", new { @class = "label" })
+
+            </td>
+        </tr>
+
+    </table>
+    <table style="width:100%;padding-top:10px;" border="0" cellpadding="0" cellspacing="0">
+        <tr align="center" style="width: 100%">
+            <td style="width: 50%" align="right"></td>
+            <td style="width: 50%" align="left">
+                <button type="submit" class="button" id="btnExport" style="width:80px" name="Command" value="Export">
+                    <img src="~/Images/Export_Button.gif" />
+                </button>&nbsp;&nbsp;&nbsp;
+
+
+                <button type="submit" class="button" id="btnCancel" style="width:80px" name="Command" value="Cancel">
+                    <img src="~/Images/Cancel_Button.gif" />
+                </button>
+
+            </td>
+
+        </tr>
+        <tr align="center" style="width:100%">
+            <td colspan="2" style="width:100%" align="center">
+
+                <div id="divLoading" class="loader">
+
+                    <img alt="Loading, please wait" style="position: absolute; top: 30%; left: 45%; width:110px; height:110px" src="~/Images/spinner.gif" />
+
+                </div>
+            </td>
+        </tr>
+
+    </table>
+    <input type="hidden" id="cmdName" name="cmdName" value="AttributeDetail" />
+</form>
+
+<script>
+    $(document).ready(function () {
+        $("#btnCancel").click(function () {
+            $('#AttributeDetail').html();
+            $('#viewPlaceHolder').html();
+
+        });
+        $("#chkSelectAll").change(function () {
+            var status = this.checked; // "select all" checked status
+            $('.label').each(function () { //iterate all listed checkbox items
+                this.checked = status; //change ".label" checked status
+            });
+        });
+        $('#formid').on('submit', submitFormWithAjax);
+    });
+
+    function onBegin() {
+        $('#divLoading').show();
+
+    }
+    function onSuccess(result, FilePath) {
+        debugger;
+        if (result.indexOf("error") == 0) {
+            alert(result.replace("error", ""));
+        }
+        if (result.indexOf("export") == 0) {
+
+            //alert(result);
+            // window.location.href = '/MPP/Export/Download';
+            // window.location.href = '/Export/Download';
+            window.location.href = 'Export/Download?path=' + result;
+        }
+        else {
+            $('#AttributeDetail').empty();
+            $('#viewPlaceHolder').empty();
+
+            $('#AttributeDetail').html(result);
+        }
+    }
+    function onFailure(error) {
+        alert(error);
+
+    }
+    function onComplete() {
+        $('#divLoading').hide();
+    }
+    function onBegin() {
+
+        $('#divLoading').show();
+
+    }
+    function onComplete() {
+        $('#divLoading').hide();
+    }
+    function submitFormWithAjax(event) {
+        event.preventDefault();
+        let commandValue = $(document.activeElement).attr("value");
+        // Declare an object to store the form data
+        let form = {};
+
+        // Loop through form elements and collect the data
+        $('#formid input, #formid select').each(function () {
+            form[$(this).attr('name')] = $(this).val();
+        });
+        form['Command'] = commandValue;
+        debugger;
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("ExportData", "Export")',
+            data: form,
+            success: function (data) {
+                debugger;
+                // Update your DOM based on the received data.
+                onSuccess(data);                
+            },
+            error: function (err) {
+                console.error("Error", err);
+            }
+        });
+    }
+
+</script>

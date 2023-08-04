@@ -6,9 +6,9 @@
 {
     <div class="panelDataGridSearch">
         @{
-            var dataList = (List<Dictionary<string, string>>)(TempData["dataList"]);
-            TempData.Keep();
-            var total = TempData["totalRecord"];
+            var dataList = (List<Dictionary<string, string>>)(ViewData["dataList"]);
+           // TempData.Keep();
+            var total = ViewData["totalRecord"];
             var pagecount = Math.Ceiling(Convert.ToDouble(total) / 50);
 
         }
@@ -87,9 +87,9 @@
                 <td style="padding-left:25px">
                     <input type="image" id="btnUpdate" value="submit" src="~/Images/Update_Button.gif" alt="submit Button">
                     <strong>
-                        @if (Context.Session.GetInt32("currentPageNo") != null)
+                        @if (ViewData["currentPageNo"] != null)
                         {
-                            if (Convert.ToInt32(Context.Session.GetInt32("currentPageNo")) == 1)
+                            if (ViewData["currentPageNo"].ToString() == "1")
                             {
                                 <label class="griddatadisabled" style="margin-left:300px" disabled id="btnPrevious">&lt;Prev</label>
                             }
@@ -99,7 +99,7 @@
                                     &lt;Prev
                                 </label>
                             }
-                            if ((Math.Round(Convert.ToDecimal(total) / 50, 2)) < Convert.ToDecimal(Context.Session.GetInt32("currentPageNo")) || Math.Round(Convert.ToDecimal(total) / 50, 2) == 0)
+                            if ((Math.Round(Convert.ToDecimal(total) / 50, 2)) < Convert.ToDecimal(ViewData["currentPageNo"]) || Math.Round(Convert.ToDecimal(total) / 50, 2) == 0)
                             {
                                 <label class="griddatadisabled" disabled id="btnNext">Next&gt;</label>
                             }
@@ -108,7 +108,7 @@
                                 <label class="griddata" id="btnNext">Next&gt;</label>
                             }
                             <span style="margin-left:100px">
-                                Page: @Convert.ToInt32(Context.Session.GetInt32("currentPageNo")) of
+                                Page: @Convert.ToInt32(ViewData["currentPageNo"]) of
                                 @if (@Math.Round(Convert.ToDecimal(total) / 50) == 0)
                                 {
                                     <label>1</label>

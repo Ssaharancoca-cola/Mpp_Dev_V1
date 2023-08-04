@@ -48,8 +48,7 @@ namespace MPP.ViewComponents
                     {
                         attributeList = JsonConvert.DeserializeObject<List<Entity_Type_Attr_Detail>>(serializedAttributeList);
                     }
-
-                    //TempData.Keep();
+                    TempData.Keep();
                     if (Command == "Search")
                         fieldCollection = GetSearchCriteria((FormCollection)form, attributeList, out outMsg);
 
@@ -74,6 +73,7 @@ namespace MPP.ViewComponents
                     }
                     ViewData["totalRecord"] = totalRecord;
                     ViewData["dataList"] = dataList;
+              
 
                     ViewData["Current_Page"] = currentPageNo;
                     ViewData["currentField"] = currentSortBy;

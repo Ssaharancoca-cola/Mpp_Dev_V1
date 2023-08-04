@@ -1,4 +1,5 @@
-﻿using DAL.Common;
+﻿using DAL;
+using DAL.Common;
 using Model;
 using System.Data;
 using System.Text;
@@ -195,7 +196,7 @@ namespace MPP.ViewModel
                 dvFileErrors.RowFilter = "ERROR_MESSAGE<>''";
                 dsErrorRows.Tables.Add(dvFileErrors.ToTable());
                 ArrayRowsCount[1] = dvFileErrors.Count;
-               // outMsg = WriteDataSetToFlatFile(attributeList, rejectFileName, dsErrorRows, ",", true, false);
+                // outMsg = WriteDataSetToFlatFile(attributeList, rejectFileName, dsErrorRows, ",", true, false);
                 if (outMsg != Constant.statusSuccess)
                     return "Cannot write Error data to Reject file";
                 if (excelReader != null)
@@ -203,20 +204,21 @@ namespace MPP.ViewModel
                     excelReader.Dispose();
                     excelReader = null;
                 }
-                using (DataValidationUsingSP objDataValidationUsingSP = new DataValidationUsingSP())
-                {
-                    outMsg = objDataValidationUsingSP.ValidateData(attributeList, entityTypeId.ToString(), userID, bSupressWarning, rejectFileName, tableName,
-                          tableColumnNames, sessionID.ToString(), out loadErrorCount, out hasLoadErrors, out download);
-                    if (hasLoadErrors)
-                    {
-                        LoadTableToFlatFile(attributeList, rejectFileName, "MDM_APP." + tableName, tableColumnNames + ", ERROR_MESSAGE,WARNING_MESSAGE ", "",
-                        " SESSION_ID = '" + sessionID + "' AND (ERROR_MESSAGE IS NOT NULL OR WARNING_MESSAGE IS NOT NULL) ", "", "", true, ",", 1, true);
-                        using (InsertAndDeleteInLandingTable objInsertAndDeleteInLandingTable = new InsertAndDeleteInLandingTable())
-                        {
-                            objInsertAndDeleteInLandingTable.DeleteDataFromLandingTableOnRowStatus(tableName, Convert.ToInt32(sessionID), out loadErrorCount);
-                        }
-                    }
-                }
+
+                //using (DataValidationUsingSP objDataValidationUsingSP = new DataValidationUsingSP())
+                //{
+                //    outMsg = objDataValidationUsingSP.ValidateData(attributeList, entityTypeId.ToString(), userID, bSupressWarning, rejectFileName, tableName,
+                //          tableColumnNames, sessionID.ToString(), out loadErrorCount, out hasLoadErrors, out download);
+                //    if (hasLoadErrors)
+                //    {
+                //        LoadTableToFlatFile(attributeList, rejectFileName, "MDM_APP." + tableName, tableColumnNames + ", ERROR_MESSAGE,WARNING_MESSAGE ", "",
+                //        " SESSION_ID = '" + sessionID + "' AND (ERROR_MESSAGE IS NOT NULL OR WARNING_MESSAGE IS NOT NULL) ", "", "", true, ",", 1, true);
+                //        using (InsertAndDeleteInLandingTable objInsertAndDeleteInLandingTable = new InsertAndDeleteInLandingTable())
+                //        {
+                //            objInsertAndDeleteInLandingTable.DeleteDataFromLandingTableOnRowStatus(tableName, Convert.ToInt32(sessionID), out loadErrorCount);
+                //        }
+                //    }
+                //}
             }
             catch (Exception ex)
             {

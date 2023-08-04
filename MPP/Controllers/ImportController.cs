@@ -103,9 +103,9 @@ namespace MPP.Controllers
                     {
                         if (form["ddlFileFormat"] == "Excel")
                         {
-                            outMsg = objDataExportViewModel.LoadExcelToTable2(attributeList, entityTypeId, FilePath, "", strExport.ToString().Trim(','), true, "", "", true,
-                        userName[1].ToString(), 1, strRejectFilePath, strDataType.ToString().Trim(','), out ArrayRowsCount, out loadErrorCount,
-                        out hasLoadErrors, out download);
+                        //    outMsg = objDataExportViewModel.LoadExcelToTable2(attributeList, entityTypeId, FilePath, "", strExport.ToString().Trim(','), true, "", "", true,
+                        //userName[1].ToString(), 1, strRejectFilePath, strDataType.ToString().Trim(','), out ArrayRowsCount, out loadErrorCount,
+                        //out hasLoadErrors, out download);
                         }                        
                         if (outMsg != Constant.statusSuccess && hasLoadErrors == false)
                             return Content("error" + outMsg);

@@ -136,7 +136,7 @@ namespace MPP.Controllers
                 {
                     (attributeList, outMsg) = await objMenuViewModel.ShowAttributeDataAsync(entityTypeId, "", userName[1].ToUpper());
                 }
-                outMsg = ValidateData(form, attributeList);
+                //outMsg = ValidateData(form, attributeList);
                 if (outMsg != Constant.statusSuccess)
                     return Content("error" + outMsg);
                 outMsg = GetLisOfRecordToUpdate(resultQuery, form, attributeList, out listattrValues);
@@ -366,48 +366,48 @@ namespace MPP.Controllers
             }
             return outMsg;
         }
-        private string ValidateData(IFormCollection form, List<Entity_Type_Attr_Detail> attributeList)
-        {
-            string outMsg = Constant.statusSuccess;
-            bool isNotNulll = false;
-            try
-            {
-                if (string.IsNullOrEmpty(form["txtEffectiveDate"]))
-                    return Constant.effectiveDateMandatoryField;
-                foreach (var data in attributeList)
-                {
-                    if (data.DisplayType.ToUpper() == "CHECKBOXLIST" && form[data.AttrName].Contains(','))
-                    {
-                        string[] splitValue = form[data.AttrName].Split(',');
-                        for (int i = 0; i < splitValue.Length; i++)
-                        {
-                            if (splitValue[i] == "true")
-                            {
-                                isNotNulll = true;
-                                break;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (!string.IsNullOrEmpty(form[data.AttrName]))
-                            isNotNulll = true;
-                    }
-                }
-                if (!isNotNulll)
-                    outMsg = Constant.mandatoryField;
+        //private string ValidateData(IFormCollection form, List<Entity_Type_Attr_Detail> attributeList)
+        //{
+        //    string outMsg = Constant.statusSuccess;
+        //    bool isNotNulll = false;
+        //    try
+        //    {
+        //        if (string.IsNullOrEmpty(form["txtEffectiveDate"]))
+        //            return Constant.effectiveDateMandatoryField;
+        //        foreach (var data in attributeList)
+        //        {
+        //            if (data.DisplayType.ToUpper() == "CHECKBOXLIST" && form[data.AttrName].Contains(','))
+        //            {
+        //                string[] splitValue = form[data.AttrName].Split(',');
+        //                for (int i = 0; i < splitValue.Length; i++)
+        //                {
+        //                    if (splitValue[i] == "true")
+        //                    {
+        //                        isNotNulll = true;
+        //                        break;
+        //                    }
+        //                }
+        //            }
+        //            else
+        //            {
+        //                if (!string.IsNullOrEmpty(form[data.AttrName]))
+        //                    isNotNulll = true;
+        //            }
+        //        }
+        //        if (!isNotNulll)
+        //            outMsg = Constant.mandatoryField;
 
-            }
-            catch (Exception ex)
-            {
-                using (LogErrorViewModel objLogErrorViewModel = new LogErrorViewModel())
-                {
-                    objLogErrorViewModel.LogErrorInTextFile(ex);
-                }
-                outMsg = ex.Message;
-            }
-            return outMsg;
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        using (LogErrorViewModel objLogErrorViewModel = new LogErrorViewModel())
+        //        {
+        //            objLogErrorViewModel.LogErrorInTextFile(ex);
+        //        }
+        //        outMsg = ex.Message;
+        //    }
+        //    return outMsg;
+        //}
         //[HttpGet]
         //public virtual ActionResult Download(string path)
         //{

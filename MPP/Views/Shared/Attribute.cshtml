@@ -133,11 +133,11 @@
     $(document).ready(function () {
         $(".datepicker").datepicker({
             changeMonth: true, changeYear: true, yearRange: "2023:2050"
-        });
-        $('#formid').on('submit', submitFormWithAjax);
+        });       
         
     });
 
+    $('#formid').on('submit', submitFormWithAjax);
 
             function CallChangefunc(val, parcombo) {
                 $('#' + val + '').empty();
@@ -176,16 +176,11 @@
             success: function (data) {
                 debugger;
                 // Update your DOM based on the received data.
-                onSuccess(data);
-                console.log("Success", data);
+                onSuccess(data);               
             },
             error: function (err) {
                 console.error("Error", err);
             }
         });
-    }
-
-
-
-        
-    </script>
+    }       
+</script>

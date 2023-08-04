@@ -48,6 +48,7 @@ namespace MPP.ViewComponents
                 // Serialize to JSON
                 string attributeListJson = JsonConvert.SerializeObject(attributeList);
                 TempData["attributeList"] = attributeListJson;
+                TempData.Keep();
 
             }
             catch (Exception ex)
