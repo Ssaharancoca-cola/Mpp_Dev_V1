@@ -34,7 +34,9 @@ namespace MPP.Controllers
             Dictionary<string, string> mapClassAndDatabaseProp = new Dictionary<string, string>();
             ViewBag.sortId = String.IsNullOrEmpty(splitSortOrder[1]) ? "sortId" : "";
             resultQuery = (List<Dictionary<string, string>>)TempData["dataList"];
-            attributeList = (List<Entity_Type_Attr_Detail>)TempData["attributeList"];
+
+            string serializedList1 = TempData["attributeList"] as string;
+             attributeList = JsonConvert.DeserializeObject<List<Entity_Type_Attr_Detail>>(serializedList1);
             TempData.Keep();
             PropertyInfo prop = typeof(EntityTypeData).GetProperty(splitSortOrder[0]);
             string dataType = string.Empty;
@@ -80,7 +82,7 @@ namespace MPP.Controllers
         }
 
         [SessionTimeoutPaging]
-        public ActionResult Paging(string ActionType)
+        public IActionResult Paging(string ActionType)
         {
             int totalRecord = 0;
             int currentPageSize = 50;

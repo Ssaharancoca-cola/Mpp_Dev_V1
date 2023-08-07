@@ -1,5 +1,10 @@
 ﻿@model List<Model.Entity_Type_Attr_Detail>
 
+<link rel="stylesheet" href="~/lib/jquery/dist/jquery-ui.min.css" asp-append-version="true" />
+<script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+<script src="~/lib/jquery/dist/jquery-ui.min.js" asp-append-version="true"></script>
+<script src="~/js/Export.js"></script>
+
 <form id="formid">
     <table style="width: 100%" border="0" cellspacing="0" cellpadding="0">
         <tr style="width:100%;height:31px;">
@@ -90,7 +95,7 @@
 
 
                 <button type="submit" class="button" id="btnCancel" style="width:80px" name="Command" value="Cancel">
-                    <img src="~/Images/Cancel_Button.gif" />
+                    <img src="~/Images/Cancel.png" />
                 </button>
 
             </td>
@@ -126,7 +131,6 @@
         });
         $('#formid').on('submit', submitFormWithAjax);
     });
-
     function onBegin() {
         $('#divLoading').show();
 
@@ -165,12 +169,12 @@
     function onComplete() {
         $('#divLoading').hide();
     }
+
     function submitFormWithAjax(event) {
         event.preventDefault();
         let commandValue = $(document.activeElement).attr("value");
         // Declare an object to store the form data
         let form = {};
-
         // Loop through form elements and collect the data
         $('#formid input, #formid select').each(function () {
             form[$(this).attr('name')] = $(this).val();

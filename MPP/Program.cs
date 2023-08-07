@@ -21,7 +21,7 @@ builder.Services.AddTransient<MenuViewComponent>();
 builder.Services.AddTransient<SubMenuViewComponent>();
 builder.Services.AddTransient<ShowAttributeViewComponent>();
 builder.Services.AddTransient<GetSearchDataViewComponent>();
-builder.Services.AddScoped<LogError>();
+builder.Services.AddSingleton<LogError>();
 
 // Add Session Services
 builder.Services.AddMemoryCache();
@@ -33,23 +33,17 @@ builder.Services.AddSession(options =>
 });
 
 //Add the IWebHostEnvironment service
-builder.Services.AddSingleton<IHostEnvironment>(builder.Environment);
-//builder.Services.AddControllersWithViews(options =>
-//{
-//    options.Filters.Add(new SessionTimeoutDimensionAttribute());
-//});
-
+builder.Services.AddSingleton(builder.Environment);
 
 builder.Services.AddDbContext<MPP_Context>(
      options => options.UseSqlServer(builder.Configuration.GetConnectionString("Data Source=zwdmyad0001;Initial Catalog=MPP_DEV;Persist Security Info=True;User ID=MPP_DEV_APP;Password=LASyYbj0ZX#B;TrustServerCertificate=True")));  
-     //  options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionStrings")));
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandler("/Shared/Error");
     app.UseHsts();
 }
 else

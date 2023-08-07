@@ -6,19 +6,14 @@ namespace DAL.Common
 {
     public class LogError : IDisposable
     {
-        private readonly IHostEnvironment _hostEnvironment;
-
-        public LogError(IHostEnvironment hostEnvironment)
+        void IDisposable.Dispose()
         {
-            _hostEnvironment = hostEnvironment;
         }
-        public LogError()
-        {
-
-        }
+        
         public void LogErrorInTextFile(Exception ex)
         {
-            string webRootPath = _hostEnvironment.ContentRootPath;
+            string webRootPath = Directory.GetCurrentDirectory();          
+            
             string logFolderPath = Path.Combine(webRootPath, "ErrorLog");
             string logFilePath = Path.Combine(logFolderPath, "ErrorLog.txt");
 
@@ -34,10 +29,9 @@ namespace DAL.Common
             Directory.CreateDirectory(logFolderPath);
             File.AppendAllText(logFilePath, message);
         }
-
-        public void Dispose()
+        public LogError()
         {
-            //Dispose any resources if needed
+
         }
 
     }

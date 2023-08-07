@@ -1,0 +1,14 @@
+Time: 07/08/2023 09:46:07 PM
+-----------------------------------------------------------
+Message: Could not find file 'C:\Users\Z09910\source\repos\MPP\MPP\App_Data\EZ09910Country Group.csv'.
+StackTrace:    at Microsoft.Win32.SafeHandles.SafeFileHandle.CreateFile(String fullPath, FileMode mode, FileAccess access, FileShare share, FileOptions options)
+   at Microsoft.Win32.SafeHandles.SafeFileHandle.Open(String fullPath, FileMode mode, FileAccess access, FileShare share, FileOptions options, Int64 preallocationSize)
+   at System.IO.Strategies.OSFileStreamStrategy..ctor(String path, FileMode mode, FileAccess access, FileShare share, FileOptions options, Int64 preallocationSize)
+   at System.IO.Strategies.FileStreamHelpers.ChooseStrategyCore(String path, FileMode mode, FileAccess access, FileShare share, FileOptions options, Int64 preallocationSize)
+   at System.IO.Strategies.FileStreamHelpers.ChooseStrategy(FileStream fileStream, String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, Int64 preallocationSize)
+   at System.IO.File.OpenRead(String path)
+   at MPP.Controllers.ExportController.Download(String path) in C:\Users\Z09910\source\repos\MPP\MPP\Controllers\ExportController.cs:line 271
+Source: System.Private.CoreLib
+TargetSite: Microsoft.Win32.SafeHandles.SafeFileHandle CreateFile(System.String, System.IO.FileMode, System.IO.FileAccess, System.IO.FileShare, System.IO.FileOptions)
+InnerException: 
+-----------------------------------------------------------

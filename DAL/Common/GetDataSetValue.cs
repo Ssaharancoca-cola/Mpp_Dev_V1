@@ -16,7 +16,7 @@ namespace DAL.Common
         {
 
         }
-        public async Task<DataSet> GetDataSetWithParameterAsync(string selectCommand, int entityTypeId, string sessionId)
+        public DataSet GetDataSetWithParameter(string selectCommand, int entityTypeId, string sessionId)
         {
             var result = new DataSet();
 
@@ -43,9 +43,9 @@ namespace DAL.Common
 
                     try
                     {
-                        await context.Database.OpenConnectionAsync();
+                         context.Database.OpenConnection();
 
-                        using (var reader = await cmd.ExecuteReaderAsync())
+                        using (var reader = cmd.ExecuteReader())
                         {
                             do
                             {
@@ -65,7 +65,7 @@ namespace DAL.Common
                     }
                     finally
                     {
-                        await context.Database.CloseConnectionAsync();
+                         context.Database.CloseConnection();
                     }
                 }
             }

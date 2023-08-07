@@ -78,11 +78,11 @@
             </table>
         }
     </div>
-    <div class="panelDataGrid" style="background:#d9edf9;overflow:hidden;" ID="Div2">
+    <div class="panelDataGrid" style="background:#FFC0CB;overflow:hidden;" ID="Div2">
         <table width="100%" border="0" cellspacing="0" cellpadding="1">
             <tr>
                 <td style="padding-left:25px">
-                    <input type="image" id="btnUpdate" value="submit" src="~/Images/Update_Button.gif" alt="submit Button">
+                    <input type="image" id="btnUpdate" value="submit" src="~/Images/Search_Button.PNG" alt="submit Button">
                     <strong>
                         @if (Context.Session.GetInt32("currentPageNo") != null)
                         {
@@ -134,6 +134,7 @@
     //select all checkboxes
     $(document).ready(function () {
         $(".trgriddata").click(function (evt) {
+            debugger;
             var row = $(this);
             var OID = row.find('input[type="hidden"]')[1].value;
             if (evt.target.className == "griddata") {
@@ -299,7 +300,7 @@
 
     .gridpager {
         font-weight: bold;
-        background-color: #d9edf9;
+        background-color: #FFC0CB;
         font-family: verdana, helvetica, arial;
         color: #ffffff;
         font-size: 11px;

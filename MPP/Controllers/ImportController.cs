@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Model;
 using MPP.Filter;
 using MPP.ViewModel;
+using Newtonsoft.Json;
 using System.Data;
 using System.Text;
 
@@ -27,7 +28,7 @@ namespace MPP.Controllers
         /// <param name="form">form values .</param>
         /// <param name="Command">command name for checking button type .</param>
         /// <returns> View</returns>
-        public ActionResult ImportData(FormCollection form, string Command, IFormFile file)
+        public IActionResult ImportData(IFormCollection form, string Command, IFormFile file)
         {
             if (Command == "Import")
             {
@@ -45,18 +46,21 @@ namespace MPP.Controllers
                 {
                     int entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID"));
                     List<Entity_Type_Attr_Detail> attributeList = new List<Entity_Type_Attr_Detail>();
-                    attributeList = (List<Entity_Type_Attr_Detail>)TempData["attributeList"];
+                    string serializedAttributeList = TempData["attributeList"] as string;
+
+                    if (serializedAttributeList != null)
+                    {
+                        attributeList = JsonConvert.DeserializeObject<List<Entity_Type_Attr_Detail>>(serializedAttributeList);
+                    }
                     TempData.Keep();
                     string formatedDate = DateTime.Now.ToString("dd-MM-yyyy-hh-mm");
 
                     string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
                     string FileName = "I" + userName[1] + Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")) + formatedDate + ".csv";
-                    // string FilePath = Request.MapPath("") + @"\App_Data\";
-                    string FilePath = Path.Combine(_environment.ContentRootPath, "App_Data");
+                    string FilePath = Path.Combine(_environment.ContentRootPath, "App_Data\\");
 
                     string strRejectFileName = "RejI" + userName[1] + Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")) + ".csv";
-                    // string strRejectFilePath = Request.MapPath("") + @"\App_Data\";
-                    string strRejectFilePath = Path.Combine(_environment.ContentRootPath, "App_Data");
+                    string strRejectFilePath = Path.Combine(_environment.ContentRootPath, "App_Data\\");
 
                     if (!Directory.Exists(FilePath))
                         Directory.CreateDirectory(FilePath);
@@ -72,7 +76,7 @@ namespace MPP.Controllers
                     {
                          file.CopyToAsync(fileStream);
                     }
-                    //file.SaveAs(FilePath);
+                    //file.s(FilePath);
 
                     foreach (var data in attributeList)
                     {
@@ -103,10 +107,16 @@ namespace MPP.Controllers
                     {
                         if (form["ddlFileFormat"] == "Excel")
                         {
-                        //    outMsg = objDataExportViewModel.LoadExcelToTable2(attributeList, entityTypeId, FilePath, "", strExport.ToString().Trim(','), true, "", "", true,
-                        //userName[1].ToString(), 1, strRejectFilePath, strDataType.ToString().Trim(','), out ArrayRowsCount, out loadErrorCount,
-                        //out hasLoadErrors, out download);
-                        }                        
+                            outMsg = objDataExportViewModel.LoadExcelToTable2(attributeList, entityTypeId, FilePath, "", strExport.ToString().Trim(','), true, "", "", true,
+                        userName[1].ToString(), 1, strRejectFilePath, strDataType.ToString().Trim(','), out ArrayRowsCount, out loadErrorCount,
+                        out hasLoadErrors, out download);
+                        }
+                        else if (form["ddlFileFormat"] == "Csv")
+                        {
+                            outMsg = objDataExportViewModel.LoadFlatFileToTable(attributeList, entityTypeId, FilePath, strExport.ToString().Trim(','), true, ", ",
+                        userName[1].ToString(), 1, strRejectFilePath, strDataType.ToString().Trim(','), out ArrayRowsCount, out loadErrorCount,
+                        out hasLoadErrors, out download);
+                        }
                         if (outMsg != Constant.statusSuccess && hasLoadErrors == false)
                             return Content("error" + outMsg);
                         totalRowcount = ArrayRowsCount[0];
@@ -228,7 +238,7 @@ namespace MPP.Controllers
         //    }
         //}
 
-        private void ValidateUploadedFile(IFormFile file, FormCollection form, out string outMsg)
+        private void ValidateUploadedFile(IFormFile file, IFormCollection form, out string outMsg)
         {
             outMsg = Constant.statusSuccess;
             if (file == null)

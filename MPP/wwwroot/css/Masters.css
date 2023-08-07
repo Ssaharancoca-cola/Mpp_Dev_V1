@@ -13,7 +13,7 @@
     font-family: Verdana;
     font-size: 12px;
     text-align: right;
-    color: #24264f;
+    color: #8B0000;
     padding-right: 5px;
 }
 .form-control{
@@ -62,15 +62,15 @@ input#button {
     background-color: #D6DDE1;
     color: #000000;
     font-weight: bold;
-    f font-size: smaller;
+    font-size: smaller;
     background-image: url(../images/buttonbg.gif);
     background-repeat: repeat-x;
 }
 
 input#txtfield {
     background-color: #FFFFFF;
-    border: 1px solid #36596F;
-    color: #36596F;
+    border: 1px solid #993C5C;
+    color: #993C5C;
     font-size: x-small;
     text-align: left;
 }
@@ -92,7 +92,7 @@ color:#1E323E;
 
 .dropdown {
     width: 230px;
-    color: #24264f;
+    color: #8B0000;
     font-family: Verdana;
     font-size: 12px;
 }
@@ -101,7 +101,7 @@ color:#1E323E;
     font-family: Verdana;
     background-color: #FFFFFF;
     border: 1px solid #939369;
-    color: #24264f;
+    color: #8B0000;
     font-size: 12px;
     height: 16px;
     width: 225px;
@@ -121,8 +121,8 @@ color:#1E323E;
 
 .readonly {
     background-color: #EAEAEA;
-    border: 1px solid #36596F;
-    color: #36596F;
+    border: 1px solid #993C5C;
+    color: #993C5C;
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-weight: normal;
 }
@@ -131,7 +131,7 @@ color:#1E323E;
     font-family: Verdana;
     font-size: 12px;
     text-align: right;
-    color: #24264f;
+    color: #8B0000;
     padding-right: 5px;
 }
 
@@ -154,7 +154,7 @@ color:#1E323E;
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: smaller;
     font-weight: normal;
-    color: #36596F;
+    color: #993C5C;
 }
 
 .section {
@@ -162,14 +162,14 @@ color:#1E323E;
     font-size: small;
     font-weight: normal;
     color: #000000;
-    background-color: #36596F;
+    background-color: #993C5C;
 }
 
 .sectionheading {
     font-family: Verdana;
     font-size: 16px;
     font-weight: bold;
-    color: #36596F;
+    color: #993C5C;
     padding-left: 5px;
 }
 
@@ -177,7 +177,7 @@ color:#1E323E;
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: smaller;
     font-weight: bold;
-    color: #36596F;
+    color: #993C5C;
     font-size: medium;
     padding-left: 5px;
 }
@@ -195,7 +195,7 @@ color:#1E323E;
 .headingbold {
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-weight: bold;
-    color: #36596F;
+    color: #993C5C;
 }
 
 .line {
@@ -213,7 +213,7 @@ color:#1E323E;
     font-size: smaller;
     font-weight: bold;
     color: #FFFFFF;
-    background-color: #36596F;
+    background-color: #993C5C;
 }
 
 .row1 {
@@ -302,8 +302,8 @@ color:#1E323E;
 }
 
 .Searchfield {
-    border: 1px solid #36596F;
-    color: #36596F;
+    border: 1px solid #993C5C;
+    color: #993C5C;
     font-size: x-small;
     text-align: left;
 }
@@ -312,7 +312,7 @@ color:#1E323E;
     font-family: Verdana, Arial, Helvetica, sans-serif;
     text-align: right;
     vertical-align: top;
-    color: #36596F;
+    color: #993C5C;
     padding-right: 5px;
 }
 
@@ -320,13 +320,13 @@ color:#1E323E;
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: small;
     font-weight: normal;
-    color: #36596F;
+    color: #993C5C;
 }
 
 .gridroweven {
-    background-color: #d9edf9;
+    background-color: #FFC0CB;
     font-family: Verdana;
-    color: #24264f;
+    color: #8B0000;
     font-size: 12px;
     text-align: center;
 }
@@ -341,21 +341,21 @@ color:#1E323E;
 
 .gridpager {
     font-weight: bold;
-    background-color: #d9edf9;
+    background-color: #FFC0CB;
     font-family: verdana, helvetica, arial;
     color: #ffffff;
     font-size: 11px;
 }
 
 .gridfooter {
-    background-color: #d9edf9;
+    background-color: #FFC0CB;
     font-family: Verdana;
     color: #241d1b;
     padding-left: 2px;
 }
 
 .gridheader {
-    background-color: #6dbcf7;
+    background-color: #FF5C5C;
     color: White;
     font-family: Arial;
     font-size: 11pt;
@@ -423,7 +423,7 @@ color:#1E323E;
     font-family: Verdana;
     font-size: 16px;
     font-weight: bold;
-    color: #2d4182;
+    color: #FF0000;
     padding-left: 5px;
 }
 
@@ -431,18 +431,18 @@ color:#1E323E;
     font-family: Verdana;
     font-size: 14px;
     font-weight: bold;
-    color: #2d4182;
+    color: #FF0000;
     padding-left: 5px;
 }
 
 .gridhyperlink {
     font-weight: bold;
-    color: #24264f;
+    color: #8B0000;
 }
 
 .gridhyperlink_noUpdate {
     font-weight: lighter;
-    color: #24264f;
+    color: #8B0000;
     cursor: text;
     font-size: 10px;
     text-decoration: none;
@@ -477,7 +477,7 @@ color:#1E323E;
     font-family: Verdana;
     background-color: #FFFFFF;
     border: 1px solid #939369;
-    color: #24264f;
+    color: #8B0000;
     font-size: 10px;
     height: 16px;
     width: 225px;
@@ -485,7 +485,7 @@ color:#1E323E;
 
 .editdropdown {
     width: 183px;
-    color: #24264f;
+    color: #8B0000;
     font-family: Verdana;
     font-size: 12px;
 }
@@ -499,12 +499,12 @@ color:#1E323E;
 }
 
 .importButton {
-    background-image: url(Images/Import-button.gif);
+    background-image: url(Images/Import.png);
     width: 80px;
 }
 
 .addNewButton {
-    background-image: url(Images/New-button.gif);
+    background-image: url(Images/AddNew.png);
     width: 80px;
 }
 
@@ -521,12 +521,12 @@ color:#1E323E;
 }
 
 .exportButton {
-    background-image: url(Images/Export-button.gif);
+    background-image: url(Images/Export.png);
     width: 80px;
 }
 
 .searchButton {
-    background-image: url(Images/search-button.gif);
+    background-image: url(Images/Search-button.png);
     width: 80px;
 }
 
@@ -604,12 +604,12 @@ div#main {
 .blueLinktext {
     font-family: verdana, helvetica, arial;
     font-size: 10px;
-    color: #2976a4; /*text-decoration:underline;*/
+    color: #FF0000; /*text-decoration:underline;*/
 }
 
 .BlueText {
     font-family: verdana, helvetica, arial;
-    color: #2a629d;
+    color: #FF0000;
     font-size: 10px;
 }
 
@@ -622,10 +622,6 @@ div#main {
 #chromemenu {
     width: 100%;
     height: 28px;
-}
-
-.darkBlueBg {
-    background-color: #d9edf9;
 }
 
 .whiteText {
@@ -2738,7 +2734,7 @@ body .ui-tooltip {
 }
 
 a.Attribute:hover {
-    color: #0f75da;
+    color: #FF0000;
 }
 
 .width-100 {
@@ -2858,9 +2854,9 @@ a.Attribute:hover {
 }
 
 .alternate_color tr:nth-child(odd) td {
-    background-color: #d9edf9;
+    background-color: #FFC0CB;
     font-family: Arial;
-    color: #24264f;
+    color: #8B0000;
     font-size: 8pt;
     text-align: left;
     font-style: normal;
@@ -2958,7 +2954,7 @@ hr {
 
 
     .form-control:focus {
-        border-color: #66afe9;
+        border-color: #FF0000;
         outline: 0;
         -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
         box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);

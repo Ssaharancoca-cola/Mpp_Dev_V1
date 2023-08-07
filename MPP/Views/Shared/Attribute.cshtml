@@ -10,10 +10,10 @@
     <table border="0" cellspacing="0" cellpadding="0" class="width-100 margin-top-0_1em inputFormDtls">
         <tr style="width:100%;height:31px;">
             <td colspan="2" style="padding-left:5px">
-                @if (ViewData["SelectedDimensionData"] != null && ViewData["EntityName"] != null)
+                @if (Context.Session.GetString("SelectedDimensionData") != null && Context.Session.GetString("EntityName") != null)
                 {
-                    <label style="color:#0f75da;font-family:Arial;font-size:12pt;font-weight:bold">@ViewData["SelectedDimensionData"].ToString()></label>
-                    <label style="color:black;font-family:Arial;font-size:10pt;font-weight:bold">@ViewData["EntityName"].ToString()></label>
+                    <label style="color:#0f75da;font-family:Arial;font-size:12pt;font-weight:bold">@Context.Session.GetString("SelectedDimensionData").ToString()></label>
+                    <label style="color:black;font-family:Arial;font-size:10pt;font-weight:bold">@Context.Session.GetString("EntityName").ToString()></label>
                 }
 
             </td>
@@ -101,9 +101,9 @@
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
             <tr valign="middle">
                 <td height="40" class="whiteTextNormal">
-                    @if (ViewData["EntityName"] != null)
+                    @if (Context.Session.GetString("EntityName") != null)
                     {
-                        <label class="whiteTextNormal" id="lblcaption">@ViewData["EntityName"].ToString()</label>
+                        <label class="whiteTextNormal" id="lblcaption">@Context.Session.GetString("EntityName").ToString()</label>
                     }
                     <span class="whiteTextNormal">
                         Total Records: <strong>

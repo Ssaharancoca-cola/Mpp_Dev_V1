@@ -1,6 +1,8 @@
 ﻿using DAL.Common;
+using ExcelDataReader;
 using System.Data;
 using System.Data.OleDb;
+using System.IO;
 
 namespace DAL
 {
@@ -282,6 +284,49 @@ namespace DAL
                     throw ex;
             }
         }
+
+        //public DataSet ReadDataSet(string filePath, string tableColumnNames)
+        //{
+        //    try
+        //    {
+        //        DataSet ds = new DataSet();
+
+        //        // Read the contents of the Excel file
+        //        using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read))
+        //        {
+        //            using (var reader = ExcelReaderFactory.CreateReader(stream))
+        //            {
+        //                var conf = new ExcelDataSetConfiguration
+        //                {
+        //                    UseColumnDataType = true,
+        //                    ConfigureDataTable = _ => new ExcelDataTableConfiguration
+        //                    {
+        //                        UseHeaderRow = true
+        //                    }
+        //                };
+
+        //                // Populate the DataSet with the contents of the Excel file
+        //                ds = reader.AsDataSet(conf);
+        //            }
+        //        }
+
+        //        return ds;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        using (LogError objLogError = new LogError())
+        //        {
+        //            objLogError.LogErrorInTextFile(ex);
+        //        }
+        //        // Dispose(); // Remove this line if not required
+
+        //        if (ex.Message == "No value given for one or more required parameters.")
+        //            throw new Exception("Column Names Mismatch.");
+        //        else
+        //            throw ex;
+        //    }
+        //}
+
     }
 }
 

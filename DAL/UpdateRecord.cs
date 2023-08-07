@@ -29,19 +29,18 @@ namespace DAL
 
             try
             {
-                mPP_Context.Database.OpenConnectionAsync();
+                mPP_Context.Database.OpenConnection();
                 var dataTable = new DataTable();
 
-                using var reader = command.ExecuteReaderAsync();
+                using var reader = command.ExecuteReader();
                 do
                 {
                     dataTable.Load((IDataReader)reader);
                     result.Tables.Add(dataTable);
-                } while (!reader.IsCompleted);
+                } while (!reader.IsClosed);
             }
             catch (Exception ex)
             {
-                // Change 'LogError' to your actual logger class and method
                 using LogError objLogError = new LogError();
                 objLogError.LogErrorInTextFile(ex);
 
@@ -54,6 +53,7 @@ namespace DAL
 
             return result;
         }
+
         public DataSet GetSelectedRecords(string OIDCode, bool isRowIdExists, int entityTypeId, string userName, out string columnData,
                    out List<string> rowData, out string outMsg, out List<Dictionary<string, string>> dataList)
         {
@@ -92,7 +92,7 @@ namespace DAL
                             int count = 0;
                             for (int i = 0; i < splitViewName.Length; i++)
                             {
-                                if (splitViewName[i].Contains("MDM_APP"))
+                                if (splitViewName[i].Contains("MPP_APP"))
                                     count++;
                                 if (count == 2)
                                 {
@@ -127,7 +127,8 @@ namespace DAL
                     if (outMsg != Constant.statusSuccess || string.IsNullOrEmpty(searchQuery))
                         return ds;
                 }
-                ds = GetDataSet(searchQuery, out outMsg);
+                 ds = GetDataSet(searchQuery, out outMsg);
+                
                 if (outMsg != Constant.statusSuccess)
                     return ds;
                 outMsg = GetDataFromDataSet(ds, entityTypeId, OIDColumnName, out columnData, out rowData, out dataList);
@@ -217,11 +218,11 @@ namespace DAL
                 OIDCode = OIDCode.Substring(0, OIDCode.Length - 1);
                 string strWhereClause = " where " + OIDColumnName + " in ( " + OIDCode + " ) ";
                 StringBuilder strQuery = new StringBuilder();
-                string strSelectClause = (fieldList == "*" ? "t.*" : fieldList);
+                string strSelectClause = fieldList == "*" ? "t.*" : fieldList;
                 if (outMsg != Constant.statusSuccess)
                     return outMsg;
                 strQuery.Append("SELECT " + strSelectClause + " FROM ");
-                strQuery.Append(" ( " + tableName + " ) ");
+                strQuery.Append(  tableName );
                 strQuery.Append(" t ");
                 strQuery.Append(strWhereClause);
                 searchQuery = strQuery.ToString();

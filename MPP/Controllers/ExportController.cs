@@ -2,9 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Model;
 using MPP.ViewModel;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Configuration;
 using System.Data;
 using System.Diagnostics;
+using System.Security.Claims;
 using System.Text;
 
 namespace MPP.Controllers
@@ -13,15 +16,17 @@ namespace MPP.Controllers
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IWebHostEnvironment _environment;
-        public ExportController(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment environment)
+        private readonly IConfiguration _configuration;
+        public ExportController(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment environment, IConfiguration configuration)
         {
             _httpContextAccessor = httpContextAccessor;
             _environment = environment;
+            _configuration = configuration;
         }
         public ActionResult Index() { return View(); }
 
         [HttpPost]
-        public ActionResult ExportData(FormCollection form, string Command)
+        public IActionResult ExportData(IFormCollection form, string Command)
         {
             #region ExportCommand
             if (Command == "Export")
@@ -31,14 +36,10 @@ namespace MPP.Controllers
                     string datatype = string.Empty;
                     string viewName = string.Empty;
                     string outMsg = Constant.statusSuccess;
-                    int entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeId"));
+                    int entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID"));
                     string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
                     string FileName = "E" + userName[1] + Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")) + ".csv";
-                    //string FilePath = Request.MapPath("") + @"\App_Data";
-                    string FilePath = Path.Combine(_environment.ContentRootPath, "App_Data");
-
-                    //string FileName = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                    // string FilePath = FilePath + @"\Download\";
+                    string FilePath = Path.Combine(_environment.ContentRootPath, "App_Data\\");
                     if (!Directory.Exists(FilePath))
                     {
                         Directory.CreateDirectory(FilePath);
@@ -46,7 +47,13 @@ namespace MPP.Controllers
                     FilePath = FilePath + FileName;
                     Dictionary<string, string> attrValues = new Dictionary<string, string>();
                     List<Entity_Type_Attr_Detail> attrbuteList = new List<Entity_Type_Attr_Detail>();
-                    attrbuteList = (List<Entity_Type_Attr_Detail>)TempData["attrbuteList"];
+                   // attrbuteList = (List<Entity_Type_Attr_Detail>)TempData["attrbuteList"];
+                    string serializedAttributeList = TempData["attributeList"] as string;
+
+                    if (serializedAttributeList != null)
+                    {
+                        attrbuteList = JsonConvert.DeserializeObject<List<Entity_Type_Attr_Detail>>(serializedAttributeList);
+                    }
                     TempData.Keep();
                     StringBuilder strExport = new StringBuilder();
                     foreach (var data in attrbuteList)
@@ -62,7 +69,7 @@ namespace MPP.Controllers
                     strExport.Append(form[Constant.dateFromColumnName] == "false" ? "" : Constant.dateFromColumnName);
                     string whereClause = GetWhereClause((List<SearchParameter>)ViewData["fieldCollection"]);
                     string SortBy = string.IsNullOrEmpty(Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString(""))) ? " 1 " : Convert.ToString(_httpContextAccessor.HttpContext.Session.GetInt32("currentField"));
-                    if (SortBy.Trim() != "")
+                    if (SortBy.Trim() != "1")
                     {
                         datatype = attrbuteList.Find(x => x.AttrDisplayName == SortBy).AttrDataType;
                         SortBy = attrbuteList.Find(x => x.AttrDisplayName == SortBy).AttrName;
@@ -83,10 +90,11 @@ namespace MPP.Controllers
                         }
                         if (outMsg == Constant.statusSuccess)
                         {
-                            TempData["filepath"] = FilePath;
-                            string path = System.Configuration.ConfigurationManager.AppSettings["FileDownLoadPath"];
+                            ViewData["filepath"] = FilePath;
+                            string path = _configuration["FILE:FileDownLoadPath"];
+                            //System.Configuration.ConfigurationManager.AppSettings["FileDownLoadPath"];
 
-                            return Content("export," + ViewData["EntityName"] + "," + FilePath);
+                            return Content("export," + _httpContextAccessor.HttpContext.Session.GetString("EntityName") + "," + FilePath);
                         }
                         else
                             return Content("error" + Constant.commonErrorMsg);
@@ -227,8 +235,58 @@ namespace MPP.Controllers
             }
             return strQuery.ToString();
         }
+        //public virtual ActionResult Download(string path)
+        //{
+        //    try
+        //    {
+        //        string file = "";
+        //        string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
+        //        string FileName = "E" + userName[1] + path.Split(',')[1] + ".csv";
+        //        Response.Clear();
+        //        Response.ContentType = "text/plain";
+        //        Response.AddHeader("Content-Disposition",
+        //        "attachment; filename=\"" + FileName + "\"");
+        //        Response.Flush();
+        //        Response.WriteFile(path.Split(',')[2]);
+        //        Response.End();
+        //        return Content("");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        using (LogErrorViewModel objLogErrorViewModel = new LogErrorViewModel())
+        //        {
+        //            objLogErrorViewModel.LogErrorInTextFile(ex);
+        //        }
+        //        return Content(ex.Message + ex.StackTrace);
+        //    }
+        //}
+       
+        public virtual IActionResult Download(string path)
+        {
+            try
+            {
+                string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
+                string fileName = "E" + userName[1] + path.Split(',')[1] + ".csv";
+                string newPath = path.Split(",")[2];
+                var fileStream = System.IO.File.OpenRead(newPath);
 
-        public ActionResult CancelExport()
+                return File(fileStream,
+                            "application/octet-stream",
+                            fileName,
+                            enableRangeProcessing: true);
+            }
+            catch (Exception ex)
+            {
+                // Log the error.
+                using (LogErrorViewModel objLogErrorViewModel = new LogErrorViewModel())
+                {
+                    objLogErrorViewModel.LogErrorInTextFile(ex);
+                }
+                return Content(ex.Message + ex.StackTrace);
+            }
+        }
+    
+    public ActionResult CancelExport()
         {
             return RedirectToRoute(new { controller = "Menu", action = "ShowAttribute", entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeId")), entityName = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetString("EntityName")), viewType = "search" });
         }

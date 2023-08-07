@@ -3,6 +3,7 @@ using DAL.Common;
 using Microsoft.AspNetCore.Mvc;
 using Model;
 using MPP.ViewModel;
+using Newtonsoft.Json;
 using System.Data;
 using System.Text;
 
@@ -22,7 +23,7 @@ namespace MPP.Controllers
         public ActionResult GetSelectedRecordForUpdate(string OIDList, string ActionType)
         {
             int entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID"));
-            TempData["ActionType"] = ActionType;
+            ViewData["ActionType"] = ActionType;
             ViewData["INPUTROWIDS"] = OIDList;
             DataSet ds = new DataSet();
             string outMsg = Constant.statusSuccess;
@@ -60,9 +61,14 @@ namespace MPP.Controllers
                             ModelState.AddModelError("ErrorMsg", Constant.commonErrorMsg);
                             return Content("error" + Constant.commonErrorMsg);
                         }
-                        TempData["columnData"] = columnData;
-                        TempData["rowData"] = rowData;
-                        TempData["ListOfRecordsForUpdate"] = ListOfRecordsForUpdate;
+                        string ListJson1 = JsonConvert.SerializeObject(columnData);
+                        TempData["columnData"] = ListJson1;
+
+                        //TempData["columnData"] = columnData;
+                        ViewData["rowData"] = rowData;
+                        string ListJson2 = JsonConvert.SerializeObject(ListOfRecordsForUpdate);
+                        TempData["ListOfRecordsForUpdate"] = ListJson2;
+                        //TempData["ListOfRecordsForUpdate"] = ListOfRecordsForUpdate;
                     }
                 }
 
@@ -77,7 +83,7 @@ namespace MPP.Controllers
                 return Content("error" + Constant.commonErrorMsg);
 
             }
-            return PartialView();
+            return View("GetSelectedRecordForUpdate");
         }
 
         [HttpPost]

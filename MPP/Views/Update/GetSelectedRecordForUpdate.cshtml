@@ -1,11 +1,14 @@
-﻿@if (ViewData.ModelState.IsValid & (Context.Session.GetString("SelectedDimensionData") != null & Context.Session.GetString("EntityName") != null))
+﻿@using Newtonsoft.Json;
+@if (ViewData.ModelState.IsValid & (Context.Session.GetString("SelectedDimensionData") != null & Context.Session.GetString("EntityName") != null))
 {
-    var columnData = (TempData["columnData"]);
+    string serializedList1 = TempData["columnData"] as string;
+    var columnData = JsonConvert.DeserializeObject<string>(serializedList1);
     TempData.Keep();
+
     string[] colName = Convert.ToString(columnData).Split(',');
 
-
-    var ListOfRecordsForUpdate = (List<Dictionary<string, string>>)(TempData["ListOfRecordsForUpdate"]);
+    string serializedList2 = TempData["ListOfRecordsForUpdate"] as string;
+    var ListOfRecordsForUpdate = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(serializedList2);
     TempData.Keep();
     string[] spliEntityName = Context.Session.GetString("EntityName").ToString().Trim(' ').Split(' ');
 
@@ -28,8 +31,8 @@
         <table>
             <tr style="width:100%;height:31px;background-color:White">
                 <td colspan="2" style="padding-left:5px">
-                    <label style="color:#ef75da;font-family:Georgia;font-size:13pt;font-weight:bold">Context.Session.GetString("SelectedDimensionData").ToString() ></label>
-                    <label style="color:black;font-family:Georgia;font-weight:bold">Context.Session.GetString("EntityName").ToString()</label>
+                    <label style="color:#ef75da;font-family:Georgia;font-size:13pt;font-weight:bold">@Context.Session.GetString("SelectedDimensionData").ToString() ></label>
+                    <label style="color:black;font-family:Georgia;font-weight:bold">@Context.Session.GetString("EntityName").ToString()</label>
                 </td>
             </tr>
             <tr style="width:100%; height:25px">
@@ -39,17 +42,15 @@
             </tr>
             <tr>
                 <td style="padding-left:10px;padding-right:10px;padding-bottom: 20px" valign="top">
-                    <hr style="width:100%;height:2px;background-color:#084083;" />
+                    <hr style="width:100%;height:2px;background-color:#8B0000;" />
                 </td>
             </tr>
             <tr align="center">
                 <td>
                     <table width="100%" border="0" cellspacing="0" cellpadding="8">
-                        <tr valign="middle" style="background-image:url(../../Images/TableTop.jpg);background-repeat:repeat-x;height:100%">
-                            <td height="48" class="whiteTextNormal">
-                            <td height="46" class="whiteTextNormal">
+                        <tr valign="middle" style="background-image:url(/wwwroot/Images/TableTop.jfif);background-repeat:repeat-x;height:100%">
+                            <td height="40" class="whiteTextNormal">                            
                                     @Html.Label(@Context.Session.GetString("EntityName").ToString(), "", new { @class = "whiteTextNormal", @id = "lblcaption" })
-
                                 | <span class="whiteTextNormal">
                                     Total Records : <strong>
                                             @Html.Label(ListOfRecordsForUpdate.Count().ToString(), "", new { @class = "whiteTextNormal", @id = "lblTotalRecords" })
@@ -98,7 +99,7 @@
                                                 <input type="hidden" id="hdnCurrentEditLevel" value=@data.Value />
                                             </td>
                                         }
-                                        else if (data.Key.Contains("oID") & data.Key.Contains(spliEntityName[0].ToString().ToUpper()))
+                                        else if (data.Key.Contains("OID") & data.Key.Contains(spliEntityName[0].ToString().ToUpper()))
                                         {
                                             continue;
                                         }

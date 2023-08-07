@@ -72,8 +72,9 @@ namespace MPP.ViewComponents
 
                     }
                     ViewData["totalRecord"] = totalRecord;
-                    ViewData["dataList"] = dataList;
-              
+
+                    string ListJson = JsonConvert.SerializeObject(dataList);
+                    TempData["dataList"] = ListJson;              
 
                     ViewData["Current_Page"] = currentPageNo;
                     ViewData["currentField"] = currentSortBy;

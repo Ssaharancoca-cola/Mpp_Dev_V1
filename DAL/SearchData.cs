@@ -160,7 +160,7 @@ namespace DAL
             string strAsSelectClause = string.Empty;
             try
             {
-                //fieldList = fieldList + "," + "DATE_FROM" + "," + OIDColumnName;
+                fieldList = fieldList + "," + "DATE_FROM" + "," + OIDColumnName;
                 StringBuilder strQuery = new StringBuilder();
                 string strWhereClause = GetWhereClause(searchParameter, tableName);
                 string strSelectClause = (fieldList == "*" ? "t.*" : fieldList);
