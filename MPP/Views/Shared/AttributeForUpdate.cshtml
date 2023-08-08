@@ -1,0 +1,229 @@
+﻿@model List<Model.Entity_Type_Attr_Detail>
+
+<script>
+    $("#btnCancel").click(function () {
+        $("#cmdName")[0].value = "AttributeDetail";
+
+
+    });
+    $("#btnUpdate").click(function () {
+        $("#cmdName")[0].value = "viewPlaceHolder";
+
+
+    });
+    function onBegin() {
+        // debugger;
+        $('#divLoading').show();
+
+    }
+    function onSuccess(result, path) {
+
+        debugger;
+        $('#lblSearchWarnings').html("");
+        var fileId = $('#cmdName').val();
+        if (result.indexOf("export") == 0) {
+
+            window.location.href = 'Update/Download?path=' + result;
+            alert("Please refer downloaded file for rejected records");
+
+            // window.location.href = '/update/Download';
+
+        }
+        else if (result.indexOf("error") == 0) {
+
+            $('#lblSearchWarnings').html(result.replace("error", ""));
+
+        }
+        else if (result.indexOf("success") == 0) {
+
+            alert("Data Save Successfully");
+
+
+            $.post('@Url.Action("ShowAttribute", "Menu")', { entityTypeId: '@Context.Session.GetInt32("EntityTypeID")', entityName: '@Context.Session.GetString("EntityName")', viewType: "search" },
+                function (data) {
+                    if (data.indexOf("Access denied") > -1) {
+                        alert(data);
+                    }
+                    else {
+                        $('#AttributeDetail').empty();
+
+                        $('#AttributeDetail').html(data);
+
+                        $('#lblcaption').html('@Context.Session.GetString("EntityName")');
+                        $('#viewPlaceHolder').empty();
+                    }
+
+                });
+
+        }
+        else {
+            //  $('#AttributeDetail').empty();
+            $.post('@Url.Action("ShowAttribute", "Menu")', { entityTypeId: '@Context.Session.GetInt32("EntityTypeID")', entityName: '@Context.Session.GetString("EntityName")', viewType: "search" },
+                function (data) {
+                    if (data.indexOf("Access denied") > -1) {
+                        alert(data);
+                    }
+                    else {
+                        $('#AttributeDetail').empty();
+
+                        $('#AttributeDetail').html(data);
+
+                        $('#lblcaption').html('@Context.Session.GetString("EntityName")');
+                        $('#viewPlaceHolder').empty();
+                    }
+
+                });
+        }
+
+    }
+    function onFailure(error) {
+        alert(error);
+
+    }
+    function onComplete() {
+        $('#divLoading').hide();
+    }
+</script>
+
+@if (ViewData.ModelState.IsValid)
+{
+    <form id="formid">
+<table style="width: 100%;background-color:orangered" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td valign="top">
+            <hr style="width:100%;height:3px;background-color:red;" />
+        </td>
+    </tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="0" class="width-100 margin-top-2em inputFormDtls">
+    <tr>
+        <td>
+            <div class="width-100">
+                @foreach (var menuOption in Model)
+                {
+                    if (@menuOption.Isvisible != "N")
+                    {
+                        <span class="width-46 padding_0_1 fleft">
+                            <span class="fleft width-21">@menuOption.AttrDisplayName</span>
+                            <span class="pad_right_4">
+                                @switch (@menuOption.DisplayType.ToLower())
+                                {
+                                    case "textbox":
+                                        @*@Html.TextBoxFor(m=> @menuOption.ENTITY_TYPE_ID, new { @class = "width-40" })*@
+                                        <input type="text" style="width:45%" maxlength=@menuOption.AttrLength name=@menuOption.AttrName id=@menuOption.AttrName />
+                                        if (@menuOption.AttrDisplayName.ToUpper() == ("SORT ORDER"))
+                                        {
+                                            <label id="lblSORT_ORDER_format" class="hintlabel">&nbsp;(9999999999)</label>
+                                        }
+                                        break;
+                                    case "datepicker":
+                                        <input type="text" style="width:45%" name=@menuOption.AttrName id=@menuOption.AttrName class="datepicker" />
+
+                                        break;
+                                    case "checkboxlist":
+                                        foreach (var data in menuOption.dropDownDataList)
+                                        {
+                                            var chkname = data.VALID_VALUES;
+
+                                            @Html.CheckBox(@menuOption.AttrName)
+                                            @data.VALUE_NAME.Substring(0, 1).ToUpper()
+
+                                            @data.VALUE_NAME.Substring(1).ToLower()
+                                            ;
+
+                                        }
+                                        break;
+                                    case "combobox":
+                                        @Html.DropDownListFor(m => @menuOption.EntityTypeId, new SelectList(@menuOption.dropDownDataList, "VALID_VALUES", "VALUE_NAME"), "--Select--", new { @id = @menuOption.AttrName, @Name = @menuOption.AttrName, style = "width: 45%;" })
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            </span>
+                        </span>
+                    }
+                }
+                <span class="width-45 padding_0_2 fleft">
+                    <span class="pad_right_1 fleft width-30" style="margin-left:-5px">Effective Date </span>
+                    <span class="pad_right_1" style="margin-left:-42px">
+                        <input type="text" class="width-45" name="txtEffectiveDate" id="txtEffectiveDate" />
+                    </span>
+                </span>
+            </div>
+        </td>
+    </tr>
+    <tr align="center" style="width:100%;padding-top:10px">
+        <td style="width: 50%" align="center" colspan="1">
+            <button type="submit" class="button" id="btnUpdate" style="width:80px" name="Command" value="update">
+                <img src="~/Images/Update.png" />
+            </button>
+            <button type="submit" class="button" id="btnCancel" style="width:80px" name="Command" title="Cancel" value="Cancel">
+                <img src="~/Images/Cancel.png" />
+            </button>
+            <div style="color:red" id="lblSearchWarnings"></div>
+
+
+        </td>
+
+    </tr>
+</table>
+
+<div id="divLoading" class="loader">
+
+    <img alt="Loading, please wait" style="position: absolute; top: 30%; left: 45%; width:110px; height:110px" src="~/Images/spinner.gif" />
+</div>
+</form>
+}
+else
+{
+    <script>
+
+    alert('Accesss denied');
+
+    </script>
+}
+
+<script>
+    $(document).ready(function () {
+
+
+        $(function () {
+            $("#txtEffectiveDate").datepicker({ changeMonth: true, changeYear: true, yearRange: "2025:2050" });
+
+            // $("#txtEffectiveDate").datepicker();
+        });
+        $(".datepicker").datepicker({
+            changeMonth: true, changeYear: true, yearRange: "2025:2050"
+        });
+        $('#formid').on('submit', submitFormWithAjax);
+
+    });
+    function submitFormWithAjax(event) {
+        event.preventDefault();
+        let commandValue = $(document.activeElement).attr("value");
+        // Declare an object to store the form data
+        let form = {};
+
+        // Loop through form elements and collect the data
+        $('#formid input, #formid select').each(function () {
+            form[$(this).attr('name')] = $(this).val();
+        });
+        form['Command'] = commandValue;
+        debugger;
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("UpdateSelectedRecords", "Update")',
+            data: form,
+            success: function (data) {
+                debugger;
+                // Update your DOM based on the received data.
+                onSuccess(data);
+            },
+            error: function (err) {
+                console.error("Error", err);
+            }
+        });
+    }
+
+</script>
+

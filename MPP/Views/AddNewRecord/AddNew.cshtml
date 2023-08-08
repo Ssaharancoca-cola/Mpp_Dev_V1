@@ -11,7 +11,7 @@
 
     }
     function onSuccess(result) {
-           debugger;
+        //   debugger;
         if (result.length > 1000) {
             var fileId = "AttributeDetail";
             $('#' + fileId).html(result);
@@ -20,7 +20,7 @@
         }
         else {
             if (result.indexOf("error") == -1) {
-                debugger;
+
                 alert("Data Save Successfully");
                 $.post('@Url.Action("ShowAttribute", "Menu")', { entityTypeId: '@Context.Session.GetInt32("EntityTypeID")', entityName: '@Context.Session.GetString("EntityName")', viewType: "search" },
                     function (data) {
@@ -56,7 +56,7 @@
                 @if (Context.Session.GetString("SelectedDimensionData") != null && Context.Session.GetString("EntityName") != null)
                 {
 
-                    <label style="color:#0f75da;font-family:Georgia;font-size:13pt;font-weight:bold">@Context.Session.GetString("SelectedDimensionData").ToString() ></label>
+                    <label style="color:red;font-family:Georgia;font-size:13pt;font-weight:bold">@Context.Session.GetString("SelectedDimensionData").ToString() ></label>
                     <label style="color:black;font-family:Georgia;font-weight:bold">@Context.Session.GetString("EntityName").ToString()</label>
                 }
 
@@ -95,17 +95,18 @@
                     <td style="width: 50%;padding-left:270px;">
                         @menuOption.AttrDisplayName
                     </td>
-                    <td style="width: 50%" align="left">
-
-                    @switch (@menuOption.DisplayType.ToLower())
-                    {
-                        case "textbox":
-                            <input type="text" style="width:45%" maxlength="@menuOption.AttrLength" name="@menuOption.AttrName" id="@menuOption.AttrName" />
-                            break;
-                        case "datepicker":
-                            <input type="text" style="width:45%" name="@menuOption.AttrName" id="@menuOption.AttrName" class="datepicker" />
-                            break;
-                        case "combobox":
+                    <td style="width: 50%" align="left">                        
+                        @switch (@menuOption.DisplayType.ToLower())
+                        {               
+                            case "textbox":
+                                <input type="text" style="width:45%" maxlength="@menuOption.AttrLength" name="@menuOption.AttrName" id="@menuOption.AttrName" />
+                                <label style="color:red">*</label>
+                                break;
+                            case "datepicker":
+                                <input type="text" style="width:45%" name="@menuOption.AttrName" id="@menuOption.AttrName" class="datepicker" />
+                                <label style="color:red">*</label>
+                                break;
+                            case "combobox":
                                 <select id="@menuOption.AttrName" name="@menuOption.AttrName" style="width: 45%;">
                                     <option value="">--Select--</option>
                                     @foreach (var item in @menuOption.dropDownDataList)
@@ -113,32 +114,33 @@
                                         <option value="@item.VALID_VALUES">@item.VALUE_NAME</option>
                                     }
                                 </select>
+                                <label style="color:red">*</label>
                                 break;
-                        case "Parcombo":
-                            @Html.DropDownListFor(m => menuOption.EntityTypeId, new SelectList(menuOption.dropDownDataList, "VALID_VALUES", "VALUE_NAME"), "--Select--", new {@id= menuOption.AttrName, @Name = menuOption.AttrName, style ="width: 45%;", @onchange = "CallChangefunc('" + menuOption.CasDrop + "', this.value)" })
-                            break;
-                        case "cascombo":
-                            @Html.DropDownList(menuOption.AttrName, new SelectList(string.Empty, "Value", "Text"), "--Select--", new {@style = "width:45%;" })
-                            break;
-                        case "userbox":
-                            <input type="text" style="width:45%" maxlength=@menuOption.AttrLength name=@menuOption.AttrName id=@menuOption.AttrName />
-                            break;
-
-                        default:
-                            break;
-                    }
+                            case "Parcombo":
+                                @Html.DropDownListFor(m => menuOption.EntityTypeId, new SelectList(menuOption.dropDownDataList, "VALID_VALUES", "VALUE_NAME"), "--Select--", new {@id= menuOption.AttrName, @Name = menuOption.AttrName, style ="width: 45%;", @onchange = "CallChangefunc('" + menuOption.CasDrop + "', this.value)" })
+                                <label style="color:red">*</label>
+                                break;
+                            case "cascombo":
+                                @Html.DropDownList(menuOption.AttrName, new SelectList(string.Empty, "Value", "Text"), "--Select--", new {@style = "width:45%;" })
+                                <label style="color:red">*</label>
+                                break;
+                            case "userbox":
+                                <input type="text" style="width:45%" maxlength=@menuOption.AttrLength name=@menuOption.AttrName id=@menuOption.AttrName />
+                                <label style="color:red">*</label>
+                                break;                            
+                            default:
+                                break;
+                        }
                     </td>
                 </tr>
             }
         }
         <tr style="width: 100%;padding-top:10px">
             <td style="width: 50%;padding-left:270px;">
-
                 Effective Date
             </td>
             <td style="width: 50%" align="left">
-                <input type="text" class="SortButton" style="width:45%" readonly name=txtEffectiveDate id=txtEffectiveDate />
-
+                <input type="text" class="SortButton" style="width:45%" name=txtEffectiveDate id=txtEffectiveDate />
             </td>
         </tr>
         <tr align="center" style="width: 100%; display:none" class="pageheadernfooter">
@@ -153,8 +155,8 @@
             <td style="width: 50%" align="left">
                 <button type="submit" class="button" id="btnSave" name="Command" value="Save" title="Save" style="width:75px;"><img src="~/Images/Save.png" alt="Save" /></button>
                 <button type="submit" class="button" id="btnCancel" name="Command" value="Cancel" title="Cancel" style="width:75px;"><img src="~/Images/Cancel.png" alt="Cancel" /></button>
-                <button type="submit" title="Ignore & Save" class="button" style="width:200px;display:none" id="btnSupress" name="Command" value="IgnoreSave"><img src="~/Images/Save.png" alt="Ignore & Save" /></button>
-
+@*                <button type="submit" title="Ignore & Save" class="button" style="width:200px;display:none" id="btnSupress" name="Command" value="IgnoreSave"><img src="~/Images/Ignore-&-save-button.gif" alt="Ignore & Save" /></button>
+*@
             </td>
         </tr>
         <tr align="center" style="width: 100%;">
@@ -170,33 +172,29 @@
         <img alt="Loading, please wait" style="position: absolute; top: 30%; left: 45%; width:110px; height:110px" src="~/Images/spinner.gif" />
 
     </div>
+ </form>   
 <input type="hidden" id="cmdName" name="cmdName" value="displayMessage" />
 
 <div id="displayMessage"></div>
-</form>
+
 <script>
     $(document).ready(function () {
-        debugger;
         $("#btnCancel").click(function () {
             $("#cmdName")[0].value = "AttributeDetail";
             $('#viewPlaceHolder').empty();
 
         });
         $(function () {
-            $("#txtEffectiveDate").datepicker({
-                changeMonth: true, changeYear: true, yearRange: "2023:2050"
-            });
+            $("#txtEffectiveDate").datepicker({ changeMonth: true, changeYear: true, yearRange: "2025:2050" });
+
+            // $("#txtEffectiveDate").datepicker();
+        });
+        $(".datepicker").datepicker({
+            changeMonth: true, changeYear: true, yearRange: "2025:2050"
         });
         $('#formid').on('submit', submitFormWithAjax);
     });
-        $(function () {
-            $(".datepicker").datepicker({
-                changeMonth: true, changeYear: true, yearRange: "2023:2050"
-            });
-        });
-       
-
-    
+ 
 
     function CallChangefunc(val, parcombo) {
         $('#' + val + '').empty();
@@ -236,7 +234,7 @@
             success: function (data) {
                 debugger;
                 // Update your DOM based on the received data.
-                onSuccess(data);                
+                onSuccess(data);
             },
             error: function (err) {
                 console.error("Error", err);

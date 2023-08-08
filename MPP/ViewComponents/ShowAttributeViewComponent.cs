@@ -66,7 +66,9 @@ namespace MPP.ViewComponents
                 //return View("~/Views/Shared/Attribute.cshtml", attributeList);
             }
             else if (viewType == Constant.update)
-                return View("AttributeForUpdate", attributeList);
+                return await Task.FromResult<IViewComponentResult>(View("~/Views/Shared/AttributeForUpdate.cshtml", attributeList));
+
+            //return View("AttributeForUpdate", attributeList);
             return View("Attribute", attributeList);
         }
     }

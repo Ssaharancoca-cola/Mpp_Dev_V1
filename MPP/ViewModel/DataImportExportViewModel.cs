@@ -319,9 +319,28 @@ namespace MPP.ViewModel
                 string fileName = filePath.Substring(filePath.LastIndexOf('\\') + 1);
                 try
                 {
-                    using (CsvReader csvreader = new CsvReader(new StreamReader(filePath), CultureInfo.InvariantCulture, true))
+                    using (StreamReader fileReader = new StreamReader(filePath))
+                    using (CsvReader csvReader = new CsvReader(fileReader, CultureInfo.InvariantCulture))
                     {
-                        dtTable.Load((IDataReader)csvreader);
+                        // Reading the CSV file header to create the DataTable columns
+                        csvReader.Read();
+                        csvReader.ReadHeader();
+
+                        foreach (string header in csvReader.HeaderRecord)
+                        {
+                            dtTable.Columns.Add(header);
+                        }
+
+                        // Reading the rest of the data and populate the DataTable
+                        while (csvReader.Read())
+                        {
+                            DataRow row = dtTable.NewRow();
+                            for (int i = 0; i < dtTable.Columns.Count; i++)
+                            {
+                                row[i] = csvReader.GetField(i);
+                            }
+                            dtTable.Rows.Add(row);
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -384,7 +403,7 @@ namespace MPP.ViewModel
                         //Execute the query formed.
                         StringBuilder StrInsertQuery = null;
                         StrInsertQuery = new StringBuilder();
-                        StrInsertQuery.Append("Insert into ");
+                        StrInsertQuery.Append("Insert into MPP_APP.");
                         StrInsertQuery.Append(tableName);
                         StrInsertQuery.Append("(");
                         StrInsertQuery.Append(tableColumnNames.Trim(',') + extraColumnNames);

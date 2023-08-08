@@ -87,7 +87,7 @@ namespace MPP.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> UpdateSelectedRecords(FormCollection form, string command)
+        public async Task<ActionResult> UpdateSelectedRecords(IFormCollection form, string command)
         {
             string outMsg = Constant.statusSuccess;
             string actionType = Convert.ToString(TempData["ActionType"]);
@@ -165,7 +165,7 @@ namespace MPP.Controllers
                     string formatedDate = DateTime.Now.ToString("dd-MM-yyyy-hh-mm");
                     string strRejectFileName = "I" + userName[1] + Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")) + formatedDate + ".csv";
                     //string FilePath = Request.MapPath("") + @"\App_Data\";
-                    string FilePath = Path.Combine(_environment.ContentRootPath, "App_Data");
+                    string FilePath = Path.Combine(_environment.ContentRootPath, "App_Data\\");
 
                     if (!Directory.Exists(FilePath))
                     {
@@ -239,6 +239,7 @@ namespace MPP.Controllers
             }
 
             #endregion updatedata
+
             #region cancelUpdateCommand
             else if (command == "Cancel")
                 return RedirectToRoute(new { controller = "Menu", action = "ShowAttribute", entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetString("EntityTypeID")), entityName = Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")), viewType = "search" });
@@ -246,7 +247,7 @@ namespace MPP.Controllers
             #endregion
             return View();
         }
-        private string GetLisOfRecordToUpdate(List<Dictionary<string, string>> resultQuery, FormCollection form, List<Entity_Type_Attr_Detail> attributeList, out List<Dictionary<string, string>> listattrValues)
+        private string GetLisOfRecordToUpdate(List<Dictionary<string, string>> resultQuery, IFormCollection form, List<Entity_Type_Attr_Detail> attributeList, out List<Dictionary<string, string>> listattrValues)
         {
             string outMsg = Constant.statusSuccess;
             listattrValues = new List<Dictionary<string, string>>();

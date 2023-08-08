@@ -12,3 +12,71 @@ Source: System.Private.CoreLib
 TargetSite: Microsoft.Win32.SafeHandles.SafeFileHandle CreateFile(System.String, System.IO.FileMode, System.IO.FileAccess, System.IO.FileShare, System.IO.FileOptions)
 InnerException: 
 -----------------------------------------------------------
+Time: 07/08/2023 11:55:00 PM
+-----------------------------------------------------------
+Message: String or binary data would be truncated in table 'MPP_DEV.MPP_APP.LD_ENT_COUNTRY_GROUP', column 'ACTIVE_FLAG'. Truncated value: 'N'.
+The statement has been terminated.
+StackTrace:    at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean isAsync, Int32 timeout, Boolean asyncWrite)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String methodName)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQuery(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.ExecuteSqlRaw(DatabaseFacade databaseFacade, String sql, IEnumerable`1 parameters)
+   at DAL.AddNewRecord.InsertAndDeleteInLandingTable(List`1 attrList, Dictionary`2 attrValues, String sourceSystemName, Int32 sessionID, Int32 ldOid, String inputTablename) in C:\Users\Z09910\source\repos\MPP\DAL\AddNewRecord.cs:line 127
+Source: Core Microsoft SqlClient Data Provider
+TargetSite: Void OnError(Microsoft.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+InnerException: 
+-----------------------------------------------------------
+Time: 07/08/2023 11:55:27 PM
+-----------------------------------------------------------
+Message: String or binary data would be truncated in table 'MPP_DEV.MPP_APP.LD_ENT_COUNTRY_GROUP', column 'ACTIVE_FLAG'. Truncated value: 'N'.
+The statement has been terminated.
+StackTrace:    at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean isAsync, Int32 timeout, Boolean asyncWrite)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String methodName)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQuery(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.ExecuteSqlRaw(DatabaseFacade databaseFacade, String sql, IEnumerable`1 parameters)
+   at DAL.AddNewRecord.InsertAndDeleteInLandingTable(List`1 attrList, Dictionary`2 attrValues, String sourceSystemName, Int32 sessionID, Int32 ldOid, String inputTablename) in C:\Users\Z09910\source\repos\MPP\DAL\AddNewRecord.cs:line 127
+Source: Core Microsoft SqlClient Data Provider
+TargetSite: Void OnError(Microsoft.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+InnerException: 
+-----------------------------------------------------------
+Time: 08/08/2023 12:03:43 AM
+-----------------------------------------------------------
+Message: String or binary data would be truncated in table 'MPP_DEV.MPP_APP.LD_ENT_COUNTRY_GROUP', column 'ACTIVE_FLAG'. Truncated value: 'N'.
+The statement has been terminated.
+StackTrace:    at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean isAsync, Int32 timeout, Boolean asyncWrite)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String methodName)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQuery(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.ExecuteSqlRaw(DatabaseFacade databaseFacade, String sql, IEnumerable`1 parameters)
+   at DAL.AddNewRecord.InsertAndDeleteInLandingTable(List`1 attrList, Dictionary`2 attrValues, String sourceSystemName, Int32 sessionID, Int32 ldOid, String inputTablename) in C:\Users\Z09910\source\repos\MPP\DAL\AddNewRecord.cs:line 127
+Source: Core Microsoft SqlClient Data Provider
+TargetSite: Void OnError(Microsoft.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+InnerException: 
+-----------------------------------------------------------
+Time: 08/08/2023 12:06:45 AM
+-----------------------------------------------------------
+Message: String or binary data would be truncated in table 'MPP_DEV.MPP_APP.LD_ENT_COUNTRY_GROUP', column 'ACTIVE_FLAG'. Truncated value: 'N'.
+The statement has been terminated.
+StackTrace:    at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean isAsync, Int32 timeout, Boolean asyncWrite)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String methodName)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQuery(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.ExecuteSqlRaw(DatabaseFacade databaseFacade, String sql, IEnumerable`1 parameters)
+   at DAL.AddNewRecord.InsertAndDeleteInLandingTable(List`1 attrList, Dictionary`2 attrValues, String sourceSystemName, Int32 sessionID, Int32 ldOid, String inputTablename) in C:\Users\Z09910\source\repos\MPP\DAL\AddNewRecord.cs:line 127
+Source: Core Microsoft SqlClient Data Provider
+TargetSite: Void OnError(Microsoft.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+InnerException: 
+-----------------------------------------------------------
