@@ -12,7 +12,7 @@
             <td colspan="2" style="padding-left:5px">
                 @if (Context.Session.GetString("SelectedDimensionData") != null && Context.Session.GetString("EntityName") != null)
                 {
-                    <label style="color:#0f75da;font-family:Arial;font-size:12pt;font-weight:bold">@Context.Session.GetString("SelectedDimensionData").ToString()></label>
+                    <label style="color:red;font-family:Arial;font-size:12pt;font-weight:bold">@Context.Session.GetString("SelectedDimensionData").ToString()></label>
                     <label style="color:black;font-family:Arial;font-size:10pt;font-weight:bold">@Context.Session.GetString("EntityName").ToString()></label>
                 }
 
@@ -91,7 +91,7 @@
         <tr align="center" style="width:100%;padding-top:10px">
             <td style="width:50%" align="center" colspan="2">
                 <button type="submit" id="btnSearch" style="width: 40px; height: 20px; background: none;" name="Command" value="Search">
-                    <img src="~/Images/Search_Button.PNG" style="height: 25px;width: 25px;" />
+                    <img src="~/Images/Search.png" style="height: 25px;width: 25px;" />
                 </button>
                 <div style="color:red" id="lblSearchWarnings"></div>
             </td>
@@ -132,7 +132,7 @@
     <script>
     $(document).ready(function () {
         $(".datepicker").datepicker({
-            changeMonth: true, changeYear: true, yearRange: "2023:2050"
+            changeMonth: true, changeYear: true, yearRange: "2000:2050"
         });       
         
     });
@@ -171,8 +171,7 @@
         $.ajax({
             type: 'POST',
             url: '@Url.Action("GetSearchData", "Search")',
-            data: form,
-            
+            data: form,            
             success: function (data) {
                 debugger;
                 // Update your DOM based on the received data.

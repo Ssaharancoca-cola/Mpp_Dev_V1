@@ -158,34 +158,33 @@ namespace DAL
                                 }
                                 entity_Type_Attr_Detail.dropDownDataList = dropDownDataList;
                             }
-                            //else
-                            //{
-                            //    List<DropDownData> dropDownDataList = new List<DropDownData>();
-                            //    listBoxQuery = Convert.ToString(item.ListBoxQuery).ToUpper().Split(new string[] { "FROM" }, StringSplitOptions.None);
-                            //    insertAliasName = listBoxQuery[0].Insert(listBoxQuery[0].IndexOf(','), " AS VALID_VALUES ");
-                            //    insertAliasName = insertAliasName.Insert(insertAliasName.Length - 1, " AS VALUE_NAME ");
-                            //    string ListBoxSelectQuery = Convert.ToString(item.ListBoxQuery.ToUpper());
-                            //    int startIndex = ListBoxSelectQuery.IndexOf("FROM");
-                            //    int endIndex = ListBoxSelectQuery.IndexOf("WHERE");
-                            //    string viewName = string.Empty;
-                            //    using (MPP_Context mPP_Context = new MPP_Context())
-                            //    {
-                            //        string? iResult = null;
-                            //        var viewNameParameter = new OutputParameter<string?>(iResult);
-                            //        string returnValue = "";
-                            //        var returnValueParameter = new OutputParameter<string>(returnValue);
-                            //        await mPP_Context.Procedures.MPP_ENTITY_SEC_BASE_VIEWS_FN_PROCAsync(Convert.ToInt32(parentId), userName.ToUpper(), viewNameParameter);
-                            //        viewName = viewNameParameter.Value.ToString();
-                            //        viewName = " ( " + viewName + " ) ";
-                            //    }
-                            //    ListBoxSelectQuery = ListBoxSelectQuery.Substring(0, startIndex + 4) + " ( " + viewName + ")" + ListBoxSelectQuery.Substring(endIndex);
-                            //    using (MPP_Context mPP_Context = new MPP_Context())
-                            //    {
-                            //        dropDownDataList = mPP_Context.Set<DropDownData>().FromSqlRaw(insertAliasName + "FROM" + "(" + ListBoxSelectQuery + ")").ToList();
-                            //    }
-                            //    dropDownDataList = dropDownDataList.OrderBy(x => x.VALUE_NAME).ToList();
-                            //    entity_Type_Attr_Detail.dropDownDataList = dropDownDataList;
-                            //}
+                            else
+                            {
+                                List<DropDownData> dropDownDataList = new List<DropDownData>();
+                                listBoxQuery = Convert.ToString(item.ListBoxQuery).ToUpper().Split(new string[] { "FROM" }, StringSplitOptions.None);
+                                insertAliasName = listBoxQuery[0].Insert(listBoxQuery[0].IndexOf(','), " AS VALID_VALUES ");
+                                insertAliasName = insertAliasName.Insert(insertAliasName.Length - 1, " AS VALUE_NAME ");
+                                string ListBoxSelectQuery = Convert.ToString(item.ListBoxQuery.ToUpper());
+                                int startIndex = ListBoxSelectQuery.IndexOf("FROM");
+                                int endIndex = ListBoxSelectQuery.IndexOf("WHERE");
+                                string viewName = string.Empty;
+                                using (MPP_Context mPP_Context = new MPP_Context())
+                                {
+                                    OutputParameter<string> resultParameter = new OutputParameter<string>();
+                                    OutputParameter<int> returnValueParameter = new OutputParameter<int>();
+                                    await mPP_Context.Procedures.MPP_ENTITY_SEC_BASE_VIEWS_FN_PROCAsync(Convert.ToInt32(parentId), userName.ToUpper(), resultParameter, returnValueParameter);
+                                    viewName = resultParameter.Value;
+                                    //viewName = viewNameParameter.Value.ToString();
+                                    //viewName = " ( " + viewName + " ) ";
+                                }
+                                ListBoxSelectQuery = ListBoxSelectQuery.Substring(0, startIndex + 4) + " ( " + viewName + ")" + ListBoxSelectQuery.Substring(endIndex);
+                                using (MPP_Context mPP_Context = new MPP_Context())
+                                {
+                                    dropDownDataList = mPP_Context.Set<DropDownData>().FromSqlRaw(insertAliasName + "FROM" + "(" + ListBoxSelectQuery + ")").ToList();
+                                }
+                                dropDownDataList = dropDownDataList.OrderBy(x => x.VALUE_NAME).ToList();
+                                entity_Type_Attr_Detail.dropDownDataList = dropDownDataList;
+                            }
 
                         }
                         attributedetail.Add(entity_Type_Attr_Detail);

@@ -114,7 +114,7 @@ namespace MPP.Controllers
             #region cancelUpdateCommand
             else if (Command == "Cancel")
             {
-                return RedirectToRoute(new { controller = "Menu", action = "ShowAttribute", entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeId")), entityName = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetString("EntityName")), viewType = "search" });
+                return ViewComponent("ShowAttribute", new { entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeId")), entityName = _httpContextAccessor.HttpContext.Session.GetString("EntityName"), viewType = "search" });
             }
             return View();
             #endregion

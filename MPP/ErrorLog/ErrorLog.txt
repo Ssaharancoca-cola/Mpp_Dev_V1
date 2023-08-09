@@ -80,3 +80,71 @@ Source: Core Microsoft SqlClient Data Provider
 TargetSite: Void OnError(Microsoft.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
 InnerException: 
 -----------------------------------------------------------
+Time: 09/08/2023 01:18:23 AM
+-----------------------------------------------------------
+Message: The multi-part identifier "MPP_CORE.SEQ_LD_OID.NEXTVAL" could not be bound.
+Invalid column name 'SOURCE_SYSTEM_NAME'.
+StackTrace:    at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean isAsync, Int32 timeout, Boolean asyncWrite)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String methodName)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQuery(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.ExecuteSqlRaw(DatabaseFacade databaseFacade, String sql, IEnumerable`1 parameters)
+   at DAL.DataExportImport.InsertInLandingTable(String insertQuery) in C:\Users\Z09910\source\repos\MPP\DAL\DataExportImport.cs:line 60
+Source: Core Microsoft SqlClient Data Provider
+TargetSite: Void OnError(Microsoft.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+InnerException: 
+-----------------------------------------------------------
+Time: 09/08/2023 01:19:46 AM
+-----------------------------------------------------------
+Message: The multi-part identifier "MPP_CORE.SEQ_LD_OID.NEXTVAL" could not be bound.
+Invalid column name 'SOURCE_SYSTEM_NAME'.
+StackTrace:    at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean isAsync, Int32 timeout, Boolean asyncWrite)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String methodName)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQuery(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.ExecuteSqlRaw(DatabaseFacade databaseFacade, String sql, IEnumerable`1 parameters)
+   at DAL.DataExportImport.InsertInLandingTable(String insertQuery) in C:\Users\Z09910\source\repos\MPP\DAL\DataExportImport.cs:line 60
+Source: Core Microsoft SqlClient Data Provider
+TargetSite: Void OnError(Microsoft.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+InnerException: 
+-----------------------------------------------------------
+Time: 09/08/2023 01:27:18 AM
+-----------------------------------------------------------
+Message: The multi-part identifier "MPP_CORE.SEQ_LD_OID.NEXTVAL" could not be bound.
+Invalid column name 'SOURCE_SYSTEM_NAME'.
+StackTrace:    at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean isAsync, Int32 timeout, Boolean asyncWrite)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String methodName)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQuery(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.ExecuteSqlRaw(DatabaseFacade databaseFacade, String sql, IEnumerable`1 parameters)
+   at DAL.DataExportImport.InsertInLandingTable(String insertQuery) in C:\Users\Z09910\source\repos\MPP\DAL\DataExportImport.cs:line 60
+Source: Core Microsoft SqlClient Data Provider
+TargetSite: Void OnError(Microsoft.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+InnerException: 
+-----------------------------------------------------------
+Time: 09/08/2023 01:27:18 AM
+-----------------------------------------------------------
+Message: The multi-part identifier "MPP_CORE.SEQ_LD_OID.NEXTVAL" could not be bound.
+Invalid column name 'SOURCE_SYSTEM_NAME'.
+StackTrace:    at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteNonQueryTds(String methodName, Boolean isAsync, Int32 timeout, Boolean asyncWrite)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String methodName)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteNonQuery(RelationalCommandParameterObject parameterObject)
+   at Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.ExecuteSqlRaw(DatabaseFacade databaseFacade, String sql, IEnumerable`1 parameters)
+   at DAL.DataExportImport.InsertInLandingTable(String insertQuery) in C:\Users\Z09910\source\repos\MPP\DAL\DataExportImport.cs:line 60
+Source: Core Microsoft SqlClient Data Provider
+TargetSite: Void OnError(Microsoft.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+InnerException: 
+-----------------------------------------------------------

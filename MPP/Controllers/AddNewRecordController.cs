@@ -66,7 +66,7 @@ namespace MPP.Controllers
                     {
                         string value = string.Empty;
                         string isMandatory = attributeList.Where(x => x.AttrName == data.AttrName).Select(y => y.IsMandatoryFlag).FirstOrDefault().ToString();
-                        if (string.IsNullOrEmpty(form[data.AttrName]) && isMandatory == "1" && data.Isvisible != "N")
+                        if (string.IsNullOrEmpty(form[data.AttrName]) && isMandatory == "true" && data.Isvisible !="N")
                         {
                             ModelState.AddModelError("error", data.AttrDisplayName + Constant.notNull);
                             errMsg.Append(data.AttrDisplayName + Constant.notNull);
@@ -87,7 +87,7 @@ namespace MPP.Controllers
                                 errMsg.Append(Environment.NewLine);
                             }
                         }
-                        else if (data.DisplayType.ToUpper() == "CHECKBOXLIST" && isMandatory == "1")
+                        else if (data.DisplayType.ToUpper() == "CHECKBOXLIST" && isMandatory == "true")
                         {
                             form.TryGetValue(data.AttrName, out var inputValue);
                             if (inputValue.Count > 0 && inputValue.ToString().Contains(','))

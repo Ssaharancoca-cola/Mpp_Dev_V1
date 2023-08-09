@@ -4,7 +4,7 @@
     var SelectedDimensionData = ViewBag.SelectedDimensionData;
 }
 <table width="100%" border="0" cellspacing="0" cellpadding="1">
-    <tr style="background-image: url('/Images/C1_heading.png'); background-color:#B88C8C; background-repeat: repeat-x; height: 100%;background-repeat: repeat-x;background-size: contain;">
+    <tr style="background-image: url('/Images/C1_heading.png'); background-color:red; background-repeat: repeat-x; height: 100%;background-repeat: repeat-x;background-size: contain;">
         <td align="center">
             @{
                 var selectedDimensionData = SelectedDimensionData?.ToString() ?? "";
@@ -17,7 +17,7 @@
     </tr>
     <tr style="width:100%">
         <td valign="top" style="vertical-align:top;width:100%">
-            <table width="100%" border="0" cellpadding="0" cellspacing="0" style="background-color:#B88C8C">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" style="background-color:red">
                 @foreach (var menuOption in Model)
                 {
                     <tr>

@@ -67,7 +67,7 @@ namespace MPP.Controllers
                     FilePath = FilePath + FileName;
                     if (!Directory.Exists(strRejectFilePath))
                         Directory.CreateDirectory(strRejectFilePath);
-                    strRejectFilePath = strRejectFilePath + strRejectFileName;
+                    strRejectFilePath = strRejectFilePath + strRejectFileName;                    
                     ValidateUploadedFile(file, form, out outMsg);
                     if (outMsg != Constant.statusSuccess)
                         return Content("error" + outMsg);
@@ -158,7 +158,7 @@ namespace MPP.Controllers
             #region cancelUpdateCommand
             else if (Command == "Cancel")
             {
-                return RedirectToRoute(new { controller = "Menu", action = "ShowAttribute", entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")), entityName = Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")), viewType = "search" });
+                return View(new { controller = "Menu", action = "ShowAttribute", entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")), entityName = Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")), viewType = "search" });
             }
             #endregion
             return Content("");
@@ -190,32 +190,31 @@ namespace MPP.Controllers
             return rDataType;
         }
 
-        //[HttpGet]
-        //public ActionResult Download(string path)
-        //{
-        //    try
-        //    {
-        //        string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
-        //        string FileName = "RejI" + userName[1] + path.Split(',')[1] + ".csv";
-        //        Response.Clear();
-        //        Response.ContentType = "application/vnd.ms-excel";
-        //        Response.AddHeader("Content-Disposition",
-        //        "attachment; filename=\"" + FileName + "\"");
-        //        Response.Flush();
-        //        Response.WriteFile(path.Split(',')[2]);
-        //        Response.End();
-        //        return Content("");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        using (LogErrorViewModel objLogErrorViewModel = new LogErrorViewModel())
-        //        {
-        //            objLogErrorViewModel.LogErrorInTextFile(ex);
-        //        }
-        //        return Content(ex.Message + ex.StackTrace);
-        //    }
+        [HttpGet]
+        public virtual IActionResult Download(string path)
+        {
+            try
+            {
+                string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
+                string fileName = "RejI" + userName[1] + path.Split(',')[1] + ".csv";
+                string newPath = path.Split(",")[2];
+                var fileStream = System.IO.File.OpenRead(newPath);
 
-        //}
+                return File(fileStream,
+                            "application/octet-stream",
+                            fileName,
+                            enableRangeProcessing: true);
+            }
+            catch (Exception ex)
+            {
+                using (LogErrorViewModel objLogErrorViewModel = new LogErrorViewModel())
+                {
+                    objLogErrorViewModel.LogErrorInTextFile(ex);
+                }
+                return Content(ex.Message + ex.StackTrace);
+            }
+
+        }
 
         //private void SendMail(string successRowCount, out string outMsg)
         //{

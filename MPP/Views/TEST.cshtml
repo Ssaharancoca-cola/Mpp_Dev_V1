@@ -1,0 +1,355 @@
+﻿@model List<Model.ENTITY_TYPE_ATTR_DETAIL>
+
+
+<script>
+    function onBegin() {
+        $('#divLoading').show();
+
+    }
+    function onSuccess(result) {
+        //   debugger;
+        if (result.length > 1000) {
+            var fileId = "AttributeDetail";
+            $('#' + fileId).html(result);
+
+
+        }
+        else {
+            if (result.indexOf("error") == -1) {
+
+                alert("Data Save Successfully");
+                $.post('@Url.Action("ShowAttribute", "Menu")', { entityTypeId: '@Session["EntityTypeID"]', entityName: '@Session["EntityName"]', viewType: "search" },
+                    function (data) {
+                        if (data.indexOf("Access denied") > -1) {
+                            alert(data);
+                        }
+                        else {
+                            $('#AttributeDetail').empty();
+
+                            $('#AttributeDetail').html(data);
+
+                            $('#lblcaption').html('@Session["EntityName"]');
+                            $('#viewPlaceHolder').empty();
+                        }
+
+                    });
+            }
+            else
+                alert(result.replace("error", ""))
+        }
+    }
+
+
+    function onComplete() {
+        $('#divLoading').hide();
+    }
+</script>
+@using (Ajax.BeginForm("SaveRecord", "AddNewRecord",
+                                                            new AjaxOptions
+                                                             {
+                                                                 HttpMethod = "POST",
+                                                                 // UpdateTargetId = "AttributeDetail",
+                                                                 InsertionMode = InsertionMode.Replace,
+                                                                 OnBegin = "onBegin",
+                                                                 OnComplete = "onComplete",
+                                                                 OnSuccess = "onSuccess"
+
+
+                                                             }))
+{
+    <table style="width: 100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="width:100%;height:31px;">
+            <td colspan="2" style="padding-left:5px">
+                @if (Session["SelectedDimensionData"] != null && Session["EntityName"] != null)
+                {
+
+                    <label style="color:#0f75da;font-family:Georgia;font-size:13pt;font-weight:bold">@Session["SelectedDimensionData"].ToString() ></label>
+                    <label style="color:black;font-family:Georgia;font-weight:bold">@Session["EntityName"].ToString()</label>
+                }
+
+            </td>
+        </tr>
+
+        <tr style="width:100%">
+            <td>
+                <span style="height:30px">
+                    <hr />
+                </span>
+            </td>
+
+        </tr>
+
+
+        <tr style="width:100%; height:25px">
+            <td colspan="2" style="width: 100%;padding-left:10px;padding-top:10px;" align="left">
+                <label style="color:#0f75da;font-size:12pt;font-weight:bold">Add New</label>
+
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-left:10px;padding-right:10px;padding-bottom:20px" valign="top">
+                <hr style="width:100%;height:2px;background-color:#084083;" />
+            </td>
+        </tr>
+    </table>
+    <table width="100%" border="0" cellspacing="2" cellpadding="0">
+        @foreach (var menuOption in Model)
+        {
+
+            if (@menuOption.ISVISIBLE != "N")
+            {
+                <tr style="width: 100%;padding-top:10px">
+                    <td style="width: 50%;padding-left:270px;">
+                        @menuOption.ATTR_DISPLAY_NAME
+                    </td>
+                    <td style="width: 50%" align="left">
+
+                        @switch (@menuOption.DISPLAY_TYPE.ToLower())
+                        {
+                            case "textbox":
+                                @*@Html.TextBoxFor(m=> @menuOption.ENTITY_TYPE_ID, new { @class = "width-40" })*@
+                                <input type="text" class="SortButton" style="width:45%" maxlength=@menuOption.ATTR_LENGTH name=@menuOption.ATTR_NAME id=@menuOption.ATTR_NAME />
+                                if (@menuOption.IS_MANDATORY_FLAG == 1)
+                                {
+                                    <label style="color:red">*</label>
+
+                                }
+                                if (@menuOption.ATTR_DISPLAY_NAME.ToUpper() == ("SORT ORDER"))
+                                {
+                                    @Html.Label("(9999999999)", new { @id = "lblSORT_ORDER_format", @class = "whiteText" })
+                                }
+                                break;
+                            case "datepicker":
+                                <input type="text" style="width:45%" name=@menuOption.ATTR_NAME id=@menuOption.ATTR_NAME class="datepicker" />
+
+                                if (@menuOption.IS_MANDATORY_FLAG == 1)
+                                {
+                                    <label style="color:red">*</label>
+
+                                }
+
+                                break;
+                            case "checkboxlist":
+                                foreach (var data in menuOption.dropDownDataList)
+                                {
+                                    var chkname = data.VALID_VALUES;
+                                    @Html.CheckBox(@menuOption.ATTR_NAME)
+                                    @data.VALUE_NAME.Substring(0, 1).ToUpper()
+
+                                    @data.VALUE_NAME.Substring(1).ToLower()
+                                    ;
+
+                                }
+                                if (@menuOption.IS_MANDATORY_FLAG == 1)
+                                {
+                                    <label style="color:red">*</label>
+
+                                }
+                                break;
+
+                            case "combobox":
+                                var name = menuOption.ATTR_NAME;
+                                @Html.DropDownListFor(m => name, new SelectList(@menuOption.dropDownDataList, "VALID_VALUES", "VALUE_NAME"), "--Select--", new { @id = @menuOption.ATTR_NAME, @class = "SortButton", @Name = @menuOption.ATTR_NAME, style = "width: 45%;" })
+                                if (@menuOption.IS_MANDATORY_FLAG == 1)
+                                {
+                                    <label style="color:red">*</label>
+
+                                }
+                                break;
+
+                            case "parcombo":
+                                @Html.DropDownListFor(m => @menuOption.ENTITY_TYPE_ID, new SelectList(@menuOption.dropDownDataList, "VALID_VALUES", "VALUE_NAME"), "--Select--", new { @id = @menuOption.ATTR_NAME, @Name = @menuOption.ATTR_NAME, style = "width: 45%; ", @onchange = "CallChangefunc('" + menuOption.CAS_DROP + "',this.value)" })
+                                if (@menuOption.IS_MANDATORY_FLAG == 1)
+                                {
+                                    <label style="color:red">*</label>
+
+                                }
+                                break;
+
+                            case "cascombo":
+                                @Html.DropDownList(@menuOption.ATTR_NAME, new SelectList(string.Empty, "Value", "Text"), "--Select--", new { @style = "width:45%;" })
+                                if (@menuOption.IS_MANDATORY_FLAG == 1)
+                                {
+                                    <label style="color:red">*</label>
+
+                                }
+                                break;
+                            case "userbox":
+                                <input type="text" class="SortButton" style="width:45%" maxlength=@menuOption.ATTR_LENGTH name=@menuOption.ATTR_NAME id=@menuOption.ATTR_NAME />
+                                if (@menuOption.IS_MANDATORY_FLAG == 1)
+                                {
+                                    <label style="color:red">*</label>
+
+                                }
+                                break;
+
+                            default:
+                                break;
+                        }
+                    </td>
+                </tr>
+            }
+        }
+        <tr style="width: 100%;padding-top:10px">
+            <td style="width: 50%;padding-left:270px;">
+
+                Effective Date
+            </td>
+            <td style="width: 50%" align="left">
+                <input type="text" class="SortButton" style="width:45%" readonly name=txtEffectiveDate id=txtEffectiveDate />
+
+
+            </td>
+        </tr>
+        <tr align="center" style="width: 100%; display:none" class="pageheadernfooter">
+            <td style="width: 50%" align="right"></td>
+            <td style="width: 50%" align="left">
+                <input type="text" class="SortButton" style="width:45%" name="txtEditLevel" id="txtEditLevel" />
+
+            </td>
+        </tr>
+        <tr align="center" style="width: 100%;padding-top:10px">
+            <td></td>
+            <td style="width: 50%" align="left">
+                <button type="submit" class="button" id="btnSave" name="Command" value="Save" title="Save" style="width:75px;"><img src="~/Images/Save_Button.gif" alt="Save" /></button>
+                <button type="submit" class="button" id="btnCancel" name="Command" value="Cancel" title="Cancel" style="width:75px;"><img src="~/Images/Cancel_Button.gif" alt="Cancel" /></button>
+                <button type="submit" title="Ignore & Save" class="button" style="width:200px;display:none" id="btnSupress" name="Command" value="IgnoreSave"><img src="~/Images/Ignore-&-save-button.gif" alt="Ignore & Save" /></button>
+
+            </td>
+        </tr>
+        <tr align="center" style="width: 100%;">
+            <td colspan="2" style="width: 100%" align="center">
+                <div style="color:red" id="lblErrorMsg"></div>
+
+            </td>
+        </tr>
+
+    </table>
+    <div id="divLoading" class="loader">
+
+        <img alt="Loading, please wait" style="position: absolute; top: 30%; left: 45%; width:110px; height:110px" src="~/Images/spinner.gif" />
+
+    </div>
+}
+<input type="hidden" id="cmdName" name="cmdName" value="displayMessage" />
+
+<div id="displayMessage"></div>
+
+<script>
+    $(document).ready(function () {
+        $("#btnCancel").click(function () {
+            $("#cmdName")[0].value = "AttributeDetail";
+            $('#viewPlaceHolder').empty();
+
+        });
+        $(function () {
+            $("#txtEffectiveDate").datepicker({
+                changeMonth: true, changeYear: true, yearRange: "2000:2038"
+            });
+
+
+        });
+
+        //$(function () {
+        //    $("#txtEffectiveDate").datepicker();
+        //});
+    });
+
+    $(function () {
+        $(".datepicker").datepicker({
+            changeMonth: true, changeYear: true, yearRange: "2000:2038"
+        });
+
+    });
+
+    function CallChangefunc(val, parcombo) {
+        $('#' + val + '').empty();
+
+        //alert(parcombo);
+
+        $.ajax({
+            type: "POST",
+            url: "Search/GetCasCombo",
+            datatype: "Json",
+            data: { Id: parcombo, cId: val },
+            success: function (data) {
+                $('#' + val + '').append('<option value="">--Select--</option>');
+                $.each(data, function (index, value) {
+                    $('#' + val + '').append('<option value="' + value.Value + '">' + value.Text + '</option>');
+                });
+            }
+        });
+    };
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            if (@menuOption.Isvisible != "N")
+            {
+<tr style="width: 100%;padding-top:10px">
+    <td style="width: 50%;padding-left:270px;">
+        @menuOption.AttrDisplayName
+    </td>
+    <td style="width: 50%" align="left">
+        @switch (@menuOption.DisplayType.ToLower())
+        {
+            case "textbox":
+                <input type="text" style="width:45%" maxlength="@menuOption.AttrLength" name="@menuOption.AttrName" id="@menuOption.AttrName" />
+                <label style="color:red">*</label>
+                break;
+            case "datepicker":
+                <input type="text" style="width:45%" name="@menuOption.AttrName" id="@menuOption.AttrName" class="datepicker" />
+                <label style="color:red">*</label>
+                break;
+            case "combobox":
+                <select id="@menuOption.AttrName" name="@menuOption.AttrName" style="width: 45%;">
+                    <option value="">--Select--</option>
+                    @foreach (var item in @menuOption.dropDownDataList)
+                    {
+                        <option value="@item.VALID_VALUES">@item.VALUE_NAME</option>
+                    }
+                </select>
+                <label style="color:red">*</label>
+                break;
+            case "Parcombo":
+                @Html.DropDownListFor(m => menuOption.EntityTypeId, new SelectList(menuOption.dropDownDataList, "VALID_VALUES", "VALUE_NAME"), "--Select--", new {@id= menuOption.AttrName, @Name = menuOption.AttrName, style ="width: 45%;", @onchange = "CallChangefunc('" + menuOption.CasDrop + "', this.value)" })
+                <label style="color:red">*</label>
+                break;
+            case "cascombo":
+                @Html.DropDownList(menuOption.AttrName, new SelectList(string.Empty, "Value", "Text"), "--Select--", new {@style = "width:45%;" })
+                <label style="color:red">*</label>
+                break;
+            case "userbox":
+                <input type="text" style="width:45%" maxlength=@menuOption.AttrLength name=@menuOption.AttrName id=@menuOption.AttrName />
+                <label style="color:red">*</label>
+                break;
+            default:
+                break;
+        }
+    </td>
+</tr>
+            }
