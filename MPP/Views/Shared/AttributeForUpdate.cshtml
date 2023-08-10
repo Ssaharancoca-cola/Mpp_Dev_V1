@@ -154,7 +154,7 @@
     </tr>
     <tr align="center" style="width:100%;padding-top:10px">
         <td style="width: 50%" align="center" colspan="1">
-            <button type="submit" class="button" id="btnUpdate" style="width:80px" name="Command" value="update">
+                    <button type="submit" class="button" id="btnUpdate" style="width:80px; margin-right: 20px;" name="Command" value="update">
                 <img src="~/Images/Update.png" />
             </button>
             <button type="submit" class="button" id="btnCancel" style="width:80px" name="Command" title="Cancel" value="Cancel">
@@ -186,14 +186,13 @@ else
 <script>
     $(document).ready(function () {
 
-
         $(function () {
-            $("#txtEffectiveDate").datepicker({ changeMonth: true, changeYear: true, yearRange: "2025:2050" });
+            $("#txtEffectiveDate").datepicker({ changeMonth: true, changeYear: true, yearRange: "2000:2050" });
 
             // $("#txtEffectiveDate").datepicker();
         });
         $(".datepicker").datepicker({
-            changeMonth: true, changeYear: true, yearRange: "2025:2050"
+            changeMonth: true, changeYear: true, yearRange: "2000:2050"
         });
         $('#formid').on('submit', submitFormWithAjax);
 

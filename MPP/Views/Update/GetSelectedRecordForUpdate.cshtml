@@ -31,17 +31,17 @@
         <table>
             <tr style="width:100%;height:31px;background-color:White">
                 <td colspan="2" style="padding-left:5px">
-                    <label style="color:#ef75da;font-family:Georgia;font-size:13pt;font-weight:bold">@Context.Session.GetString("SelectedDimensionData").ToString() ></label>
+                    <label style="color:red;font-family:Georgia;font-size:13pt;font-weight:bold">@Context.Session.GetString("SelectedDimensionData").ToString() ></label>
                     <label style="color:black;font-family:Georgia;font-weight:bold">@Context.Session.GetString("EntityName").ToString()</label>
                 </td>
             </tr>
             <tr style="width:100%; height:25px">
                 <td colspan="2" style="width: 100%;padding-left:10px;padding-top:10px;" align="left">
-                    <label style="color:#ef75da;font-size:12pt;font-weight:bold">Mass Update</label>
+                    <label style="color:red;font-size:12pt;font-weight:bold">Mass Update</label>
                 </td>
             </tr>
             <tr>
-                <td style="padding-left:10px;padding-right:10px;padding-bottom: 20px" valign="top">
+                <td style="padding-left:10px;padding-right:10px;padding-bottom: 10px" valign="top">
                     <hr style="width:100%;height:2px;background-color:#8B0000;" />
                 </td>
             </tr>
@@ -56,7 +56,8 @@
                                             @Html.Label(ListOfRecordsForUpdate.Count().ToString(), "", new { @class = "whiteTextNormal", @id = "lblTotalRecords" })
                                     </strong>
                                 </span> | <span class="whiteTextNormal">
-                                    <label class="whiteTextNormal" id="lblPageDetails"></label>
+@*                                    @Html.Label("", new { @class ="whiteTextNormal", @id ="lblPageDetails"})
+*@                                    <label class="whiteTextNormal" id="lblPageDetails"></label>
                                 </span>
                             </td>
                         </tr>
@@ -67,7 +68,7 @@
                                 <tr class="gridheader resultHeader">
                                     @foreach (var data in colName)
                                     {
-                                        if (data == "Current_Edit_Level" || data == "INPUT_ROW_ID")
+                                        if (data == "Current_Edit_Level" || data == "OID") //INPUT_ROW_ID
                                         { continue; }
                                         else
                                         {
@@ -92,8 +93,8 @@
                                         }
                                         else if (data.Key == "CURRENT_EDIT_LEVEL" || data.Key == "INPUT_ROW_ID")
                                         {
-                                            <td style="display:none">
-                                                <input type="hidden" id="hdnCurrentEditLevel" value=@data.Value />
+                                            <td style="display:none" id="tdCurrentEditLevel">
+                                                <input type="hidden" name="hdnCurrentEditLevel" id="hdnCurrentEditLevel" value=@data.Value />
                                             </td>
                                         }
                                         else if (data.Key.Contains("OID") & data.Key.Contains(spliEntityName[0].ToString().ToUpper()))
