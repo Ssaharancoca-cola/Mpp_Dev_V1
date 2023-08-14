@@ -177,10 +177,10 @@ namespace DAL
                                     //viewName = viewNameParameter.Value.ToString();
                                     //viewName = " ( " + viewName + " ) ";
                                 }
-                                ListBoxSelectQuery = ListBoxSelectQuery.Substring(0, startIndex + 4) + " ( " + viewName + ")" + ListBoxSelectQuery.Substring(endIndex);
+                                ListBoxSelectQuery = ListBoxSelectQuery.Substring(0, startIndex + 4) + " ( " + viewName + ") AS A " + ListBoxSelectQuery.Substring(endIndex);
                                 using (MPP_Context mPP_Context = new MPP_Context())
                                 {
-                                    dropDownDataList = mPP_Context.Set<DropDownData>().FromSqlRaw(insertAliasName + "FROM" + "(" + ListBoxSelectQuery + ")").ToList();
+                                    dropDownDataList = mPP_Context.Set<DropDownData>().FromSqlRaw( ListBoxSelectQuery ).ToList();
                                 }
                                 dropDownDataList = dropDownDataList.OrderBy(x => x.VALUE_NAME).ToList();
                                 entity_Type_Attr_Detail.dropDownDataList = dropDownDataList;

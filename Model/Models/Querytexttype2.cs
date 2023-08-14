@@ -14,7 +14,7 @@ namespace Model.Models
         public int? IsIdentifyingRelation { get; set; }
         public DateTime? DateFrom { get; set; }
         public string SessionId { get; set; }
-        public int? InputRowId { get; set; }
+        public int InputRowId { get; set; }
         public string SourceSystemCode { get; set; }
         public int? TreatNullsAsNulls { get; set; }
         public int? CurrentEditLevel { get; set; }

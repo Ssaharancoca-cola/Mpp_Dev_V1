@@ -7,9 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ImportFile\**" />
     <Compile Remove="Scripts\**" />
+    <Content Remove="ImportFile\**" />
     <Content Remove="Scripts\**" />
+    <EmbeddedResource Remove="ImportFile\**" />
     <EmbeddedResource Remove="Scripts\**" />
+    <None Remove="ImportFile\**" />
     <None Remove="Scripts\**" />
   </ItemGroup>
 

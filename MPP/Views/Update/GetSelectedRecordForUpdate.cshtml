@@ -48,7 +48,7 @@
             <tr align="center">
                 <td>
                     <table width="100%" border="0" cellspacing="0" cellpadding="8">
-                        <tr valign="middle" style="background-image:url(/wwwroot/Images/TableTop.jpg);background-repeat:repeat-x;height:100%">
+                        <tr valign="middle" style="background-image:url(/wwwroot/Images/TableTop1.jpg);background-repeat:repeat-x;height:100%">
                             <td height="40" class="whiteTextNormal">                            
                                     @Html.Label(@Context.Session.GetString("EntityName").ToString(), "", new { @class = "whiteTextNormal", @id = "lblcaption" })
                                 | <span class="whiteTextNormal">
@@ -56,8 +56,7 @@
                                             @Html.Label(ListOfRecordsForUpdate.Count().ToString(), "", new { @class = "whiteTextNormal", @id = "lblTotalRecords" })
                                     </strong>
                                 </span> | <span class="whiteTextNormal">
-@*                                    @Html.Label("", new { @class ="whiteTextNormal", @id ="lblPageDetails"})
-*@                                    <label class="whiteTextNormal" id="lblPageDetails"></label>
+                                    <label class="whiteTextNormal" id="lblPageDetails"></label>
                                 </span>
                             </td>
                         </tr>
@@ -66,15 +65,15 @@
                         <table border="0" id="tblsearchdata" rules="cols" class="alternate_color width-100 table">
                             <thead>
                                 <tr class="gridheader resultHeader">
+
                                     @foreach (var data in colName)
                                     {
-                                        if (data == "Current_Edit_Level" || data == "OID") //INPUT_ROW_ID
+                                        if (data == "Current Edit Level" || data == "OID") //INPUT_ROW_ID
                                         { continue; }
                                         else
                                         {
                                             <th>
-                                                @Html.Label(@data, "", new { @class = "colorWhite" })
-
+                                              <label class="colorWhite">@data</label>
                                             </th>
                                         }
                                     }

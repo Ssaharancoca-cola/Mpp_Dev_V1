@@ -4,9 +4,9 @@
 .lightRedBg {
     background-color: #f5c4c4;
 }
-.grayText{
+.blackText{
     font-family: Verdana, Arial, Helvetica, Arial;
-    color: #737373;
+    color: black;
     font-size: 10px;
 }
 .label{

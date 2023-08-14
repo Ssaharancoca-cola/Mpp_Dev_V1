@@ -1,6 +1,7 @@
 ﻿using CsvHelper;
 using DAL;
 using DAL.Common;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Model;
 using System.Collections;
 using System.Data;
@@ -8,6 +9,7 @@ using System.Formats.Asn1;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MPP.ViewModel
 {
@@ -125,7 +127,7 @@ namespace MPP.ViewModel
 
                 if (OrderByClause.Length == 0)
                     OrderBySyntax = "";
-                FormedString = SelectSyntax + Columns + FromSyntax + " ( " + TableName + " ) " + WhereSyntax + WhereClause +
+                FormedString = SelectSyntax + Columns + FromSyntax + TableName + WhereSyntax + WhereClause +
                                  GroupBySyntax + GroupByClause + OrderBySyntax + OrderByClause;
             }
             catch (Exception ex)
@@ -299,12 +301,12 @@ namespace MPP.ViewModel
                 {
 
                     extraColumnNames = "," + data.AttrName;
-                    extraColumnValues = "'UNKNOWN',";
+                    extraColumnValues = "NULL,";
                 }
             }
-            extraColumnNames = extraColumnNames + ",SOURCE_SYSTEM_NAME,LD_OID,SESSION_ID,TREAT_NULLS_AS_NULLS,USER_ID";
-            extraColumnValues = extraColumnValues + "'MPP_IMPORT',MPP_CORE.SEQ_LD_OID.NEXTVAL,'" + sessionID + "',1,'" + g_UserID + "'";
-
+            extraColumnNames = extraColumnNames + ",SOURCE_SYSTEM_CODE,LD_OID,SESSION_ID,TREAT_NULLS_AS_NULLS,USER_ID";
+            extraColumnValues = extraColumnValues + "'MPP_IMPORT',NEXT VALUE FOR MPP_CORE.SEQ_LD_OID,'" + sessionID + "',1,'" + g_UserID + "'";
+            
             outMsg = CheckFileLength(filePath, tableName, sessionID, userID, loadID);
             if (outMsg != Constant.statusSuccess)
                 return outMsg;
@@ -416,7 +418,7 @@ namespace MPP.ViewModel
                             if (DataValue == "")
                             {
                                 if (tableColDataTypes[i] == "DATE")
-                                    StrInsertQuery.Append("TRUNC(SYSDATE),");
+                                    StrInsertQuery.Append("convert(date,getdate()),");
                                 else
                                     StrInsertQuery.Append("NULL,");
                             }
@@ -540,8 +542,8 @@ namespace MPP.ViewModel
                         return outMsg;
 
                 }
-                extraColumnNames = ",SOURCE_SYSTEM_CODE,LD_OID,SESSION_ID,TREAT_NULLS_AS_NULLS,USER_ID";
-                extraColumnValues = "'MPP_IMPORT',MPP_CORE.SEQ_LD_OID.NEXTVAL,'" + sessionID + "',1,'" + g_UserID + "'";
+                extraColumnNames = extraColumnNames + ",SOURCE_SYSTEM_CODE,LD_OID,SESSION_ID,TREAT_NULLS_AS_NULLS,USER_ID";
+                extraColumnValues = extraColumnValues + "'MPP_IMPORT',NEXT VALUE FOR [MPP_CORE].SEQ_LD_OID," + sessionID + ",1,'" + g_UserID + "'";
                 outMsg = CheckFileLength(filePath, tableName, sessionID, userID, loadID);
                 if (outMsg != Constant.statusSuccess)
                     return outMsg;

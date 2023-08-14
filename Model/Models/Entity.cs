@@ -13,7 +13,6 @@ namespace Model.Models
         public string EntityLatestName { get; set; }
         public DateTime? EntityStartDate { get; set; }
         public DateTime? EntityEndDate { get; set; }
-        public int EditLevel { get; set; }
         public int? LatestFlag { get; set; }
         public string SourceSystemName { get; set; }
         public string CreatedBy { get; set; }
@@ -24,5 +23,6 @@ namespace Model.Models
         public string SuppliedCode4 { get; set; }
         public string SuppliedCode5 { get; set; }
         public DateTime? LastUpdatedTimeStamp { get; set; }
+        public int? EditLevel { get; set; }
     }
 }

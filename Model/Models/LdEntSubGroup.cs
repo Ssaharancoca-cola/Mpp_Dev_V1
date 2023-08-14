@@ -12,15 +12,19 @@ namespace Model.Models
         public string EntSubGroupCode { get; set; }
         public string EntSubGroupLongName { get; set; }
         public string EntSubGroupShortName { get; set; }
-        public string ActiveFlag { get; set; }
         public string DummyFlag { get; set; }
+        public string ActiveFlag { get; set; }
+        public DateTime? EffectiveStartDate { get; set; }
+        public DateTime? EffectiveEndDate { get; set; }
         public string SourceSystemCode { get; set; }
-        public decimal? SortOrder { get; set; }
+        public string SortOrder { get; set; }
         public string ErrorMessage { get; set; }
         public string WarningMessage { get; set; }
         public string SessionId { get; set; }
-        public int InputRowId { get; set; }
-        public DateTime? CreatedOn { get; set; }
+        public TimeSpan? CreatedDate { get; set; }
+        public string CreatedUserId { get; set; }
+        public DateTime? UpdateDate { get; set; }
+        public string UpdatedUserid { get; set; }
         public int? RowSecFlag { get; set; }
         public string ApproverId { get; set; }
         public string UserId { get; set; }
@@ -34,7 +38,8 @@ namespace Model.Models
         public int? RecLockFlag { get; set; }
         public int? TreatNullsAsNulls { get; set; }
         public int? CurrentEditLevel { get; set; }
-        public string EntEntityCode { get; set; }
         public string EntSubGroupDesc { get; set; }
+        public int InputRowId { get; set; }
+        public string EntEntityCode { get; set; }
     }
 }

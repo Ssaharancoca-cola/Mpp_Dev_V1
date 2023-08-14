@@ -13,7 +13,7 @@ namespace MPP.ViewComponents
             List<DimensionName> dimensionList = new List<DimensionName>();
             try
             {
-                //outMsg = CheckUserAccessRights();
+               // outMsg = CheckUserAccessRights();
                 if (outMsg != Constant.statusSuccess)
                     return View("~/Views/Shared/UnauthorizedAccess.cshtml");
                 using (MenuViewModel objMenuViewModel = new MenuViewModel())

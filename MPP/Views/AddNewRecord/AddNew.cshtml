@@ -102,20 +102,17 @@
                             case "textbox":
                                 @*@Html.TextBoxFor(m=> @menuOption.ENTITY_TYPE_ID, new { @class = "width-40" })*@
                                 <input type="text" class="SortButton" style="width:45%" maxlength=@menuOption.AttrLength name=@menuOption.AttrName id=@menuOption.AttrName />
-                                if (@menuOption.IsMandatoryFlag == true)
+                                if (@menuOption.IsMandatoryFlag == 1)
                                 {
                                     <label style="color:red">*</label>
 
                                 }
-                                if (@menuOption.AttrDisplayName.ToUpper() == ("SORT ORDER"))
-                                {
-                                    <label id="lblSORT_ORDER_format" class="whiteText">@("(9999999999)")</label>
-                                }
+                                
                                 break;
                             case "datepicker":
                                 <input type="text" style="width:45%" name=@menuOption.AttrName id=@menuOption.AttrName class="datepicker" />
 
-                                if (@menuOption.IsMandatoryFlag == true)
+                                if (@menuOption.IsMandatoryFlag == 1)
                                 {
                                     <label style="color:red">*</label>
 
@@ -133,26 +130,26 @@
                                     ;
 
                                 }
-                                if (@menuOption.IsMandatoryFlag == true)
+                                if (@menuOption.IsMandatoryFlag == 1)
                                 {
                                     <label style="color:red">*</label>
 
                                 }
                                 break;
 
-                            case "combobox":
-                                var name = menuOption.AttrName;
-                                @Html.DropDownListFor(m => name, new SelectList(@menuOption.dropDownDataList, "VALID_VALUES", "VALUE_NAME"), "--Select--", new { @id = @menuOption.AttrName, @class = "SortButton", @Name = @menuOption.AttrName, style = "width: 45%;" })
-                                if (@menuOption.IsMandatoryFlag == true)
-                                {
-                                    <label style="color:red">*</label>
-
-                                }
+                            case "combobox":                             
+                                <select id="@menuOption.AttrName" name="@menuOption.AttrName" style="width: 45%;">
+                                    <option value="">--Select--</option>
+                                    @foreach (var item in @menuOption.dropDownDataList)
+                                    {
+                                        <option value="@item.VALID_VALUES">@item.VALUE_NAME</option>
+                                    }
+                                </select>
+                                <label style="color:red">*</label>
                                 break;
-
                             case "parcombo":
                                 @Html.DropDownListFor(m => @menuOption.EntityTypeId, new SelectList(@menuOption.dropDownDataList, "VALID_VALUES", "VALUE_NAME"), "--Select--", new { @id = @menuOption.AttrName, @Name = @menuOption.AttrName, style = "width: 45%; ", @onchange = "CallChangefunc('" + menuOption.CasDrop + "',this.value)" })
-                                if (@menuOption.IsMandatoryFlag == true)
+                                if (@menuOption.IsMandatoryFlag == 1)
                                 {
                                     <label style="color:red">*</label>
 
@@ -161,7 +158,7 @@
 
                             case "cascombo":
                                 @Html.DropDownList(@menuOption.AttrName, new SelectList(string.Empty, "Value", "Text"), "--Select--", new { @style = "width:45%;" })
-                                if (@menuOption.IsMandatoryFlag == true)
+                                if (@menuOption.IsMandatoryFlag == 1)
                                 {
                                     <label style="color:red">*</label>
 
@@ -169,7 +166,7 @@
                                 break;
                             case "userbox":
                                 <input type="text" class="SortButton" style="width:45%" maxlength=@menuOption.AttrLength name=@menuOption.AttrName id=@menuOption.AttrName />
-                                if (@menuOption.IsMandatoryFlag == true)
+                                if (@menuOption.IsMandatoryFlag == 1)
                                 {
                                     <label style="color:red">*</label>
 
@@ -188,7 +185,7 @@
                 Effective Date
             </td>
             <td style="width: 50%" align="left">
-                <input type="text" class="SortButton" style="width:45%" name=txtEffectiveDate id=txtEffectiveDate />
+                <input type="text" style="width:45%" name=txtEffectiveDate id=txtEffectiveDate />
             </td>
         </tr>
         <tr align="center" style="width: 100%; display:none" class="pageheadernfooter">
@@ -198,10 +195,10 @@
 
             </td>
         </tr>
-        <tr align="center" style="width: 100%;padding-top:10px">
-            <td></td>
+        <tr align="center" style="width: 100%">
+            <td style="width: 50%" align="right"></td>
             <td style="width: 50%" align="left">
-                <button type="submit" class="button" id="btnSave" name="Command" value="Save" title="Save" style="width:75px;"><img src="~/Images/Save.png" alt="Save" /></button>
+                <button type="submit" class="button" id="btnSave" name="Command" value="Save" title="Save" style="width:75px; margin-right:30px;"><img src="~/Images/Save.png" alt="Save" /></button>
                 <button type="submit" class="button" id="btnCancel" name="Command" value="Cancel" title="Cancel" style="width:75px;"><img src="~/Images/Cancel.png" alt="Cancel" /></button>
 @*                <button type="submit" title="Ignore & Save" class="button" style="width:200px;display:none" id="btnSupress" name="Command" value="IgnoreSave"><img src="~/Images/Ignore-&-save-button.gif" alt="Ignore & Save" /></button>
 *@
@@ -231,18 +228,17 @@
             $("#cmdName")[0].value = "AttributeDetail";
             $('#viewPlaceHolder').empty();
 
-        });
-        $(function () {
-            $("#txtEffectiveDate").datepicker({ changeMonth: true, changeYear: true, yearRange: "2000:2050" });
-
-             $("#txtEffectiveDate").datepicker();
-        });        
+        });       
+        initializeEffectiveDateField();
         $('#formid').on('submit', submitFormWithAjax);
     });
-    $(".datepicker").datepicker({
-        changeMonth: true, changeYear: true, yearRange: "2000:2050"
-    });
-
+    function initializeEffectiveDateField() {
+        $("#txtEffectiveDate").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "2000:2050"
+        }).val();
+    }
     function CallChangefunc(val, parcombo) {
         $('#' + val + '').empty();
 

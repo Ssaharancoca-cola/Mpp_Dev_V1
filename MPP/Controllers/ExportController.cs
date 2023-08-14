@@ -39,7 +39,7 @@ namespace MPP.Controllers
                     int entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID"));
                     string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
                     string FileName = "E" + userName[1] + Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")) + ".csv";
-                    string FilePath = Path.Combine(_environment.ContentRootPath, "App_Data\\");
+                    string FilePath = Path.Combine(_environment.ContentRootPath, "ExportFile\\");
                     if (!Directory.Exists(FilePath))
                     {
                         Directory.CreateDirectory(FilePath);
@@ -84,10 +84,10 @@ namespace MPP.Controllers
                     {
                         DataSet ds = new DataSet();
                         outMsg = dataImportExportViewModel.GetViewName(entityTypeId, userName[1].ToUpper(), out viewName);
-                        if (outMsg != Constant.statusSuccess || string.IsNullOrEmpty(viewName))
-                        {
+                        if (outMsg != Constant.statusSuccess || string.IsNullOrEmpty(viewName))                    
                             return Content("error" + Constant.commonErrorMsg);
-                        }
+                        outMsg = dataImportExportViewModel.LoadTableToFlatFile(attrbuteList, FilePath, viewName, strExport.ToString().Trim(','), "", whereClause, "", SortBy, true, ",", 1, false);
+                        
                         if (outMsg == Constant.statusSuccess)
                         {
                             ViewData["filepath"] = FilePath;

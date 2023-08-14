@@ -120,10 +120,8 @@
             <td style="width: 50%" align="right"></td>
             <td style="width: 50%" align="left">
                 <button type="submit" class="button" id="btnImport" style="width:80px; margin-right: 15px;" name="Command" value="Import">
-                    <img src="~/Images/Import_Button.png/>
-                </button>&nbsp;&nbsp;&nbsp;
-
-
+                    <img src="~/Images/Import_Button1.png/>
+                </button>
                 <button type="submit" class="button" id="btnCancel" style="width:80px" name="Command" value="Cancel">
                     <img src="~/Images/Cancel.png" />
                 </button>
@@ -187,10 +185,26 @@
         let formData = new FormData();
         formData.append("Command", $(document.activeElement).attr("value"));
 
-        $('#formid input, #formid select').each(function () {
-            formData.append($(this).attr('name'), $(this).val());
+        //$('#formid input, #formid select').each(function () {
+        //    formData.append($(this).attr('name'), $(this).val());
+        //});
+        $('#formid input').each(function () {
+            // If input element is a checkbox
+            if ($(this).attr('type') == 'checkbox') {
+                // Check if the checkbox is checked
+                if ($(this).is(':checked')) {
+                    // Append the name of the checked checkbox to the formData
+                    formData.append($(this).attr('name'), true);
+                }
+            } else {
+                // For other input elements, append the value directly
+                formData.append($(this).attr('name'), $(this).val());
+            }
         });
 
+        $('#formid select').each(function () {
+            formData.append($(this).attr('name'), $(this).val());
+        });
         formData.append("file", $("#file").get(0).files[0]);
 
         $.ajax({

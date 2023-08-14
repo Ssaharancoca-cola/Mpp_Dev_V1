@@ -66,7 +66,7 @@ namespace MPP.Controllers
                     {
                         string value = string.Empty;
                         string isMandatory = attributeList.Where(x => x.AttrName == data.AttrName).Select(y => y.IsMandatoryFlag).FirstOrDefault().ToString();
-                        if (string.IsNullOrEmpty(form[data.AttrName]) && isMandatory == "true" && data.Isvisible !="N")
+                        if (string.IsNullOrEmpty(form[data.AttrName]) && isMandatory == "1" && data.Isvisible !="N")
                         {
                             ModelState.AddModelError("error", data.AttrDisplayName + Constant.notNull);
                             errMsg.Append(data.AttrDisplayName + Constant.notNull);

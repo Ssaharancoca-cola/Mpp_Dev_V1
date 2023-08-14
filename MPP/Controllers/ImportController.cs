@@ -57,10 +57,10 @@ namespace MPP.Controllers
 
                     string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
                     string FileName = "I" + userName[1] + Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")) + formatedDate + ".csv";
-                    string FilePath = Path.Combine(_environment.ContentRootPath, "App_Data\\");
+                    string FilePath = Path.Combine(_environment.ContentRootPath, "ImportFile\\");
 
                     string strRejectFileName = "RejI" + userName[1] + Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")) + ".csv";
-                    string strRejectFilePath = Path.Combine(_environment.ContentRootPath, "App_Data\\");
+                    string strRejectFilePath = Path.Combine(_environment.ContentRootPath, "ImportFile\\");
 
                     if (!Directory.Exists(FilePath))
                         Directory.CreateDirectory(FilePath);
@@ -89,7 +89,7 @@ namespace MPP.Controllers
                                 strExport.Append(data.AttrName + ",");
                                 strDataType.Append("VARCHAR" + ",");
                             }
-                            if (!(form[data.AttrName] == "false"))
+                            else if (!(form[data.AttrName] == "false"))
                             {
                                 strExport.Append(data.AttrName + ",");
                                 strDataType.Append(FindDataType(attributeList, data.AttrName) + ",");

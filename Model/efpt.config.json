@@ -36,14 +36,6 @@
          "ObjectType": 0
       },
       {
-         "Name": "[MPP_APP].[LD_ENTITY_GROUP]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[MPP_APP].[LD_ENTITY_SITE]",
-         "ObjectType": 0
-      },
-      {
          "Name": "[MPP_APP].[LOAD_ENTITY]",
          "ObjectType": 0
       },
