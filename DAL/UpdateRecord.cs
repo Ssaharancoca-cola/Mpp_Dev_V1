@@ -461,7 +461,7 @@ namespace DAL
             StringBuilder finalQuery = new StringBuilder();
             string outMsg = Constant.statusSuccess;
             string whereClauseData = string.Empty;
-            string sourceSystemName = "MDM UI";
+            string sourceSystemName = "MPP UI";
             int treat_nulls_as_nulls = 0;
             noOfRowInserted = 0;
             int ldOid = 0;

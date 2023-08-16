@@ -1,9 +1,11 @@
 ﻿using DAL;
 using DAL.Common;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model;
 using MPP.ViewModel;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Data;
 using System.Text;
 
@@ -23,8 +25,10 @@ namespace MPP.Controllers
         public ActionResult GetSelectedRecordForUpdate(string OIDList, string ActionType)
         {
             int entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID"));
-            ViewData["ActionType"] = ActionType;
-            ViewData["INPUTROWIDS"] = OIDList;
+            HttpContext.Session.SetString("INPUTROWIDS", OIDList);
+            HttpContext.Session.SetString("ActionType", ActionType);
+            //ViewData["ActionType"] = ActionType;
+            //ViewData["INPUTROWIDS"] = OIDList;
             DataSet ds = new DataSet();
             string outMsg = Constant.statusSuccess;
             bool isInputRowId = false;
@@ -90,7 +94,7 @@ namespace MPP.Controllers
         public async Task<ActionResult> UpdateSelectedRecords(IFormCollection form, string command)
         {
             string outMsg = Constant.statusSuccess;
-            string actionType = Convert.ToString(TempData["ActionType"]);
+            string actionType = Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("ActionType"));
             #region updateData
             if (command == "update")
             {
@@ -107,7 +111,13 @@ namespace MPP.Controllers
                 int entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID"));
                 List<Dictionary<string, string>> dataList = new List<Dictionary<string, string>>();
                 List<Dictionary<string, string>> resultQuery = new List<Dictionary<string, string>>();
-                resultQuery = (List<Dictionary<string, string>>)TempData["ListOfRecordsForUpdate"];
+
+                string serializedAttributeList = TempData["ListOfRecordsForUpdate"] as string;
+
+                if (serializedAttributeList != null)
+                {
+                    resultQuery = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(serializedAttributeList);
+                }
                 TempData.Keep();
                 List<Entity_Type_Attr_Detail> attributeList = new List<Entity_Type_Attr_Detail>();
                 List<Dictionary<string, string>> listattrValues = new List<Dictionary<string, string>>();

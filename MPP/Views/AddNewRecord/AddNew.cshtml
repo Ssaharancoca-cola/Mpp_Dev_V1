@@ -1,10 +1,5 @@
 ﻿@model List<Model.Entity_Type_Attr_Detail>
 
-<link rel="stylesheet" href="~/lib/jquery/dist/jquery-ui.min.css" asp-append-version="true" />
-<script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
-<script src="~/lib/jquery/dist/jquery-ui.min.js" asp-append-version="true"></script>
-<script src="~/js/attribute.js"></script>
-
 <script>
     function onBegin() {
         $('#divLoading').show();
@@ -107,7 +102,7 @@
                                     <label style="color:red">*</label>
 
                                 }
-                                
+
                                 break;
                             case "datepicker":
                                 <input type="text" style="width:45%" name=@menuOption.AttrName id=@menuOption.AttrName class="datepicker" />
@@ -137,7 +132,7 @@
                                 }
                                 break;
 
-                            case "combobox":                             
+                            case "combobox":
                                 <select id="@menuOption.AttrName" name="@menuOption.AttrName" style="width: 45%;">
                                     <option value="">--Select--</option>
                                     @foreach (var item in @menuOption.dropDownDataList)
@@ -182,10 +177,13 @@
         }
         <tr style="width: 100%;padding-top:10px">
             <td style="width: 50%;padding-left:270px;">
+
                 Effective Date
             </td>
             <td style="width: 50%" align="left">
-                <input type="text" style="width:45%" name=txtEffectiveDate id=txtEffectiveDate />
+                <input type="text" class="SortButton" style="width:45%" readonly name=txtEffectiveDate id=txtEffectiveDate />
+
+
             </td>
         </tr>
         <tr align="center" style="width: 100%; display:none" class="pageheadernfooter">
@@ -200,8 +198,8 @@
             <td style="width: 50%" align="left">
                 <button type="submit" class="button" id="btnSave" name="Command" value="Save" title="Save" style="width:75px; margin-right:30px;"><img src="~/Images/Save.png" alt="Save" /></button>
                 <button type="submit" class="button" id="btnCancel" name="Command" value="Cancel" title="Cancel" style="width:75px;"><img src="~/Images/Cancel.png" alt="Cancel" /></button>
-@*                <button type="submit" title="Ignore & Save" class="button" style="width:200px;display:none" id="btnSupress" name="Command" value="IgnoreSave"><img src="~/Images/Ignore-&-save-button.gif" alt="Ignore & Save" /></button>
-*@
+                @*                <button type="submit" title="Ignore & Save" class="button" style="width:200px;display:none" id="btnSupress" name="Command" value="IgnoreSave"><img src="~/Images/Ignore-&-save-button.gif" alt="Ignore & Save" /></button>
+                *@
             </td>
         </tr>
         <tr align="center" style="width: 100%;">
@@ -217,7 +215,7 @@
         <img alt="Loading, please wait" style="position: absolute; top: 30%; left: 45%; width:110px; height:110px" src="~/Images/spinner.gif" />
 
     </div>
- </form>   
+</form>
 <input type="hidden" id="cmdName" name="cmdName" value="displayMessage" />
 
 <div id="displayMessage"></div>
@@ -228,17 +226,20 @@
             $("#cmdName")[0].value = "AttributeDetail";
             $('#viewPlaceHolder').empty();
 
-        });       
-        initializeEffectiveDateField();
+        });
         $('#formid').on('submit', submitFormWithAjax);
+        $(function () {
+            $("#txtEffectiveDate").datepicker({
+                changeMonth: true, changeYear: true, yearRange: "2000:2050"
+            });
+
+        });
     });
-    function initializeEffectiveDateField() {
-        $("#txtEffectiveDate").datepicker({
-            changeMonth: true,
-            changeYear: true,
-            yearRange: "2000:2050"
-        }).val();
-    }
+$(function () {
+               $(".datepicker").datepicker({
+                   changeMonth: true, changeYear: true, yearRange: "2000:2050"
+               });
+});
     function CallChangefunc(val, parcombo) {
         $('#' + val + '').empty();
 
