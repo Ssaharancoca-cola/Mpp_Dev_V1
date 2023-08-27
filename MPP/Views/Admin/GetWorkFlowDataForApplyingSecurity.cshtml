@@ -1,0 +1,341 @@
+﻿@model Model.WorkFlowDetailForRowLevelSecurity
+
+
+<div class="darkBlueBg">
+    <table style="width: 100%">
+        <tr align="center" style="width:100%; height:25px">
+            <td style="width: 100%;padding-left:10px" align="left">
+                <label style="font-size:small;font-weight:bold;color:red;font-family:Arial Black">
+                    Apply Workflow
+                </label>
+            </td>
+        </tr>
+        <tr align="left" style="width:100%; height:5px">
+            <td style="padding-left:10px;padding-right:10px;padding-bottom:20px" valign="top">
+                <hr style="width:100%;height:2px;background-color:red;" />
+            </td>
+        </tr>
+    </table>
+    <centre>
+        <table>
+            <tr style="width: 100%" align="center" class="darkBlueBg">
+                <td style="width: 45%;padding-left:350px">
+                    <label class="editlabel">User Id</label>
+                </td>
+                <td align="left" style="width: 56%">
+                    @Html.TextBoxFor(m => m.UserID,new { @id = "txtUserId" })
+
+
+                    @*<asp:TextBox ID="ctrlUser_Id" runat="server" CssClass="edittxtfield" Font-Names="Verdana" ReadOnly="true" Enabled="false" MaxLength="100" width="160px" />*@
+                </td>
+            </tr>
+            <tr style="width: 100%" align="center" class="darkBlueBg">
+                <td style="width: 45%;padding-left:350px">
+                    <label class="editlabel">User Role</label>
+                </td>
+                <td align="left" style="width: 56%">
+                    @Html.TextBoxFor(m => m.UserRole, new { @id = "txtUserRole" })
+
+
+                    @*<asp:TextBox ID="ctrlUser_Role" runat="server" CssClass="edittxtfield" Font-Names="Verdana" ReadOnly="true" Enabled="false" MaxLength="100" width="160px" />*@
+                </td>
+            </tr>
+            <tr align="center" style="width: 100%" class="darkBlueBg">
+                <td style="width: 45%;padding-left:350px">
+                    <label class="editlabel">Entity Id</label>
+                </td>
+                <td align="left" style="width: 56%">
+                    @Html.TextBoxFor(m => m.EntityId,new { @id = "txtEntityName" })
+
+
+                    @*<asp:TextBox ID="ctrlEntity_Id" runat="server" CssClass="edittxtfield" Font-Names="Verdana" ReadOnly="true" Enabled="false" MaxLength="100" width="160px" />*@
+                </td>
+            </tr>
+        </table>
+    </centre>
+</div>
+
+<div>
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr style="width:100%">
+            <td style="width:40%;padding-left:102px" rowspan="1" colspan="1">
+                <label class="gridheader" style="font-weight:bold;color:black;font-family:Arial Black;display:inline-block; width:299px">
+                    List of Approvers
+                </label>
+            </td>
+            <td style="width:20%" rowspan="1" colspan="1"></td>
+            <td style="width:40%">
+                <label class="gridheader" style="font-weight:bold;color:black;font-family:Arial Black;display:inline-block; width:299px">
+                    Selected Approvers
+                </label>
+            </td>
+        </tr>
+        <tr style="width:100%">
+            <td style="width:40%" rowspan="1" colspan="1" align="right">
+                @Html.ListBoxFor(model => model.ApproverDetail,
+               new MultiSelectList(Model.ApproverDetail, "ApproverId", "ApproverName"), new { @id = "ddlApproverListBox",@class="approverdetail" })
+
+
+                @*<asp:ListBox ID="lbApprovers" runat="server" CssClass="editdropdown" SelectionMode="Multiple" Font-Names="Verdana"
+                             MaxLength="100" width="300px" Height="150px" DataTextField="ApproverName" DataValueField="ApproverId">
+                </asp:ListBox>*@
+            </td>
+            <td style="width:20%" align="center" rowspan="1" colspan="1">
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                        <td rowspan="1" colspan="1">
+                            <input type="button" id="btnMoveRight"  style="font-size:larger;height:30px;width:100px" value=">>" alt="Save">
+
+                            @*<asp:Button ID="btnMoveRight" runat="server" Text=">>" Font-Size="Larger" Height="30px" Width="100px" />*@
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" colspan="1">
+                            <input type="button" id="btnMoveLeft"  style="font-size:larger;height:30px;width:100px" value="<<" alt="Save">
+
+                            @*<asp:Button ID="btnMoveLeft" runat="server" Text="<<" Font-Size="Larger" Height="30px" Width="100px" />*@
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td style="width:40%" rowspan="1" colspan="1" align="left">
+                @Html.ListBoxFor(model => model.SelectedApproverDetail,
+               new MultiSelectList(Model.SelectedApproverDetail, "ApproverId", "ApproverName"), new { @id = "ddlApproverSelectedListBox",@class= "approverdetail" })
+
+
+
+                @*<asp:ListBox ID="lbSelectedApprovers" runat="server" CssClass="editdropdown" Font-Names="Verdana" SelectionMode="Multiple"
+                             MaxLength="100" width="300px" Height="150px" DataTextField="ApproverName" DataValueField="ApproverId">
+                </asp:ListBox>*@
+            </td>
+            <td>
+                @Html.HiddenFor(x=>x.SelectedApproverId, new { @id = "hdnSelectedApprover" })
+            @Html.HiddenFor(x => x.RoleID,new {@id ="hdnRoleID"})
+</td>
+        </tr>
+        <tr style="width:100%">
+            <td style="width:40%"></td>
+            <td style="width:20%;padding:10px" align="center">
+                <input type="image" id="btnSaveApprover" height="75%" value="submit" src="~/Images/Save_Button.gif" alt="Save">
+                <input type="image" id="btnCancelApprover" height="75%" value="submit" src="~/Images/Cancel_Button.gif" alt="Cancel">
+
+
+
+            </td>
+            <td style="width:40%"></td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                @*<asp:Label id="lblErrorMsg" runat="server" ForeColor="Red"></asp:Label>
+                <input id="hidSelectedApprovers" type="hidden" runat="server" />*@
+            </td>
+        </tr>
+    </table>
+</div>
+<script>
+    $("#btnMoveLeft").click(function () {
+        var selectedListBoxText = [];
+        var selectedListBoxValues = [];
+        var selectedItemIndex = [];
+
+        var length = $("#ddlApproverSelectedListBox option:selected").length;
+        if (length > 0) {
+            for (var i = 0; i < length; i++) {
+                selectedListBoxText[i] = $("#ddlApproverSelectedListBox option:selected")[i].text;
+                selectedItemIndex[i] = $("#ddlApproverSelectedListBox option:selected")[i].index;
+
+                if (selectedListBoxText[i] == "--Select--") {
+                    selectedListBoxValues[i] = "-1";
+                }
+                else {
+                    selectedListBoxValues[i] = $("#ddlApproverSelectedListBox option:selected")[i].value;
+
+                }
+            }
+            for (var j = 0; j < selectedListBoxText.length; j++) {
+                var newOption = new Option(); // Create a new instance of ListItem 
+                newOption.text = selectedListBoxText[j];
+                newOption.value = selectedListBoxValues[j];
+                ddlApproverListBox.options[ddlApproverListBox.length] = newOption; //Append the item in Target Listbox
+               // document.getElementById(HdnCodes).value = document.getElementById(HdnCodes).value.replace("," + varFromBox.options[varFromBox.options.selectedIndex].value + ",", "");
+
+                var hdnvalue = $("#hdnSelectedApprover").val();// + "," + newOption.value;
+                hdnvalue = hdnvalue.replace(newOption.value, "");
+                $("#hdnSelectedApprover").val(hdnvalue);
+               // ddlApproverSelectedListBox.remove(selectedItemIndex[j]); //Remove the item from Source Listbox
+
+            }
+            for (var j = selectedItemIndex.length-1; j >= 0 ; j--) {
+                ddlApproverSelectedListBox.remove(selectedItemIndex[j]); //Remove the item from Source Listbox
+            }
+          //  document.getElementById("#hdnSelectedApprover").value = "1";
+
+          //  $("#hdnSelectedApprover").val = "";
+        }
+        else
+        {
+            alert('Please select an Item to move');
+            return false;
+        }
+    });
+    $("#btnMoveRight").click(function ()
+    {
+        var selectedListBoxText = [];
+        var selectedListBoxValues = [];
+        var selectedItemIndex = [];
+        var length = $("#ddlApproverListBox option:selected").length;
+        if (length > 0) {
+            for (var i = 0; i < length; i++) {
+                selectedItemIndex[i] = $("#ddlApproverListBox option:selected")[i].index;
+                selectedListBoxText[i] = $("#ddlApproverListBox option:selected")[i].text;
+                if (selectedListBoxText[i] == "--Select--") {
+                    selectedListBoxValues[i] = "-1";
+                }
+                else {
+                    selectedListBoxValues[i] = $("#ddlApproverListBox option:selected")[i].value;
+
+
+                }
+            }
+            for (var j = 0; j < selectedListBoxText.length;j++)
+            {
+                var newOption = new Option(); // Create a new instance of ListItem 
+                newOption.text = selectedListBoxText[j];
+                newOption.value = selectedListBoxValues[j];
+                var hdnvalue = $("#hdnSelectedApprover").val()+"," + newOption.value;
+                $("#hdnSelectedApprover").val(hdnvalue);
+             //   document.getElementById(HdnCodes).value += "," + varFromBox.options[varFromBox.options.selectedIndex].value + ",";
+
+               // document.getElementById("#hdnSelectedApprover").value += newOption.value +",";
+                ddlApproverSelectedListBox.options[ddlApproverSelectedListBox.length] = newOption; //Append the item in Target Listbox
+
+            }
+            for (var j = selectedItemIndex.length-1; j >=0 ; j--) {
+                ddlApproverListBox.remove(selectedItemIndex[j]); //Remove the item from Source Listbox
+            }
+
+        }
+        else {
+            alert('Please select an Item to move');
+            return false;
+        }
+    });
+    $("#btnCancelApprover").click(function ()
+    {
+        var userId = $("#txtUserId").val();
+
+        $.post('@Url.Action("GetAllUsers", "Admin")',
+                                                           function (data) {
+                                                               if (data.indexOf("error") == 0) {
+                                                                   alert(data.replace("error", ""))
+                                                               }
+                                                               else {
+
+                                                                   $('#divDisplayAllUsers').html(data);
+                                                                 //  $('#ddlUserList option:eq(4)').attr('selected', 'selected');
+
+                                                               }
+
+                                                           });
+        $.post('@Url.Action("GetNewUserIndex", "Admin")', { newUserId: userId },
+             function (data) {
+                 if (data.indexOf("error") == 0) {
+                     alert(data.replace("error", ""));
+                 }
+                 else {
+                     $('#ddlUserList')[0].selectedIndex = data;
+
+                 }
+
+             });
+        $.post('@Url.Action("GetUserDetails", "Admin")', { userId: userId },
+             function (data) {
+                 if (data.indexOf("error") == 0) {
+                     alert(data.replace("error", ""));
+                 }
+                 else {
+
+                     $('#divUserDetails').empty();
+
+                     $('#divUserDetails').html(data);
+                     $('#divEntityDetail').empty();
+
+
+                 }
+
+             });
+    });
+    $("#btnSaveApprover").click(function()
+    {
+        var hdnSelectedApprover = $("#hdnSelectedApprover").val();
+        var roleId = $("#hdnRoleID").val();
+        var userId = $("#txtUserId").val();
+        var entityName = $("#txtEntityName").val();
+
+        $.post('@Url.Action("SaveSelectedApprover", "Admin")', { RoleId: roleId, UserId: userId, EntityName: entityName, SelectedApproverId: hdnSelectedApprover },
+                      function (data) {
+                          if (data.indexOf("error") == 0) {
+                              alert(data.replace("error", ""))
+                          }
+                          else {
+                              alert(data);
+                              $.post('@Url.Action("GetAllUsers", "Admin")',
+                                                   function (data) {
+                                                       if (data.indexOf("error") == 0) {
+                                                           alert(data.replace("error", ""))
+                                                       }
+                                                       else {
+
+                                                           $('#divDisplayAllUsers').html(data);
+                                                          // $('#ddlUserList option:eq(4)').attr('selected', 'selected');
+
+                                                       }
+
+                                                   });
+                              $.post('@Url.Action("GetNewUserIndex", "Admin")', { newUserId: userId },
+                                   function (data) {
+                                       if (data.indexOf("error") == 0) {
+                                           alert(data.replace("error", ""));
+                                       }
+                                       else {
+                                           $('#ddlUserList')[0].selectedIndex = data;
+
+                                       }
+
+                                   });
+                              $.post('@Url.Action("GetUserDetails", "Admin")', { userId: userId },
+                                   function (data) {
+                                       if (data.indexOf("error") == 0) {
+                                           alert(data.replace("error", ""));
+                                       }
+                                       else {
+
+                                           $('#divUserDetails').empty();
+
+                                           $('#divUserDetails').html(data);
+                                           $('#divEntityDetail').empty();
+
+
+                                       }
+
+                                   });
+                          }
+
+                      });
+    
+    });
+</script>
+<style type="text/css">
+.approverdetail
+{
+    width:300px;
+    height:150px;
+    font-family:Verdana;
+}
+.selectedapprover
+{
+    width:150px;
+    font-family:Verdana;
+    width:300px;
+}
+</style>

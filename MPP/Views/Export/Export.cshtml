@@ -129,8 +129,9 @@
                 this.checked = status; //change ".label" checked status
             });
         });
-        $('#formid').on('submit', submitFormWithAjax);
+        //$('#formid').on('submit', submitFormWithAjax);
     });
+    $('#formid').on('submit', submitFormWithAjax);
     function onBegin() {
         $('#divLoading').show();
 
@@ -175,9 +176,12 @@
         let commandValue = $(document.activeElement).attr("value");
         // Declare an object to store the form data
         let form = {};
+        debugger;
         // Loop through form elements and collect the data
         $('#formid input, #formid select').each(function () {
-            form[$(this).attr('name')] = $(this).val();
+            if ($(this).attr('type') === 'checkbox') {
+                form[$(this).attr('name')] = $(this).prop('checked');
+            }
         });
         form['Command'] = commandValue;
         debugger;
@@ -188,7 +192,7 @@
             success: function (data) {
                 debugger;
                 // Update your DOM based on the received data.
-                onSuccess(data);                
+                onSuccess(data);
             },
             error: function (err) {
                 onFailure(error);

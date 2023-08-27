@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Model;
 using MPP.ViewModel;
 using Newtonsoft.Json;
-
+using System.Text;
 
 namespace MPP.ViewComponents
 {
@@ -32,7 +32,7 @@ namespace MPP.ViewComponents
             List<Dictionary<string, string>> dataList = new List<Dictionary<string, string>>();
             List<Entity_Type_Attr_Detail> attributeList = new List<Entity_Type_Attr_Detail>();
 
-            string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
+            string[] userName = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
             outMsg = CheckUserAccessRights(Command, userName[1]);
             if (outMsg != Constant.statusSuccess)
                 return Content(outMsg);
@@ -121,13 +121,11 @@ namespace MPP.ViewComponents
             }
             #endregion AddNewExportImport
 
-            else if (Command == "Workflow")
+            else if (Command == "WorkFlow")
             {
-                //GetWorkFlowData();
-                return View("~/Views/WorkFlow/GetWorkFlowData.cshtml");
+                GetWorkFlowData();
+                return View("~/Views/Workflow/GetWorkFlowData.cshtml");
             }
-
-
             return View("GetSearchData");
         }
 
@@ -293,6 +291,69 @@ namespace MPP.ViewComponents
                 outMsg = Constant.commonErrorMsg;
             }
             return outMsg;
+
+        }
+        private string GetWorkFlowData()
+        {
+            string outMsg = Constant.statusSuccess;
+            try
+            {
+                using (WorkFlowViewModel objWorkFlowViewModel = new WorkFlowViewModel())
+                {
+                    int entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID"));
+                    string submittedColumnData;
+                    string rejectedColumnData;
+                    string approvalPendingColumnData;
+                    string existingRecordColumnData;
+
+                    List<string> submittedRowData = new List<string>();
+                    List<string> rejectedRowData = new List<string>();
+                    List<string> approvalPendingRowData = new List<string>();
+                    List<string> existingRecordRowData = new List<string>();
+
+                    List<Dictionary<string, string>> submittedDataList = new List<Dictionary<string, string>>();
+                    List<Dictionary<string, string>> rejectedDataList = new List<Dictionary<string, string>>();
+                    List<Dictionary<string, string>> approvalPendingDataList = new List<Dictionary<string, string>>();
+                    List<Dictionary<string, string>> existingRecordDataList = new List<Dictionary<string, string>>();
+
+                    objWorkFlowViewModel.LoadContentView(entityTypeId, out submittedColumnData, out submittedRowData, out submittedDataList);
+                    TempData["submittedColumnData"] = submittedColumnData;
+                    TempData["submittedRowData"] = submittedRowData;
+                    TempData["submitteddataList"] = submittedDataList;
+
+                    objWorkFlowViewModel.LoadContentReject(entityTypeId, out rejectedColumnData, out rejectedRowData, out rejectedDataList);
+                    TempData["rejectedColumnData"] = rejectedColumnData;
+                    TempData["rejectedRowData"] = rejectedRowData;
+                    TempData["rejecteddataList"] = rejectedDataList;
+
+                    objWorkFlowViewModel.LoadContentMyApproval(entityTypeId, out approvalPendingColumnData, out approvalPendingRowData,
+                        out approvalPendingDataList, out existingRecordColumnData, out existingRecordRowData, out existingRecordDataList);
+                    TempData["approvalPendingColumnData"] = approvalPendingColumnData;
+                    TempData["approvalPendingRowData"] = approvalPendingRowData;
+                    TempData["approvalPendingdataList"] = approvalPendingDataList;
+
+                    StringBuilder rowdata = new StringBuilder();
+                    foreach (var data in existingRecordRowData)
+                    {
+
+                        rowdata.Append(data.ToString());
+
+                        rowdata.Append("^");
+
+                    }
+                    ViewData["ExistingList"] = rowdata.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                using (LogErrorViewModel objLogErrorViewModel = new LogErrorViewModel())
+                {
+                    objLogErrorViewModel.LogErrorInTextFile(ex);
+                }
+                outMsg = ex.Message;
+            }
+            return outMsg;
+
 
         }
     }

@@ -254,7 +254,7 @@ namespace DAL
                     return outMsg;
                 strQuery.Append("SELECT " + strSelectClause + " FROM ");
 
-                strQuery.Append("MDM_APP." + tableName);
+                strQuery.Append("MPP_APP." + tableName);
                 strQuery.Append(" t ");
                 strQuery.Append(strWhereClause);
                 searchQuery = strQuery.ToString();
@@ -324,7 +324,7 @@ namespace DAL
                 //    SessionID = _CATEGORY.SESSION_ID;
                 //    UserName = _CATEGORY.USER_NAME;
                 //    bSuppressWarning = _CATEGORY.SUPRESS_WARNING;
-                //    String subQuery = String.Format("UPDATE MDM_APP.LD_CATEGORY SET CTGRY_CD = " + (_CATEGORY.CTGRY_CD == null ? "NULL" : "'" + _CATEGORY.CTGRY_CD + "'") + ",CTGRY_DSC = " + (_CATEGORY.CTGRY_DSC == null ? "NULL" : "'" + _CATEGORY.CTGRY_DSC + "'") + ",SHORT_DSC = " + (_CATEGORY.SHORT_DSC == null ? "NULL" : "'" + _CATEGORY.SHORT_DSC + "'") + ",DUMMY_FLAG = " + (_CATEGORY.DUMMY_FLAG == null ? "NULL" : "'" + _CATEGORY.DUMMY_FLAG + "'") + ",SORT_ORDER = " + _CATEGORY.SORT_ORDER + ",ACTIVE_FLAG = " + (_CATEGORY.ACTIVE_FLAG == null ? "NULL" : "'" + _CATEGORY.ACTIVE_FLAG + "'") + ",DATE_FROM = " + (_CATEGORY.DATE_FROM == null ? "NULL" : "to_date('" + ((DateTime)_CATEGORY.DATE_FROM).ToString("MM/dd/yyyy") + "','MM/DD/YYYY')") + ", SESSION_ID = '" + _CATEGORY.SESSION_ID + "',ROW_STATUS = '1' WHERE INPUT_ROW_ID = '" + _CATEGORY.INPUT_ROW_ID + "' ");
+                //    String subQuery = String.Format("UPDATE MPP_APP.LD_CATEGORY SET CTGRY_CD = " + (_CATEGORY.CTGRY_CD == null ? "NULL" : "'" + _CATEGORY.CTGRY_CD + "'") + ",CTGRY_DSC = " + (_CATEGORY.CTGRY_DSC == null ? "NULL" : "'" + _CATEGORY.CTGRY_DSC + "'") + ",SHORT_DSC = " + (_CATEGORY.SHORT_DSC == null ? "NULL" : "'" + _CATEGORY.SHORT_DSC + "'") + ",DUMMY_FLAG = " + (_CATEGORY.DUMMY_FLAG == null ? "NULL" : "'" + _CATEGORY.DUMMY_FLAG + "'") + ",SORT_ORDER = " + _CATEGORY.SORT_ORDER + ",ACTIVE_FLAG = " + (_CATEGORY.ACTIVE_FLAG == null ? "NULL" : "'" + _CATEGORY.ACTIVE_FLAG + "'") + ",DATE_FROM = " + (_CATEGORY.DATE_FROM == null ? "NULL" : "to_date('" + ((DateTime)_CATEGORY.DATE_FROM).ToString("MM/dd/yyyy") + "','MM/DD/YYYY')") + ", SESSION_ID = '" + _CATEGORY.SESSION_ID + "',ROW_STATUS = '1' WHERE INPUT_ROW_ID = '" + _CATEGORY.INPUT_ROW_ID + "' ");
                 //    Query.Append(subQuery);
                 //    Query.Append(";");
                 //}
@@ -364,7 +364,7 @@ namespace DAL
             StringBuilder finalQuery = new StringBuilder();
             string outMsg = Constant.statusSuccess;
             string whereClauseData = string.Empty;
-            string sourceSystemName = "MDM UI";
+            string sourceSystemName = "MPP UI";
             int treat_nulls_as_nulls = 0;
             noOfRowInserted = 0;
             int ldOid = 0;
@@ -428,7 +428,7 @@ namespace DAL
                     updateQuery.Append(whereClause);
                     updateQuery.Append(";");
                     finalQuery.Append(updateQuery);
-                    //"UPDATE MDM_APP.LD_CATEGORY SET CTGRY_CD = " + (_CATEGORY.CTGRY_CD == null ? "NULL" : "'" + _CATEGORY.CTGRY_CD + "'") + 
+                    //"UPDATE MPP_APP.LD_CATEGORY SET CTGRY_CD = " + (_CATEGORY.CTGRY_CD == null ? "NULL" : "'" + _CATEGORY.CTGRY_CD + "'") + 
                     //    ",CTGRY_DSC = " + (_CATEGORY.CTGRY_DSC == null ? "NULL" : "'" + _CATEGORY.CTGRY_DSC + "'") + ",
                     //    SHORT_DSC = " + (_CATEGORY.SHORT_DSC == null ? "NULL" : "'" + _CATEGORY.SHORT_DSC + "'") + ",
                     //DUMMY_FLAG = " + (_CATEGORY.DUMMY_FLAG == null ? "NULL" : "'" + _CATEGORY.DUMMY_FLAG + "'") + ",
@@ -468,7 +468,7 @@ namespace DAL
             try
             {
 
-                finalQuery.Append("begin ");
+               // finalQuery.Append("begin ");
                 foreach (var dictionary in listattrValues)
                 {
                     using (GetSequenceValue objGetSequenceValue = new GetSequenceValue())
@@ -515,7 +515,8 @@ namespace DAL
                             }
                             else if (data.Key == "DATE_FROM")
                             {
-                                whereClauseData = data.Value == null ? "TRUNC(SYSDATE)" : "to_date('" + (DateTime.Parse(data.Value)).ToString("MM/dd/yyyy") + "','MM/DD/YYYY')";
+                                //whereClauseData = data.Value == null ? "TRUNC(SYSDATE)" : "to_date('" + (DateTime.Parse(data.Value)).ToString("MM/dd/yyyy") + "','MM/DD/YYYY')";
+                                whereClauseData = data.Value == null ? "CONVERT(DATE, GETDATE())" : "CONVERT(DATE, '" + (DateTime.Parse(data.Value)).ToString("MM/dd/yyyy") + "', 101)";
                                 selectColumn.Append(data.Key + " , ");
                                 whereClause.Append(" " + whereClauseData + " , ");
                             }
@@ -534,8 +535,8 @@ namespace DAL
                     insertQuery.Append(";");
                     finalQuery.Append(insertQuery);
                 }
-                finalQuery.Append(" Commit; ");
-                finalQuery.Append(" End;");
+                //finalQuery.Append(" Commit; ");
+                //finalQuery.Append(" End;");
                 using (MPP_Context objmdmContext = new MPP_Context())
                 {
                     noOfRowInserted = objmdmContext.Database.ExecuteSqlRaw(finalQuery.ToString());
@@ -558,7 +559,7 @@ namespace DAL
             {
                 using (MPP_Context objMdmContext = new MPP_Context())
                 {
-                    objMdmContext.Procedures.MPP_LOAD_CHKAsync(sessionId.ToString(), entityTypeId.ToString(), userID.ToUpper(), suppressWarning);
+                    objMdmContext.Procedures.MPP_LOAD_CHKAsync(sessionId.ToString(), entityTypeId.ToString(), userID.ToUpper(), suppressWarning).GetAwaiter().GetResult();
                 }
             }
             catch (Exception ex)
@@ -650,7 +651,7 @@ namespace DAL
                     }
                     else
                     {
-                        outMsg = DateTime.Now + ":Please Contact MDM Support Team";
+                        outMsg = DateTime.Now + ":Please Contact MPP Support Team";
                     }
                 }
             }

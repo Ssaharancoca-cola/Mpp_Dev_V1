@@ -28,7 +28,7 @@ namespace MPP.Controllers
         /// <param name="form">form values .</param>
         /// <param name="Command">command name for checking button type .</param>
         /// <returns> View</returns>
-        public IActionResult ImportData(IFormCollection form, string Command, IFormFile file)
+        public async Task<IActionResult> ImportData(IFormCollection form, string Command, IFormFile file)
         {
             if (Command == "Import")
             {
@@ -55,7 +55,7 @@ namespace MPP.Controllers
                     TempData.Keep();
                     string formatedDate = DateTime.Now.ToString("dd-MM-yyyy-hh-mm");
 
-                    string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
+                    string[] userName = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
                     string FileName = "I" + userName[1] + Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")) + formatedDate + ".csv";
                     string FilePath = Path.Combine(_environment.ContentRootPath, "ImportFile\\");
 
@@ -158,7 +158,13 @@ namespace MPP.Controllers
             #region cancelUpdateCommand
             else if (Command == "Cancel")
             {
-                return View(new { controller = "Menu", action = "ShowAttribute", entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")), entityName = Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")), viewType = "search" });
+                return await Task.Run(() => ViewComponent("ShowAttribute",
+                                    new
+                                    {
+                                        entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")),
+                                        entityName = Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")),
+                                        viewType = "search"
+                                    }));
             }
             #endregion
             return Content("");
@@ -195,7 +201,7 @@ namespace MPP.Controllers
         {
             try
             {
-                string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
+                string[] userName = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
                 string fileName = "RejI" + userName[1] + path.Split(',')[1] + ".csv";
                 string newPath = path.Split(",")[2];
                 var fileStream = System.IO.File.OpenRead(newPath);

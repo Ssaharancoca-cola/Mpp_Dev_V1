@@ -34,7 +34,9 @@ namespace Model.Models
 
         protected void OnModelCreatingGeneratedProcedures(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<GET_MPP_WORKFLOW_SAVEResult>().HasNoKey().ToView(null);
             modelBuilder.Entity<MPP_LOAD_CHKResult>().HasNoKey().ToView(null);
+            modelBuilder.Entity<MPP_REFRESH_ROW_SECURITYResult>().HasNoKey().ToView(null);
         }
     }
 
@@ -45,6 +47,62 @@ namespace Model.Models
         public MPP_ContextProcedures(MPP_Context context)
         {
             _context = context;
+        }
+
+        public virtual async Task<List<GET_MPP_WORKFLOW_SAVEResult>> GET_MPP_WORKFLOW_SAVEAsync(string i_Session_Id, int? i_entity_type_id, string i_Approver_Id, string i_status, OutputParameter<int?> resultval, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterresultval = new SqlParameter
+            {
+                ParameterName = "resultval",
+                Direction = System.Data.ParameterDirection.InputOutput,
+                Value = resultval?._value ?? Convert.DBNull,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                new SqlParameter
+                {
+                    ParameterName = "i_Session_Id",
+                    Size = 100,
+                    Value = i_Session_Id ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "i_entity_type_id",
+                    Value = i_entity_type_id ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.Int,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "i_Approver_Id",
+                    Size = 100,
+                    Value = i_Approver_Id ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "i_status",
+                    Size = 100,
+                    Value = i_status ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                parameterresultval,
+                parameterreturnValue,
+            };
+            var _ = await _context.SqlQueryAsync<GET_MPP_WORKFLOW_SAVEResult>("EXEC @returnValue = [dbo].[GET_MPP_WORKFLOW_SAVE] @i_Session_Id, @i_entity_type_id, @i_Approver_Id, @i_status, @resultval OUTPUT", sqlParameters, cancellationToken);
+
+            resultval.SetValue(parameterresultval.Value);
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
         }
 
         public virtual async Task<int> GET_VIEW_NAMEAsync(int? i_entity_type_id, string i_user_id, OutputParameter<string> view_name, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
@@ -133,6 +191,49 @@ namespace Model.Models
             return _;
         }
 
+        public virtual async Task<int> MPP_ENTITY_USER_SEC_VIEWS_LOVAsync(int? i_entity_type_id, string i_user_id, OutputParameter<string> i_result, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameteri_result = new SqlParameter
+            {
+                ParameterName = "i_result",
+                Size = -1,
+                Direction = System.Data.ParameterDirection.InputOutput,
+                Value = i_result?._value ?? Convert.DBNull,
+                SqlDbType = System.Data.SqlDbType.NVarChar,
+            };
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                new SqlParameter
+                {
+                    ParameterName = "i_entity_type_id",
+                    Value = i_entity_type_id ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.Int,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "i_user_id",
+                    Size = 100,
+                    Value = i_user_id ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.NVarChar,
+                },
+                parameteri_result,
+                parameterreturnValue,
+            };
+            var _ = await _context.Database.ExecuteSqlRawAsync("EXEC @returnValue = [dbo].[MPP_ENTITY_USER_SEC_VIEWS_LOV] @i_entity_type_id, @i_user_id, @i_result OUTPUT", sqlParameters, cancellationToken);
+
+            i_result.SetValue(parameteri_result.Value);
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
+        }
+
         public virtual async Task<List<MPP_LOAD_CHKResult>> MPP_LOAD_CHKAsync(string i_Session_id, string i_entity_type_id, string i_user_id, decimal? i_suppress_warnings, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter
@@ -175,6 +276,47 @@ namespace Model.Models
                 parameterreturnValue,
             };
             var _ = await _context.SqlQueryAsync<MPP_LOAD_CHKResult>("EXEC @returnValue = [dbo].[MPP_LOAD_CHK] @i_Session_id, @i_entity_type_id, @i_user_id, @i_suppress_warnings", sqlParameters, cancellationToken);
+
+            returnValue?.SetValue(parameterreturnValue.Value);
+
+            return _;
+        }
+
+        public virtual async Task<List<MPP_REFRESH_ROW_SECURITYResult>> MPP_REFRESH_ROW_SECURITYAsync(string I_USER_ID, string I_ENTITY_ID, string I_DIM, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        {
+            var parameterreturnValue = new SqlParameter
+            {
+                ParameterName = "returnValue",
+                Direction = System.Data.ParameterDirection.Output,
+                SqlDbType = System.Data.SqlDbType.Int,
+            };
+
+            var sqlParameters = new []
+            {
+                new SqlParameter
+                {
+                    ParameterName = "I_USER_ID",
+                    Size = -1,
+                    Value = I_USER_ID ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "I_ENTITY_ID",
+                    Size = -1,
+                    Value = I_ENTITY_ID ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                new SqlParameter
+                {
+                    ParameterName = "I_DIM",
+                    Size = -1,
+                    Value = I_DIM ?? Convert.DBNull,
+                    SqlDbType = System.Data.SqlDbType.VarChar,
+                },
+                parameterreturnValue,
+            };
+            var _ = await _context.SqlQueryAsync<MPP_REFRESH_ROW_SECURITYResult>("EXEC @returnValue = [dbo].[MPP_REFRESH_ROW_SECURITY] @I_USER_ID, @I_ENTITY_ID, @I_DIM", sqlParameters, cancellationToken);
 
             returnValue?.SetValue(parameterreturnValue.Value);
 

@@ -29,7 +29,7 @@ namespace MPP.ViewComponents
                 ViewData["EntityTypeID"] = entityTypeId;
                 ViewData["EntityName"] = HttpContext.Session.GetString("EntityName");
                  ViewData["selectedIndex"] = HttpContext.Session.GetString("selectedIndex");
-                string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
+                string[] userName = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
                 using (PrevilegesDataViewModel previlegesDataViewModel = new PrevilegesDataViewModel())
                 {
                     Previleges previlegesData = previlegesDataViewModel.GetPrevileges(userName[1], entityTypeId, out outMsg);

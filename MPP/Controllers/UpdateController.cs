@@ -22,7 +22,7 @@ namespace MPP.Controllers
         }
         
         public ActionResult Index() { return View(); }
-        public ActionResult GetSelectedRecordForUpdate(string OIDList, string ActionType)
+        public async Task<IActionResult> GetSelectedRecordForUpdate(string OIDList, string ActionType)
         {
             int entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID"));
             HttpContext.Session.SetString("INPUTROWIDS", OIDList);
@@ -38,7 +38,7 @@ namespace MPP.Controllers
             List<Dictionary<string, string>> ListOfRecordsForUpdate = new List<Dictionary<string, string>>();
             try
             {
-                string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
+                string[] userName = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
                 using (PrevilegesDataViewModel objPrevilegesDataViewModel = new PrevilegesDataViewModel())
                 {
                     Previleges previlegesData = objPrevilegesDataViewModel.GetPrevileges(userName[1], entityTypeId, out outMsg);
@@ -121,7 +121,7 @@ namespace MPP.Controllers
                 TempData.Keep();
                 List<Entity_Type_Attr_Detail> attributeList = new List<Entity_Type_Attr_Detail>();
                 List<Dictionary<string, string>> listattrValues = new List<Dictionary<string, string>>();
-                string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
+                string[] userName = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
                 #endregion fielddeclaration
                 #region checkUserAccessRights
                 using (PrevilegesDataViewModel objPrevilegesDataViewModel = new PrevilegesDataViewModel())
@@ -132,7 +132,13 @@ namespace MPP.Controllers
                         if (previlegesData == null || previlegesData.UPDATE_FLAG != 1)
                         {
                             TempData["message"] = Constant.accessDenied;
-                            return RedirectToRoute(new { controller = "Menu", action = "ShowAttribute", entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")), entityName = Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")), viewType = "search" });
+                            return await Task.Run(() => ViewComponent("ShowAttribute",
+                                                                              new
+                                                                              {
+                                                                                  entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")),
+                                                                                  entityName = Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")),
+                                                                                  viewType = "search"
+                                                                              }));
                         }
                         else
                             languageCode = previlegesData.LANGUAGE_CODE.ToString();
@@ -152,7 +158,7 @@ namespace MPP.Controllers
                 {
                     (attributeList, outMsg) = await objMenuViewModel.ShowAttributeDataAsync(entityTypeId, "", userName[1].ToUpper());
                 }
-                //outMsg = ValidateData(form, attributeList);
+                outMsg = ValidateData(form, attributeList);
                 if (outMsg != Constant.statusSuccess)
                     return Content("error" + outMsg);
                 outMsg = GetLisOfRecordToUpdate(resultQuery, form, attributeList, out listattrValues);
@@ -174,7 +180,6 @@ namespace MPP.Controllers
 
                     string formatedDate = DateTime.Now.ToString("dd-MM-yyyy-hh-mm");
                     string strRejectFileName = "I" + userName[1] + Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")) + formatedDate + ".csv";
-                    //string FilePath = Request.MapPath("") + @"\App_Data\";
                     string FilePath = Path.Combine(_environment.ContentRootPath, "App_Data\\");
 
                     if (!Directory.Exists(FilePath))
@@ -200,7 +205,6 @@ namespace MPP.Controllers
                 {
                     GetLisOfRecordToUpdate(dataList, out listattrValues);
                     string FileName = "E" + userName[1] + Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")) + ".csv";
-                    //string FilePath = Request.MapPath("") + @"\App_Data\";
                     string FilePath = Path.Combine(_environment.ContentRootPath, "App_Data");
 
                     if (!Directory.Exists(FilePath))
@@ -252,8 +256,13 @@ namespace MPP.Controllers
 
             #region cancelUpdateCommand
             else if (command == "Cancel")
-                return RedirectToRoute(new { controller = "Menu", action = "ShowAttribute", entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetString("EntityTypeID")), entityName = Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")), viewType = "search" });
-
+                return await Task.Run(() => ViewComponent("ShowAttribute",
+                                                  new
+                                                  {
+                                                      entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")),
+                                                      entityName = Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")),
+                                                      viewType = "search"
+                                                  }));
             #endregion
             return View();
         }
@@ -307,7 +316,6 @@ namespace MPP.Controllers
                                 }
                                 attrValues.Add(data.Key.ToString(), Convert.ToString(finaldata).Trim('#'));
 
-                                // attrValues.Add(data.ATTR_NAME, Convert.ToString(finaldata).Trim('#'));
                             }
                             else
                             {
@@ -324,8 +332,7 @@ namespace MPP.Controllers
                                     {
                                         value = "''";
                                     }
-                                    // string dateC = val == null || val == "" ? "TRUNC(SYSDATE)" : "to_date('" + (DateTime.Parse(form[data.Key.ToString()])).ToString("MM/dd/yyyy") + "','MM/DD/YYYY')"; ;
-                                    //  attrValues.Add(data.Key.ToString(), dateC);
+                                    
                                 }
                                 else
                                 {
@@ -334,9 +341,7 @@ namespace MPP.Controllers
                                         int res;
                                         bool isNumeric = int.TryParse(form[data.Key.ToString()], out res);
                                         if (!isNumeric)
-                                            return Constant.formatMisMatch;
-                                        //string value = string.IsNullOrEmpty(form[data.Key.ToString()]) ? Convert.ToString(data.Value.ToString()) : form[data.Key.ToString()];
-                                        //attrValues.Add(data.Key.ToString(), value.Replace("'", "''"));
+                                            return Constant.formatMisMatch;                                       
                                     }
                                     value = string.IsNullOrEmpty(form[data.Key.ToString()]) ? Convert.ToString(data.Value.ToString()) : form[data.Key.ToString()];
                                 }
@@ -383,74 +388,54 @@ namespace MPP.Controllers
             }
             return outMsg;
         }
-        //private string ValidateData(IFormCollection form, List<Entity_Type_Attr_Detail> attributeList)
-        //{
-        //    string outMsg = Constant.statusSuccess;
-        //    bool isNotNulll = false;
-        //    try
-        //    {
-        //        if (string.IsNullOrEmpty(form["txtEffectiveDate"]))
-        //            return Constant.effectiveDateMandatoryField;
-        //        foreach (var data in attributeList)
-        //        {
-        //            if (data.DisplayType.ToUpper() == "CHECKBOXLIST" && form[data.AttrName].Contains(','))
-        //            {
-        //                string[] splitValue = form[data.AttrName].Split(',');
-        //                for (int i = 0; i < splitValue.Length; i++)
-        //                {
-        //                    if (splitValue[i] == "true")
-        //                    {
-        //                        isNotNulll = true;
-        //                        break;
-        //                    }
-        //                }
-        //            }
-        //            else
-        //            {
-        //                if (!string.IsNullOrEmpty(form[data.AttrName]))
-        //                    isNotNulll = true;
-        //            }
-        //        }
-        //        if (!isNotNulll)
-        //            outMsg = Constant.mandatoryField;
+        private string ValidateData(IFormCollection form, List<Entity_Type_Attr_Detail> attributeList)
+        {
+            string outMsg = Constant.statusSuccess;
+            bool isNotNulll = false;
+            try
+            {
+                if (string.IsNullOrEmpty(form["txtEffectiveDate"]))
+                    return Constant.effectiveDateMandatoryField;
+                foreach (var data in attributeList)
+                {
+                    if (data.DisplayType?.ToUpper() == "CHECKBOXLIST" && form?.ContainsKey(data.AttrName) == true)
+                    {
+                        string value = form[data.AttrName];
+                        if (!string.IsNullOrEmpty(value) && value.Contains(','))
+                        {
+                            string[] splitValue = value.Split(',');
+                            for (int i = 0; i < splitValue.Length; i++)
+                            {
+                                if (splitValue[i].Trim() == "true")
+                                {
+                                    isNotNulll = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        using (LogErrorViewModel objLogErrorViewModel = new LogErrorViewModel())
-        //        {
-        //            objLogErrorViewModel.LogErrorInTextFile(ex);
-        //        }
-        //        outMsg = ex.Message;
-        //    }
-        //    return outMsg;
-        //}
-        //[HttpGet]
-        //public virtual ActionResult Download(string path)
-        //{
-        //    try
-        //    {
-        //        string file = "";
-        //        string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
-        //        string FileName = "E" + userName[1] + path.Split(',')[1] + ".csv";
-        //        Response.Clear();
-        //        Response.ContentType = "application/vnd.ms-excel";
-        //        Response.AddHeader("Content-Disposition",
-        //        "attachment; filename=\"" + FileName + "\"");
-        //        Response.Flush();
-        //        Response.WriteFile(path.Split(',')[2]);
-        //        Response.End();
-        //        return Content("");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        using (LogErrorViewModel objLogErrorViewModel = new LogErrorViewModel())
-        //        {
-        //            objLogErrorViewModel.LogErrorInTextFile(ex);
-        //        }
-        //        return Content(ex.Message + ex.StackTrace);
-        //    }
-        //}
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(form[data.AttrName]))
+                            isNotNulll = true;
+                    }
+                }
+                if (!isNotNulll)
+                    outMsg = Constant.mandatoryField;
+
+            }
+            catch (Exception ex)
+            {
+                using (LogErrorViewModel objLogErrorViewModel = new LogErrorViewModel())
+                {
+                    objLogErrorViewModel.LogErrorInTextFile(ex);
+                }
+                outMsg = ex.Message;
+            }
+            return outMsg;
+        }
+
     }
-    
+
 }

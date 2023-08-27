@@ -1,19 +1,20 @@
 using DAL.Common;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Authentication.Negotiate;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Identity.Client;
 using Model.Models;
 using MPP;
-using MPP.Filter;
 using MPP.ViewComponents;
-using System.Threading;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddSessionStateTempDataProvider();
+builder.Services.AddAuthentication(NegotiateDefaults.AuthenticationScheme).AddNegotiate();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.FallbackPolicy = options.DefaultPolicy;
+});
 builder.Services.AddRazorPages().AddSessionStateTempDataProvider();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -22,8 +23,8 @@ builder.Services.AddTransient<SubMenuViewComponent>();
 builder.Services.AddTransient<ShowAttributeViewComponent>();
 builder.Services.AddTransient<GetSearchDataViewComponent>();
 builder.Services.AddSingleton<LogError>();
-
 // Add Session Services
+
 builder.Services.AddMemoryCache();
 builder.Services.AddSession();
 builder.Services.AddSession(options =>
@@ -60,7 +61,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseSession();
@@ -69,6 +70,5 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action}/{id}",
     defaults: new { controller = "Home", action = "Index", id = "{id?}" });
-
 
 app.Run();

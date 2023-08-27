@@ -1,0 +1,934 @@
+﻿<!DOCTYPE html>
+
+<script src="~/js/workflow.js"></script>
+<script>
+
+    $("#btnUpdateReject").click(function (e) {
+        var OID = "";
+        $('#tbldataRejected').find('tr').each(function () {
+
+            var row = $(this);
+              debugger;
+
+            if (row.find('input[type="checkbox"]').is(':checked')) {
+                try {
+                    OID += row.find('input[type="hidden"]')[1].value + ",";
+                }
+                catch (ex) { }
+
+            }
+        });
+        if (OID == "") {
+            alert("Please Select Atleast one record to update");
+            return false;
+        }
+        $.post('@Url.Action("GetSelectedRecordForUpdate", "Update")', { OIDList: OID, ActionType: "workFlowUpdate" },
+            function (data) {
+                if (data.indexOf("error") == 0) {
+
+
+                    alert(data.replace("error", ""));
+
+                }
+                else {
+                    $('#AttributeDetail').empty();
+                    $('#viewPlaceHolder').empty();
+
+                    $('#AttributeDetail').html(data);
+                    $.post('@Url.Action("ShowAttribute", "Menu")', { entityTypeId: '@Context.Session.GetInt32("EntityTypeID")', entityName: '@Context.Session.GetString("EntityName")', viewType: "update" },
+                        function (data) {
+                            debugger;
+                            if (data.indexOf("error") == 0) {
+                                alert(data.replace("error", ""));
+
+                            }
+                            else {
+                                $('#viewPlaceHolder').html(data);
+                            }
+                        }
+
+                    );
+                }
+            });
+
+    });
+
+    $("#btnCancel").click(function () {
+        $.post('@Url.Action("CancelAbandonRecord", "WorkFlow")',
+            function (data) {
+                $('#viewPlaceHolder').empty();
+                $('#AttributeDetail').html(data);
+            });
+
+    });
+    $("#btnCancelReject").click(function () {
+        $.post('@Url.Action("CancelAbandonRecord", "WorkFlow")',
+            function (data) {
+                $('#viewPlaceHolder').empty();
+                $('#AttributeDetail').html(data);
+            });
+
+    });
+    $("#btnCancelApprove").click(function () {
+        $.post('@Url.Action("CancelAbandonRecord", "WorkFlow")',
+            function (data) {
+                $('#viewPlaceHolder').empty();
+                $('#AttributeDetail').html(data);
+            });
+
+    });
+
+    $("#btnAbandon").click(function () {
+        var OID = "";
+        $('#tblWorkFlowdata').find('tr').each(function () {
+            var row = $(this);
+            if (row.find('input[type="checkbox"]').is(':checked')) {
+                try {
+                    OID += row.find('input[type="hidden"]')[1].value + ",";
+                }
+                catch (ex) { }
+
+
+            }
+        });
+        if (OID == "") {
+            alert("Please Select Atleast one record to abandon");
+            return false;
+        }
+
+        var comment = $("#txtViewComments").val()
+        if (comment == "") {
+            alert('Please enter the comments');
+            return false;
+        }
+
+        $.post('@Url.Action("UpdateRecords", "WorkFlow")', { OIDList: OID, Comment: comment, ActionType: 'Abandon' },
+            function (data) {
+
+                if (data.indexOf("error") == 0) {
+                    alert(data.replace("error", ""));
+
+                }
+                if (data.indexOf("success") == 0) {
+                    alert(data.replace("success", ""));
+                    $.post('@Url.Action("GetWorkFlowData", "WorkFlow")',
+                        function (data) {
+
+                            $('#viewPlaceHolder').empty();
+                            $('#AttributeDetail').html(data);
+                        });
+
+
+                }
+
+            });
+    });
+    $("#btnApprove").click(function () {
+        var OID = "";
+        $('#tbldataApprove').find('tr').each(function () {
+            var row = $(this);
+            if (row.find('input[type="checkbox"]').is(':checked')) {
+                try {
+                    OID += row.find('input[type="hidden"]')[1].value + ",";
+                }
+                catch (ex) { }
+
+
+            }
+        });
+        if (OID == "") {
+            alert("Please Select Atleast one record to approve");
+            return false;
+        }
+
+        var comment = $("#txtApprovalComments").val()
+        if (comment == "") {
+            alert('Please enter the comments');
+            return false;
+        }
+
+        $.post('@Url.Action("UpdateRecords", "WorkFlow")', { OIDList: OID, Comment: comment, ActionType: 'Approve' },
+            function (data) {
+
+                if (data.indexOf("error") == 0) {
+                    alert(data.replace("error", ""));
+
+                }
+                if (data.indexOf("success") == 0) {
+                    alert(data.replace("success", ""));
+                    $.post('@Url.Action("GetWorkFlowData", "WorkFlow")',
+                        function (data) {
+
+                            $('#viewPlaceHolder').empty();
+                            $('#AttributeDetail').html(data);
+                        });
+
+
+                }
+
+            });
+    });
+    $("#btnDeleteReject").click(function () {
+        var OID = "";
+        $('#tbldataRejected').find('tr').each(function () {
+            var row = $(this);
+            if (row.find('input[type="checkbox"]').is(':checked')) {
+                try {
+                    OID += row.find('input[type="hidden"]')[1].value + ",";
+                }
+                catch (ex) { }
+
+
+            }
+        });
+        if (OID == "") {
+            alert("Please Select Atleast one record to delete");
+            return false;
+        }
+
+        $.post('@Url.Action("UpdateRecords", "WorkFlow")', { OIDList: OID, Comment: '', ActionType: 'Delete' },
+            function (data) {
+
+                if (data.indexOf("error") == 0) {
+                    alert(data.replace("error", ""));
+
+                }
+                if (data.indexOf("success") == 0) {
+                    alert(data.replace("success", ""));
+                    $.post('@Url.Action("GetWorkFlowData", "WorkFlow")',
+                        function (data) {
+
+                            $('#viewPlaceHolder').empty();
+                            $('#AttributeDetail').html(data);
+                        });
+
+
+                }
+
+            });
+    });
+
+
+    $("#btnRejectApprove").click(function () {
+        var OID = "";
+        $('#tbldataApprove').find('tr').each(function () {
+            var row = $(this);
+            if (row.find('input[type="checkbox"]').is(':checked')) {
+                try {
+                    OID += row.find('input[type="hidden"]')[1].value + ",";
+                }
+                catch (ex) { }
+
+
+            }
+        });
+        if (OID == "") {
+            alert("Please Select Atleast one record to Reject");
+            return false;
+        }
+        var comment = $("#txtApprovalComments").val()
+        if (comment == "") {
+            alert('Please enter the comments');
+            return false;
+        }
+        $.post('@Url.Action("UpdateRecords", "WorkFlow")', { OIDList: OID, Comment: comment, ActionType: 'Reject' },
+            function (data) {
+
+                if (data.indexOf("error") == 0) {
+                    alert(data.replace("error", ""));
+
+                }
+                if (data.indexOf("success") == 0) {
+                    alert(data.replace("success", ""));
+                    $.post('@Url.Action("GetWorkFlowData", "WorkFlow")',
+                        function (data) {
+
+                            $('#viewPlaceHolder').empty();
+                            $('#AttributeDetail').html(data);
+                        });
+
+
+                }
+
+            });
+    });
+    $(document).ready(function () {
+        $('#tbldataRejected').find('tr').each(function () {
+            var rowstatus;
+            var row = $(this);
+            try {
+                rowstatus = row.find('input[type="hidden"]')[2].value;
+            }
+            catch (ex) { }
+
+            if (rowstatus == 5) {
+                $(this)[0].bgColor = "SkyBlue";
+            }
+            else {
+                $(this)[0].bgColor = "#d9edf9";
+
+            }
+        });
+        $('#tbldataApprove').find('tr').each(function () {
+            var chkrownum = 0;;
+            var value = $('#hdnexistingList').val();
+            data = value.split('^');
+            var table = $('#tbldataApprove'),
+                rows = table.find('tr'), cells, background, code;
+            for (var i = 0; i < rows.length; i += 1) {
+                if (i != 0) {
+                    $(rows[i]).css('background-color', '#d9edf9');
+                }
+                var entityData = [];
+                cells = $(rows[i]).children('td');
+                var m = 0;
+                for (var j = 0; j < cells.length; j += 1) {
+                    var celldata = $(cells[j]).text().replace("\n", "").trim();
+                    if (celldata != "") {
+                        entityData[m] = celldata;
+                        m++;
+                    }
+                }
+
+                for (var k = 0; k < data.length; k++) {
+                    var completerowdata = data[k];
+                    var rowdata = completerowdata.split(',')
+                    if (entityData.length > 0) {
+                        if (rowdata[0] == entityData[0]) {
+                            for (var l = 0; l < entityData.length; l++) {
+                                if (rowdata[l] != entityData[l]) {
+                                    if (chkrownum % 2 == 0) {
+                                        background = 'CadetBlue';
+                                    }
+                                    else {
+                                        background = 'SkyBlue';
+                                    }
+                                    $(cells[l + 1]).css('background-color', background)
+                                }
+
+                            }
+                            chkrownum++;
+
+                        }
+
+                    }
+                }
+                if (entityData.length != 0) {
+                    cells = $(rows[i + 1]).children('td');
+
+                }
+            }
+
+        });
+
+    });
+    //change color of colulmn for approval records
+
+
+    $(".trgridsubmitteddata").click(function (evt) {
+        var row = $(this);
+        var OID = row.find('input[type="hidden"]')[2].value;
+        if (evt.target.className == "griddata") {
+            $.post('@Url.Action("ShowHistoryDetailsForWorkFlow", "History")', { OID: OID },
+                function (data) {
+                    if (data.indexOf("error") == 0) {
+                        alert(data.replace("error", ""));
+
+                    }
+                    else {
+                        $('#AttributeDetail').empty();
+                        $('#viewPlaceHolder').empty();
+
+                        $('#AttributeDetail').html(data);
+                    }
+                });
+        }
+
+
+
+    });
+    $(".trgridrejecteddata").click(function (evt) {
+        var row = $(this);
+        var OID = row.find('input[type="hidden"]')[3].value;
+        if (evt.target.className == "griddata") {
+            $.post('@Url.Action("ShowHistoryDetailsForWorkFlow", "History")', { OID: OID },
+                function (data) {
+                    if (data.indexOf("error") == 0) {
+                        alert(data.replace("error", ""));
+
+                    }
+                    else {
+                        $('#AttributeDetail').empty();
+                        $('#viewPlaceHolder').empty();
+
+                        $('#AttributeDetail').html(data);
+                    }
+                });
+        }
+
+    });
+</script>
+<style type="text/css">
+    .trgridsubmitteddata {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+        font-family: Verdana;
+        font-size: 12px;
+        text-align: center;
+    }
+
+    .trgridrejecteddata, .trgridapproveddata {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+        font-family: Verdana;
+        font-size: 12px;
+        text-align: center;
+    }
+</style>
+<table style="width: 100%" border="0" cellspacing="0" cellpadding="0">
+    <tr style="width:100%;height:31px;">
+        <td colspan="2" style="padding-left:5px">
+            @if (Context.Session.GetString("SelectedDimensionData") != null && Context.Session.GetString("EntityName") != null)            
+            {
+
+                <label style="color:red;font-family:Georgia;font-size:13pt;font-weight:bold">@Context.Session.GetString("SelectedDimensionData").ToString()</label>
+                <label style="color:black;font-family:Georgia;font-weight:bold">@Context.Session.GetString("EntityName").ToString()</label>
+            }
+
+        </td>
+    </tr>
+    <tr style="width:100%">
+        <td>
+            <span style="height:30px">
+                <hr />
+            </span>
+        </td>
+
+    </tr>
+</table>
+<div id="tabs">
+    <ul>
+        <li><a href="#divSubmitted">View Submitted</a></li>
+        <li><a href="#divRejected">View Rejected</a></li>
+        <li><a href="#divApproval">My Approval</a></li>
+
+    </ul>
+    <div id="divSubmitted">
+
+        <div>
+            @{
+                var submittedColumnData = (TempData["submittedColumnData"]);
+                string[] colName = submittedColumnData.ToString().Split(',');
+                var submittedRowData = ((List<string>
+                )(TempData["submittedRowData"]));
+                var submitteddataList = (List<Dictionary<string, string>>)(TempData["submitteddataList"]);
+                TempData.Keep();
+            }
+            @if (submittedRowData.Count() > 0)
+            {
+
+                <table style="width:100%;height:300px" border="0" cellspacing="0" cellpadding="0">
+
+                    <tr align="center" valign="top">
+                        <td>
+
+                            <table width="796px" border="0" cellspacing="0" cellpadding="0" id="TableTopView">
+                                <tr valign="middle" align="left" style="background-image:url(Images/TableTop.jpg);background-repeat:repeat-x;height:100%">
+                                    <td height="40" class="whiteTextNormal">
+                                        @* @Html.Label(Convert.ToString(Context.Session.GetString("EntityName")), new { @class = "whiteTextNormal", @id = "lblcaption" })*@
+                                        <label asp-for="@Context.Session.GetString("EntityName")" class="whiteTextNormal" id="lblcaption"></label>
+
+                                        | <span class="whiteTextNormal">
+                                            Total Records : <strong>
+                                                <label>@submittedRowData.Count()</label>
+                                            </strong>
+                                        </span> | <span class="whiteTextNormal">
+                                            @*                                        @Html.Label("", new { @class = "whiteTextNormal", @id = "lblPageDetails" }) *@
+                                            <label class="whiteTextNormal" id="lblPageDetails"></label>
+
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="panelDataGridSearch" id="leftBar">
+                                <table border="0" id="tblWorkFlowdata" rules="cols" class="table alternate_color width-100">
+                                    <thead>
+                                        <tr class="gridheader resultHeader">
+                                            <th>
+                                                <label style="font-family:Arial">Select all</label>
+                                                @Html.CheckBox("chkSelectAll", new { @class = "chkSelectAll" })
+                                            </th>
+
+                                            @foreach (var data in colName)
+                                            {
+                                                if (data == "inputRowId" || data == "ldOID")
+                                                {
+                                                    continue;
+                                                }
+                                                else
+                                                {
+                                                    <th>
+                                                        <label class="colorWhite">@data</label>
+                                                    </th>
+                                                }
+                                            }
+                                        </tr>
+                                    </thead>
+
+                                    @foreach (var item in submitteddataList)
+                                    {
+                                        <tr class="trgridsubmitteddata">
+                                            <td>@Html.CheckBox("chkSelect", new { @class = "checkbox" })</td>
+
+                                            @foreach (var data in item)
+                                            {
+
+                                                if (data.Key == "DATE_FROM")
+                                                {
+                                                    <td class="griddata">
+                                                        @Convert.ToDateTime(@data.Value).ToShortDateString()
+
+                                                    </td>
+                                                }
+                                                else if (data.Key == "CURRENT_EDIT_LEVEL" || data.Key == "INPUT_ROW_ID")
+                                                {
+                                                    <td style="display:none" id="hdnOID">
+                                                        <input type="hidden" name="hdnOID" id="hdnOID" value=@data.Value />
+                                                    </td>
+
+                                                }
+                                                else if (data.Key == "LD_OID")
+                                                {
+                                                    <td style="display:none" id="hdnLdOID">
+                                                        <input type="hidden" name="hdnLdOID" id="hdnLdOID" value=@data.Value />
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="griddata">
+                                                        @data.Value
+                                                    </td>
+                                                }
+                                            }
+                                        </tr>
+
+                                    }
+                                </table>
+
+                            </div>
+
+                        </td>
+                    </tr>
+
+                    <tr style="padding-top:10px">
+                        <td>
+                            <table width="100%">
+                                <tr style="padding-top:10px" align="center">
+                                    <td valign="top" align="right" style="width:40%">
+                                        <label>Comments</label>
+                                    <td style="padding-left:5px;width:60%" align="left" valign="top">
+                                        <textarea rows="4" cols="50" id="txtViewComments" name="txtViewComments" width="200px" height="50px"></textarea>
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <td style="padding-right:10px;padding-top:10px" align="right">
+                            <table>
+                                <tr valign="top">
+                                    <td align="left">
+                                        <button type="submit" class="button" style="width:80px" id="btnAbandon" name="Command" title="Abandon" value="Abandon">
+                                            <img src="~/Images/Abandon_Button.gif" />
+                                        </button>
+                                    </td>
+                                    <td align="left" style="padding-left:10px">
+                                        <button type="submit" class="button" style="width:80px" id="btnCancel" name="Command" title="Cancel" value="Cancel">
+                                            <img src="~/Images/Cancel_Button.gif" />
+                                        </button>
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+
+                </table>
+            }
+            else
+            {
+                <h1>No records available with status submitted! </h1>
+
+            }
+        </div>
+
+    </div>
+    <div id="divRejected">
+        <div>
+            @{
+                var rejectedColumnData = (TempData["rejectedColumnData"]);
+                string[] rejectedcolName = rejectedColumnData.ToString().Split(',');
+                var rejectedRowData = ((List<string>
+                )(TempData["rejectedRowData"]));
+                var rejecteddataList = (List<Dictionary<string, string>>)(TempData["rejecteddataList"]);
+                TempData.Keep();
+            }
+            @if (rejectedRowData.Count() > 0)
+            {
+                <table width="280" border="0" cellspacing="0" cellpadding="0" align="center" bordercolor="#E3E3E3"
+                       bgcolor="#FFFFFF" id="tblLegend" style="border-style:solid;">
+                    <tr valign="top" bgcolor="#ECEBE9">
+                        <td width="280" colspan="2" align="center">
+                            <b><font size="1" face="Verdana, Arial">&nbsp;LEGEND</font></b>
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <td bgcolor="#d9edf9" height="10" width="40"></td>
+                        <td bgcolor="#FFFFFF" width="240"><font face="Verdana, Arial" size="1">Records rejected by the approver</font> </td>
+                    </tr>
+                    <tr valign="top">
+                        <td width="40" height="10" bgcolor="SkyBlue"></td>
+                        <td width="240" bgcolor="#FFFFFF">
+                            <font face="Verdana, Arial" size="1">Records abandoned by the user</font>
+                        </td>
+                    </tr>
+                </table>
+                <table style="width:100%;height:300px" border="0" cellspacing="0" cellpadding="0">
+
+                    <tr align="center" valign="top">
+                        <td>
+
+                            <table width="796px" border="0" cellspacing="0" cellpadding="0" id="TableTopView">
+                                <tr valign="middle" align="left" style="background-image:url(Images/TableTop.jpg);background-repeat:repeat-x;height:100%">
+                                    <td height="40" class="whiteTextNormal">
+                                        <label asp-for="@Context.Session.GetString("EntityName")" class="whiteTextNormal" id="lblcaption"></label>
+                                        | <span class="whiteTextNormal">
+                                            Total Records : <strong>
+                                                <label>@rejectedRowData.Count()</label>
+                                            </strong>
+                                        </span> | <span class="whiteTextNormal">
+                                            <label class="whiteTextNormal" id="lblPageDetails"></label>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="panelDataGridSearch" id="leftBar">
+                                <table border="0" rules="cols" id="tbldataRejected" class="table width-100">
+                                    <thead>
+                                        <tr class="gridheader resultHeader">
+                                            <th>
+                                                <label style="font-family:Arial">Select all</label>
+                                                @Html.CheckBox("chkSelectAllRejected", new { @class = "chkSelectAllRejected" })
+                                            </th>
+                                            @foreach (var data in rejectedcolName)
+                                            {
+                                                if (data == "inputRowId" || data == "rowstatus" || data == "ldOID")
+                                                {
+                                                    continue;
+                                                }
+                                                {
+                                                    <th>
+                                                        <label class="colorWhite">@data</label>
+                                                    </th>
+                                                }
+                                            }
+                                        </tr>
+                                    </thead>
+                                    @foreach (var item in rejecteddataList)
+                                    {
+                                        <tr class="trgridrejecteddata">
+                                            <td>@Html.CheckBox("chkSelect", new { @class = "checkboxRejected" })</td>
+
+                                            @foreach (var data in item)
+                                            {
+
+                                                if (data.Key == "DATE_FROM")
+                                                {
+                                                    <td class="griddata">
+                                                        @Convert.ToDateTime(@data.Value).ToShortDateString()
+                                                    </td>
+                                                }
+                                                else if (data.Key == "CURRENT_EDIT_LEVEL" || data.Key == "INPUT_ROW_ID")
+                                                {
+                                                    <td style="display:none" id="hdnOID">
+                                                        <input type="hidden" name="hdnOID" id="hdnOID" value=@data.Value />
+                                                    </td>
+                                                }
+                                                else if (data.Key == "ROW_STATUS")
+                                                {
+                                                    <td style="display:none" id="hdnRowStatus">
+                                                        <input type="hidden" name="hdnRowStatus" id="hdnRowStatus" value=@data.Value />
+                                                    </td>
+                                                }
+                                                else if (data.Key == "LD_OID")
+                                                {
+                                                    <td style="display:none" id="hdnLdOID">
+                                                        <input type="hidden" name="hdnLdOID" id="hdnLdOID" value=@data.Value />
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="griddata">
+                                                        @data.Value
+                                                    </td>
+                                                }
+                                            }
+                                        </tr>
+
+                                    }
+
+                                </table>
+
+                            </div>
+
+                        </td>
+                    </tr>
+
+
+                    <tr valign="top">
+                        <td style="padding-right:10px;padding-top:10px" align="right">
+                            <table>
+                                <tr valign="top">
+                                    <td align="left">
+                                        <button type="submit" class="button" style="width:80px" id="btnUpdateReject" name="Command" title="Update" value="Update">
+                                            <img src="~/Images/Update_Button.gif" />
+                                        </button>
+                                    </td>
+                                    <td align="left" style="padding-left:10px">
+                                        <button type="submit" class="button" style="width:80px" id="btnDeleteReject" name="Command" title="Delete" value="Delete">
+                                            <img src="~/Images/Delete_Button.gif" />
+                                        </button>
+                                    </td>
+                                    <td align="left" style="padding-left:10px">
+                                        <button type="submit" class="button" style="width:80px" id="btnCancelReject" name="Command" title="Cancel" value="Cancel">
+                                            <img src="~/Images/Cancel_Button.gif" />
+                                        </button>
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+
+
+                </table>
+            }
+            else
+            {
+                <h1>No records available with status Rejected! </h1>
+
+            }
+        </div>
+
+    </div>
+
+    <div id="divApproval">
+        <div>
+            @{
+                var approvalPendingColumnData = (TempData["approvalPendingColumnData"]);
+                string[] approvalPendingcolName = approvalPendingColumnData.ToString().Split(',');
+                var approvalPendingRowData = ((List<string>
+                )(TempData["approvalPendingRowData"]));
+                var approvalPendingdataList = (List<Dictionary<string, string>>)(TempData["approvalPendingdataList"]);
+                TempData.Keep();
+
+            }
+            @if (approvalPendingRowData.Count() > 0)
+            {
+
+                <table style="width:100%;height:300px" border="0" cellspacing="0" cellpadding="0">
+
+                    <tr align="center" valign="top">
+                        <td>
+
+                            <table width="796px" border="0" cellspacing="0" cellpadding="0" id="TableTopView">
+                                <tr valign="middle" align="left" style="background-image:url(Images/TableTop.jpg);background-repeat:repeat-x;height:100%">
+                                    <td height="40" class="whiteTextNormal">
+                                        <label asp-for="@Context.Session.GetString("EntityName")" class="whiteTextNormal" id="lblcaption"></label>
+                                        | <span class="whiteTextNormal">
+                                            Total Records : <strong>
+                                                <label>@approvalPendingRowData.Count()</label>
+                                            </strong>
+                                        </span> | <span class="whiteTextNormal">
+                                            <label class="whiteTextNormal" id="lblPageDetails"></label>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="panelDataGridSearch" id="leftBar">
+                                <table border="0" rules="cols" id="tbldataApprove" class="table width-100">
+                                    <thead>
+                                        <tr class="gridheader resultHeader">
+                                            <th>
+                                                <label style="font-family:Arial">Select all</label>
+                                                @Html.CheckBox("chkSelectAlApprovalPending", new { @class = "chkSelectAlApprovalPending" })
+                                            </th>
+                                            @foreach (var data in approvalPendingcolName)
+                                            {
+                                                if (@data == "inputRowId")
+                                                {
+                                                    continue;
+                                                }
+                                                <th>
+                                                    <label class="colorWhite">@data</label>
+                                                </th>
+                                            }
+                                        </tr>
+                                    </thead>
+
+                                    @foreach (var item in approvalPendingdataList)
+                                    {
+
+                                        <tr class="trgridapproveddata">
+                                            <td>@Html.CheckBox("chkSelect", new { @class = "checkboxApprovalPending" })</td>
+
+                                            @foreach (var data in item)
+                                            {
+
+                                                if (data.Key == "DATE_FROM")
+                                                {
+                                                    <td class="griddata">
+                                                        @Convert.ToDateTime(@data.Value).ToShortDateString()
+                                                    </td>
+                                                }
+                                                else if (data.Key == "CURRENT_EDIT_LEVEL" || data.Key == "INPUT_ROW_ID")
+                                                {
+                                                    <td style="display:none" id="hdnOID">
+                                                        <input type="hidden" name="hdnOID" id="hdnOID" value=@data.Value />
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="griddata">
+                                                        @data.Value
+                                                    </td>
+                                                }
+                                            }
+                                        </tr>
+
+                                    }
+                                </table>
+
+                            </div>
+
+                        </td>
+                    </tr>
+
+                    <tr style="padding-top:10px">
+                        <td>
+                            <table width="100%">
+                                <tr style="padding-top:10px" align="center">
+                                    <td valign="top" align="right" style="width:40%">
+                                        <label>Comments</label>
+                                    <td style="padding-left:5px;width:60%" align="left" valign="top">
+                                        <textarea rows="4" cols="50" id="txtApprovalComments" name="txtViewComments" width="200px" height="50px"></textarea>
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr valign="top">
+                        <td style="padding-right:10px;padding-top:10px" align="right">
+                            <table>
+                                <tr valign="top">
+                                    <td align="left">
+                                        <button type="submit" class="button" id="btnApprove" name="Command" style="width:80px" title="Approve" value="Approve">
+                                            <img src="~/Images/Approve_Button.gif" />
+                                        </button>
+                                    </td>
+
+                                    <td align="left" style="padding-left:10px">
+                                        <button type="submit" class="button" id="btnRejectApprove" name="Command" style="width:80px" title="Reject" value="Reject">
+                                            <img src="~/Images/Reject_Button.gif" />
+                                        </button>
+                                    </td>
+                                    <td align="left" style="padding-left:10px">
+                                        <button type="submit" class="button" id="btnCancelApprove" name="Command" style="width:80px" title="Cancel" value="Cancel">
+                                            <img src="~/Images/Cancel_Button.gif" />
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                </table>
+            }
+            else
+            {
+                <h1>No records available for the Approval! </h1>
+            }
+        </div>
+
+    </div>
+
+</div>
+<div id="divLoading" class="loader">
+
+    <img alt="Loading, please wait" style="position: absolute; top: 30%; left: 45%; width:110px; height:110px" src="~/Images/spinner.gif" />
+</div>
+
+<input type="hidden" id="cmdName" name="cmdName" value="viewPlaceHolder" />
+@if (Context.Session.GetString("ExistingList") != null)
+{
+    <input type="text" id="hdnexistingList" style="display:none" name="hdnexistingList" value='@Context.Session.GetString("ExistingList")' />
+
+}
+
+<style>
+    body {
+        font: 62.5% "Trebuchet MS", sans-serif;
+        margin: 50px;
+    }
+
+    .demoHeaders {
+        margin-top: 2em;
+    }
+
+    #dialog-link {
+        padding: .4em 1em .4em 20px;
+        text-decoration: none;
+        position: relative;
+    }
+
+        #dialog-link span.ui-icon {
+            margin: 0 5px 0 0;
+            position: absolute;
+            left: .2em;
+            top: 50%;
+            margin-top: -8px;
+        }
+
+    #icons {
+        margin: 0;
+        padding: 0;
+    }
+
+        #icons li {
+            margin: 2px;
+            position: relative;
+            padding: 4px 0;
+            cursor: pointer;
+            float: left;
+            list-style: none;
+        }
+
+        #icons span.ui-icon {
+            float: left;
+            margin: 0 4px;
+        }
+
+    .fakewindowcontain .ui-widget-overlay {
+        position: absolute;
+    }
+</style>
+<script>
+
+    $(function () {
+        $("#tabs").tabs();
+    });
+</script>

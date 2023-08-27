@@ -100,8 +100,6 @@
             $('#divLoading').hide();
 
         });
-
-
         function Session() {
             $("#lblHome").hide();
                debugger;
@@ -110,7 +108,6 @@
             $("#trAdminContent").hide();
             $("#trAdminDisplayAllUsers").hide();
             $('#divDisplayAllUsers').hide();
-            //$("#ddlDimension option:selected").text('Please Select Dimension');
             $('#ddlDimension option:eq(0)').attr('selected', 'selected'); // Select first option
         };
         $(".Attribute").click(function (evt) {
@@ -137,9 +134,7 @@
 
                     }
 
-                });
-            //$("#AttributeDetail").load("/Menu/ShowAttribute", { EntityTypeId: evt.currentTarget.id, entityName: evt.currentTarget.innerText,viewType :"search" })
-            //$('#viewPlaceHolder').empty();
+                });           
         });
     });
 

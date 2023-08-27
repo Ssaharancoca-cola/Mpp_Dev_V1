@@ -13,7 +13,6 @@ namespace MPP.ViewComponents
             string outMsg = Constant.statusSuccess;
             try
             {
-               // string SelectedDimensionValue = HttpContext?.Session.GetString("SelectedDimensionValue");
                 ViewBag.SelectedDimensionData = HttpContext?.Session.GetString("SelectedDimensionValue");
                 using (MenuViewModel objMenuViewModel = new MenuViewModel())
                 {

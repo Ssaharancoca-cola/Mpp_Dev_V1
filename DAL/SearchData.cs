@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Entity;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace DAL
 {
@@ -20,14 +21,16 @@ namespace DAL
         }
         public string GetDataType(string FieldName, int entityTypeId, out string outMsg)
         {
-            string sqlQuery = "select  attr_data_type from entity_type_attr where attr_display_name= '" + FieldName + "'  and entity_type_id= " + entityTypeId + "";
+            string sqlQuery = "select  attr_data_type from MPP_CORE.entity_type_attr where attr_display_name= '" + FieldName + "'  and entity_type_id= " + entityTypeId + "";
             string dataType = string.Empty;
+            attr_data attr_Data =new attr_data();
             outMsg = Constant.statusSuccess;
             try
             {
                 using (MPP_Context objmdmContext = new MPP_Context())
                 {
-                     dataType = objmdmContext.Database.SqlQueryRaw<string>(sqlQuery).FirstOrDefault();
+                    attr_Data = objmdmContext.Set<attr_data>().FromSqlRaw(sqlQuery).FirstOrDefault();
+                    dataType = attr_Data.attr_data_type;
                 }
             }
             catch (Exception ex)

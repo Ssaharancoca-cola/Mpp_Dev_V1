@@ -84,6 +84,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[GET_MPP_WORKFLOW_SAVE]",
+         "ObjectType": 1
+      },
+      {
          "Name": "[dbo].[GET_VIEW_NAME]",
          "ObjectType": 1
       },
@@ -92,7 +96,15 @@
          "ObjectType": 1
       },
       {
+         "Name": "[dbo].[MPP_ENTITY_USER_SEC_VIEWS_LOV]",
+         "ObjectType": 1
+      },
+      {
          "Name": "[dbo].[MPP_LOAD_CHK]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[MPP_REFRESH_ROW_SECURITY]",
          "ObjectType": 1
       }
    ],

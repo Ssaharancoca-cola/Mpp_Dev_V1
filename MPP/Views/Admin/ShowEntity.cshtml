@@ -1,0 +1,219 @@
+﻿@model List<Model.UserRowSecurity>
+
+<table border="1" id="tbldata" class="width-100 table" rules="cols">
+    <thead>
+        <tr class="gridheader resultHeader">
+            <th>
+                <label class="colorWhite">Entities</label>
+
+            </th>
+            <th>
+                <label class="colorWhite">User Role</label>
+
+            </th>
+            <th>
+                <label class="colorWhite">Read</label>
+
+            </th>
+
+            <th>
+                <label class="colorWhite">Update</label>
+
+            </th>
+            <th>
+                <label class="colorWhite">Create</label>
+
+            </th>
+            <th>
+                <label class="colorWhite">Import</label>
+
+            </th>
+            <th>
+                <label class="colorWhite">Row Level Security</label>
+
+            </th>
+            <th>
+                <label class="colorWhite">Workflow</label>
+
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="trgriddata">
+
+                <td id="tdEntityName" style="font-family:Arial;font-size:10pt;">
+                    @item.EntityName
+                </td>
+                <td>
+                    @if (@item.WFLG == "Edit")
+                    {
+                        @Html.DropDownList("ddlRoleList", @item.ROLELIST.Select(data => new SelectListItem
+                   {
+                       Value = data.ROLE_ID.ToString(),
+                       Text = data.ROLE_NAME.ToString(),
+                       Selected = (data.ROLE_ID == item.ROLE_ID)
+
+                   }), "--Select--", new { @disabled = "disabled" })
+                    }
+                    else
+                    {
+                        @Html.DropDownList("ddlRoleList", @item.ROLELIST.Select(data => new SelectListItem
+                   {
+                       Value = data.ROLE_ID.ToString(),
+                       Text = data.ROLE_NAME.ToString(),
+                       Selected = (data.ROLE_ID == item.ROLE_ID)
+
+                   }), "--Select--")
+                    }
+                </td>
+                <td>
+                    @if (@item.UPDATE_FLAG == 1 || @item.CREATE_FLAG == 1 || @item.IMPORT_FLAG == 1)
+                    {
+                        @Html.CheckBox("chkReadFlag", new { @class = "label", @checked = true, @disabled = true })
+                    }
+                    else if (@item.READ_FLAG == 1)
+                    {
+                        @Html.CheckBox("chkReadFlag", new { @class = "label", @checked = true })
+                    }
+                    else
+                    {
+                        @Html.CheckBox("chkReadFlag", new { @class = "label" })
+                    }
+                </td>
+                <td>
+                    @if (@item.UPDATE_FLAG == 1)
+                    {
+                        @Html.CheckBox("chkUpdateFlag", new { @class = "label", @id = "chkUpdateFlag", @checked = true })
+                    }
+                    else
+                    {
+                        @Html.CheckBox("chkUpdateFlag", new { @class = "label", @id = "chkUpdateFlag" })
+                    }
+                </td>
+                <td>
+                    @if (@item.CREATE_FLAG == 1)
+                    {
+                        @Html.CheckBox("chkCreateFlag", new { @class = "label", @checked = true })
+                    }
+                    else
+                    {
+                        @Html.CheckBox("chkCreateFlag", new { @class = "label" })
+                    }
+                </td>
+                <td>
+                    @if (@item.IMPORT_FLAG == 1)
+                    {
+                        @Html.CheckBox("chkImportFlag", new { @class = "label", @checked = true })
+                    }
+                    else
+                    {
+                        @Html.CheckBox("chkImportFlag", new { @class = "label" })
+                    }
+                </td>
+                <td style="font-family:Arial;font-size:10pt;">
+
+                    <label class="RowLevelSecurity" id="lblRowLevelSecurity">@item.FLG</label>
+                </td>
+
+                <td style="font-family:Arial;font-size:10pt;">
+                    <label class="WorkFlow" id="lblWorkFlow">@item.WFLG</label>
+
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+
+    $(".trgriddata").click(function (evt) {
+        var selectedUserName = $("#ddlUserList option:selected").text();
+        var userId = $("#ddlUserList option:selected").val();
+        var name = $('#txtUserName').val();
+        var email = $('#txtUserEmail').val();
+        var dimensionName = $("#ddlDimensionList option:selected").text();
+        var Dimensionid = $("#ddlDimensionList option:selected").val();
+
+        var row = $(this);
+        var entityName = $(row).find('#tdEntityName')[0].innerText;
+
+        if (evt.target.className == "RowLevelSecurity") {
+
+            $.post('@Url.Action("GetRowLevelSecurityDetails", "Admin")', { EntityName: entityName, DimensionId: Dimensionid, DimensionName: dimensionName, UserId: userId },
+                 function (data) {
+                     if (data.indexOf("error") == 0) {
+                         alert(data.replace("error", ""));
+                     }
+                     else {
+                         $('#divDisplayAllUsers').empty();
+                         $('#divUserDetails').empty();
+                         $('#divDisplayAllUsers').html(data);
+                     }
+
+                 });
+        }
+        else if (evt.target.className == "WorkFlow") {
+            var SelectedRoleText = $(row).find('#ddlRoleList option:selected')[0].text;
+            var SelectedRoleValue = $(row).find('#ddlRoleList option:selected')[0].value;
+            //  var SelectedRoleText = $("#ddlRoleList option:selected").text();
+            //  var SelectedRoleValue = $("#ddlRoleList option:selected").val();
+            if (SelectedRoleText == "--Select--") {
+                alert('Please select a role for the user');
+                return false;
+            }
+            $.post('@Url.Action("GetWorkFlowDataForApplyingSecurity", "Admin")', {
+                EntityName: entityName, DimensionId: Dimensionid,
+                DimensionName: dimensionName, UserId: userId, RoleId: SelectedRoleValue, RoleName: SelectedRoleText
+            },
+               function (data) {
+                   if (data.indexOf("error") == 0) {
+                       alert(data.replace("error", ""));
+                   }
+                   else {
+                       $('#divDisplayAllUsers').empty();
+                       $('#divUserDetails').empty();
+                       $('#divDisplayAllUsers').html(data);
+                   }
+
+               });
+
+
+        }
+
+    });
+    $(document).ready(function () {
+        $("input[type='checkbox']").change(function (e) {
+
+            try {
+                var row = $(this).closest('tr');
+                var isUpdateFlagChecked = $(row).find('#chkUpdateFlag')[0].checked;
+                var isCeateFlagChecked = $(row).find('#chkCreateFlag')[0].checked;
+                var isImportFlagChecked = $(row).find('#chkImportFlag')[0].checked;
+                if (isUpdateFlagChecked || isCeateFlagChecked || isImportFlagChecked) {
+                    $(row).find('#chkReadFlag').prop("checked", true);
+
+                    $(row).find('#chkReadFlag').prop("disabled", true);
+                }
+                else {
+
+                    $(row).find('#chkReadFlag').prop("disabled", false);
+                }
+            }
+            catch (ex) {
+
+            }
+
+        });
+
+    });
+</script>
+<style>
+    .WorkFlow,.RowLevelSecurity {
+        cursor: pointer;
+        color: black;
+        text-decoration: underline;
+    }
+</style>

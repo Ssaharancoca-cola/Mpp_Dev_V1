@@ -1,0 +1,282 @@
+﻿@model Model.UserInfo
+<center style="padding-left:10px">
+
+    <table>
+        @if (Convert.ToString(TempData["IsSearch"]) != "1")
+        {
+            <tr style="width: 100%" align="center" class="darkBlueBg">
+                <td align="right" rowspan="1" style="width: 20%">
+                    <label  class="editlabel">User ID</label>
+                </td>
+                <td align="left" style="width: 80%">
+                    <input type="text" id="txtUserId" readonly class="edittxtfield" style="font-family:Verdana;" width="175px" maxlength="100" value=@Model.UserID>
+                    <label style="color:red">*</label>
+                </td>
+
+            </tr>
+        }
+
+        <tr style="width: 100%" align="center" class="darkBlueBg">
+
+            <td align="right" style="width: 20%">
+                <label  class="editlabel">User Name</label>
+            </td>
+            <td align="left" style="width: 80%">
+                <input type="text" id="txtUserName" value=@Model.UserName readonly class="edittxtfield" style="font-family:Verdana;" width="175px" maxlength="100" />
+            </td>
+        </tr>
+
+        <tr style="width: 100%" align="center" class="darkBlueBg">
+
+            <td align="right" style="width: 20%">
+                <label class="editlabel">User Email</label>
+            </td>
+            <td align="left" style="width: 80%">
+                <input type="text" id="txtUserEmail" value=@Model.UserEmail readonly class="edittxtfield" style="font-family:Verdana;" width="175px" maxlength="100" />
+                <label style="color:red">*</label>
+            </td>
+        </tr>
+        <tr style="width: 100%" align="center" class="darkBlueBg">
+            <td align="right" style="width: 20%">
+                <label class="editlabel">Is Active</label>
+            </td>
+            <td align="left" style="width: 80%">
+                @if (Model.IsActive == 1 || Convert.ToString(TempData["IsSearch"]) == "1")
+            {
+                    @Html.CheckBox("chkIsActive", new { @class = "label", @checked = true })
+                }
+                else
+                {
+                    @Html.CheckBox("chkIsActive", new { @class = "label" })
+                }
+            </td>
+        </tr>
+
+        <tr style="width: 100%" align="center" class="darkBlueBg">
+            <td align="right" style="width: 20%">
+                <label class="editlabel">Is Admin</label>
+            </td>
+            <td align="left" style="width: 80%">
+                @if (Model.IsAdmin == 1)
+            {
+                    @Html.CheckBox("chkIsAdmin", new { @class = "label", @checked = true })
+                }
+                else
+                {
+                    @Html.CheckBox("chkIsAdmin", new { @class = "label" })
+                }
+            </td>
+        </tr>
+
+    </table>
+    @if (Convert.ToString(TempData["IsSearch"]) == "1")
+    {
+        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <tr align="center" style="width: 100%;padding-top:10px">
+                <td style="width: 100%" align="center">
+                    <input type="image" id="btnSaveNewUser" value="submit" src="~/Images/Save_Button.gif" alt="Cancel">
+                </td>
+            </tr>
+            <tr align="center" style="width: 100%;padding-top:10px">
+                <td style="width: 100%" align="center"></td>
+            </tr>
+        </table>
+    }
+    @if (Convert.ToString(TempData["IsSearch"]) == "0")
+    {
+        <div class="panelDataGridWithMaxWidth" id="leftBar">
+
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr align="center" style="width:100%; height:25px" bgcolor="white" class="whiteTextNormal">
+                    <td colspan="4" rowspan="1" style="width: 100%" align="left">
+                        <label style="font-size:small;font-weight:normal;color:#0F75DA;font-family:Arial Black">
+                            User Privilege
+                        </label>
+
+                    </td>
+                </tr>
+                <tr  style="width:100%" >
+                    <td style="width: 100%;padding-left:20px;height:auto" align="left">
+                        <br />
+                        <table width="796px" border="0" cellspacing="0" cellpadding="0">
+                            <tr valign="middle" align="left" style="background-image:url(~/Images/TableTop.jpg);background-repeat:repeat-x;height:100%">
+
+                                <td height="30" class="whiteTextNormal" align="right" style="width:10%">
+                                    <label>Dimension</label>
+                                </td>
+                                <td height="30" class="whiteTextNormal" align="left" style="width:40%">
+                                    @Html.DropDownList("ddlDimensionList", Model.dimnesionList.Select(item => new SelectListItem
+                           {
+                               Value = item.DimensionDisplayName.ToString(),
+                               Text = item.DimensionDisplayName.ToString()
+                           }), "--Select--", new { @class = "dropdownchange" })
+                                </td>
+                            </tr>
+                        </table>
+
+
+                        <div>
+                            <div id="divEntityDetail"></div>
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style=" margin-top: 5px">
+                                <tr align="center" style="width: 100%;padding-top:10px">
+                                    <td style="width: 100%" align="center">
+                                        <input type="image" id="btnSave" value="submit" src="~/Images/Save_Button.gif" alt="save">
+                                    </td>
+                                </tr>
+                                <tr align="center" style="width: 100%;padding-top:10px">
+                                    <td style="width: 100%" align="center"></td>
+                                </tr>
+                            </table>
+
+
+
+                        </div>
+
+
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    }
+</center>
+    <script>
+        $("#btnSaveNewUser").click(function () {
+            var selectedUserName = $("#ddlUserList option:selected").text();
+            var userId = $("#txtUserIdForNewUser").val();
+            var name = $('#txtUserName').val();
+            var email = $('#txtUserEmail').val();
+
+            var isActive = $("#chkIsActive")[0].checked;
+            var isAdmin = $("#chkIsAdmin")[0].checked;
+            $.post('@Url.Action("SaveUser", "Admin")', { UserId: userId, UserName: name, EmailId: email, IsActive: isActive, IsAdmin: isAdmin },
+          function (data) {
+              if (data.indexOf("error") == 0) {
+                  alert(data.replace("error", ""));
+                  return;
+              }
+              if (data == "success") {
+                  alert("User Saved SuccessFully");
+                  $.post('@Url.Action("GetAllUsers", "Admin")',
+                         function (data) {
+                             if (data.indexOf("error") == 0) {
+                                 alert(data.replace("error", ""))
+                             }
+                             else {
+
+                                 $('#divDisplayAllUsers').html(data);
+                                 //   $('#ddlUserList option:eq(4)').attr('selected', 'selected');
+
+                             }
+
+                         });
+                  $.post('@Url.Action("GetNewUserIndex", "Admin")', { newUserId: userId },
+                       function (data) {
+                           if (data.indexOf("error") == 0) {
+                               alert(data.replace("error", ""));
+                           }
+                           else {
+                               $('#ddlUserList')[0].selectedIndex = data;
+
+                           }
+
+                       });
+
+                  $.post('@Url.Action("GetUserDetails", "Admin")', { userId: userId },
+                         function (data) {
+                             if (data.indexOf("error") == 0) {
+                                 alert(data.replace("error", ""));
+                             }
+                             else {
+
+                                 $('#divUserDetails').empty();
+
+                                 $('#divUserDetails').html(data);
+
+
+                             }
+
+                         });
+
+
+
+              }
+          });
+        });
+        $("#btnSave").click(function () {
+
+            var dimensionName = $("#ddlDimensionList option:selected").text();
+
+            var isReadFlagChecked = [];
+            var isUpdateFlagChecked = [];
+            var isCeateFlagChecked = [];
+            var isImportFlagChecked = [];
+            var RoleList = [];
+            var i = 0;
+            var selectedUserName = $("#ddlUserList option:selected").text();
+            var userId = $("#ddlUserList option:selected").val();
+            var name = $('#txtUserName').val();
+            var email = $('#txtUserEmail').val();
+            var DimensionId = $("#ddlDimensionList option:selected").val();
+            var isActive = $("#chkIsActive")[0].checked;
+            var isAdmin = $("#chkIsAdmin")[0].checked;
+
+            $('#tbldata').find('tr').each(function () {
+                var row = $(this);
+                try {
+                    isReadFlagChecked[i] = $(row).find('#chkReadFlag')[0].checked;
+                    isUpdateFlagChecked[i] = $(row).find('#chkUpdateFlag')[0].checked;
+                    isCeateFlagChecked[i] = $(row).find('#chkCreateFlag')[0].checked;
+                    isImportFlagChecked[i] = $(row).find('#chkImportFlag')[0].checked;
+                    RoleList[i] = $(row).find('#ddlRoleList')[0].value;
+                    i++;
+                }
+                catch (ex) { }
+            });
+            $.post('@Url.Action("UpdateUserDetails", "Admin")', {
+                readFlag: isReadFlagChecked, updateFlag: isUpdateFlagChecked, createFlag: isCeateFlagChecked,
+                importFlag: isImportFlagChecked, RoleList: RoleList, SelectedUserName: selectedUserName, UserId: userId, UserName: name, Email: email,
+                DimensionName: dimensionName, DimensionId: dimensionName, IsActive: isActive, IsAdmin: isAdmin
+            },
+           function (data) {
+               if (data.indexOf("error") == 0) {
+                   alert(data.replace("error", ""));
+               }
+               else {
+                   alert('User Details Updated SuccesFully');
+               }
+
+
+           });
+
+        });
+        $(document).ready(function () {
+
+            $(".dropdownchange").change(function (evt) {
+
+                var selectedValue = evt.currentTarget.value;
+                // $("#txtUserIdForNewUser").val() = "" ;
+                if (selectedValue == "") {
+                    $('#divEntityDetail').empty();
+                    return false;
+                }
+
+                $.post('@Url.Action("SearchEntity", "Admin")', { dimensionName: selectedValue },
+            function (data) {
+
+                if (data.indexOf("error") == 0) {
+                    alert(data.replace("error", ""));
+                }
+                else {
+                    $('#divEntityDetail').empty();
+
+                    $('#divEntityDetail').html(data);
+                }
+
+            });
+
+
+            });
+
+        });
+    </script>

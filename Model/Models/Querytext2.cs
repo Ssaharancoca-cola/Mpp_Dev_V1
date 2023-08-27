@@ -64,5 +64,25 @@ namespace Model.Models
         public string SourceSystemCode { get; set; }
         public int? TreatNullsAsNulls { get; set; }
         public int? CurrentEditLevel { get; set; }
+        public string Vc16 { get; set; }
+        public string Vc17 { get; set; }
+        public string Vc18 { get; set; }
+        public string Vc19 { get; set; }
+        public string Vc20 { get; set; }
+        public string Vc21 { get; set; }
+        public string Vc22 { get; set; }
+        public string Vc23 { get; set; }
+        public string Vc24 { get; set; }
+        public string Vc25 { get; set; }
+        public string Vc26 { get; set; }
+        public string Vc27 { get; set; }
+        public string Vc28 { get; set; }
+        public string Vc29 { get; set; }
+        public string Vc30 { get; set; }
+        public string Vc31 { get; set; }
+        public string Vc32 { get; set; }
+        public string Vc33 { get; set; }
+        public string Vc34 { get; set; }
+        public string Vc35 { get; set; }
     }
 }

@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class DimensionName
+    public class PK_CODE
     {
-        public string Dimension {get; set;}
+        public string PK_CODES { get; set; }
     }
-   
 }

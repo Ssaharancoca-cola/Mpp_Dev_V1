@@ -10,6 +10,7 @@ using MPP.ViewModel;
 using System.Text;
 using DAL.Common;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace MPP.Controllers
 {
@@ -33,7 +34,9 @@ namespace MPP.Controllers
             string[] splitSortOrder = sortOrder.Split('^');
             Dictionary<string, string> mapClassAndDatabaseProp = new Dictionary<string, string>();
             ViewBag.sortId = String.IsNullOrEmpty(splitSortOrder[1]) ? "sortId" : "";
-            resultQuery = (List<Dictionary<string, string>>)TempData["dataList"];
+             resultQuery = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>((string)TempData["dataList"]);
+
+            //resultQuery = (List<Dictionary<string, string>>)TempData["dataList"];
 
             string serializedList1 = TempData["attributeList"] as string;
              attributeList = JsonConvert.DeserializeObject<List<Entity_Type_Attr_Detail>>(serializedList1);
@@ -51,7 +54,7 @@ namespace MPP.Controllers
                     resultQuery = resultQuery.OrderBy(d => Convert.ToInt32(d[splitSortOrder[0]])).ToList();
                 else
                     resultQuery = resultQuery.OrderBy(d => d[splitSortOrder[0]]).ToList();
-                ViewBag["SortOrder"] = "ASC";
+                ViewData["SortOrder"] = "ASC";
             }
             else
             {
@@ -60,10 +63,10 @@ namespace MPP.Controllers
                 else
                     resultQuery = resultQuery.OrderByDescending(d => d[splitSortOrder[0]]).ToList();
 
-                ViewBag["SortOrder"] = "DESC";
+                ViewData["SortOrder"] = "DESC";
 
             }
-            ViewBag["currentField"] = splitSortOrder[0].ToString(); //attributeList.Where(x => x.ATTR_DISPLAY_NAME == fieldName).Select(x => x.ATTR_NAME).FirstOrDefault();
+            ViewData["currentField"] = splitSortOrder[0].ToString(); //attributeList.Where(x => x.ATTR_DISPLAY_NAME == fieldName).Select(x => x.ATTR_NAME).FirstOrDefault();
             TempData["dataList"] = resultQuery;
             return PartialView("GetSearchData", resultQuery);
         }       
@@ -102,7 +105,7 @@ namespace MPP.Controllers
                 ViewData["currentPageNo"] = currentPageNo;
                 List<Dictionary<string, string>> dataList = new List<Dictionary<string, string>>();
                 List<Entity_Type_Attr_Detail> attributeList = new List<Entity_Type_Attr_Detail>();
-                string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
+                string[] userName = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
                 List<SearchParameter> fieldCollection = new List<SearchParameter>();
                 //fieldCollection = (List<SearchParameter>).Session["fieldCollection"];
                 using (SearchDataViewModel objSearchData = new SearchDataViewModel())
@@ -138,70 +141,6 @@ namespace MPP.Controllers
 
         }
 
-        //private string GetWorkFlowData()
-        //{
-        //    string outMsg = Constant.statusSuccess;
-        //    try
-        //    {
-        //        using (WorkFlowViewModel objWorkFlowViewModel = new WorkFlowViewModel())
-        //        {
-        //            int entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID"));
-        //            string submittedColumnData;
-        //            string rejectedColumnData;
-        //            string approvalPendingColumnData;
-        //            string existingRecordColumnData;
-
-        //            List<string> submittedRowData = new List<string>();
-        //            List<string> rejectedRowData = new List<string>();
-        //            List<string> approvalPendingRowData = new List<string>();
-        //            List<string> existingRecordRowData = new List<string>();
-
-        //            List<Dictionary<string, string>> submittedDataList = new List<Dictionary<string, string>>();
-        //            List<Dictionary<string, string>> rejectedDataList = new List<Dictionary<string, string>>();
-        //            List<Dictionary<string, string>> approvalPendingDataList = new List<Dictionary<string, string>>();
-        //            List<Dictionary<string, string>> existingRecordDataList = new List<Dictionary<string, string>>();
-
-        //            objWorkFlowViewModel.LoadContentView(entityTypeId, out submittedColumnData, out submittedRowData, out submittedDataList);
-        //            TempData["submittedColumnData"] = submittedColumnData;
-        //            TempData["submittedRowData"] = submittedRowData;
-        //            TempData["submitteddataList"] = submittedDataList;
-
-        //            objWorkFlowViewModel.LoadContentReject(entityTypeId, out rejectedColumnData, out rejectedRowData, out rejectedDataList);
-        //            TempData["rejectedColumnData"] = rejectedColumnData;
-        //            TempData["rejectedRowData"] = rejectedRowData;
-        //            TempData["rejecteddataList"] = rejectedDataList;
-
-        //            objWorkFlowViewModel.LoadContentMyApproval(entityTypeId, out approvalPendingColumnData, out approvalPendingRowData,
-        //                out approvalPendingDataList, out existingRecordColumnData, out existingRecordRowData, out existingRecordDataList);
-        //            TempData["approvalPendingColumnData"] = approvalPendingColumnData;
-        //            TempData["approvalPendingRowData"] = approvalPendingRowData;
-        //            TempData["approvalPendingdataList"] = approvalPendingDataList;
-
-        //            StringBuilder rowdata = new StringBuilder();
-        //            foreach (var data in existingRecordRowData)
-        //            {
-
-        //                rowdata.Append(data.ToString());
-
-        //                rowdata.Append("^");
-
-        //            }
-        //            ViewData["ExistingList"] = rowdata.ToString();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        using (LogErrorViewModel objLogErrorViewModel = new LogErrorViewModel())
-        //        {
-        //            objLogErrorViewModel.LogErrorInTextFile(ex);
-        //        }
-        //        outMsg = ex.Message;
-        //    }
-        //    return outMsg;
-
-
-        //}
-       
         public JsonResult GetCasCombo(string Id, string cId)
         {
             List<Entity_Type_Attr_Detail> attributeList = new List<Entity_Type_Attr_Detail>();

@@ -34,8 +34,7 @@ namespace Model.Models
         public virtual DbSet<MppUser> MppUser { get; set; }
         public virtual DbSet<MppUserPrivilage> MppUserPrivilage { get; set; }
         public virtual DbSet<Querytext2> Querytext2 { get; set; }
-        public virtual DbSet<Querytexttype2> Querytexttype2 { get; set; }
-
+        public virtual DbSet<Querytexttype2> Querytexttype2 { get; set; }      
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -48,6 +47,10 @@ namespace Model.Models
         public DbSet<DimensionName> DimensionName { get; set; }
         public DbSet<Previleges> Previleges { get; set; }
         public DbSet<DropDownData> DropDownData { get; set; }
+        public DbSet<PK_CODE> Pk_Code { get; set; }
+        public DbSet<attr_data> attr_Data { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Entity Model
@@ -55,6 +58,8 @@ namespace Model.Models
             modelBuilder.Entity<DimensionName>().HasNoKey();
             modelBuilder.Entity<Previleges>().HasNoKey();
             modelBuilder.Entity<DropDownData>().HasNoKey();
+            modelBuilder.Entity<PK_CODE>().HasNoKey();
+            modelBuilder.Entity<attr_data>().HasNoKey();
 
             modelBuilder.Entity<DimBusinessorg>(entity =>
             {
@@ -1384,15 +1389,100 @@ namespace Model.Models
                     .IsUnicode(false)
                     .HasColumnName("VC15");
 
+                entity.Property(e => e.Vc16)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC16");
+
+                entity.Property(e => e.Vc17)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC17");
+
+                entity.Property(e => e.Vc18)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC18");
+
+                entity.Property(e => e.Vc19)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC19");
+
                 entity.Property(e => e.Vc2)
                     .HasMaxLength(100)
                     .IsUnicode(false)
                     .HasColumnName("VC2");
 
+                entity.Property(e => e.Vc20)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC20");
+
+                entity.Property(e => e.Vc21)
+                    .IsUnicode(false)
+                    .HasColumnName("VC21");
+
+                entity.Property(e => e.Vc22)
+                    .IsUnicode(false)
+                    .HasColumnName("VC22");
+
+                entity.Property(e => e.Vc23)
+                    .IsUnicode(false)
+                    .HasColumnName("VC23");
+
+                entity.Property(e => e.Vc24)
+                    .IsUnicode(false)
+                    .HasColumnName("VC24");
+
+                entity.Property(e => e.Vc25)
+                    .IsUnicode(false)
+                    .HasColumnName("VC25");
+
+                entity.Property(e => e.Vc26)
+                    .IsUnicode(false)
+                    .HasColumnName("VC26");
+
+                entity.Property(e => e.Vc27)
+                    .IsUnicode(false)
+                    .HasColumnName("VC27");
+
+                entity.Property(e => e.Vc28)
+                    .IsUnicode(false)
+                    .HasColumnName("VC28");
+
+                entity.Property(e => e.Vc29)
+                    .IsUnicode(false)
+                    .HasColumnName("VC29");
+
                 entity.Property(e => e.Vc3)
                     .HasMaxLength(100)
                     .IsUnicode(false)
                     .HasColumnName("VC3");
+
+                entity.Property(e => e.Vc30)
+                    .IsUnicode(false)
+                    .HasColumnName("VC30");
+
+                entity.Property(e => e.Vc31)
+                    .IsUnicode(false)
+                    .HasColumnName("VC31");
+
+                entity.Property(e => e.Vc32)
+                    .IsUnicode(false)
+                    .HasColumnName("VC32");
+
+                entity.Property(e => e.Vc33)
+                    .IsUnicode(false)
+                    .HasColumnName("VC33");
+
+                entity.Property(e => e.Vc34)
+                    .IsUnicode(false)
+                    .HasColumnName("VC34");
+
+                entity.Property(e => e.Vc35)
+                    .IsUnicode(false)
+                    .HasColumnName("VC35");
 
                 entity.Property(e => e.Vc4)
                     .HasMaxLength(100)
@@ -1448,7 +1538,7 @@ namespace Model.Models
                 entity.Property(e => e.EntityTypeId).HasColumnName("ENTITY_TYPE_ID");
 
                 entity.Property(e => e.ErrorMessage)
-                    .HasMaxLength(28)
+                    .HasMaxLength(29)
                     .IsUnicode(false)
                     .HasColumnName("ERROR_MESSAGE");
 
@@ -1496,6 +1586,11 @@ namespace Model.Models
 
             modelBuilder.HasSequence("SEQ_SESSION", "MPP_APP")
                 .StartsAt(328718)
+                .HasMin(1)
+                .HasMax(2147483647);
+
+            modelBuilder.HasSequence("SEQ_SURROGATE", "MPP_CORE")
+                .StartsAt(326758718)
                 .HasMin(1)
                 .HasMax(2147483647);
 

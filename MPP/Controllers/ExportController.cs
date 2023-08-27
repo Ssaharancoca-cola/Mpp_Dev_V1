@@ -26,7 +26,7 @@ namespace MPP.Controllers
         public ActionResult Index() { return View(); }
 
         [HttpPost]
-        public IActionResult ExportData(IFormCollection form, string Command)
+        public async Task<IActionResult> ExportData(IFormCollection form, string Command)
         {
             #region ExportCommand
             if (Command == "Export")
@@ -37,7 +37,7 @@ namespace MPP.Controllers
                     string viewName = string.Empty;
                     string outMsg = Constant.statusSuccess;
                     int entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID"));
-                    string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
+                    string[] userName = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
                     string FileName = "E" + userName[1] + Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")) + ".csv";
                     string FilePath = Path.Combine(_environment.ContentRootPath, "ExportFile\\");
                     if (!Directory.Exists(FilePath))
@@ -47,7 +47,6 @@ namespace MPP.Controllers
                     FilePath = FilePath + FileName;
                     Dictionary<string, string> attrValues = new Dictionary<string, string>();
                     List<Entity_Type_Attr_Detail> attrbuteList = new List<Entity_Type_Attr_Detail>();
-                   // attrbuteList = (List<Entity_Type_Attr_Detail>)TempData["attrbuteList"];
                     string serializedAttributeList = TempData["attributeList"] as string;
 
                     if (serializedAttributeList != null)
@@ -62,8 +61,13 @@ namespace MPP.Controllers
                         {
                             string attrName = attrbuteList.Where(x => x.AttrDataType == "SUPPLIED_CODE").Where(y => y.AttrName == data.AttrName).Select(x => x.AttrName).FirstOrDefault();
                             if (!string.IsNullOrEmpty(attrName))
+                            {
                                 strExport.Append(data.AttrName + ",");
-                            strExport.Append(form[data.AttrName] == "false" ? "" : data.AttrName + ",");
+                            }
+                            else
+                            {
+                                strExport.Append(form[data.AttrName] == "false" ? "" : data.AttrName + ",");
+                            }
                         }
                     }
                     strExport.Append(form[Constant.dateFromColumnName] == "false" ? "" : Constant.dateFromColumnName);
@@ -92,8 +96,6 @@ namespace MPP.Controllers
                         {
                             ViewData["filepath"] = FilePath;
                             string path = _configuration["FILE:FileDownLoadPath"];
-                            //System.Configuration.ConfigurationManager.AppSettings["FileDownLoadPath"];
-
                             return Content("export," + _httpContextAccessor.HttpContext.Session.GetString("EntityName") + "," + FilePath);
                         }
                         else
@@ -114,7 +116,13 @@ namespace MPP.Controllers
             #region cancelUpdateCommand
             else if (Command == "Cancel")
             {
-                return ViewComponent("ShowAttribute", new { entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeId")), entityName = _httpContextAccessor.HttpContext.Session.GetString("EntityName"), viewType = "search" });
+                return await Task.Run(() => ViewComponent("ShowAttribute",
+                                   new
+                                   {
+                                       entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")),
+                                       entityName = Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")),
+                                       viewType = "search"
+                                   }));
             }
             return View();
             #endregion
@@ -265,7 +273,7 @@ namespace MPP.Controllers
         {
             try
             {
-                string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
+                string[] userName = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
                 string fileName = "E" + userName[1] + path.Split(',')[1] + ".csv";
                 string newPath = path.Split(",")[2];
                 var fileStream = System.IO.File.OpenRead(newPath);
@@ -285,10 +293,16 @@ namespace MPP.Controllers
                 return Content(ex.Message + ex.StackTrace);
             }
         }
-    
-    public ActionResult CancelExport()
+
+        public async Task<IActionResult> CancelExport()
         {
-            return RedirectToRoute(new { controller = "Menu", action = "ShowAttribute", entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeId")), entityName = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetString("EntityName")), viewType = "search" });
+            return await Task.Run(() => ViewComponent("ShowAttribute",
+                                               new
+                                               {
+                                                   entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")),
+                                                   entityName = Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")),
+                                                   viewType = "search"
+                                               }));
         }
     }
 }

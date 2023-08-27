@@ -29,7 +29,7 @@ namespace MPP.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult SaveRecord(IFormCollection form, string Command)
+        public async Task<IActionResult> SaveRecord(IFormCollection form, string Command)
         {
             try
             {
@@ -50,14 +50,20 @@ namespace MPP.Controllers
                         attributeList = JsonConvert.DeserializeObject<List<Entity_Type_Attr_Detail>>(serializedAttributeList);
                     }
                     TempData.Keep();
-                    string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
+                    string[] userName = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
                     using (PrevilegesDataViewModel objPrevilegesDataViewModel = new PrevilegesDataViewModel())
                     {
                         Previleges previlegesData = objPrevilegesDataViewModel.GetPrevileges(userName[1], entityTypeId, out outMsg);
                         if (previlegesData == null || previlegesData.CREATE_FLAG != 1)
                         {
                             TempData["message"] = Constant.accessDenied;
-                            return RedirectToRoute(new { controller = "Menu", action = "ShowAttribute", entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")), entityName = Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")), viewType = "search" });
+                            return await Task.Run(() => ViewComponent("ShowAttribute",
+                                                                          new
+                                                                          {
+                                                                              entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")),
+                                                                              entityName = Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")),
+                                                                              viewType = "search"
+                                                                          }));
                         }
                         else
                             languageCode = previlegesData.LANGUAGE_CODE.ToString();
@@ -66,7 +72,7 @@ namespace MPP.Controllers
                     {
                         string value = string.Empty;
                         string isMandatory = attributeList.Where(x => x.AttrName == data.AttrName).Select(y => y.IsMandatoryFlag).FirstOrDefault().ToString();
-                        if (string.IsNullOrEmpty(form[data.AttrName]) && isMandatory == "1" && data.Isvisible !="N")
+                        if (string.IsNullOrEmpty(form[data.AttrName]) && isMandatory == "1" && data.Isvisible != "N")
                         {
                             ModelState.AddModelError("error", data.AttrDisplayName + Constant.notNull);
                             errMsg.Append(data.AttrDisplayName + Constant.notNull);
@@ -167,7 +173,7 @@ namespace MPP.Controllers
                     string editLevel = string.IsNullOrEmpty(editLevelInput) ? "NULL" : editLevelInput.ToString();
 
                     form.TryGetValue("txtEffectiveDate", out var effectiveDateInput);
-                    string effectivedate = string.IsNullOrEmpty(effectiveDateInput) ? "convert(date,getdate())" : "to_date('" + (DateTime.Parse(effectiveDateInput.ToString())).ToString("MM/dd/yyyy") + "','MM/DD/YYYY')";
+                    string effectivedate = string.IsNullOrEmpty(effectiveDateInput) ? "convert(date,getdate())" : "CONVERT(DATE, '" + (DateTime.Parse(effectiveDateInput.ToString())).ToString("MM/dd/yyyy") + "', 101)";
 
                     Dictionary<string, string> attrValuesbp = new Dictionary<string, string>(attrValues);
 
@@ -180,7 +186,7 @@ namespace MPP.Controllers
                     {
                         attrValuesbp.Add("DATE_FROM", (DateTime.Parse(form["txtEffectiveDate"])).ToString("MM/dd/yyyy"));
 
-                    }                  
+                    }
 
                     using (AddNewRecordViewModel objAddNewRecordViewModel = new AddNewRecordViewModel())
                     {
@@ -195,14 +201,12 @@ namespace MPP.Controllers
                     }
                     else
                         return Content(outMsg + "error");
-
                     return Content(Constant.dataSaveSuccessFully);
-                    TempData["message"] = Constant.dataSaveSuccessFully;
-                     return RedirectToRoute(new { controller = "Menu", action = "ShowAttribute", entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")), entityName = Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")), viewType = "search" });
                 }
+                   
                 else if (Command == "Cancel")
 
-                    return RedirectToRoute(new { controller = "Menu", action = "ShowAttribute", entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")), entityName = Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")), viewType = "search" });
+                    return await Task.Run(() => ViewComponent("ShowAttribute", new { entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")), entityName = Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")), viewType = "search" }));
 
 
             }
@@ -241,7 +245,7 @@ namespace MPP.Controllers
                 {
                     entry = result.GetDirectoryEntry();
                     userInfo = new UserInfo();
-                    userInfo.UserId = entry.Properties["sAMAccountName"].Value.ToString();
+                    userInfo.UserID = entry.Properties["sAMAccountName"].Value.ToString();
                     userInfo.UserName = entry.Properties["givenName"].Value.ToString() + " " + entry.Properties["sn"].Value.ToString();
                     userInfo.UserEmail = entry.Properties["mail"].Value.ToString();
                 }

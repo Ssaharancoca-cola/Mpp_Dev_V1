@@ -49,11 +49,11 @@
                 <td>
                     <table width="100%" border="0" cellspacing="0" cellpadding="8">
                         <tr valign="middle" style="background-image:url(/wwwroot/Images/TableTop1.jpg);background-repeat:repeat-x;height:100%">
-                            <td height="40" class="whiteTextNormal">                            
-                                    @Html.Label(@Context.Session.GetString("EntityName").ToString(), "", new { @class = "whiteTextNormal", @id = "lblcaption" })
+                            <td height="40" class="whiteTextNormal">
+                                <span class="whiteTextNormal" id="lblcaption">@Context.Session.GetString("EntityName").ToString()</span>
                                 | <span class="whiteTextNormal">
                                     Total Records : <strong>
-                                            @Html.Label(ListOfRecordsForUpdate.Count().ToString(), "", new { @class = "whiteTextNormal", @id = "lblTotalRecords" })
+                                        <span class="whiteTextNormal" id="lblTotalRecords">@ListOfRecordsForUpdate.Count()</span>
                                     </strong>
                                 </span> | <span class="whiteTextNormal">
                                     <label class="whiteTextNormal" id="lblPageDetails"></label>

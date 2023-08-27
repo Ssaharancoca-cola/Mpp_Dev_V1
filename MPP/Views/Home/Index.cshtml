@@ -30,7 +30,7 @@
                                     <tr valign="bottom">
                                         <td valign="top" style="color:white">
                                             <label class="label" style="display:none" id="lblHome">Home</label>
-                                            <label class="label" id=" lblAdmin">Admin</label>
+                                            <label class="label" id="lblAdmin">Admin</label>
                                             <label class="label" id="lbllogOut">LogOut</label>
                                         </td>
                                     </tr>
@@ -153,8 +153,10 @@
         objWindow.close();
     });
     $("#lblAdmin").click(function () {
+        debugger;
         $.post('@Url.Action("GetAllUsers", "Admin")',
             function (data) {
+                debugger;
                 if (data.indexOf("error") == 0){
                         alert(data.replace("error", ""));
                 } else {

@@ -1,0 +1,117 @@
+﻿@model List<Model.UserInfo>
+
+
+    <table style="width: 100%">
+        <tr align="center" style="width: 100%; height: 25px">
+            <td style="width: 100%; padding-left: 10px" align="left">
+                <label style="font-size:small;font-weight:bold;color:red;font-family:Arial Black">
+                    User Details
+                </label>            
+            </td>
+        </tr>
+        <tr align="center" style="width: 100%; height: 5px">
+            <td style="padding-left: 10px; padding-right: 10px; padding-bottom: 20px" valign="top" align="right">
+                <hr style="width: 100%; height: 2px; background-color: red;" />
+            </td>
+        </tr>
+    </table>
+<center>
+    <table>
+
+        <tr style="width: 100%" align="center" class="darkBlueBg">
+            <td align="right" rowspan="1" style="width: 20%">
+                <label class="editlabel">Users List</label>
+            </td>
+            <td align="left" style="width:80%">
+                @Html.DropDownList("ddlUserList", Model.Select(item => new SelectListItem
+                                                               {
+                                                                   Value = item.UserID.ToString(),
+                                                                   Text = item.UserName.ToString()
+                                                               }), "--Select--", new { @class = "editdropdown" })
+
+            </td>
+        </tr>
+        <tr style="display:none; width: 100%" id="trUserId" align="center" class="darkBlueBg">
+                <td align="right" style="width: 20%">
+                    <label class="editlabel">User ID</label>
+                </td>
+                <td align="left" style="width:80%">
+                    <input type="text" id="txtUserIdForNewUser" class="txtBox" style="font-family:Verdana;" width="175px" maxlength="100" />
+                    <label style="color:red">*</label>
+                    <input type="image" id="btnSearchUser" style="height:75%;border-width:0px" value="submit" src="~/Images/Search1.png" alt="Search User In AD">
+                </td>
+
+            </tr>
+    </table>
+</center>
+                                      
+
+<script>
+    $("#btnSearchUser").click(function () {
+        var userid = $('#txtUserIdForNewUser').val();
+        if (userid.trim(' ') == "")
+
+        {
+            alert("Please enter Userid");
+            return false;
+        }
+        $.post('@Url.Action("GetUserDetailsForAddingUser", "Admin")', { userId: userid },
+                function (data) {
+                    debugger;
+                    if (data.indexOf("Access denied") > -1) {
+                        alert(data.replace("error", ""));
+                    }
+                    if (data.indexOf("error") == 0) {
+                        alert(data.replace("error", ""));
+                    }
+                    else {
+                        $('#txtUserIdForNewUser').attr('readonly', 'true');
+
+                        $('#divUserDetails').empty();
+
+                        $('#divUserDetails').html(data);
+                    }
+
+                });
+
+    });
+    $(document).ready(function () {
+
+        $(".editdropdown").change(function (evt) {
+            
+
+            $("#txtUserIdForNewUser").val("");
+            if ($("#ddlUserList option:selected").val() == "") {
+                $('#trUserId').show();
+                $('#divUserDetails').empty();
+            }
+            var selectedValue = evt.currentTarget.value;
+
+            if (selectedValue == 0) {
+                $('#trUserId').show();
+                $('#divUserDetails').empty();
+
+
+            }
+            else {
+                $('#trUserId').hide();
+
+                $.post('@Url.Action("GetUserDetails", "Admin")', { userId: selectedValue },
+         function (data) {
+                        debugger;
+             if (data.indexOf("error") == 0) {
+                 alert(data.replace("error", ""));
+             }
+             else {
+                 $('#divUserDetails').empty();
+
+                 $('#divUserDetails').html(data);
+             }
+
+         });
+            }
+
+        });
+
+    });
+</script>

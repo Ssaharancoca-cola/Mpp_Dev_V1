@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+
+<script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+<script src="~/lib/jquery/dist/jquery-ui.min.js" asp-append-version="true"></script>
+
+<h2 class="demoHeaders">Adding Dynamic Contents in jQuery Tabs</h2>
+<div id="tabs">
+    <ul>
+        <li><a href="#divSubmitted">View Submitted</a></li>
+        <li><a href="#divRejected">View Rejected</a></li>
+        <li><a href="#divApproval">My Approval</a></li>
+
+    </ul>
+    <div id="divSubmitted">
+        <h1>No records available with status submitted! </h1>
+    </div>
+    <div id="divRejected">
+        <h1>No records available with status Rejected! </h1>
+    </div>
+    <div id="divApproval">
+        <h1>No records available for the Approval! </h1>
+    </div>
+</div>
+
+
+<style>
+    body {
+        font: 62.5% "Trebuchet MS", sans-serif;
+        margin: 50px;
+    }
+
+    .demoHeaders {
+        margin-top: 2em;
+    }
+
+    #dialog-link {
+        padding: .4em 1em .4em 20px;
+        text-decoration: none;
+        position: relative;
+    }
+
+        #dialog-link span.ui-icon {
+            margin: 0 5px 0 0;
+            position: absolute;
+            left: .2em;
+            top: 50%;
+            margin-top: -8px;
+        }
+
+    #icons {
+        margin: 0;
+        padding: 0;
+    }
+
+        #icons li {
+            margin: 2px;
+            position: relative;
+            padding: 4px 0;
+            cursor: pointer;
+            float: left;
+            list-style: none;
+        }
+
+        #icons span.ui-icon {
+            float: left;
+            margin: 0 4px;
+        }
+
+    .fakewindowcontain .ui-widget-overlay {
+        position: absolute;
+    }
+</style>
+<script>
+
+    $(function () {
+        $("#tabs").tabs();
+    });
+</script>

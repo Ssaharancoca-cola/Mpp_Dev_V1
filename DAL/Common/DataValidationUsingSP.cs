@@ -39,74 +39,53 @@ namespace DAL.Common
                 {
                     insertAndDeleteInLandingTable.DeleteDataFromLandingTable(inputtableName, Convert.ToInt32(sessionId));
                 }
-                if (ex.InnerException.ToString().Contains("75001"))
+                if (ex.Message != null)
                 {
-                    try
-                    {
-                        using (InsertAndDeleteInLandingTable insertAndDelete = new InsertAndDeleteInLandingTable())
-                        {
-                            if (ex.InnerException.ToString().Contains("WARNING:"))
-                            {
-                                throw new Exception(insertAndDelete.GetErrorOrWarning(inputtableName, "WARNING", sessionId));
-                            }
-                            else if (ex.InnerException.ToString().Contains("ERROR:"))
-                            {
-                                throw new Exception(insertAndDelete.GetErrorOrWarning(inputtableName, "ERROR", sessionId));
-                            }
-                            else
-                            {
-                                throw;
-                            }
-                        }
-                    }
-                    catch (Exception ex1)
-                    {
-                        using (LogError objLogError = new LogError())
-                        {
-                            objLogError.LogErrorInTextFile(ex);
-                        }
-                        throw ex1 as Exception;
-                    }
+                    outMsg = ex.Message;                   
                 }
-                if (ex.InnerException.ToString().Contains("ORA-20001") || ex.InnerException.ToString().Contains("ORA-20002"))
+                if (ex.Message.ToString().Contains("ORA-20001") || ex.Message.ToString().Contains("ORA-20002"))
                 {
-                    string message = ex.InnerException.Message.ToString();
+                    string message = ex.Message.ToString();
                     outMsg = message.Substring(message.IndexOf("ERROR:", 0) + 7, message.IndexOf("\n") - 18);
                 }
                 else
                 {
-                    if (ex.InnerException.ToString().Contains("diagnostic text: "))
+                    if (ex.Message.ToString().Contains("diagnostic text: "))
                     {
-                        int startPros = ex.InnerException.ToString().IndexOf("diagnostic text: ") + "diagnostic text: ".Length;
+                        int startPros = ex.Message.ToString().IndexOf("diagnostic text: ") + "diagnostic text: ".Length;
                         int noChars = 100;
-                        if (ex.InnerException.ToString().Contains("SQLSTATE="))
-                            noChars = ex.InnerException.ToString().IndexOf("SQLSTATE") - startPros;
-                        outMsg = ex.InnerException.ToString().Substring(startPros, noChars);
+                        if (ex.Message.ToString().Contains("SQLSTATE="))
+                            noChars = ex.Message.ToString().IndexOf("SQLSTATE") - startPros;
+                        outMsg = ex.Message.ToString().Substring(startPros, noChars);
                     }
                     else
-                        outMsg = ex.InnerException.ToString();
-                    if (ex.InnerException.ToString().Contains("WARNING:"))
+                        outMsg = ex.Message.ToString();
+                    if (ex.Message.ToString().Contains("WARNING:"))
                     {
 
                     }
-                    else if (ex.InnerException.ToString().Contains("Unique"))
+                    else if (ex.Message != null)
                     {
-                        outMsg = ex.InnerException.ToString().Substring(ex.InnerException.Message.IndexOf("Unique"), ex.InnerException.Message.ToString().IndexOf(",") - ex.InnerException.Message.ToString().IndexOf("Unique"));
+                        outMsg = ex.Message;
                     }
-                    else if (ex.InnerException.ToString().ToUpper().Contains("THIS RECORD IS MODIFIED BY"))
+                    else if (ex.Message.ToString().Contains("Unique"))
+                    {
+                        outMsg = ex.Message.ToString().Substring(ex.Message.IndexOf("Unique"), ex.Message.ToString().IndexOf(",") - ex.Message.ToString().IndexOf("Unique"));
+                    }
+                    else if (ex.Message.ToString().ToUpper().Contains("THIS RECORD IS MODIFIED BY"))
                     {
                         outMsg = "This record is modified by another user. Please try again later.";
                     }
-                    else if (ex.InnerException.ToString().ToUpper().Contains("DOES NOT EXIST IN THE MASTER"))
+                    else if (ex.Message.ToString().ToUpper().Contains("DOES NOT EXIST IN THE MASTER"))
                     {
-                        outMsg = ex.InnerException.ToString().Substring(ex.InnerException.Message.IndexOf("~"), ex.InnerException.Message.ToString().LastIndexOf("~") - ex.InnerException.Message.ToString().IndexOf("~") + 1);
+                        outMsg = ex.Message.ToString().Substring(ex.Message.IndexOf("~"), ex.Message.ToString().LastIndexOf("~") - ex.Message.ToString().IndexOf("~") + 1);
 
                     }
-                    else if (ex.InnerException.ToString().ToUpper().Contains("CODE ALREADY EXISTS"))
+                    else if (ex.Message.ToString().ToUpper().Contains("CODE ALREADY EXISTS"))
                     {
                         outMsg = "Code already exists.";
                     }
-                    else if (ex.InnerException.ToString().ToUpper().Contains("IT IS AN INACTIVE ENTITY"))
+                    else if (ex.Message.ToString().ToUpper().Contains("IT IS AN INACTIVE ENTITY"))
                     {
                         outMsg = "InActive entity.";
                     }
@@ -118,6 +97,7 @@ namespace DAL.Common
             }
             return outMsg;
         }
+
 
         public string ValidateData(List<Entity_Type_Attr_Detail> attributeList, string entityTypeId, string userID,
          Nullable<decimal> suppressWarning, string strRejectFilePath, string tableName, string strExport, string strSessionId, out int loadErrorCount,

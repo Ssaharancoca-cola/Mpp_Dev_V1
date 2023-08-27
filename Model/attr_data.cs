@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class DimensionName
+    public class attr_data
     {
-        public string Dimension {get; set;}
+        public string attr_data_type { get; set; }
     }
-   
 }

@@ -1,0 +1,463 @@
+﻿@model Model.RowLevelSecurityDetail
+<div class="darkBlueBg">
+    <table style="width: 100%">
+        <tr align="center" style="width:100%; height:25px">
+            <td style="width: 100%;padding-left:10px" align="left">
+                <label style="font-size:small;font-weight:bold;color:red;font-family:Arial Black">
+                    User Rowlevel Security Details
+                </label>
+            </td>
+        </tr>
+        <tr align="left" style="width:100%; height:5px">
+            <td style="padding-left:10px;padding-right:10px;padding-bottom:20px" valign="top">
+                <hr style="width:100%;height:2px;background-color:red;" />
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr style="width: 100%" align="center" class="darkBlueBg">
+            <td align="right" style="width: 45%">
+                <label class="editlabel">User ID</label>
+            </td>
+            <td align="left" style="width: 56%">
+                <input type="text" id="txtUserId" class="edittxtfield" value=@Model.UserID readonly maxlength="100" width="160px" style="font-family:Verdana" />
+            </td>
+        </tr>
+        <tr style="width: 100%" align="center" class="darkBlueBg">
+            <td align="right" style="width: 45%">
+                <label class="editlabel">Supplied Code</label>
+            </td>
+            <td align="left" style="width: 56%">
+                <input type="text" id="txtsuppliedCode" class="edittxtfield" value=@Model.SuppliedCode readonly maxlength="100" width="160px" style="font-family:Verdana" />
+            </td>
+        </tr>
+        <tr align="center" style="width: 100%" class="darkBlueBg">
+            <td align="right" style="width: 45%">
+                <label class="editlabel">Operator</label>
+            </td>
+
+            <td align="left" style="width: 56%">
+                @Html.DropDownList("ddlOperatorList", Model.RowLevelSecurityOperator.Select(item => new SelectListItem
+           {
+               Value = item.AttrName.ToString(),
+               Text = item.AttrValue.ToString()
+           }), "--Select--", new { @class = "OperatorChange" })
+
+                <label class="editlabel" style="color:red">*</label>
+            </td>
+        </tr>
+        <tr align="center" class="darkBlueBg" style="width: 100%;display:none" id="trOperatorDropDown">
+            <td align="right" style="width: 45%">
+                <label class="editlabel">Values</label>
+            </td>
+            <td align="left" id="td_DropdownList" style="width: 56%">
+                @Html.DropDownList("ddlOperatorValues", Model.RowLevelSecurityValues.Select(item => new SelectListItem
+           {
+               Value = item.ValueMember.ToString(),
+               Text =  item.DisplayMember.ToString()
+           }),  new { @class = "OperatorValuedropdown" })
+                <label class="editlabel" style="color:red">*</label>
+            </td>
+
+        </tr>
+        <tr align="center" class="darkBlueBg" style="width: 100%;display:none" id="trOperatorListBox">
+            <td align="right" style="width: 45%">
+                <label class="editlabel">Values</label>
+            </td>
+            <td align="left" id="tdListBox">
+                @Html.ListBoxFor(model => model.RowLevelSecurityValues,
+               new MultiSelectList(Model.RowLevelSecurityValues, "ValueMember", "DisplayMember"), new { @id = "ddlOperatorListBox", @class = "OperatorValueListBox" })
+
+                <label class="editlabel" style="color:red">*</label>
+            </td>
+        </tr>
+
+        <tr style="padding-top:10px">
+            <td style="width: 45%" align="center">
+                &nbsp;
+            </td>
+            <td style="width: 56%" align="left">
+                <input type="image" id="btnSaveRowLevelSecurity" value="submit" src="~/Images/Save_Button.gif" alt="Save">
+                <input type="image" id="btnCancelRowLevelSecurity" value="submit" src="~/Images/Cancel_Button.gif" alt="Cancel">
+            </td>
+            <td style="width: 30%" align="center">
+                &nbsp;
+            </td>
+        </tr>
+    </table>
+    <table style="width: 100%" border="0" cellspacing="0" cellpadding="0">
+        <tr style="width:100%">
+            <td style="width: 100%;padding-left:20px;height:auto" align="left">
+                <table border="1" id="tblRowLeveldata" class="width-100">
+                    <thead>
+                        <tr class="gridheader resultHeader">
+                            <td>Primary Keys</td>
+                            <td>Operator</td>
+                            <td>Values</td>
+                        </tr>
+                    </thead>
+                    @foreach (var data in @Model.UserSecurityValues)
+                    {
+                        <tr class="trgriddata">
+                            <td> @data.v_SUPPLIED_CODE.ToString() </td>
+                            <td> @data.v_OPERATOR.ToString() </td>
+                            <td> @data.v_VALUES.ToString() </td>
+
+
+                        </tr>
+                    }
+                </table>
+                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <tr align="center" style="width: 100%;padding-top:10px">
+                        <td style="width: 100%" align="center">
+                            <input type="image" id="btnDeleteRowLevelSecurity" value="submit" src="~/Images/Delete_Button.gif" alt="Delete">
+                        </td>
+                    </tr>
+                    <tr align="center" style="width: 100%;padding-top:10px">
+                        <td style="width: 100%" align="center"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+<script>
+    $("#btnDeleteRowLevelSecurity").click(function () {
+        var userId = $("#txtUserId").val();
+        var supplyCode = $("#txtsuppliedCode").val();
+        $.post('@Url.Action("DeleteRowLevelSecurity", "Admin")', { UserId: userId, SupplyCode: supplyCode },
+                          function (data) {
+                              if (data.indexOf("error") == 0) {
+                                  alert(data.replace("error", ""))
+                              }
+                              else {
+                                  alert('Row Level Security has been deleted successfully');
+
+                                  $.post('@Url.Action("GetAllUsers", "Admin")',
+                                                    function (data) {
+                                                        if (data.indexOf("error") == 0) {
+                                                            alert(data.replace("error", ""))
+                                                        }
+                                                        else {
+
+                                                            $('#divDisplayAllUsers').html(data);
+                                                          //  $('#ddlUserList option:eq(4)').attr('selected', 'selected');
+
+                                                        }
+
+                                                    });
+                                  $.post('@Url.Action("GetNewUserIndex", "Admin")', { newUserId: userId },
+                                       function (data) {
+                                           if (data.indexOf("error") == 0) {
+                                               alert(data.replace("error", ""));
+                                           }
+                                           else {
+                                               $('#ddlUserList')[0].selectedIndex = data;
+
+                                           }
+
+                                       });
+                                  $.post('@Url.Action("GetUserDetails", "Admin")', { userId: userId },
+                                       function (data) {
+                                           if (data.indexOf("error") == 0) {
+                                               alert(data.replace("error", ""));
+                                           }
+                                           else {
+
+                                               $('#divUserDetails').empty();
+
+                                               $('#divUserDetails').html(data);
+                                               $('#divEntityDetail').empty();
+
+
+                                           }
+
+                                       });
+                                  var dimensionId = "NA";
+                                  @*$.post('@Url.Action("GetDimensionIndex", "Admin")',
+                                  function (data) {
+                                      if (data.indexOf("error") == 0) {
+                                          alert(data.replace("error", ""));
+                                      }
+                                      else {
+                                          $('#ddlDimensionList')[0].selectedIndex = data;
+
+                                      }
+
+                                  });*@
+                                  @*$.post('@Url.Action("SearchEntity", "Admin")', { dimensionName: dimensionId },
+                                       function (data) {
+                                           if (data.indexOf("error") == 0) {
+                                               alert(data.replace("error", ""));
+                                           }
+                                           else {
+                                               $('#divEntityDetail').empty();
+
+                                               $('#divEntityDetail').html(data);
+                                           
+                                           }
+
+                                       });*@
+                              }
+
+                          });
+    });
+    $("#btnCancelRowLevelSecurity").click(function () {
+        var userId = $("#txtUserId").val();
+        var dimensionListdata = 0;
+
+
+        $.post('@Url.Action("GetAllUsers", "Admin")',
+                          function (data) {
+                              if (data.indexOf("error") == 0) {
+                                  alert(data.replace("error", ""))
+                              }
+                              else {
+
+                                  $('#divDisplayAllUsers').html(data);
+                                 // $('#ddlUserList option:eq(4)').attr('selected', 'selected');
+
+                              }
+
+                          });
+        $.post('@Url.Action("GetNewUserIndex", "Admin")', { newUserId: userId },
+             function (data) {
+                 if (data.indexOf("error") == 0) {
+                     alert(data.replace("error", ""));
+                 }
+                 else {
+                     $('#ddlUserList')[0].selectedIndex = data;
+
+                 }
+
+             });
+        $.post('@Url.Action("GetUserDetails", "Admin")', { userId: userId },
+             function (data) {
+                 if (data.indexOf("error") == 0) {
+                     alert(data.replace("error", ""));
+                 }
+                 else {
+
+                     $('#divUserDetails').empty();
+
+                     $('#divUserDetails').html(data);
+                     $('#divEntityDetail').empty();
+
+
+
+                 }
+
+             });
+        $.post('@Url.Action("GetDimensionIndex", "Admin")',
+                                  function (data) {
+                                      if (data.indexOf("error") == 0) {
+                                          alert(data.replace("error", ""));
+                                      }
+                                      else {
+                                          dimensionListdata = data;
+
+                                      }
+
+                                  });
+        var dimensionId = "NA";
+        @*$.post('@Url.Action("SearchEntity", "Admin")', { dimensionName: dimensionId },
+             function (data) {
+                 if (data.indexOf("error") == 0) {
+                     alert(data.replace("error", ""));
+                 }
+                 else {
+                     $('#divEntityDetail').empty();
+
+                     $('#divEntityDetail').html(data);
+      
+                 }
+
+             });*@
+        //try
+        //{
+        //    $('#ddlDimensionList')[0].selectedIndex = dimensionListdata;
+
+        //}catch(ex)
+        //{
+
+        //}
+
+
+    });
+    $("#btnSaveRowLevelSecurity").click(function () {
+        var selectedListBoxText = [];
+        var selectedListBoxValues = [];
+        if (!confirm("\n  ******* W A R N I N G !******* \n\n" +
+        "This action will affect all previous entries related to \n " +
+         " this Entity \n" +
+        " for this user.\n" +
+        "Click OK to Proceed or Cancel to abort this operation!")) {
+            return false;
+        }
+
+
+        var selectedOperator = $("#ddlOperatorList option:selected").text();
+        if (selectedOperator == "--Select--") {
+            if (!$("#trOperatorDropDown").is(":visible")) {
+                alert("Please select a operator");
+                return false;
+            }
+
+        }
+        if (selectedOperator == "IN" || selectedOperator == "NOT IN") {
+            var length = $("#ddlOperatorListBox option:selected").length;
+
+
+            if (length > 0) {
+                for (var i = 0; i < length; i++) {
+                    selectedListBoxText[i] = $("#ddlOperatorListBox option:selected")[i].text;
+                    if (selectedListBoxText[i] == "--Select--") {
+                        selectedListBoxValues[i] = "-1";
+                    }
+                    else {
+                        selectedListBoxValues[i] = $("#ddlOperatorListBox option:selected")[i].value;
+
+                    }
+                }
+
+            }
+            else {
+                alert("Please select a Value");
+                return false;
+            }
+        }
+        else {
+            i = 0;
+            selectedListBoxText[i] = $("#ddlOperatorValues option:selected").text();
+            if (selectedListBoxText[i] == "--Select--") {
+                selectedListBoxValues[i] = "-1";
+            }
+            else {
+                selectedListBoxValues[i] = $("#ddlOperatorValues option:selected").val();
+            }
+        }
+
+        var selectedOperatorValue = $("#ddlOperatorList option:selected").val();
+        if (selectedOperator == "--Select--") {
+
+            selectedOperatorValue = -1;
+        }
+        var userId = $("#txtUserId").val();
+        var supplyCode = $("#txtsuppliedCode").val();
+        //string DimensionName, string DimensionId,string EntityId,string OperatorValue,string UserId,
+        //  string SupplyCode,string[] SelectedData,string[] SelectedValues
+        $.post('@Url.Action("SaveRowLevelSecurityDetails", "Admin")', {
+            OperatorValue: selectedOperatorValue, UserId: userId, SupplyCode: supplyCode,
+            SelectedData: selectedListBoxText, SelectedValues: selectedListBoxValues
+        },
+               function (data) {
+                   if (data.indexOf("error") == 0) {
+                       alert(data.replace("error", ""));
+                   }
+                   else {
+                       alert("Row Level Security has been applied successfully");
+                       $.post('@Url.Action("GetAllUsers", "Admin")',
+                            function (data) {
+                                if (data.indexOf("error") == 0) {
+                                    alert(data.replace("error", ""))
+                                }
+                                else {
+
+                                    $('#divDisplayAllUsers').html(data);
+                                 //   $('#ddlUserList option:eq(4)').attr('selected', 'selected');
+
+                                }
+
+                            });
+                       $.post('@Url.Action("GetNewUserIndex", "Admin")', { newUserId: userId },
+                            function (data) {
+                                if (data.indexOf("error") == 0) {
+                                    alert(data.replace("error", ""));
+                                }
+                                else {
+                                    $('#ddlUserList')[0].selectedIndex = data;
+
+                                }
+
+                            });
+                       $.post('@Url.Action("GetUserDetails", "Admin")', { userId: userId },
+                            function (data) {
+                                if (data.indexOf("error") == 0) {
+                                    alert(data.replace("error", ""));
+                                }
+                                else {
+
+                                    $('#divUserDetails').empty();
+
+                                    $('#divUserDetails').html(data);
+                                    $('#divEntityDetail').empty();
+
+
+                                }
+
+                            });
+                       var dimensionId = "NA";
+                       @*$.post('@Url.Action("SearchEntity", "Admin")', { dimensionName: dimensionId },
+                            function (data) {
+                                if (data.indexOf("error") == 0) {
+                                    alert(data.replace("error", ""));
+                                }
+                                else {
+                                    $('#divEntityDetail').empty();
+
+                                    $('#divEntityDetail').html(data);
+                                    $.post('@Url.Action("GetDimensionIndex", "Admin")',
+                                               function (data) {
+                                                   if (data.indexOf("error") == 0) {
+                                                       alert(data.replace("error", ""));
+                                                   }
+                                                   else {
+                                                       $('#ddlDimensionList')[0].selectedIndex = data;
+
+                                                   }
+
+                                               });
+                                }
+
+                            });*@
+
+
+                   }
+
+               });
+
+
+    });
+    function Refresh() {
+
+    }
+    $(document).ready(function () {
+        $(".OperatorChange").change(function (evt) {
+
+            var selectedValue = evt.currentTarget.value;
+            if (selectedValue == "IN" || selectedValue == "NOT IN") {
+                $("#trOperatorDropDown").hide();
+                $("#trOperatorListBox").show();
+            }
+            else {
+                $("#trOperatorDropDown").show();
+                $("#trOperatorListBox").hide();
+
+            }
+
+        });
+    });
+</script>
+<style type="text/css">
+    .OperatorChange {
+        width: 160px;
+    }
+
+    .OperatorValueListBox {
+        width: 160px;
+    }
+
+    .OperatorValuedropdown {
+        width: 160px;
+    }
+</style>

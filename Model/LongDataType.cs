@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class DimensionName
+    public class LongDataType
     {
-        public string Dimension {get; set;}
+        public long NextValue { get; set; }
     }
-   
 }
