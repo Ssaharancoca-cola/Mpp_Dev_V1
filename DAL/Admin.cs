@@ -20,14 +20,16 @@ namespace DAL
         {
             outMsg = Constant.statusSuccess;
             string dimensionId = string.Empty;
-            string selectQuery = @"select distinct dimension_name from entity_type where upper(dimension_display_name)=
+            string selectQuery = @"select distinct dimension_name AS Dimension from MPP_CORE.entity_type where upper(dimension_display_name)=
                                       upper('" + dimensionName + "') and id = '" + entityTypeId + "'";
+            DimensionName Dm = new DimensionName();
 
             try
             {
                 using (MPP_Context objMppContext = new MPP_Context())
                 {
-                    dimensionId = objMppContext.Set<string>().FromSqlRaw(selectQuery).FirstOrDefault();
+                    Dm = objMppContext.Set<DimensionName>().FromSqlRaw(selectQuery).FirstOrDefault();
+                    dimensionId = Dm.Dimension;
                 }
             }
 
@@ -73,12 +75,10 @@ namespace DAL
         {
             outMsg= Constant.statusSuccess;
             UserInfo currentUserInfo = new UserInfo();
-            //List<MppUser> newList = new List<MppUser>();
             try
             {
                 using (MPP_Context objMppContext = new MPP_Context())
                 {
-                    //newList = objMppContext.MppUser.FromSqlRaw(selectQuery).ToList();
                     currentUserInfo = objMppContext.Set<UserInfo>().FromSqlRaw(selectQuery).FirstOrDefault();
                 }
             }
@@ -119,14 +119,15 @@ namespace DAL
             outMsg = Constant.statusSuccess;
             List<UserRowSecurity> securityInfo = new List<UserRowSecurity>();
             try
-            {
-                using (MPP_Context objMPP_Context = new MPP_Context())
-                {
-                    securityInfo = objMPP_Context.Set<UserRowSecurity>()
-                              .FromSqlRaw(selectQuery)
-                              .ToList();
+            {                
+                    using (MPP_Context objMPP_Context = new MPP_Context())
+                    {
+                        var queryResult = objMPP_Context.Set<UserRowSecurity>()
+                                   .FromSqlRaw(selectQuery)
+                                   .ToList();
+                        securityInfo = queryResult;
+                    }
                 }
-            }
             catch (Exception ex)
             {
                 using (LogError objLogError = new LogError())
@@ -344,7 +345,7 @@ namespace DAL
         {
             int entityTypeId = 0;
             outMsg = Constant.statusSuccess;
-            string selectQuery = "select ID from entity_type where entity_name ='" + entityName.Trim(' ') + "'";
+            string selectQuery = "select ID from MPP_CORE.entity_type where name ='" + entityName.Trim(' ') + "'";
 
             try
             {
@@ -369,21 +370,26 @@ namespace DAL
         {
             outMsg = Constant.statusSuccess;
             string suppliedCode = string.Empty;
+            DimensionName DM =new  DimensionName();
             try
             {
                 string selectQuery = @"SELECT 
-                                    rtrim (xmlagg (xmlelement (e, attr_name || ',')).extract ('//text()'), ',') AS suppliedCode
+                                    STUFF((SELECT ',' + attr_name 
                                 FROM
                                     MPP_CORE.ENTITY_TYPE_ATTR A, MPP_CORE.ENTITY_TYPE E
                                 WHERE
                                     A.ENTITY_TYPE_ID = E.ID
                                 AND
-                                    ENTITY_TYPE_ID = '" + entityTypeId + @"' AND
-                                    DIMENSION_NAME = '" + dimensionName + @"' AND
-                                    IS_PART_OF_CODE = 1";
+                                    ENTITY_TYPE_ID = '" + entityTypeId + @"'
+                                   AND DIMENSION_NAME = '" + dimensionName + @"' 
+                                   AND IS_PART_OF_CODE = 1
+                               FOR XML PATH('')), 1, 1, '') AS Dimension";
+
+
                 using (MPP_Context objMPP_Context = new MPP_Context())
                 {
-                    suppliedCode = objMPP_Context.Set<string>().FromSqlRaw(selectQuery).FirstOrDefault();
+                    DM = objMPP_Context.Set<DimensionName>().FromSqlRaw(selectQuery).FirstOrDefault();
+                    suppliedCode = DM.Dimension;
                 }
             }
             catch (Exception ex)
@@ -402,7 +408,7 @@ namespace DAL
             List<RowLevelSecurityOperator> listRowLevelSecurityOperator = new List<RowLevelSecurityOperator>();
             try
             {
-                string selectQuery = "SELECT DISTINCT ATTR_VALUES as AttrValue, ATTR_NAME as AttrName FROM MPP_CORE.MPP_LOV WHERE ATTR = 'Operator' ORDER BY UPPER(ATTR_NAME)";
+                string selectQuery = "SELECT DISTINCT ATTR_VALUES as AttrValue, ATTR_NAME as AttrName FROM MPP_CORE.MPP_LOV WHERE ATTR = 'Operator' ";
                 using (MPP_Context objMPP_Context = new MPP_Context())
                 {
                     listRowLevelSecurityOperator = objMPP_Context.Set<RowLevelSecurityOperator>().FromSqlRaw(selectQuery).ToList();
@@ -432,24 +438,30 @@ namespace DAL
                 {
                     OutputParameter<string> i_result = new OutputParameter<string>();
                     OutputParameter<int> returnValue = new OutputParameter<int>();
-                    objMPP_Context.Procedures.MPP_ENTITY_USER_SEC_VIEWS_LOVAsync(entityTypeId, userId.ToUpper(), i_result, returnValue);
-                    result = returnValue.Value.ToString();
+                    objMPP_Context.Procedures.MPP_ENTITY_USER_SEC_VIEWS_LOVAsync(entityTypeId, userId.ToUpper(), i_result, returnValue).GetAwaiter().GetResult();
+                    result = i_result.Value.ToString();
 
                 }
-                string selectQuery = @"SELECT rtrim (xmlagg (xmlelement (e, attr_name || ',')).extract ('//text()'), ',') AS PK1
+                string selectQuery = @"SELECT 
+                                    STUFF((SELECT ',' + attr_name 
                                 FROM
-                                   MPP_CORE.ENTITY_TYPE_ATTR A, MPP_CORE.ENTITY_TYPE E
+                                    MPP_CORE.ENTITY_TYPE_ATTR A, MPP_CORE.ENTITY_TYPE E
                                 WHERE
                                     A.ENTITY_TYPE_ID = E.ID
                                 AND
-                                    ENTITY_TYPE_ID = " + entityTypeId + @" AND
-                                    DIMENSION_NAME = '" + dimensionName + @"' AND
-                                    IS_PART_OF_CODE = 1";
+                                    ENTITY_TYPE_ID = '" + entityTypeId + @"'
+                                   AND DIMENSION_NAME = '" + dimensionName + @"' 
+                                   AND IS_PART_OF_CODE = 1
+                               FOR XML PATH('')), 1, 1, '') AS Dimension";
+
                 using (MPP_Context objMPP_Context = new MPP_Context())
                 {
-                    suppliedCode = objMPP_Context.Set<string>().FromSqlRaw(selectQuery).FirstOrDefault();
+                    DimensionName DM = new DimensionName();
+
+                    DM = objMPP_Context.Set<DimensionName>().FromSqlRaw(selectQuery).FirstOrDefault();
+                    suppliedCode = DM.Dimension;
                 }
-                string selectCommand = @"SELECT " + suppliedCode + " AS DisplayMember," + entityName + "_OID AS ValueMember FROM (" + result + ")";
+                string selectCommand = @"SELECT " + suppliedCode + " AS DisplayMember," + entityName + "_OID AS ValueMember FROM " + result + "";
                 using (MPP_Context objMPP_Context = new MPP_Context())
                 {
                     listRowLevelSecurityValues = objMPP_Context.Set<RowLevelSecurityValues>().FromSqlRaw(selectCommand).ToList();
@@ -474,25 +486,30 @@ namespace DAL
             return listRowLevelSecurityValues;
         }
 
-        public List<UserSecurityValues> GetRowLevelSecurityData(string dimensionName, string entityName, int entityTyeId, string userID, out string outMsg)
+        public List<UserSecurityValuess> GetRowLevelSecurityData(string dimensionName, string entityName, int entityTyeId, string userID, out string outMsg)
         {
             outMsg = Constant.statusSuccess;
             string suppliedCode = string.Empty;
-            List<UserSecurityValues> lstUserRowSecurity = new List<UserSecurityValues>();
+            List<UserSecurityValuess> lstUserRowSecurity = new List<UserSecurityValuess>();
             try
             {
-                string selectQuery = (@"SELECT rtrim (xmlagg (xmlelement (e, attr_name || ',')).extract ('//text()'), ',') AS PK1
+                string selectQuery = @"SELECT 
+                                    STUFF((SELECT ',' + attr_name 
                                 FROM
                                     MPP_CORE.ENTITY_TYPE_ATTR A, MPP_CORE.ENTITY_TYPE E
                                 WHERE
                                     A.ENTITY_TYPE_ID = E.ID
                                 AND
-                                    ENTITY_TYPE_ID = " + entityTyeId + @" AND
-                                    DIMENSION_NAME = '" + dimensionName + @"' AND
-                                    IS_PART_OF_CODE = 1");
+                                    ENTITY_TYPE_ID = '" + entityTyeId + @"'
+                                   AND DIMENSION_NAME = '" + dimensionName + @"' 
+                                   AND IS_PART_OF_CODE = 1
+                               FOR XML PATH('')), 1, 1, '') AS Dimension";
+
                 using (MPP_Context objMPP_Context = new MPP_Context())
                 {
-                    suppliedCode = objMPP_Context.Set<string>().FromSqlRaw(selectQuery).FirstOrDefault();
+                    DimensionName DM = new DimensionName();
+                    DM = objMPP_Context.Set<DimensionName>().FromSqlRaw(selectQuery).FirstOrDefault();
+                    suppliedCode = DM.Dimension;
                 }
                 String Query = @"SELECT 
                                     '" + suppliedCode + @"' AS v_SUPPLIED_CODE,
@@ -513,7 +530,7 @@ namespace DAL
                                     AND S.DIMENSION_NAME = '" + dimensionName + @"'";
                 using (MPP_Context objMPP_Context = new MPP_Context())
                 {
-                    lstUserRowSecurity = objMPP_Context.Set<UserSecurityValues>().FromSqlRaw(Query).ToList();
+                    lstUserRowSecurity = objMPP_Context.Set<UserSecurityValuess>().FromSqlRaw(Query).ToList();
                 }
 
             }
@@ -608,19 +625,28 @@ namespace DAL
             }
             return outMsg;
         }
-        public List<ApproverDetail> GetSelectedApproverList(string userId, int entityTypeId, out string outMsg)
+        public List<ApproverDetails> GetSelectedApproverList(string userId, int entityTypeId, out string outMsg)
         {
             outMsg = Constant.statusSuccess;
-            List<ApproverDetail> selectedApproverList = new List<ApproverDetail>();
+            List<ApproverDetails> selectedApproverList = new List<ApproverDetails>();
             try
             {
-                string selecyQuery = @"SELECT t2.APPROVER_ID AS ApproverId,u.user_name AS ApproverName FROM MPP_CORE.MPP_USER U,MPP_CORE.MPP_USER_PRIVILEGE t1,
-                                        TABLE(t1.APPROVER)t2 WHERE U.user_id = t2.approver_id AND t1.USER_ID = '"
-                + userId + "' And ENTITY_TYPE_ID = '" + entityTypeId + "'";
+                string selecyQuery = @"
+                    SELECT 
+                    A.value AS ApproverId,
+                    U.user_name AS ApproverName
+                    FROM 
+                    MPP_CORE.MPP_USER_PRIVILAGE AS P 
+                    CROSS APPLY STRING_SPLIT(P.APPROVER, ',') AS A
+                    INNER JOIN MPP_CORE.MPP_USER AS U ON U.user_id = A.value
+                    WHERE 
+                    P.USER_ID = '" + userId + @"' 
+                    AND ENTITY_TYPE_ID = '" + entityTypeId + @"'";
+
 
                 using (MPP_Context objMPP_Context = new MPP_Context())
                 {
-                    selectedApproverList = objMPP_Context.Set<ApproverDetail>().FromSqlRaw(selecyQuery).ToList();
+                    selectedApproverList = objMPP_Context.Set<ApproverDetails>().FromSqlRaw(selecyQuery).ToList();
                 }
             }
             catch (Exception ex)
@@ -633,21 +659,21 @@ namespace DAL
             }
             return selectedApproverList;
         }
-        public List<ApproverDetail> GetApproverList(int roleId, int entityTypeId, out string outMsg)
+        public List<ApproverDetails> GetApproverList(int roleId, int entityTypeId, out string outMsg)
         {
             // To get next level of approvers for that user
             roleId = roleId + 1;
             outMsg = Constant.statusSuccess;
-            List<ApproverDetail> approverList = new List<ApproverDetail>();
+            List<ApproverDetails> approverList = new List<ApproverDetails>();
             try
             {
-                string selectQuery = @"Select U.User_Id As ApproverId, U.User_Name As ApproverName From Mpp_Core.Mpp_User_Privilege P,
+                string selectQuery = @"Select U.User_Id As ApproverId, U.User_Name As ApproverName From Mpp_Core.Mpp_User_Privilage P,
                     Mpp_Core.Mpp_User U Where P.User_Id = U.User_Id And P.Entity_Type_Id = '"
                 + entityTypeId + "' And P.Role_Id = '" + roleId + "'";
 
                 using (MPP_Context objMPP_Context = new MPP_Context())
                 {
-                    approverList = objMPP_Context.Set<ApproverDetail>().FromSqlRaw(selectQuery).ToList();
+                    approverList = objMPP_Context.Set<ApproverDetails>().FromSqlRaw(selectQuery).ToList();
                 }
             }
             catch (Exception ex)

@@ -14,8 +14,8 @@ namespace Model
 
         public string EntityId { get; set; }
         public string SelectedApproverId { get; set; }
-        public List<ApproverDetail> SelectedApproverDetail { get; set; }
-        public List<ApproverDetail> ApproverDetail { get; set; }
+        public List<ApproverDetails> SelectedApproverDetail { get; set; }
+        public List<ApproverDetails> ApproverDetail { get; set; }
 
 
     }
@@ -29,6 +29,13 @@ namespace Model
         public string ApproverStatus { get; set; }
         public string ApproverComments { get; set; }
         public string ApproverId { get; set; }
+
+    }
+
+    public class ApproverDetails
+    {
+        public string ApproverId { get; set; }
+        public string ApproverName { get; set; }
 
     }
 

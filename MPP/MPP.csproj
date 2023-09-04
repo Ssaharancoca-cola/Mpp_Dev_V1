@@ -9,12 +9,16 @@
   <ItemGroup>
     <Compile Remove="ImportFile\**" />
     <Compile Remove="Scripts\**" />
+    <Compile Remove="Views\NewFolder\**" />
     <Content Remove="ImportFile\**" />
     <Content Remove="Scripts\**" />
+    <Content Remove="Views\NewFolder\**" />
     <EmbeddedResource Remove="ImportFile\**" />
     <EmbeddedResource Remove="Scripts\**" />
+    <EmbeddedResource Remove="Views\NewFolder\**" />
     <None Remove="ImportFile\**" />
     <None Remove="Scripts\**" />
+    <None Remove="Views\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,7 +44,8 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="System.DirectoryServices" Version="7.0.1" />
+    <PackageReference Include="System.DirectoryServices" Version="6.0.0" />
+    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -36,8 +36,6 @@ namespace MPP.Controllers
             ViewBag.sortId = String.IsNullOrEmpty(splitSortOrder[1]) ? "sortId" : "";
              resultQuery = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>((string)TempData["dataList"]);
 
-            //resultQuery = (List<Dictionary<string, string>>)TempData["dataList"];
-
             string serializedList1 = TempData["attributeList"] as string;
              attributeList = JsonConvert.DeserializeObject<List<Entity_Type_Attr_Detail>>(serializedList1);
             TempData.Keep();
@@ -66,8 +64,9 @@ namespace MPP.Controllers
                 ViewData["SortOrder"] = "DESC";
 
             }
-            ViewData["currentField"] = splitSortOrder[0].ToString(); //attributeList.Where(x => x.ATTR_DISPLAY_NAME == fieldName).Select(x => x.ATTR_NAME).FirstOrDefault();
-            TempData["dataList"] = resultQuery;
+            ViewData["currentField"] = splitSortOrder[0].ToString(); 
+            string ListJson = JsonConvert.SerializeObject(resultQuery);
+            TempData["dataList"] = ListJson;
             return PartialView("GetSearchData", resultQuery);
         }       
 
@@ -102,7 +101,7 @@ namespace MPP.Controllers
                     currentPageNo = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("currentPageNo")) + 1;
                 else if (ActionType == "previous")
                     currentPageNo = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("currentPageNo")) - 1;
-                ViewData["currentPageNo"] = currentPageNo;
+                _httpContextAccessor.HttpContext.Session.SetInt32("currentPageNo", currentPageNo);
                 List<Dictionary<string, string>> dataList = new List<Dictionary<string, string>>();
                 List<Entity_Type_Attr_Detail> attributeList = new List<Entity_Type_Attr_Detail>();
                 string[] userName = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);

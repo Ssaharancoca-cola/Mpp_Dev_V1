@@ -20,7 +20,7 @@
                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
                         <tr>
                             <td width="75%"></td>
-                            <td width="25%" align="left" >
+                            <td width="25%" align="left">
                                 <table>
                                     <tr align="left" valign="top">
                                         <td>
@@ -49,14 +49,14 @@
                             <td align="center">
                                 @Html.DropDownList("ddl", Model.Select(item=> new SelectListItem
                                 {
-                                    Value = Convert.ToString(item.Dimension),
-                                    Text = Convert.ToString(item.Dimension.ToString())
+                                Value = Convert.ToString(item.Dimension),
+                                Text = Convert.ToString(item.Dimension.ToString())
                                 }), "Please Select Dimension", new {@id = "ddlDimension", @class = "form-control"})
                             </td>
                         </tr>
                         <tr>
                             <td style="text-align:center">
-                                <img src="~/Images/Homepage.png" height="500" alt="MPP Schema"/>
+                                <img src="~/Images/Homepage.png" height="500" alt="MPP Schema" />
                             </td>
                         </tr>
                     </table>
@@ -74,35 +74,34 @@
                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
                         <tr>
                             <td width="100%">
-                               
                             </td>
                         </tr>
                     </table>
                 </div>
             </td>
-            </tr>
-            <tr id="trAdminDisplayAllUsers">
-                <td>
+        </tr>
+        <tr id="trAdminDisplayAllUsers">
+            <td>
                 <div class="lightRedBg" id="divDisplayAllUsers"></div>
                 <div class="lightRedBg" id="divUserDetails"></div>
             </td>
-            </tr>
-            <tr style="background-color:red">
+        </tr>
+        <tr style="background-color:red">
             <td height="20" align="center" class="blackText">Copyright &copy; 2023 Coca Cola, Inc. All Rights Reserved</td>
         </tr>
-            <tr>
-                <td valign="top">
-                    <div id="divLoad" class="loader">
+        <tr>
+            <td valign="top">
+                <div id="divLoad" class="loader">
                     <img alt="Loading, please wait" style="display:none;position: absolute; top: 30%; left: 45%; width:110px; height:110px;" src="~/Images/spinner.gif" />
-                    </div>
-                </td>
-            </tr>
+                </div>
+            </td>
+        </tr>
     </table>
 </body>
 
 <script>
     $(document).ready(function () {
-        
+
         $(document).ajaxStart(function () {
             $('#divLoad').show();
         });
@@ -116,58 +115,57 @@
         var selectedIndex = this.options[this.selectedIndex].index;
         var selectedValue = this.options[this.selectedIndex].value;
         var selecteddropdownvalue = this.options[this.selectedIndex].text;
-        
+
         $.post('@Url.Action("Home", "Home")', {
-            dropdownvalue: selectedValue, dropdowndata: selecteddropdownvalue,            
-            selectedIndex: selectedIndex, actionType:'Index'            
+            dropdownvalue: selectedValue, dropdowndata: selecteddropdownvalue,
+            selectedIndex: selectedIndex, actionType: 'Index'
         },
-             function(data){                 
-                 if(data.indexOf("error") == 0){
-                     $('#divLoad').hide();
-                     alert(data.replace("error", ""));
-                 } else {                    
-                     $('#divLoad').hide();
+            function (data) {
+                if (data.indexOf("error") == 0) {
+                    $('#divLoad').hide();
+                    alert(data.replace("error", ""));
+                } else {
+                    $('#divLoad').hide();
                     $('#contentpage').html(data);
-                     $("#trContent").show();
-                     $("#trDropDownData").hide();                   
-                 }
-             });
+                    $("#trContent").show();
+                    $("#trDropDownData").hide();
+                }
+            });
     });
-    debugger;
-    function redirect(dropDownValue, dropdowndata){
+
+    function redirect(dropDownValue, dropdowndata) {
         window.location.href = '/Home/Home?dropdownvalue=' + dropDownValue + '&dropdowndata=' + dropdowndata;
     }
-    debugger;
-    $("#lblHome").click(function (){
+
+    $("#lblHome").click(function () {
         $("#lblHome").hide();
         $("#trContent").hide();
-        $("trDropDownData").show();
-        $("trAdminContent").hide();
-        $("trAdminDisplayAllUsers").hide();
-        $("divDisplayAllUsers").hide();
+        $("#trDropDownData").show();
+        $("#trAdminContent").hide();
+        $("#trAdminDisplayAllUsers").hide();
+        $("#divDisplayAllUsers").hide();
         $('#ddlDimension option:eq(0)').attr('selected', 'selected');
     });
-    $("#lbllogOut").click(function (){
+    $("#lbllogOut").click(function () {
         window.close();
         var objWindow = window.open(location.href, "_parent");
         objWindow.close();
     });
     $("#lblAdmin").click(function () {
-        debugger;
         $.post('@Url.Action("GetAllUsers", "Admin")',
             function (data) {
-                debugger;
-                if (data.indexOf("error") == 0){
-                        alert(data.replace("error", ""));
+                //debugger;
+                if (data.indexOf("error") == 0) {
+                    alert(data.replace("error", ""));
                 } else {
                     $("#lblHome").show();
                     $("#trContent").hide();
-                    $("#trDropDownData").hide();        
-                    $("trAdminContent").show();
-                    $("trAdminDisplayAllUsers").show();
-                    $('divDisplayAllUsers').show();
-                    $('divDisplayAllUsers').empty();
-                    $('divDisplayAllUsers').html(data);
+                    $("#trDropDownData").hide();
+                    $("#trAdminContent").show();
+                    $("#trAdminDisplayAllUsers").show();
+                    $('#divDisplayAllUsers').show();
+                    $('#divDisplayAllUsers').empty();
+                    $('#divDisplayAllUsers').html(data);
                     $('#divUserDetails').empty();
                 }
             });
@@ -175,7 +173,7 @@
 </script>
 
 <style>
-    .label{
+    .label {
         cursor: pointer;
         color: white;
         text-decoration: underline;

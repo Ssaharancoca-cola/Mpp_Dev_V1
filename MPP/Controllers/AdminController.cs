@@ -11,6 +11,8 @@ using System.Text;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using DAL;
+using Microsoft.AspNetCore.Authentication;
+using System.DirectoryServices.AccountManagement;
 
 namespace MPP.Controllers
 {
@@ -48,7 +50,7 @@ namespace MPP.Controllers
                 }
                 return Content("error" + Constant.commonErrorMsg);
             }
-            return View("~/Views/Admin/GetAllUserName.cshtml", allUserInfo);
+            return PartialView("~/Views/Admin/GetAllUserName.cshtml", allUserInfo);
         }
         public ActionResult GetNewUserIndex(string newUserId)
         {
@@ -98,7 +100,9 @@ namespace MPP.Controllers
                     }
                     userInfo.dimnesionList = objEntityType;
                     TempData["IsSearch"] = "0";
-                    _httpContextAccessor.HttpContext.Session.SetString("UserInfo", userInfo.ToString());
+                    string lstUserInfoJson = JsonConvert.SerializeObject(userInfo);
+
+                    _httpContextAccessor.HttpContext.Session.SetString("UserInfo", lstUserInfoJson);
 
                 }
             }
@@ -194,8 +198,7 @@ namespace MPP.Controllers
                 }
                 using (AdminViewModel objAdminViewModel = new AdminViewModel())
                 {
-                    string userInfoJson = _httpContextAccessor.HttpContext.Session.GetString("UserInfo");
-                    UserInfo userInfo = JsonConvert.DeserializeObject<UserInfo>(userInfoJson);
+                    UserInfo userInfo = JsonConvert.DeserializeObject<UserInfo>(_httpContextAccessor.HttpContext.Session.GetString("UserInfo"));
                     lstUserRowSecurity = objAdminViewModel.GetEntities(userInfo, fieldCollection);
                 }
                 string lstUserRowSecurityJson = JsonConvert.SerializeObject(lstUserRowSecurity);
@@ -336,7 +339,6 @@ namespace MPP.Controllers
                 string LDAPUserId = _configuration["LDAP:LDAPUserId"];
                 string LDAPPwd = _configuration["LDAP:LDAPPWD"];
                 DirectoryEntry entry = new DirectoryEntry(LDAPPATH, LDAPUserId, LDAPPwd, AuthenticationTypes.ServerBind | AuthenticationTypes.FastBind);
-                //DirectoryEntry entry = new DirectoryEntry(LDAPPATH, "ldapadminin", "Apac123", AuthenticationTypes.ServerBind | AuthenticationTypes.FastBind);
                 DirectorySearcher search = new DirectorySearcher(entry);
                 search.SearchScope = SearchScope.Subtree;
                 string UserId = userId;
@@ -365,7 +367,31 @@ namespace MPP.Controllers
             }
             return userInfo;
         }
-        public List<UserInfo> GetAllUserInfo(out string outMsg)
+
+        public UserPrincipal GetUserDetailss(string userId)
+        {
+            // Create a "domain context" for the Active Directory domain.
+            using (var context = new PrincipalContext(ContextType.Domain, "USAWS1ESI56.apac.ko.com"))
+            {
+                // Find the user in Active Directory
+                var user = UserPrincipal.FindByIdentity(context, userId);
+                if (user != null)
+                {
+                    return user;
+                }
+            }
+
+            // Return null if user not found
+            return null;
+        }
+//        var user = GetUserDetailss("userId");
+//if (user != null)
+//{
+//    Console.WriteLine("User's Full Name: " + user.DisplayName);
+//    Console.WriteLine("User's Email: " + user.EmailAddress);
+//    // ... similarly, access other properties
+//}
+    public List<UserInfo> GetAllUserInfo(out string outMsg)
         {
             outMsg = Constant.statusSuccess;
             UserInfo currentUserInfo = new UserInfo();

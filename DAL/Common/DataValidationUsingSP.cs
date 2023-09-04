@@ -121,7 +121,7 @@ namespace DAL.Common
                 {
                     objLogError.LogErrorInTextFile(ex);
                 }
-                if (ex.InnerException.ToString().Contains("ORA-20001") || ex.InnerException.ToString().Contains("ORA-20002"))
+                if (!string.IsNullOrEmpty(ex.Message.ToString()))
                 {
                     hasLoadErrors = true;
                     string message = ex.InnerException.Message.ToString();

@@ -161,7 +161,6 @@
         let commandValue = $(document.activeElement).attr("value");
         // Declare an object to store the form data
         let form = {};
-
         // Loop through form elements and collect the data
         $('#formid input, #formid select').each(function () {
             form[$(this).attr('name')] = $(this).val();
@@ -179,7 +178,7 @@
             },
             error: function (err) {
                 console.error("Error", err);
-            }
+            }            
         });
     }       
 </script>

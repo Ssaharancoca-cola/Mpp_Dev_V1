@@ -482,7 +482,7 @@ namespace MPP.ViewModel
                     {
                         if (hasLoadErrors == true)
                         {
-                            LoadTableToFlatFile(attributeList, rejectFileName, "MDM_APP." + tableName, tableColumnNames + ", ERROR_MESSAGE,WARNING_MESSAGE ", "",
+                            LoadTableToFlatFile(attributeList, rejectFileName, "MPP_APP." + tableName, tableColumnNames + ", ERROR_MESSAGE,WARNING_MESSAGE ", "",
                             " SESSION_ID = '" + sessionID + "' AND (ERROR_MESSAGE IS NOT NULL OR WARNING_MESSAGE IS NOT NULL) ", "", "",
                             true, ",", 1, true);
                             using (InsertAndDeleteInLandingTable objInsertAndDeleteInLandingTable = new InsertAndDeleteInLandingTable())
@@ -664,7 +664,7 @@ namespace MPP.ViewModel
                 dvFileErrors.RowFilter = "ERROR_MESSAGE<>''";
                 dsErrorRows.Tables.Add(dvFileErrors.ToTable());
                 ArrayRowsCount[1] = dvFileErrors.Count;
-                // outMsg = WriteDataSetToFlatFile(attributeList, rejectFileName, dsErrorRows, ",", true, false);
+                 outMsg = WriteDataSetToFlatFile(attributeList, rejectFileName, dsErrorRows, ",", true, false);
                 if (outMsg != Constant.statusSuccess)
                     return "Cannot write Error data to Reject file";
                 if (excelReader != null)

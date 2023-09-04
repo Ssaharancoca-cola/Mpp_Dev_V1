@@ -134,8 +134,14 @@
                                         }
                                         break;
                                     case "combobox":
-                                        @Html.DropDownListFor(m => @menuOption.EntityTypeId, new SelectList(@menuOption.dropDownDataList, "VALID_VALUES", "VALUE_NAME"), "--Select--", new { @id = @menuOption.AttrName, @Name = @menuOption.AttrName, style = "width: 45%;" })
-                                        break;
+                                                <select id="@menuOption.AttrName" name="@menuOption.AttrName" style="width: 45%;">
+                                                    <option value="">--Select--</option>
+                                                    @foreach (var item in @menuOption.dropDownDataList)
+                                                    {
+                                                        <option value="@item.VALID_VALUES">@item.VALUE_NAME</option>
+                                                    }
+                                                </select>
+                                                break;
                                     default:
                                         break;
                                 }
@@ -194,9 +200,9 @@ else
         $(".datepicker").datepicker({
             changeMonth: true, changeYear: true, yearRange: "2000:2050"
         });
-        $('#formid').on('submit', submitFormWithAjax);
-
     });
+    $('#formid').on('submit', submitFormWithAjax);
+
     function submitFormWithAjax(event) {
         event.preventDefault();
         let commandValue = $(document.activeElement).attr("value");

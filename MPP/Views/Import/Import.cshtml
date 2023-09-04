@@ -190,6 +190,8 @@
         });
         form.append("Command", $(document.activeElement).attr("value"));
         form.append("file", $("#file").get(0).files[0]);
+        form.append("ddlFileFormat", $("#ddlFileFormat").val());
+
         $.ajax({
             type: 'POST',
             url: '@Url.Action("ImportData", "Import")',

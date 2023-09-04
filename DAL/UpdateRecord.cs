@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Core.Mapping;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -343,7 +344,7 @@ namespace DAL
                     return outMsg;
             }
             outMsg = ValidateData(sessionID, entityTypeid, userName, bSuppressWarning, inputTablename);
-            if (outMsg.Contains("ORA-20001") || outMsg.Contains("ORA-20002"))
+            if (outMsg == Constant.statusSuccess)
             {
                 hasLoadErrors = true;
                 DataSet ds = new DataSet();
@@ -568,8 +569,9 @@ namespace DAL
                 {
                     objLogError.LogErrorInTextFile(ex);
                 }
-                outMsg = ex.InnerException.ToString();
-                if (ex.InnerException.ToString().Contains("75001"))
+                outMsg = ex.Message.ToString();
+                
+                if (!string.IsNullOrEmpty(ex.Message.ToString()))
                 {
                     try
                     {
@@ -577,18 +579,18 @@ namespace DAL
                         {
                             objInsertAndDaleteInLandingTable.DeleteDataFromLandingTable(inputTablename, Convert.ToInt32(sessionId));
 
-                            if (ex.InnerException.ToString().Contains("WARNING:"))
-                            {
-                                throw new Exception(objInsertAndDaleteInLandingTable.GetErrorOrWarning(inputTablename, "WARNING", sessionId.ToString()));
-                            }
-                            else if (ex.InnerException.ToString().Contains("ERROR:"))
-                            {
-                                throw new Exception(objInsertAndDaleteInLandingTable.GetErrorOrWarning(inputTablename, "ERROR", sessionId.ToString()));
-                            }
-                            else
-                            {
-                                throw;
-                            }
+                            //if (ex.Message.ToString().Contains("WARNING:"))
+                            //{
+                            //    throw new Exception(objInsertAndDaleteInLandingTable.GetErrorOrWarning(inputTablename, "WARNING", sessionId.ToString()));
+                            //}
+                            //else if (ex.Message.ToString().Contains("ERROR:"))
+                            //{
+                            //    throw new Exception(objInsertAndDaleteInLandingTable.GetErrorOrWarning(inputTablename, "ERROR", sessionId.ToString()));
+                            //}
+                            //else
+                            //{
+                            //    throw;
+                            //}
                         }
                     }
                     catch (Exception ex1)
@@ -597,12 +599,12 @@ namespace DAL
                         {
                             objLogError.LogErrorInTextFile(ex);
                         }
-                        throw ex1;
+                        //throw ex1;
                     }
                 }
-                if (ex.InnerException.ToString().Contains("ORA-20001") || ex.InnerException.ToString().Contains("ORA-20002"))
+                if (!string.IsNullOrEmpty(ex.Message.ToString()))
                 {
-                    outMsg = ex.InnerException.Message.ToString();
+                    outMsg = ex.Message.ToString();
 
                 }
                 else
@@ -611,46 +613,50 @@ namespace DAL
                     {
                         objInsertAndDaleteInLandingTable.DeleteDataFromLandingTable(inputTablename, Convert.ToInt32(sessionId));
                     }
-                    if (ex.InnerException.ToString().Contains("diagnostic text: "))
+                    if (string.IsNullOrEmpty(ex.Message.ToString()))
                     {
-                        int startPos = ex.InnerException.Message.ToString().IndexOf("diagnostic text: ") + "diagnostic text: ".Length;
-                        int noChars = 100;
-                        if (ex.InnerException.Message.ToString().Contains("SQLSTATE="))
-                            noChars = ex.InnerException.Message.ToString().IndexOf("SQLSTATE=") - startPos;
-                        outMsg = ex.InnerException.Message.ToString().Substring(startPos, noChars);
+                        outMsg = ex.Message.ToString();
                     }
+                    //if (ex.Message.ToString().Contains("diagnostic text: "))
+                    //{
+                    //    int startPos = ex.InnerException.Message.ToString().IndexOf("diagnostic text: ") + "diagnostic text: ".Length;
+                    //    int noChars = 100;
+                    //    if (ex.InnerException.Message.ToString().Contains("SQLSTATE="))
+                    //        noChars = ex.InnerException.Message.ToString().IndexOf("SQLSTATE=") - startPos;
+                    //    outMsg = ex.InnerException.Message.ToString().Substring(startPos, noChars);
+                    //}
+                    //else
+                    //    outMsg = ex.InnerException.Message.ToString();
+                    //if (ex.InnerException.ToString().Contains("WARNING:"))
+                    //{
+                    //    outMsg = ex.InnerException.Message.ToString();
+                    //}
+                    //else if (ex.InnerException.ToString().Contains("Unique"))
+                    //{
+                    //    outMsg = ex.InnerException.Message.ToString().Substring(ex.InnerException.Message.ToString().IndexOf("Unique"), ex.InnerException.Message.ToString().IndexOf(",") - ex.InnerException.Message.ToString().IndexOf("Unique"));
+                    //}
+                    //else if (ex.InnerException.ToString().ToUpper().Contains("THIS RECORD IS MODIFIED BY"))
+                    //{
+
+                    //    outMsg = "This record is being modified by another user. Please try again later.";
+                    //}
+                    //else if (ex.InnerException.ToString().ToUpper().Contains("DOES NOT EXIST IN THE MASTER"))
+                    //{
+
+                    //    outMsg = ex.InnerException.Message.ToString().Substring(ex.InnerException.Message.ToString().IndexOf("~"), ex.InnerException.Message.ToString().LastIndexOf("~") - ex.InnerException.Message.ToString().IndexOf("~") + 1);
+                    //}
+                    //else if (ex.InnerException.ToString().ToUpper().Contains("CODE ALREADY EXISTS"))
+                    //{
+
+                    //    outMsg = "Code already exists.";
+                    //}
+                    //else if (ex.InnerException.ToString().ToUpper().Contains("IT IS AN INACTIVE ENTITY"))
+                    //{
+
+                    //    outMsg = "InActive entity.";
+                    //}
                     else
-                        outMsg = ex.InnerException.Message.ToString();
-                    if (ex.InnerException.ToString().Contains("WARNING:"))
-                    {
-                        outMsg = ex.InnerException.Message.ToString();
-                    }
-                    else if (ex.InnerException.ToString().Contains("Unique"))
-                    {
-                        outMsg = ex.InnerException.Message.ToString().Substring(ex.InnerException.Message.ToString().IndexOf("Unique"), ex.InnerException.Message.ToString().IndexOf(",") - ex.InnerException.Message.ToString().IndexOf("Unique"));
-                    }
-                    else if (ex.InnerException.ToString().ToUpper().Contains("THIS RECORD IS MODIFIED BY"))
-                    {
-
-                        outMsg = "This record is being modified by another user. Please try again later.";
-                    }
-                    else if (ex.InnerException.ToString().ToUpper().Contains("DOES NOT EXIST IN THE MASTER"))
-                    {
-
-                        outMsg = ex.InnerException.Message.ToString().Substring(ex.InnerException.Message.ToString().IndexOf("~"), ex.InnerException.Message.ToString().LastIndexOf("~") - ex.InnerException.Message.ToString().IndexOf("~") + 1);
-                    }
-                    else if (ex.InnerException.ToString().ToUpper().Contains("CODE ALREADY EXISTS"))
-                    {
-
-                        outMsg = "Code already exists.";
-                    }
-                    else if (ex.InnerException.ToString().ToUpper().Contains("IT IS AN INACTIVE ENTITY"))
-                    {
-
-                        outMsg = "InActive entity.";
-                    }
-                    else
-                    {
+                            {
                         outMsg = DateTime.Now + ":Please Contact MPP Support Team";
                     }
                 }

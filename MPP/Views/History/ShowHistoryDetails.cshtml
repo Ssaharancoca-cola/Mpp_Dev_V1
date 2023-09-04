@@ -1,0 +1,203 @@
+﻿@{
+    var dataList = (List<Dictionary<string, string>>)(TempData["dataList"]);
+
+
+    if (dataList.Count() > 0)
+    {
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr style="width:100%;height:31px;">
+                <td colspan="2" style="padding-left:5px">
+                    @if (Context.Session.GetString("SelectedDimensionData") != null && Context.Session.GetString("EntityName") != null)
+                    {
+                        <label style="color:red;font-family:Arial;font-size:12pt;font-weight:bold">@Context.Session.GetString("SelectedDimensionData").ToString()></label>
+                        <label style="color:black;font-family:Arial;font-size:10pt;font-weight:bold">@Context.Session.GetString("EntityName").ToString()></label>
+                    }
+                </td>
+            </tr>
+            <tr style="width:100%">
+                <td>
+                    <span style="height:30px">
+                        <hr />
+                    </span>
+                </td>
+
+            </tr>
+
+            <tr style="width:100%; height:25px">
+
+                <td colspan="2" style="width: 100%;padding-left:10px;padding-top:10px;" align="left">
+
+                    <label style="color:red;font-size:12pt;font-weight:bold">History Display</label>
+
+                    @*<label Font-Size="17px" ForeColor="#0f75da" Font-Bold="true">History Display</label>*@
+                </td>
+            </tr>
+            <tr>
+                <td style="padding-left:10px;padding-right:10px;padding-bottom:20px" valign="top">
+                    <hr style="width:100%;height:2px;background-color:red;" />
+                </td>
+            </tr>
+        </table>
+        <table style="width: 100%" border="0" cellspacing="0" cellpadding="0">
+            <tr style="width:100%">
+                <td style="width: 100%;padding-left:20px;height:auto" align="left">
+                    <table width="280" border="0" cellspacing="0" cellpadding="0" align="center" bordercolor="#E3E3E3"
+                           bgcolor="#FFFFFF" id="tblLegend" style="border-style:solid;border-color:White">
+                        <tr valign="top" bgcolor="#ECEBE9">
+                            <td width="280" colspan="2" align="center">
+                                <b><font size="1" face="Verdana, Arial">&nbsp;LEGEND</font></b>
+                            </td>
+                        </tr>
+                        <tr></tr>
+                        <tr valign="top">
+                            <td width="40" height="10" bgcolor="#d9edf9"></td>
+                            <td width="240" bgcolor="#FFFFFF">
+                                <font face="Verdana, Arial" size="1">Not modified</font>
+                            </td>
+                        </tr>
+                        <tr height="1"></tr>
+                        <tr valign="top">
+                            <td width="40" height="10" bgcolor="SkyBlue"></td>
+                            <td width="240" bgcolor="#FFFFFF">
+                                <font face="Verdana, Arial" size="1">Modified cells</font>
+                            </td>
+                        </tr>
+                    </table>
+                    <br />
+                    <table width="796px" border="0" cellspacing="0" cellpadding="0">
+                        <tr valign="middle" align="left" style="background-image:url(/wwwroot/Images/TableTop1.jpg);background-repeat:repeat-x;height:100%">
+                            <td height="40" class="whiteTextNormal">
+                                <label asp-for="@Context.Session.GetString("EntityName").ToString()" class="whiteTextNormal"></label>
+                                <span class="whiteTextNormal">
+                                    Total Records : <strong>
+                                        @Html.Label(dataList.Count().ToString())
+                                    </strong>
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                    @if (ViewData.ModelState.IsValid)
+                    {
+                        <div>
+                            @if (dataList != null && dataList.Count() > 0)
+                            {
+                                <div style="display:none">totalrecord dataList.Count()</div>
+                                <div class="panelDataGridSearch">
+
+                                    <table border="0" id="tblHistorydata" rules="cols" class="width-100 table">
+                                        <thead>
+                                            <tr class="gridheader resultHeader">
+                                                @foreach (var data in dataList)
+                                                {
+                                                    foreach (var item in data)
+                                                    {
+                                                        <th>
+                                                            <label class="colorWhite">@item.Key.ToString()</label>
+
+                                                        </th>
+                                                    }
+                                                    break;
+                                                }
+                                            </tr>
+                                        </thead>
+                                        @foreach (var data in dataList)
+                                        {
+                                            <tr class="trgriddata">
+                                                @foreach (var item in data)
+                                                {
+                                                    <td>
+                                                        @if (item.Key.ToString() == "Effective Date")
+                                                        {
+                                                            @Convert.ToDateTime(@item.Value).ToShortDateString()
+                                                        }
+                                                        else
+                                                        {
+                                                            <a class="griddata" style="font-family:Arial;font-size:8pt;">
+                                                                @item.Value.ToString()
+                                                            </a>
+                                                        }
+                                                    </td>
+                                                }
+                                            </tr>
+                                        }
+                                    </table>
+                                </div>
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 10px;">
+                                    <tr align="center" style="width: 100%;padding-top:10px">
+                                        <td style="width: 100%" align="center">
+                                            <input type="image" id="btnCancel" value="submit" src="~/images/cancel.png" alt="Cancel">
+                                        </td>
+                                    </tr>
+                                    <tr align="center" style="width: 100%;padding-top:10px">
+                                        <td style="width: 100%" align="center">
+
+                                            @*<asp:Label ID="lblErrorMsg" runat="server" Width="448px" ForeColor="Red"></asp:Label>*@
+                                        </td>
+                                    </tr>
+                                </table>
+                            }
+                        </div>
+                    }
+                </td>
+            </tr>
+        </table>
+    }
+}
+<script>
+    $(document).ready(function () {
+        var table = $('#tblHistorydata'),
+
+            rows = table.find('tr'), cells, background, code;
+        for (var i = 0; i < rows.length; i += 1) {
+            if (i != 0) {
+                $(rows[i]).css('background-color', '#d9edf9');
+            }
+            var entityData = [];
+            cells = $(rows[i]).children('td');
+            for (var j = 0; j < cells.length; j += 1) {
+                entityData[j] = $(cells[j]).text().replace("\n", "").trim();
+            }
+
+            if (entityData.length != 0) {
+                cells = $(rows[i + 1]).children('td');
+
+                for (var j = 0; j < cells.length; j += 1) {
+                    var data = $(cells[j]).text().replace("\n", "").trim();
+                    if (data != entityData[j]) {
+
+                        if (i % 2 != 0) {
+                            background = 'SkyBlue';
+                        }
+                        else {
+                            background = 'CadetBlue';
+
+                        }
+                        $(cells[j]).css('background-color', background)
+                    }
+                }
+            }
+        }
+
+        $("#btnCancel").click(function () {
+            $('#AttributeDetail').empty();
+            $('#viewPlaceHolder').empty();
+            $.post('@Url.Action("ShowAttribute", "Menu")', { entityTypeId: '@Context.Session.GetInt32("EntityTypeID")', entityName: '@Context.Session.GetString("EntityName")', viewType: "search" },
+                function (data) {
+                    if (data.indexOf("error") == 0) {
+
+
+                        alert(data.replace("error", ""));
+
+                    }
+                    else {
+                        $('#AttributeDetail').html(data);
+                    }
+                });
+
+        });
+
+
+
+    });
+
+</script>

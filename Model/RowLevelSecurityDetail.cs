@@ -11,7 +11,7 @@ namespace Model
         public string UserID { get; set; }
         public string SuppliedCode { get; set; }
         public List<RowLevelSecurityValues> RowLevelSecurityValues { get; set; }
-        public List<UserSecurityValues> UserSecurityValues { get; set; }
+        public List<UserSecurityValuess> UserSecurityValues { get; set; }
         public List<RowLevelSecurityOperator> RowLevelSecurityOperator { get; set; }
     }
 }

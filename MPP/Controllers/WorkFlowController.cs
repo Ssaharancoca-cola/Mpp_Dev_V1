@@ -126,74 +126,80 @@ namespace MPP.Controllers
             return Content("success" + returnMsg);
 
         }
-        public ActionResult CancelAbandonRecord()
+        public async Task<IActionResult> CancelAbandonRecord()
         {
-            return RedirectToRoute(new { controller = "Menu", action = "ShowAttribute", entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")), entityName = Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")), viewType = "search" });
+            return await Task.Run(() => ViewComponent("ShowAttribute",
+                                                             new
+                                                             {
+                                                                 entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")),
+                                                                 entityName = Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")),
+                                                                 viewType = "search"
+                                                             }));
         }
-        public ActionResult GetWorkFlowData()
-        {
-            string outMsg = Constant.statusSuccess;
-            try
-            {
-                using (WorkFlowViewModel objWorkFlowViewModel = new WorkFlowViewModel())
-                {
-                    int entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID"));
-                    string submittedColumnData;
-                    string rejectedColumnData;
-                    string approvalPendingColumnData;
-                    string existingRecordColumnData;
+    
+        //public ActionResult GetWorkFlowData()
+        //{
+        //    string outMsg = Constant.statusSuccess;
+        //    try
+        //    {
+        //        using (WorkFlowViewModel objWorkFlowViewModel = new WorkFlowViewModel())
+        //        {
+        //            int entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID"));
+        //            string submittedColumnData;
+        //            string rejectedColumnData;
+        //            string approvalPendingColumnData;
+        //            string existingRecordColumnData;
 
-                    List<string> submittedRowData = new List<string>();
-                    List<string> rejectedRowData = new List<string>();
-                    List<string> approvalPendingRowData = new List<string>();
-                    List<string> existingRecordRowData = new List<string>();
+        //            List<string> submittedRowData = new List<string>();
+        //            List<string> rejectedRowData = new List<string>();
+        //            List<string> approvalPendingRowData = new List<string>();
+        //            List<string> existingRecordRowData = new List<string>();
 
-                    List<Dictionary<string, string>> submittedDataList = new List<Dictionary<string, string>>();
-                    List<Dictionary<string, string>> rejectedDataList = new List<Dictionary<string, string>>();
-                    List<Dictionary<string, string>> approvalPendingDataList = new List<Dictionary<string, string>>();
-                    List<Dictionary<string, string>> existingRecordDataList = new List<Dictionary<string, string>>();
+        //            List<Dictionary<string, string>> submittedDataList = new List<Dictionary<string, string>>();
+        //            List<Dictionary<string, string>> rejectedDataList = new List<Dictionary<string, string>>();
+        //            List<Dictionary<string, string>> approvalPendingDataList = new List<Dictionary<string, string>>();
+        //            List<Dictionary<string, string>> existingRecordDataList = new List<Dictionary<string, string>>();
 
 
-                    objWorkFlowViewModel.LoadContentView(entityTypeId, out submittedColumnData, out submittedRowData, out submittedDataList);
-                    TempData["submittedColumnData"] = submittedColumnData;
-                    TempData["submittedRowData"] = submittedRowData;
-                    TempData["submitteddataList"] = submittedDataList;
+        //            objWorkFlowViewModel.LoadContentView(entityTypeId, out submittedColumnData, out submittedRowData, out submittedDataList);
+        //            TempData["submittedColumnData"] = submittedColumnData;
+        //            TempData["submittedRowData"] = submittedRowData;
+        //            TempData["submitteddataList"] = submittedDataList;
 
-                    objWorkFlowViewModel.LoadContentReject(entityTypeId, out rejectedColumnData, out rejectedRowData, out rejectedDataList);
-                    TempData["rejectedColumnData"] = rejectedColumnData;
-                    TempData["rejectedRowData"] = rejectedRowData;
-                    TempData["rejecteddataList"] = rejectedDataList;
+        //            objWorkFlowViewModel.LoadContentReject(entityTypeId, out rejectedColumnData, out rejectedRowData, out rejectedDataList);
+        //            TempData["rejectedColumnData"] = rejectedColumnData;
+        //            TempData["rejectedRowData"] = rejectedRowData;
+        //            TempData["rejecteddataList"] = rejectedDataList;
 
-                    objWorkFlowViewModel.LoadContentMyApproval(entityTypeId, out approvalPendingColumnData, out approvalPendingRowData,
-                        out approvalPendingDataList, out existingRecordColumnData, out existingRecordRowData, out existingRecordDataList);
-                    TempData["approvalPendingColumnData"] = approvalPendingColumnData;
-                    TempData["approvalPendingRowData"] = approvalPendingRowData;
-                    TempData["approvalPendingdataList"] = approvalPendingDataList;
+        //            objWorkFlowViewModel.LoadContentMyApproval(entityTypeId, out approvalPendingColumnData, out approvalPendingRowData,
+        //                out approvalPendingDataList, out existingRecordColumnData, out existingRecordRowData, out existingRecordDataList);
+        //            TempData["approvalPendingColumnData"] = approvalPendingColumnData;
+        //            TempData["approvalPendingRowData"] = approvalPendingRowData;
+        //            TempData["approvalPendingdataList"] = approvalPendingDataList;
 
-                    StringBuilder rowdata = new StringBuilder();
-                    foreach (var data in existingRecordRowData)
-                    {
+        //            StringBuilder rowdata = new StringBuilder();
+        //            foreach (var data in existingRecordRowData)
+        //            {
 
-                        rowdata.Append(data.ToString());
+        //                rowdata.Append(data.ToString());
 
-                        rowdata.Append(";");
+        //                rowdata.Append(";");
 
-                    }
-                    _httpContextAccessor.HttpContext.Session.SetString("ExistingList", rowdata.ToString());
+        //            }
+        //            _httpContextAccessor.HttpContext.Session.SetString("ExistingList", rowdata.ToString());
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        using (LogErrorViewModel objLogErrorViewModel = new LogErrorViewModel())
+        //        {
+        //            objLogErrorViewModel.LogErrorInTextFile(ex);
+        //        }
+        //        outMsg = ex.Message;
+        //    }
+        //    return PartialView("~/Views/WorkFlow/GetWorkFlowData.cshtml");
 
-                }
-            }
-            catch (Exception ex)
-            {
-                using (LogErrorViewModel objLogErrorViewModel = new LogErrorViewModel())
-                {
-                    objLogErrorViewModel.LogErrorInTextFile(ex);
-                }
-                outMsg = ex.Message;
-            }
-            return PartialView("~/Views/WorkFlow/GetWorkFlowData.cshtml");
-
-        }
+        //}
         private List<Mail_Master> CreateMailListForAbandoned(string OIDList, out string outMsg)
         {
             List<Mail_Master> lstMailMaster = new List<Mail_Master>();

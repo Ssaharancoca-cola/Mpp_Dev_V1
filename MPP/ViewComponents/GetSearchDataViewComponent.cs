@@ -1,4 +1,5 @@
 ﻿using DAL.Common;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model;
 using MPP.ViewModel;
@@ -27,7 +28,7 @@ namespace MPP.ViewComponents
             string columnData = string.Empty;
             string OIDColumnName = string.Empty;
             string outMsg = Constant.statusSuccess;
-            ViewData["currentPageNo"] = currentPageNo;
+            _httpContextAccessor.HttpContext.Session.SetInt32("currentPageNo", currentPageNo);
             List<string> rowData = new List<string>();
             List<Dictionary<string, string>> dataList = new List<Dictionary<string, string>>();
             List<Entity_Type_Attr_Detail> attributeList = new List<Entity_Type_Attr_Detail>();
@@ -64,8 +65,9 @@ namespace MPP.ViewComponents
                             return Content("error" + outMsg);
                         if (dataList.Count == 0)
                         {
-                            ViewData["currentField"] = currentSortBy;
-                            ViewData["fieldCollection"] = fieldCollection;
+                            _httpContextAccessor.HttpContext.Session.SetString("currentField", currentSortBy);
+                            var fieldCollectionStringg = JsonConvert.SerializeObject(fieldCollection);
+                            _httpContextAccessor.HttpContext.Session.SetString("fieldCollection", fieldCollectionStringg);
 
                             return Content("error" + Constant.noRecordFound);
                         }
@@ -74,12 +76,14 @@ namespace MPP.ViewComponents
                     ViewData["totalRecord"] = totalRecord;
 
                     string ListJson = JsonConvert.SerializeObject(dataList);
-                    TempData["dataList"] = ListJson;              
+                    TempData["dataList"] = ListJson;
 
-                    ViewData["Current_Page"] = currentPageNo;
-                    ViewData["currentField"] = currentSortBy;
-                    ViewData["SortOrder"] = currentSortOrder;
-                    ViewData["fieldCollection"] = fieldCollection;
+                    _httpContextAccessor.HttpContext.Session.SetInt32("Current_Page", currentPageNo);
+                    _httpContextAccessor.HttpContext.Session.SetString("currentField", currentSortBy);
+                    _httpContextAccessor.HttpContext.Session.SetString("SortOrder", currentSortOrder);
+                    var fieldCollectionString = JsonConvert.SerializeObject(fieldCollection);
+                    _httpContextAccessor.HttpContext.Session.SetString("fieldCollection", fieldCollectionString);
+
                 }
                 catch (Exception ex)
                 {
@@ -104,8 +108,6 @@ namespace MPP.ViewComponents
                 if (Command == "AddNew")
                 {
                      return View("~/Views/AddNewRecord/AddNew.cshtml", entityAttrList);
-                   // return await Task.FromResult<IViewComponentResult>(View("~/Views/AddNewRecord/AddNew.cshtml", entityAttrList));
-
                 }
                 else if (Command == "Export")
                 {
@@ -113,9 +115,7 @@ namespace MPP.ViewComponents
                 }
                 else if (Command == "Import")
                 {
-                    // return View("~/Views/Import/Import.cshtml", entityAttrList);
                     return await Task.FromResult<IViewComponentResult>(View("~/Views/Import/Import.cshtml", entityAttrList));
-
                 }
 
             }
@@ -124,7 +124,7 @@ namespace MPP.ViewComponents
             else if (Command == "WorkFlow")
             {
                 GetWorkFlowData();
-                return View("~/Views/Workflow/GetWorkFlowData.cshtml");
+                return await Task.FromResult<IViewComponentResult>(View("~/Views/Workflow/GetWorkFlowData.cshtml"));
             }
             return View("GetSearchData");
         }
@@ -341,7 +341,7 @@ namespace MPP.ViewComponents
                         rowdata.Append("^");
 
                     }
-                    ViewData["ExistingList"] = rowdata.ToString();
+                    _httpContextAccessor.HttpContext.Session.SetString("ExistingList", rowdata.ToString());
                 }
             }
             catch (Exception ex)
@@ -353,8 +353,6 @@ namespace MPP.ViewComponents
                 outMsg = ex.Message;
             }
             return outMsg;
-
-
         }
     }
 }

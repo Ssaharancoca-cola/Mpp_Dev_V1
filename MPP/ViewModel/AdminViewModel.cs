@@ -2,6 +2,7 @@
 using DAL;
 using DAL.Common;
 using System.Text;
+using Model.Models;
 
 namespace MPP.ViewModel
 {
@@ -70,7 +71,7 @@ namespace MPP.ViewModel
             string sqlQuery;
             try
             {
-                sqlQuery = "select USER_NAME as UserName, USER_ID as UserID, EMAIL_ID as UserEmail, ADMIN_FLAG as IsAdmin, PASSWORD as Password, ACTIVE as IsActive, ROLE_NAME from MPP_CORE where UPPER(USER_ID) = '" + userId + "' ";
+                sqlQuery = "select USER_NAME as UserName, USER_ID as UserID, EMAIL_ID as UserEmail, ADMIN_FLAG as IsAdmin, PASSWORD as Password, TOTAL_RECORDS as Total_Records, ACTIVE as IsActive, ROLE_NAME from MPP_CORE.MPP_USER where UPPER(USER_ID) = '" + userId + "' ";
                 using (Admin objAdmin = new Admin())
                 {
                     userInfo = objAdmin.GetCurrentUserInfo(sqlQuery, out outMsg);
@@ -104,6 +105,7 @@ namespace MPP.ViewModel
             try
             {
                 string outMsg = Constant.statusSuccess;
+                var searchValue = fields[0].SearchValue;
                 UserRowSecurity objUserRowSecurity = new UserRowSecurity();
                 string selectQuery = "Select ROLE_ID, ROLE_NAME from MPP_CORE.MPP_ROLE_LEVEL";
                 List<ROLE> lstROLE = new List<ROLE>();
@@ -111,22 +113,26 @@ namespace MPP.ViewModel
                 {
                     lstROLE = objAdmin.GetRoleDetail(selectQuery, out outMsg);
                 }
+                
                 String Query = @"SELECT DISTINCT
                                     P.USER_ID AS UserID,
-                                    NVL(P.ROLE_ID,0)  as ROLE_ID,
-                                    E.ENTITY_NAME AS EntityName,
+                                    ISNULL(P.ROLE_ID,0)  as ROLE_ID,
+                                    E.NAME AS EntityName,
                                     E.ID AS ENTITY_TYPE_ID,
-                                    E.DIMENSION_NAME AS DIMENSION,
-                                    NVL(P.READ_FLAG,0)   AS READ_FLAG,
-                                    NVL(P.UPDATE_FLAG,0) AS UPDATE_FLAG,
-                                    NVL(P.CREATE_FLAG,0) AS CREATE_FLAG,
-                                    NVL(P.IMPORT_FLAG,0) AS IMPORT_FLAG,
+                                    E.DIMENSION_NAME AS DIMENSION,                                    
+                                    ISNULL(P.READ_FLAG,0)   AS READ_FLAG,
+                                    ISNULL(P.UPDATE_FLAG,0) AS UPDATE_FLAG,
+                                    ISNULL(P.CREATE_FLAG,0) AS CREATE_FLAG,
+                                    ISNULL(P.IMPORT_FLAG,0) AS IMPORT_FLAG,
                                     CASE WHEN Q.ENTITY_TYPE_ID IS NULL THEN 'Apply' ELSE 'Edit' END AS FLG,
                                     CASE WHEN P.APPROVER IS NULL THEN 'Apply' ELSE 'Edit' END As WFLG,
-                                    (SELECT COUNT(*) FROM MPP_CORE.MPP_USER_PRIVILEGE t1, TABLE(t1.APPROVER)t2  WHERE t2.approver_id = '" + User.UserID + @"' AND t1.entity_type_id = P.ENTITY_TYPE_ID ) as APR_FLG  
-                   FROM (SELECT * FROM MPP_CORE.ENTITY_TYPE where dimension_display_name='" + fields[0].SearchValue + @"') E
-                        LEFT JOIN 
-                        MPP_CORE.MPP_USER_PRIVILEGE P
+                                    (SELECT COUNT(*) 
+                                    FROM MPP_CORE.MPP_USER_PRIVILAGE t1 
+                                    CROSS APPLY (SELECT * FROM MPP_CORE.MPP_USER_PRIVILAGE t WHERE t.approver = '" + User.UserID + @"') t2
+                                    WHERE t2.approver = '" + User.UserID + @"' AND t1.entity_type_id = P.ENTITY_TYPE_ID ) as APR_FLG  
+                        FROM (SELECT * FROM MPP_CORE.Entity_Type where dimension_display_name = '" + fields[0].SearchValue + @"' ) E
+                        LEFT JOIN
+                        MPP_CORE.MPP_USER_PRIVILAGE P
                         ON P.ENTITY_TYPE_ID = E.ID AND P.USER_ID = '" + User.UserID + @"'
                         LEFT OUTER JOIN MPP_CORE.USER_ROW_SECURITY Q
                         ON 
@@ -289,7 +295,7 @@ namespace MPP.ViewModel
             int entityTypeId = 0;
             outMsg = Constant.statusSuccess;
             string suppliedCode = string.Empty;
-            List<UserSecurityValues> listUserSecurityValues = new List<UserSecurityValues>();
+            List<UserSecurityValuess> listUserSecurityValues = new List<UserSecurityValuess>();
             RowLevelSecurityDetail listRowLevelSecurityDetail = new RowLevelSecurityDetail();
             List<RowLevelSecurityValues> listRowLevelSecurityValues = new List<RowLevelSecurityValues>();
             List<RowLevelSecurityOperator> listRowLevelSecurityOperator = new List<RowLevelSecurityOperator>();
@@ -431,8 +437,8 @@ namespace MPP.ViewModel
             int entityTypeId = 0;
             outMsg = Constant.statusSuccess;
             WorkFlowDetailForRowLevelSecurity objworkFlow = new WorkFlowDetailForRowLevelSecurity();
-            List<ApproverDetail> selectedApproverList = new List<ApproverDetail>();
-            List<ApproverDetail> approverList = new List<ApproverDetail>();
+            List<ApproverDetails> selectedApproverList = new List<ApproverDetails>();
+            List<ApproverDetails> approverList = new List<ApproverDetails>();
 
             try
             {

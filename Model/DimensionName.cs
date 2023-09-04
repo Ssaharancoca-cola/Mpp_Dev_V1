@@ -10,5 +10,15 @@ namespace Model
     {
         public string Dimension {get; set;}
     }
-   
+    public class UserSecurityValuess
+    {
+        public UserSecurityValuess()
+        {
+
+        }
+        public string v_SUPPLIED_CODE { get; set; }
+        public string v_VALUES { get; set; }
+        public string v_OPERATOR { get; set; }
+    }
+
 }

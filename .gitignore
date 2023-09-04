@@ -364,3 +364,4 @@ FodyWeavers.xsd
 /MPP/App_Data
 /MPP/ImportFile
 /MPP/ExportFile
+/MPP/ErrorLog/ErrorLog.txt

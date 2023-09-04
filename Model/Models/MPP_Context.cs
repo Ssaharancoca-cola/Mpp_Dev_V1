@@ -49,7 +49,13 @@ namespace Model.Models
         public DbSet<DropDownData> DropDownData { get; set; }
         public DbSet<PK_CODE> Pk_Code { get; set; }
         public DbSet<attr_data> attr_Data { get; set; }
-
+        public DbSet<ROLE> role { get; set; }
+        public DbSet<UserRowSecurity> userRowSecurity { get; set; }
+        public DbSet<RowLevelSecurityOperator> rowLevelSecurityOperator { get; set; }
+        public DbSet<RowLevelSecurityValues> rowLevelSecurityValue { get; set; }
+        public DbSet<UserSecurityValuess> userSecurityValue { get; set; }
+        public DbSet<ApproverDetails> approverDetails { get; set; }
+        public DbSet<ApproverDetail> approverDetail { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -60,6 +66,14 @@ namespace Model.Models
             modelBuilder.Entity<DropDownData>().HasNoKey();
             modelBuilder.Entity<PK_CODE>().HasNoKey();
             modelBuilder.Entity<attr_data>().HasNoKey();
+            modelBuilder.Entity<ROLE>().HasNoKey();
+            modelBuilder.Entity<UserRowSecurity>().HasNoKey();
+            modelBuilder.Entity<RowLevelSecurityOperator>().HasNoKey();            
+            modelBuilder.Entity<RowLevelSecurityValues>().HasNoKey();
+            modelBuilder.Entity<UserSecurityValuess>().HasNoKey();
+            modelBuilder.Entity<ApproverDetails>().HasNoKey();
+            modelBuilder.Entity<ApproverDetail>().HasNoKey();
+
 
             modelBuilder.Entity<DimBusinessorg>(entity =>
             {

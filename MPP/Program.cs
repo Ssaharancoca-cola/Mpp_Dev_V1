@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddSessionStateTempDataProvider();
+builder.Services.AddSession();
 builder.Services.AddAuthentication(NegotiateDefaults.AuthenticationScheme).AddNegotiate();
 
 builder.Services.AddAuthorization(options =>
@@ -26,7 +27,6 @@ builder.Services.AddSingleton<LogError>();
 // Add Session Services
 
 builder.Services.AddMemoryCache();
-builder.Services.AddSession();
 builder.Services.AddSession(options =>
 {
     options.Cookie.Name = ".Mpp.Session";
@@ -57,14 +57,13 @@ else
     app.UseDeveloperExceptionPage();
     app.UseMiddleware<ErrorHandlingMiddleware>();
 }
+app.UseSession();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

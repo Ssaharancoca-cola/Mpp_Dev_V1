@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Model;
+@using Newtonsoft.Json;
 
 <script src="~/js/workflow.js"></script>
 <script>
@@ -8,7 +9,7 @@
         $('#tbldataRejected').find('tr').each(function () {
 
             var row = $(this);
-              debugger;
+            debugger;
 
             if (row.find('input[type="checkbox"]').is(':checked')) {
                 try {
@@ -149,7 +150,7 @@
 
         $.post('@Url.Action("UpdateRecords", "WorkFlow")', { OIDList: OID, Comment: comment, ActionType: 'Approve' },
             function (data) {
-
+                debugger;
                 if (data.indexOf("error") == 0) {
                     alert(data.replace("error", ""));
 
@@ -390,13 +391,17 @@
 <table style="width: 100%" border="0" cellspacing="0" cellpadding="0">
     <tr style="width:100%;height:31px;">
         <td colspan="2" style="padding-left:5px">
-            @if (Context.Session.GetString("SelectedDimensionData") != null && Context.Session.GetString("EntityName") != null)            
+            @if (Context.Session.GetString("SelectedDimensionData") != null && Context.Session.GetString("EntityName") != null)
             {
 
                 <label style="color:red;font-family:Georgia;font-size:13pt;font-weight:bold">@Context.Session.GetString("SelectedDimensionData").ToString()</label>
                 <label style="color:black;font-family:Georgia;font-weight:bold">@Context.Session.GetString("EntityName").ToString()</label>
             }
-
+            @{string serializedList1 = TempData["attributeList"] as string;
+                var attributeList = JsonConvert.DeserializeObject<List<Entity_Type_Attr_Detail>>(serializedList1);
+                TempData["attributeList"] = attributeList;
+                TempData.Keep();
+            }
         </td>
     </tr>
     <tr style="width:100%">
@@ -876,7 +881,6 @@
 @if (Context.Session.GetString("ExistingList") != null)
 {
     <input type="text" id="hdnexistingList" style="display:none" name="hdnexistingList" value='@Context.Session.GetString("ExistingList")' />
-
 }
 
 <style>
