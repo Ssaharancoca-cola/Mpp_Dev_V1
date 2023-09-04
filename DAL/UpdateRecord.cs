@@ -372,7 +372,7 @@ namespace DAL
             string inputRowId = string.Empty;
             try
             {
-                finalQuery.Append("begin ");
+                //finalQuery.Append("begin ");
                 foreach (var dictionary in listattrValues)
                 {
                     StringBuilder updateQuery = new StringBuilder();
@@ -412,7 +412,8 @@ namespace DAL
                             }
                             else if (data.Key == "DATE_FROM")
                             {
-                                whereClauseData = data.Value == null ? "NULL" : "to_date('" + (DateTime.Parse(data.Value)).ToString("MM/dd/yyyy") + "','MM/DD/YYYY')";
+                                //whereClauseData = data.Value == null ? "NULL" : "to_date('" + (DateTime.Parse(data.Value)).ToString("MM/dd/yyyy") + "','MM/DD/YYYY')";
+                                whereClauseData = data.Value == null ? "CONVERT(DATE, GETDATE())" : "CONVERT(DATE, '" + (DateTime.Parse(data.Value)).ToString("MM/dd/yyyy") + "', 101)";
                                 selectColumn.Append(data.Key + " , ");
                                 whereClause.Append(data.Key + " = " + " " + whereClauseData + " , ");
                             }
@@ -439,8 +440,8 @@ namespace DAL
                     //SESSION_ID = '" + _CATEGORY.SESSION_ID + "',ROW_STATUS = '1' WHERE INPUT_ROW_ID = '" + _CATEGORY.INPUT_ROW_ID + "' ");
 
                 }
-                finalQuery.Append(" Commit; ");
-                finalQuery.Append(" End;");
+                //finalQuery.Append(" Commit; ");
+                //finalQuery.Append(" End;");
                 using (MPP_Context objmdmContext = new MPP_Context())
                 {
                     noOfRowInserted = objmdmContext.Database.ExecuteSqlRaw(finalQuery.ToString());
