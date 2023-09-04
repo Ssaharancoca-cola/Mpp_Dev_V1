@@ -124,8 +124,8 @@ namespace DAL.Common
                 if (!string.IsNullOrEmpty(ex.Message.ToString()))
                 {
                     hasLoadErrors = true;
-                    string message = ex.InnerException.Message.ToString();
-                    outMsg = message.Substring(message.IndexOf("ERROR:", 0) + 7, message.IndexOf("\n") - 18);
+                    string message = ex.Message.ToString();
+                    outMsg = message;
                 }
                 else
                 {
