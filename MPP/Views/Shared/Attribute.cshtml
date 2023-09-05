@@ -5,7 +5,7 @@
 <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
 <script src="~/lib/jquery/dist/jquery-ui.min.js" asp-append-version="true"></script>
 <script src="~/js/attribute.js"></script>
- 
+
 <form id="formid">
     <table border="0" cellspacing="0" cellpadding="0" class="width-100 margin-top-0_1em inputFormDtls">
         <tr style="width:100%;height:31px;">
@@ -131,13 +131,17 @@
  </form>
     <script>
     $(document).ready(function () {
+        applyDatePicker(); // Apply datepicker on document ready
+
+    });
+    // Declare the applyDatePicker function
+    function applyDatePicker() {
         $(".datepicker").datepicker({
             changeMonth: true, changeYear: true, yearRange: "2000:2050"
         });
-
-    });
-
+    }
     $('#formid').on('submit', submitFormWithAjax);
+    //$(document).on('submit', '#formid', submitFormWithAjax);
 
             function CallChangefunc(val, parcombo) {
                 $('#' + val + '').empty();
@@ -174,7 +178,7 @@
             success: function (data) {
                 debugger;
                 // Update your DOM based on the received data.
-                onSuccess(data);               
+                onSuccess(data);                
             },
             error: function (err) {
                 console.error("Error", err);

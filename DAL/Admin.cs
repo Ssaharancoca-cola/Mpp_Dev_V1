@@ -461,7 +461,7 @@ namespace DAL
                     DM = objMPP_Context.Set<DimensionName>().FromSqlRaw(selectQuery).FirstOrDefault();
                     suppliedCode = DM.Dimension;
                 }
-                string selectCommand = @"SELECT " + suppliedCode + " AS DisplayMember," + entityName + "_OID AS ValueMember FROM " + result + "";
+                string selectCommand = @"SELECT " + suppliedCode + " AS DisplayMember," + entityName + "_OID AS ValueMember FROM (" + result + ") AS AliasName";
                 using (MPP_Context objMPP_Context = new MPP_Context())
                 {
                     listRowLevelSecurityValues = objMPP_Context.Set<RowLevelSecurityValues>().FromSqlRaw(selectCommand).ToList();
@@ -705,7 +705,7 @@ namespace DAL
             try
             {
                 queryBuilder = new StringBuilder();
-                queryBuilder.Append("begin ");
+                //queryBuilder.Append("begin ");
 
                 if (selectedApproverId != null && selectedApproverId.Count > 0)
                 {
@@ -726,7 +726,7 @@ namespace DAL
                 }
 
                 queryBuilder.Append(query);
-                queryBuilder.Append(" end;");
+                //queryBuilder.Append(" end;");
                 using (MPP_Context objMPP_Context = new MPP_Context())
                 {
                     int noOfRowUpdated = objMPP_Context.Database.ExecuteSqlRaw(queryBuilder.ToString());
