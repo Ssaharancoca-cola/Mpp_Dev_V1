@@ -6,6 +6,7 @@ using MPP.Filter;
 using MPP.ViewModel;
 using Newtonsoft.Json;
 using System.DirectoryServices;
+using System.DirectoryServices.AccountManagement;
 using System.Linq;
 using System.Text;
 
@@ -227,27 +228,17 @@ namespace MPP.Controllers
             outMsg = Constant.statusSuccess;
             try
             {
-                string LDAPPATH = _configuration["LDAP:LDAPPATH"];
-                string LDAPUserId = _configuration["LDAP:LDAPUserId"];
-                string LDAPPwd = _configuration["LDAP:LDAPPWD"];
-                DirectoryEntry entry = new DirectoryEntry(LDAPPATH, LDAPUserId, LDAPPwd, AuthenticationTypes.ServerBind | AuthenticationTypes.FastBind);
-                // DirectoryEntry entry = new DirectoryEntry(LDAPPATH, "ldapadminin", "Apac123", AuthenticationTypes.ServerBind | AuthenticationTypes.FastBind);
-                DirectorySearcher search = new DirectorySearcher(entry);
-                search.SearchScope = SearchScope.Subtree;
-                string UserId = userId;
-                search.Filter = "(&(objectClass=user)(samaccountname=" + UserId + "))";
-                search.PropertiesToLoad.Add("sAMAccountName");
-                search.PropertiesToLoad.Add("givenName");
-                search.PropertiesToLoad.Add("sn");
-                search.PropertiesToLoad.Add("mail");
-                SearchResult result = search.FindOne();
-                if (result != null)
+                using (var context = new PrincipalContext(ContextType.Domain, "USAWS1ESI56.apac.ko.com"))
                 {
-                    entry = result.GetDirectoryEntry();
-                    userInfo = new UserInfo();
-                    userInfo.UserID = entry.Properties["sAMAccountName"].Value.ToString();
-                    userInfo.UserName = entry.Properties["givenName"].Value.ToString() + " " + entry.Properties["sn"].Value.ToString();
-                    userInfo.UserEmail = entry.Properties["mail"].Value.ToString();
+                    var user = UserPrincipal.FindByIdentity(context, userId);
+
+                    if (user != null)
+                    {
+                        userInfo = new UserInfo();
+                        userInfo.UserID = user.Name.ToString();
+                        userInfo.UserName = user.DisplayName.ToString();
+                        userInfo.UserEmail = user.EmailAddress.ToString();
+                    }
                 }
             }
             catch (Exception ex)

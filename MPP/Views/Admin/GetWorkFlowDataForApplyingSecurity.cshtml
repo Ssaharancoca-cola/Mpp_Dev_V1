@@ -75,10 +75,6 @@
                 @Html.ListBoxFor(model => model.ApproverDetail,
                new MultiSelectList(Model.ApproverDetail, "ApproverId", "ApproverName"), new { @id = "ddlApproverListBox",@class="approverdetail" })
 
-
-                @*<asp:ListBox ID="lbApprovers" runat="server" CssClass="editdropdown" SelectionMode="Multiple" Font-Names="Verdana"
-                             MaxLength="100" width="300px" Height="150px" DataTextField="ApproverName" DataValueField="ApproverId">
-                </asp:ListBox>*@
             </td>
             <td style="width:20%" align="center" rowspan="1" colspan="1">
                 <table cellpadding="0" cellspacing="0" border="0">
@@ -86,14 +82,12 @@
                         <td rowspan="1" colspan="1">
                             <input type="button" id="btnMoveRight"  style="font-size:larger;height:30px;width:100px" value=">>" alt="Save">
 
-                            @*<asp:Button ID="btnMoveRight" runat="server" Text=">>" Font-Size="Larger" Height="30px" Width="100px" />*@
                         </td>
                     </tr>
                     <tr>
                         <td rowspan="1" colspan="1">
                             <input type="button" id="btnMoveLeft"  style="font-size:larger;height:30px;width:100px" value="<<" alt="Save">
 
-                            @*<asp:Button ID="btnMoveLeft" runat="server" Text="<<" Font-Size="Larger" Height="30px" Width="100px" />*@
                         </td>
                     </tr>
                 </table>
@@ -102,11 +96,6 @@
                 @Html.ListBoxFor(model => model.SelectedApproverDetail,
                new MultiSelectList(Model.SelectedApproverDetail, "ApproverId", "ApproverName"), new { @id = "ddlApproverSelectedListBox",@class= "approverdetail" })
 
-
-
-                @*<asp:ListBox ID="lbSelectedApprovers" runat="server" CssClass="editdropdown" Font-Names="Verdana" SelectionMode="Multiple"
-                             MaxLength="100" width="300px" Height="150px" DataTextField="ApproverName" DataValueField="ApproverId">
-                </asp:ListBox>*@
             </td>
             <td>
                 @Html.HiddenFor(x=>x.SelectedApproverId, new { @id = "hdnSelectedApprover" })
@@ -125,9 +114,7 @@
             <td style="width:40%"></td>
         </tr>
         <tr>
-            <td colspan="3">
-                @*<asp:Label id="lblErrorMsg" runat="server" ForeColor="Red"></asp:Label>
-                <input id="hidSelectedApprovers" type="hidden" runat="server" />*@
+            <td colspan="3">               
             </td>
         </tr>
     </table>
@@ -157,20 +144,15 @@
                 newOption.text = selectedListBoxText[j];
                 newOption.value = selectedListBoxValues[j];
                 ddlApproverListBox.options[ddlApproverListBox.length] = newOption; //Append the item in Target Listbox
-               // document.getElementById(HdnCodes).value = document.getElementById(HdnCodes).value.replace("," + varFromBox.options[varFromBox.options.selectedIndex].value + ",", "");
 
                 var hdnvalue = $("#hdnSelectedApprover").val();// + "," + newOption.value;
                 hdnvalue = hdnvalue.replace(newOption.value, "");
                 $("#hdnSelectedApprover").val(hdnvalue);
-               // ddlApproverSelectedListBox.remove(selectedItemIndex[j]); //Remove the item from Source Listbox
 
             }
             for (var j = selectedItemIndex.length-1; j >= 0 ; j--) {
                 ddlApproverSelectedListBox.remove(selectedItemIndex[j]); //Remove the item from Source Listbox
-            }
-          //  document.getElementById("#hdnSelectedApprover").value = "1";
-
-          //  $("#hdnSelectedApprover").val = "";
+            }          
         }
         else
         {
@@ -204,9 +186,7 @@
                 newOption.value = selectedListBoxValues[j];
                 var hdnvalue = $("#hdnSelectedApprover").val()+"," + newOption.value;
                 $("#hdnSelectedApprover").val(hdnvalue);
-             //   document.getElementById(HdnCodes).value += "," + varFromBox.options[varFromBox.options.selectedIndex].value + ",";
-
-               // document.getElementById("#hdnSelectedApprover").value += newOption.value +",";
+            
                 ddlApproverSelectedListBox.options[ddlApproverSelectedListBox.length] = newOption; //Append the item in Target Listbox
 
             }
@@ -232,7 +212,6 @@
                                                                else {
 
                                                                    $('#divDisplayAllUsers').html(data);
-                                                                 //  $('#ddlUserList option:eq(4)').attr('selected', 'selected');
 
                                                                }
 
@@ -287,7 +266,6 @@
                                                        else {
 
                                                            $('#divDisplayAllUsers').html(data);
-                                                          // $('#ddlUserList option:eq(4)').attr('selected', 'selected');
 
                                                        }
 

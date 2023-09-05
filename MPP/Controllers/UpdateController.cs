@@ -435,7 +435,30 @@ namespace MPP.Controllers
             }
             return outMsg;
         }
+        public virtual IActionResult Download(string path)
+        {
+            try
+            {
+                string[] userName = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
+                string fileName = "E" + userName[1] + path.Split(',')[1] + ".csv";
+                string newPath = path.Split(",")[2];
+                var fileStream = System.IO.File.OpenRead(newPath);
 
+                return File(fileStream,
+                            "application/octet-stream",
+                            fileName,
+                            enableRangeProcessing: true);
+            }
+            catch (Exception ex)
+            {
+                // Log the error.
+                using (LogErrorViewModel objLogErrorViewModel = new LogErrorViewModel())
+                {
+                    objLogErrorViewModel.LogErrorInTextFile(ex);
+                }
+                return Content(ex.Message + ex.StackTrace);
+            }
+        }
     }
 
 }

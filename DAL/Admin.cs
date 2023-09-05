@@ -10,6 +10,7 @@ using Model;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity;
 using Microsoft.Identity.Client;
+using System.Diagnostics.Metrics;
 
 namespace DAL
 {
@@ -152,7 +153,6 @@ namespace DAL
             try
             {
                 queryBuilder = new StringBuilder();
-                queryBuilder.Append("begin ");
                 query = string.Format("update MPP_CORE.MPP_USER SET ADMIN_FLAG = {1}, ACTIVE = {2} where UPPER(USER_ID) = UPPER('{0}');",
                                          userInfo.UserID, Convert.ToInt32(userInfo.IsAdmin), Convert.ToInt32(userInfo.IsActive));
                 queryBuilder.Append(query);
@@ -160,24 +160,31 @@ namespace DAL
                 {
                     foreach (EntityPrivileges entityPrivileges in userInfo.EntityPrivilegesList)
                     {
-                        string selectQuery = "select count(*) from mpp_core.mpp_user_privilege  where  UPPER(USER_ID) = UPPER('" + userInfo.UserID + "') AND ENTITY_TYPE_ID = " + entityPrivileges.EntityDetails.EntityID + "";
+                        var selectQuery = "select count(*) from mpp_core.mpp_user_privilage  where  UPPER(USER_ID) = UPPER('" + userInfo.UserID + "') AND ENTITY_TYPE_ID = " + entityPrivileges.EntityDetails.EntityID + "";
                         using (MPP_Context objMPP_Context = new MPP_Context())
                         {
-                            count = objMPP_Context.Database.ExecuteSqlRaw(selectQuery);
-                            //count = objMPP_Context.Set<int>().FromSqlRaw(selectQuery).AsEnumerable().FirstOrDefault();
+                            using (var command = objMPP_Context.Database.GetDbConnection().CreateCommand())
+                            {
+                                command.CommandText = selectQuery;
+                                objMPP_Context.Database.OpenConnection();
+
+                                var result = command.ExecuteScalar();
+                                string counts = result.ToString();
+                                count = (int)Int64.Parse(counts);
+                            }                           
                         }
                         if (count == 0)
                         {
-                            query = string.Format("insert into MPP_USER_PRIVILEGE(ENTITY_TYPE_ID, user_id, update_flag, create_flag, read_flag, import_flag, edit_level, role_id) values({0},UPPER('{1}') ,{2},{3},{4},{5},{6},{7});",
+                            query = string.Format("insert into mpp_core.MPP_USER_PRIVILAGE(ENTITY_TYPE_ID, user_id, update_flag, create_flag, read_flag, import_flag, role_id) values({0},UPPER('{1}') ,{2},{3},{4},{5},{6});",
 
                                 entityPrivileges.EntityDetails.EntityID, userInfo.UserID.ToUpper(), Convert.ToInt32(entityPrivileges.UpdateStatus),
                                 Convert.ToInt32(entityPrivileges.CreateStatus), Convert.ToInt32(entityPrivileges.ReadStatus),
-                                Convert.ToInt32(entityPrivileges.ImportStatus), "MPP_CORE.SEQ_EDIT_LEVEL.NEXTVAL", entityPrivileges.RoleId);
+                                Convert.ToInt32(entityPrivileges.ImportStatus), entityPrivileges.RoleId);
                         }
                         else
                         {
-                            query = string.Format("update mpp_core.mpp_user_privilege set READ_FLAG = {0}, CREATE_FLAG = {1}, UPDATE_FLAG = {2}, IMPORT_FLAG = {3}, ROLE_ID = {4}, EDIT_LEVEL = {5} where  UPPER(USER_ID) = UPPER('{6}') AND ENTITY_TYPE_ID = {7};",
-                    Convert.ToInt32(entityPrivileges.ReadStatus), Convert.ToInt32(entityPrivileges.CreateStatus), Convert.ToInt32(entityPrivileges.UpdateStatus), Convert.ToInt32(entityPrivileges.ImportStatus), entityPrivileges.RoleId, "mpp_core.seq_edit_level.nextval", userInfo.UserID, entityPrivileges.EntityDetails.EntityID);
+                            query = string.Format("update mpp_core.mpp_user_privilage set READ_FLAG = {0}, CREATE_FLAG = {1}, UPDATE_FLAG = {2}, IMPORT_FLAG = {3}, ROLE_ID = {4} where  UPPER(USER_ID) = UPPER('{5}') AND ENTITY_TYPE_ID = {6};",
+                    Convert.ToInt32(entityPrivileges.ReadStatus), Convert.ToInt32(entityPrivileges.CreateStatus), Convert.ToInt32(entityPrivileges.UpdateStatus), Convert.ToInt32(entityPrivileges.ImportStatus), entityPrivileges.RoleId, userInfo.UserID, entityPrivileges.EntityDetails.EntityID);
                         }
                         if ((queryBuilder.Length + query.Length) < queryBuilder.MaxCapacity)
                         {
@@ -192,13 +199,11 @@ namespace DAL
                                 {
                                     try
                                     {
-                                        queryBuilder.Append(" end;");
                                         int noOfRowUpdated = objMPP_Context.Database.ExecuteSqlRaw(queryBuilder.ToString());
                                         dbContextTransaction.Commit();
 
                                         queryBuilder.Remove(0, queryBuilder.Capacity);
 
-                                        queryBuilder.Append("begin ");
                                         queryBuilder.Append(query);
                                     }
                                     catch (Exception ex)
@@ -218,7 +223,6 @@ namespace DAL
                     }
 
                 }
-                queryBuilder.Append(" end;");
                 using (MPP_Context objMPP_Context = new MPP_Context())
                 {
                     using (var dbContextTransaction = objMPP_Context.Database.BeginTransaction())
@@ -234,8 +238,8 @@ namespace DAL
                             {
                                 objLogError.LogErrorInTextFile(ex);
                             }
-                            dbContextTransaction.Rollback();
                             outMsg = ex.Message;
+                            dbContextTransaction.Rollback();
                         }
                     }
                 }
@@ -266,7 +270,6 @@ namespace DAL
                     }
                 }
                 queryBuilder = new StringBuilder();
-                queryBuilder.Append("begin ");
                 query = string.Format("insert into MPP_CORE.MPP_USER (USER_NAME, USER_ID, EMAIL_ID, ROLE_NAME, LANGUAGE_CODE, ADMIN_FLAG, ACTIVE) values ('{0}', UPPER('{1}'), '{2}', '{3}', '{4}', {5},{6});",
                                             userInfo.UserName, userInfo.UserID, userInfo.UserEmail, "MPP", "en", Convert.ToInt32(userInfo.IsAdmin), Convert.ToInt32(userInfo.IsActive));
                 queryBuilder.Append(query);
@@ -275,8 +278,8 @@ namespace DAL
                 {
                     foreach (var item in lstEntityTypeId)
                     {
-                        query = string.Format("Insert into mdm_core.mdm_user_privilege(ENTITY_TYPE_ID, USER_ID, EDIT_LEVEL) values ({0}, UPPER('{1}'), {2});",
-                                item, userInfo.UserID, "mdm_core.seq_edit_level.nextval");
+                        query = string.Format("Insert into mpp_core.mpp_user_privilage(ENTITY_TYPE_ID, USER_ID) values ({0}, UPPER('{1}'));",
+                                item, userInfo.UserID);
 
                         if ((queryBuilder.Length + query.Length) < queryBuilder.MaxCapacity)
                         {
@@ -284,7 +287,6 @@ namespace DAL
                         }
                         else
                         {
-                            queryBuilder.Append(" end;");
                             using (MPP_Context objMPP_Context = new MPP_Context())
                             {
                                 using (var dbContextTransaction = objMPP_Context.Database.BeginTransaction())
@@ -294,7 +296,6 @@ namespace DAL
                                         int noOfRowUpdated = objMPP_Context.Database.ExecuteSqlRaw(queryBuilder.ToString());
                                         dbContextTransaction.Commit();
                                         queryBuilder.Remove(0, queryBuilder.Capacity);
-                                        queryBuilder.Append("begin ");
                                         queryBuilder.Append(query);
                                     }
                                     catch (Exception ex)
@@ -306,7 +307,6 @@ namespace DAL
                             }
                         }
                     }
-                    queryBuilder.Append(" end;");
 
                     using (MPP_Context objMPP_Context = new MPP_Context())
                     {
@@ -558,11 +558,20 @@ namespace DAL
                 }
 
                 #region Insert New RowLevel Security Values
-                string query = "SELECT MPP_CORE.SEQ_ROW_SEC_ID.NEXTVAL FROM DUAL";
                 using (MPP_Context objMPP_Context = new MPP_Context())
                 {
-                    Row_Sec_IDs = objMPP_Context.Set<string>().FromSqlRaw(query).FirstOrDefault();
-                    Row_Sec_ID = Int64.Parse(Row_Sec_IDs);
+                    using (var command = objMPP_Context.Database.GetDbConnection().CreateCommand())
+                    {
+                        command.CommandText = "SELECT NEXT VALUE FOR [MPP_CORE].SEQ_ROW_SEC_ID";
+                        objMPP_Context.Database.OpenConnection();
+
+                        var result =  command.ExecuteScalar();
+
+                         Row_Sec_IDs = result.ToString();
+
+                    }
+                     Row_Sec_ID = Int64.Parse(Row_Sec_IDs);
+
                 }
 
                 string InsertQuery = @"INSERT INTO MPP_CORE.USER_ROW_SECURITY(ROW_SEC_ID, DIMENSION_NAME, USER_ID, ENTITY_NAME, ENTITY_TYPE_ID, OPR)
@@ -586,7 +595,7 @@ namespace DAL
                 #endregion
 
                 #region Update user
-                string updateQuery = @"update mdm_core.mdm_user_privilege set CREATE_FLAG = 0 where user_id = '" + USV[0]._USER_ID + "' AND ENTITY_TYPE_ID = " + USV[0]._ENTITY_TYPE_ID + "";
+                string updateQuery = @"update mpp_core.mpp_user_privilage set CREATE_FLAG = 0 where user_id = '" + USV[0]._USER_ID + "' AND ENTITY_TYPE_ID = " + USV[0]._ENTITY_TYPE_ID + "";
                 using (MPP_Context objMPP_Context = new MPP_Context())
                 {
                     int noOfRowUpdated = objMPP_Context.Database.ExecuteSqlRaw(updateQuery.ToString());
@@ -708,12 +717,12 @@ namespace DAL
                         subQueryBuilder.Append("MPP_CORE.APPR_ID('" + item.ApproverId + "'),");
                     }
                     subQueryBuilder.Replace(",", ")", subQueryBuilder.Length - 1, 1);
-                    query = string.Format("UPDATE MPP_CORE.MPP_USER_PRIVILEGE SET ROLE_ID = '" + RoleId + "',APPROVER = " + subQueryBuilder + " WHERE USER_ID = '" + UserId + "' AND ENTITY_TYPE_ID = '" + EntityTypeId + "';");
+                    query = string.Format("UPDATE MPP_CORE.MPP_USER_PRIVILAGE SET ROLE_ID = '" + RoleId + "',APPROVER = " + subQueryBuilder + " WHERE USER_ID = '" + UserId + "' AND ENTITY_TYPE_ID = '" + EntityTypeId + "';");
 
                 }
                 else
                 {
-                    query = string.Format("UPDATE MPP_CORE.MPP_USER_PRIVILEGE SET ROLE_ID = '" + RoleId + "',APPROVER = NULL WHERE USER_ID = '" + UserId + "' AND ENTITY_TYPE_ID = '" + EntityTypeId + "';");
+                    query = string.Format("UPDATE MPP_CORE.MPP_USER_PRIVILAGE SET ROLE_ID = '" + RoleId + "',APPROVER = NULL WHERE USER_ID = '" + UserId + "' AND ENTITY_TYPE_ID = '" + EntityTypeId + "';");
                 }
 
                 queryBuilder.Append(query);

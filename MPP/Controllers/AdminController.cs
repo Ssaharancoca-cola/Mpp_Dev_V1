@@ -329,45 +329,6 @@ namespace MPP.Controllers
             }
             return Content("success");
         }
-        //private UserInfo GetADUserInfo(string userId, out string outMsg)
-        //{
-        //    UserInfo userInfo = null;
-        //    outMsg = Constant.statusSuccess;
-        //    try
-        //    {
-        //        string LDAPPATH = _configuration["LDAP:LDAPPATH"];
-        //        string LDAPUserId = _configuration["LDAP:LDAPUserId"];
-        //        string LDAPPwd = _configuration["LDAP:LDAPPWD"];
-        //        DirectoryEntry entry = new DirectoryEntry(LDAPPATH, LDAPUserId, LDAPPwd, AuthenticationTypes.ServerBind | AuthenticationTypes.FastBind);
-        //        DirectorySearcher search = new DirectorySearcher(entry);
-        //        search.SearchScope = SearchScope.Subtree;
-        //        string UserId = userId;
-        //        search.Filter = "(&(objectClass=user)(samaccountname=" + UserId + "))";
-        //        search.PropertiesToLoad.Add("sAMAccountName");
-        //        search.PropertiesToLoad.Add("givenName");
-        //        search.PropertiesToLoad.Add("sn");
-        //        search.PropertiesToLoad.Add("mail");
-        //        SearchResult result = search.FindOne();
-        //        if (result != null)
-        //        {
-        //            entry = result.GetDirectoryEntry();
-        //            userInfo = new UserInfo();
-        //            userInfo.UserID = entry.Properties["sAMAccountName"].Value.ToString();
-        //            userInfo.UserName = entry.Properties["givenName"].Value.ToString() + " " + entry.Properties["sn"].Value.ToString();
-        //            userInfo.UserEmail = entry.Properties["mail"].Value.ToString();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        using (LogErrorViewModel objLogErrorViewModel = new LogErrorViewModel())
-        //        {
-        //            objLogErrorViewModel.LogErrorInTextFile(ex);
-        //        }
-        //        outMsg = ex.Message;
-        //    }
-        //    return userInfo;
-        //}
-
         public UserInfo GetADUserInfo(string userId, out string outMsg)
         {
             UserInfo userInfo = null;

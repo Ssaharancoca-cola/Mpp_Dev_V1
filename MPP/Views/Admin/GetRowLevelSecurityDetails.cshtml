@@ -110,7 +110,7 @@
                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
                     <tr align="center" style="width: 100%;padding-top:10px">
                         <td style="width: 100%" align="center">
-                            <input type="image" id="btnDeleteRowLevelSecurity" value="submit" src="~/Images/Delete_Button.gif" alt="Delete">
+                            <input type="image" id="btnDeleteRowLevelSecurity" value="submit" src="~/images/delete.png" alt="Delete">
                         </td>
                     </tr>
                     <tr align="center" style="width: 100%;padding-top:10px">
@@ -141,7 +141,6 @@
                                                         else {
 
                                                             $('#divDisplayAllUsers').html(data);
-                                                          //  $('#ddlUserList option:eq(4)').attr('selected', 'selected');
 
                                                         }
 
@@ -173,31 +172,7 @@
                                            }
 
                                        });
-                                  var dimensionId = "NA";
-                                  @*$.post('@Url.Action("GetDimensionIndex", "Admin")',
-                                  function (data) {
-                                      if (data.indexOf("error") == 0) {
-                                          alert(data.replace("error", ""));
-                                      }
-                                      else {
-                                          $('#ddlDimensionList')[0].selectedIndex = data;
-
-                                      }
-
-                                  });*@
-                                  @*$.post('@Url.Action("SearchEntity", "Admin")', { dimensionName: dimensionId },
-                                       function (data) {
-                                           if (data.indexOf("error") == 0) {
-                                               alert(data.replace("error", ""));
-                                           }
-                                           else {
-                                               $('#divEntityDetail').empty();
-
-                                               $('#divEntityDetail').html(data);
-                                           
-                                           }
-
-                                       });*@
+                                  var dimensionId = "NA";                                  
                               }
 
                           });
@@ -215,7 +190,6 @@
                               else {
 
                                   $('#divDisplayAllUsers').html(data);
-                                 // $('#ddlUserList option:eq(4)').attr('selected', 'selected');
 
                               }
 
@@ -259,28 +233,7 @@
                                       }
 
                                   });
-        var dimensionId = "NA";
-        @*$.post('@Url.Action("SearchEntity", "Admin")', { dimensionName: dimensionId },
-             function (data) {
-                 if (data.indexOf("error") == 0) {
-                     alert(data.replace("error", ""));
-                 }
-                 else {
-                     $('#divEntityDetail').empty();
-
-                     $('#divEntityDetail').html(data);
-      
-                 }
-
-             });*@
-        //try
-        //{
-        //    $('#ddlDimensionList')[0].selectedIndex = dimensionListdata;
-
-        //}catch(ex)
-        //{
-
-        //}
+        var dimensionId = "NA";        
 
 
     });
@@ -343,9 +296,7 @@
             selectedOperatorValue = -1;
         }
         var userId = $("#txtUserId").val();
-        var supplyCode = $("#txtsuppliedCode").val();
-        //string DimensionName, string DimensionId,string EntityId,string OperatorValue,string UserId,
-        //  string SupplyCode,string[] SelectedData,string[] SelectedValues
+        var supplyCode = $("#txtsuppliedCode").val();        
         $.post('@Url.Action("SaveRowLevelSecurityDetails", "Admin")', {
             OperatorValue: selectedOperatorValue, UserId: userId, SupplyCode: supplyCode,
             SelectedData: selectedListBoxText, SelectedValues: selectedListBoxValues
@@ -364,7 +315,6 @@
                                 else {
 
                                     $('#divDisplayAllUsers').html(data);
-                                 //   $('#ddlUserList option:eq(4)').attr('selected', 'selected');
 
                                 }
 
@@ -396,30 +346,7 @@
                                 }
 
                             });
-                       var dimensionId = "NA";
-                       @*$.post('@Url.Action("SearchEntity", "Admin")', { dimensionName: dimensionId },
-                            function (data) {
-                                if (data.indexOf("error") == 0) {
-                                    alert(data.replace("error", ""));
-                                }
-                                else {
-                                    $('#divEntityDetail').empty();
-
-                                    $('#divEntityDetail').html(data);
-                                    $.post('@Url.Action("GetDimensionIndex", "Admin")',
-                                               function (data) {
-                                                   if (data.indexOf("error") == 0) {
-                                                       alert(data.replace("error", ""));
-                                                   }
-                                                   else {
-                                                       $('#ddlDimensionList')[0].selectedIndex = data;
-
-                                                   }
-
-                                               });
-                                }
-
-                            });*@
+                       var dimensionId = "NA";                      
 
 
                    }
