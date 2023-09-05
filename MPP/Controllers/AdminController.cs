@@ -143,7 +143,7 @@ namespace MPP.Controllers
                 }
                 if (userInfo == null)
                 {
-                    adUserInfo = GetADUserInfo(userId.ToUpper(), out outMsg);
+                     adUserInfo = GetADUserInfo(userId.ToUpper(), out outMsg);                    
                     if (outMsg != Constant.statusSuccess)
                         return Content("error" + outMsg);
                     if (adUserInfo != null)
@@ -329,32 +329,62 @@ namespace MPP.Controllers
             }
             return Content("success");
         }
-        private UserInfo GetADUserInfo(string userId, out string outMsg)
+        //private UserInfo GetADUserInfo(string userId, out string outMsg)
+        //{
+        //    UserInfo userInfo = null;
+        //    outMsg = Constant.statusSuccess;
+        //    try
+        //    {
+        //        string LDAPPATH = _configuration["LDAP:LDAPPATH"];
+        //        string LDAPUserId = _configuration["LDAP:LDAPUserId"];
+        //        string LDAPPwd = _configuration["LDAP:LDAPPWD"];
+        //        DirectoryEntry entry = new DirectoryEntry(LDAPPATH, LDAPUserId, LDAPPwd, AuthenticationTypes.ServerBind | AuthenticationTypes.FastBind);
+        //        DirectorySearcher search = new DirectorySearcher(entry);
+        //        search.SearchScope = SearchScope.Subtree;
+        //        string UserId = userId;
+        //        search.Filter = "(&(objectClass=user)(samaccountname=" + UserId + "))";
+        //        search.PropertiesToLoad.Add("sAMAccountName");
+        //        search.PropertiesToLoad.Add("givenName");
+        //        search.PropertiesToLoad.Add("sn");
+        //        search.PropertiesToLoad.Add("mail");
+        //        SearchResult result = search.FindOne();
+        //        if (result != null)
+        //        {
+        //            entry = result.GetDirectoryEntry();
+        //            userInfo = new UserInfo();
+        //            userInfo.UserID = entry.Properties["sAMAccountName"].Value.ToString();
+        //            userInfo.UserName = entry.Properties["givenName"].Value.ToString() + " " + entry.Properties["sn"].Value.ToString();
+        //            userInfo.UserEmail = entry.Properties["mail"].Value.ToString();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        using (LogErrorViewModel objLogErrorViewModel = new LogErrorViewModel())
+        //        {
+        //            objLogErrorViewModel.LogErrorInTextFile(ex);
+        //        }
+        //        outMsg = ex.Message;
+        //    }
+        //    return userInfo;
+        //}
+
+        public UserInfo GetADUserInfo(string userId, out string outMsg)
         {
             UserInfo userInfo = null;
             outMsg = Constant.statusSuccess;
             try
             {
-                string LDAPPATH = _configuration["LDAP:LDAPPATH"];
-                string LDAPUserId = _configuration["LDAP:LDAPUserId"];
-                string LDAPPwd = _configuration["LDAP:LDAPPWD"];
-                DirectoryEntry entry = new DirectoryEntry(LDAPPATH, LDAPUserId, LDAPPwd, AuthenticationTypes.ServerBind | AuthenticationTypes.FastBind);
-                DirectorySearcher search = new DirectorySearcher(entry);
-                search.SearchScope = SearchScope.Subtree;
-                string UserId = userId;
-                search.Filter = "(&(objectClass=user)(samaccountname=" + UserId + "))";
-                search.PropertiesToLoad.Add("sAMAccountName");
-                search.PropertiesToLoad.Add("givenName");
-                search.PropertiesToLoad.Add("sn");
-                search.PropertiesToLoad.Add("mail");
-                SearchResult result = search.FindOne();
-                if (result != null)
+                using (var context = new PrincipalContext(ContextType.Domain, "USAWS1ESI56.apac.ko.com"))
                 {
-                    entry = result.GetDirectoryEntry();
-                    userInfo = new UserInfo();
-                    userInfo.UserID = entry.Properties["sAMAccountName"].Value.ToString();
-                    userInfo.UserName = entry.Properties["givenName"].Value.ToString() + " " + entry.Properties["sn"].Value.ToString();
-                    userInfo.UserEmail = entry.Properties["mail"].Value.ToString();
+                    var user = UserPrincipal.FindByIdentity(context, userId);
+
+                    if (user != null)
+                    {
+                        userInfo = new UserInfo();
+                        userInfo.UserID = user.Name.ToString();
+                        userInfo.UserName = user.DisplayName.ToString();
+                        userInfo.UserEmail = user.EmailAddress.ToString();
+                    }
                 }
             }
             catch (Exception ex)
@@ -367,30 +397,7 @@ namespace MPP.Controllers
             }
             return userInfo;
         }
-
-        public UserPrincipal GetUserDetailss(string userId)
-        {
-            // Create a "domain context" for the Active Directory domain.
-            using (var context = new PrincipalContext(ContextType.Domain, "USAWS1ESI56.apac.ko.com"))
-            {
-                // Find the user in Active Directory
-                var user = UserPrincipal.FindByIdentity(context, userId);
-                if (user != null)
-                {
-                    return user;
-                }
-            }
-
-            // Return null if user not found
-            return null;
-        }
-//        var user = GetUserDetailss("userId");
-//if (user != null)
-//{
-//    Console.WriteLine("User's Full Name: " + user.DisplayName);
-//    Console.WriteLine("User's Email: " + user.EmailAddress);
-//    // ... similarly, access other properties
-//}
+       
     public List<UserInfo> GetAllUserInfo(out string outMsg)
         {
             outMsg = Constant.statusSuccess;
