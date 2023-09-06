@@ -25,8 +25,8 @@ namespace MPP.Controllers
         public async Task<IActionResult> GetSelectedRecordForUpdate(string OIDList, string ActionType)
         {
             int entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID"));
-            HttpContext.Session.SetString("INPUTROWIDS", OIDList);
-            HttpContext.Session.SetString("ActionType", ActionType);
+            _httpContextAccessor.HttpContext.Session.SetString("INPUTROWIDS", OIDList);
+            _httpContextAccessor.HttpContext.Session.SetString("ActionType", ActionType);
             //ViewData["ActionType"] = ActionType;
             //ViewData["INPUTROWIDS"] = OIDList;
             DataSet ds = new DataSet();

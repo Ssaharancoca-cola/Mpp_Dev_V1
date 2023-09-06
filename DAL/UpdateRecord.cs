@@ -286,7 +286,7 @@ namespace DAL
             download = true;
             hasLoadErrors = false;
             string fieldList;
-            Query.Append("begin ");
+            //Query.Append("begin ");
             using (GetSessionValue objGetSessionValue = new GetSessionValue())
             {
                 sessionID = objGetSessionValue.GetNextSessionValue(out outMsg);
@@ -344,7 +344,7 @@ namespace DAL
                     return outMsg;
             }
             outMsg = ValidateData(sessionID, entityTypeid, userName, bSuppressWarning, inputTablename);
-            if (outMsg == Constant.statusSuccess)
+            if (outMsg != Constant.statusSuccess)
             {
                 hasLoadErrors = true;
                 DataSet ds = new DataSet();
