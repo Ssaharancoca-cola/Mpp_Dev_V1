@@ -30,7 +30,7 @@ builder.Services.AddMemoryCache();
 builder.Services.AddSession(options =>
 {
     options.Cookie.Name = ".Mpp.Session";
-    options.IdleTimeout = TimeSpan.FromMinutes(20); // Customize the session timeout
+    options.IdleTimeout = TimeSpan.FromMinutes(50); // Customize the session timeout
 });
 
 //Add the IWebHostEnvironment service

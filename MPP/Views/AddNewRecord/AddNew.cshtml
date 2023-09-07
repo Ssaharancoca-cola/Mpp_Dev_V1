@@ -223,16 +223,16 @@
 <script>
     $(document).ready(function () {
         // Restriciting special characters in any text field
-        $('input[type="text"]').keypress(function (e) {
-            var regex = new RegExp("^[a-zA-Z0-9_]+$");
-            var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
-            if (regex.test(str)) {
-                return true;
-            }
-            e.preventDefault();
-            alert('Only alphabets, digits and underscore allowed.');
-            return false;
-        });
+        //$('input[type="text"]').keypress(function (e) {
+        //    var regex = new RegExp("^[a-zA-Z0-9_]+$");
+        //    var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+        //    if (regex.test(str)) {
+        //        return true;
+        //    }
+        //    e.preventDefault();
+        //    alert('Only alphabets, digits and underscore allowed.');
+        //    return false;
+        //});
         $("#btnCancel").click(function () {
             $("#cmdName")[0].value = "AttributeDetail";
             $('#viewPlaceHolder').empty();

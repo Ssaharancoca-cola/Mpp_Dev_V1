@@ -15,10 +15,13 @@ namespace MPP.Controllers
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IWebHostEnvironment _environment;
-        public UpdateController(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment environment)
+        private readonly IConfiguration _configuration;
+
+        public UpdateController(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment environment, IConfiguration configuration)
         {
             _httpContextAccessor = httpContextAccessor;
             _environment = environment;
+            _configuration = configuration;
         }
         
         public ActionResult Index() { return View(); }
@@ -205,7 +208,7 @@ namespace MPP.Controllers
                 {
                     GetLisOfRecordToUpdate(dataList, out listattrValues);
                     string FileName = "E" + userName[1] + Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")) + ".csv";
-                    string FilePath = Path.Combine(_environment.ContentRootPath, "App_Data");
+                    string FilePath = Path.Combine(_environment.ContentRootPath, "App_Data\\");
 
                     if (!Directory.Exists(FilePath))
                     {
@@ -221,7 +224,7 @@ namespace MPP.Controllers
                     else
                     {
                         TempData["filepath"] = FilePath;
-                        string path = System.Configuration.ConfigurationManager.AppSettings["FileDownLoadPath"];
+                        string path = _configuration["FILE:FileDownLoadPath"];
                         if (dataList.Count() > 0)
                             ErrorRowCount = listattrValues.Count;
 

@@ -85,7 +85,7 @@ namespace DAL
                         return ds;
                     else
                     {
-                        viewName = viewName.Replace("FL", "FNL");
+                        viewName = viewName.Replace("FL_", "FNL_");
 
                         if (viewName.Length > 100)
                         {
@@ -349,9 +349,9 @@ namespace DAL
                 hasLoadErrors = true;
                 DataSet ds = new DataSet();
                 ds = GetDataForDownloadingExcel(sessionID, entityTypeid, inputTablename, out dataList, out outMsg);
-                outMsg = InsertDataIntoLandingTableFromHistTable(inputTablename, sessionID);
-                outMsg = DeleteFromHistoryTable(inputTablename, sessionID);
-                outMsg = DeleteDataFromLandingTableOnRowStatus(inputTablename, sessionID);
+                //outMsg = InsertDataIntoLandingTableFromHistTable(inputTablename, sessionID);
+                //outMsg = DeleteFromHistoryTable(inputTablename, sessionID);
+                //outMsg = DeleteDataFromLandingTableOnRowStatus(inputTablename, sessionID);
             }
             else
             {
@@ -572,37 +572,37 @@ namespace DAL
                 }
                 outMsg = ex.Message.ToString();
                 
-                if (!string.IsNullOrEmpty(ex.Message.ToString()))
-                {
-                    try
-                    {
-                        using (InsertAndDeleteInLandingTable objInsertAndDaleteInLandingTable = new InsertAndDeleteInLandingTable())
-                        {
-                            objInsertAndDaleteInLandingTable.DeleteDataFromLandingTable(inputTablename, Convert.ToInt32(sessionId));
+                //if (!string.IsNullOrEmpty(ex.Message.ToString()))
+                //{
+                //    try
+                //    {
+                //        using (InsertAndDeleteInLandingTable objInsertAndDaleteInLandingTable = new InsertAndDeleteInLandingTable())
+                //        {
+                //            objInsertAndDaleteInLandingTable.DeleteDataFromLandingTable(inputTablename, Convert.ToInt32(sessionId));
 
-                            //if (ex.Message.ToString().Contains("WARNING:"))
-                            //{
-                            //    throw new Exception(objInsertAndDaleteInLandingTable.GetErrorOrWarning(inputTablename, "WARNING", sessionId.ToString()));
-                            //}
-                            //else if (ex.Message.ToString().Contains("ERROR:"))
-                            //{
-                            //    throw new Exception(objInsertAndDaleteInLandingTable.GetErrorOrWarning(inputTablename, "ERROR", sessionId.ToString()));
-                            //}
-                            //else
-                            //{
-                            //    throw;
-                            //}
-                        }
-                    }
-                    catch (Exception ex1)
-                    {
-                        using (LogError objLogError = new LogError())
-                        {
-                            objLogError.LogErrorInTextFile(ex);
-                        }
-                        //throw ex1;
-                    }
-                }
+                //            //if (ex.Message.ToString().Contains("WARNING:"))
+                //            //{
+                //            //    throw new Exception(objInsertAndDaleteInLandingTable.GetErrorOrWarning(inputTablename, "WARNING", sessionId.ToString()));
+                //            //}
+                //            //else if (ex.Message.ToString().Contains("ERROR:"))
+                //            //{
+                //            //    throw new Exception(objInsertAndDaleteInLandingTable.GetErrorOrWarning(inputTablename, "ERROR", sessionId.ToString()));
+                //            //}
+                //            //else
+                //            //{
+                //            //    throw;
+                //            //}
+                //        }
+                //    }
+                //    catch (Exception ex1)
+                //    {
+                //        using (LogError objLogError = new LogError())
+                //        {
+                //            objLogError.LogErrorInTextFile(ex);
+                //        }
+                //        //throw ex1;
+                //    }
+                //}
                 if (!string.IsNullOrEmpty(ex.Message.ToString()))
                 {
                     outMsg = ex.Message.ToString();
@@ -692,8 +692,8 @@ namespace DAL
                 }
 
                 strWhereClause.Append(" WHERE ROW_STATUS = 1 AND SESSION_ID = '" + sessionID + "'");
-                strQuery.Append("Select " + columnName + " from ");
-                strQuery.Append("(" + "MPP_APP." + inputTablename + ")");
+                strQuery.Append("Select " + columnName + " from  ");
+                strQuery.Append("MPP_APP." + inputTablename );
                 strQuery.Append(strWhereClause);
                 ds = GetDataSet(strQuery.ToString(), out outMsg);
                 if (outMsg != Constant.statusSuccess)
@@ -716,9 +716,9 @@ namespace DAL
             StringBuilder strInsertQuery = new StringBuilder();
             string outMsg = Constant.statusSuccess;
             int noOfRowInserted = 0;
-            strInsertQuery.Append(" INSERT INTO " + inputTablename);
-            strInsertQuery.Append(" SELECT * FROM " + inputTablename.Replace("LD", "HIST") + " WHERE LD_OID IN ");
-            strInsertQuery.Append("( SELECT " + Constant.ldOID + " FROM " + inputTablename);
+            strInsertQuery.Append(" INSERT INTO MPP_APP." + inputTablename);
+            strInsertQuery.Append(" SELECT * FROM MPP_APP." + inputTablename.Replace("LD", "HIST") + " WHERE LD_OID IN ");
+            strInsertQuery.Append("( SELECT " + Constant.ldOID + " FROM MPP_APP." + inputTablename);
             strInsertQuery.Append(" WHERE " + Constant.rowStatus + " = 1 AND " + Constant.sessionID + "='" + sessionID + "')");
             try
             {
