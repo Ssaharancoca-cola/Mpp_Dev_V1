@@ -14,28 +14,17 @@ public class MailManagerViewModel : IDisposable
     {
 
     }
-    public void Mail(string count, string record, int entityID, string EntityName, string DimensionName, string url, string action, out string outMsg)
+    public void Mail(string count, string record, int entityID, string EntityName, string[] userName, string url, string action, out string outMsg)
     {
-        outMsg = Constant.statusSuccess;
-        //const int SUBMIT = 1;
-        //const int SUBMITWITHOUTWORKFLOW = 10;
-        //const int NOTIFYAPPROVE = 3;
+        outMsg = Constant.statusSuccess;        
 
         Mail_Master _MAIL_MASTER;
         UserInfo _UserInfo = new UserInfo();
         List<UserInfo> _UserInfolist = new List<UserInfo>();
         Mail_Manager _MAIL_MANAGERBL = new Mail_Manager();
-        UserManager _UserManagerBL = new UserManager();
-        string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
-        //UserId = HttpContext.Current.User.Identity.Name.ToUpper();
-        List<Mail_Master> lstMailMaster = new List<Mail_Master>();
-        // CATEGORYBL _CATEGORYBL = new CATEGORYBL();
-        //int entityID = Convert.ToInt32(Session["EntityTypeID"]);
-        //string EntityName = Convert.ToString(Session["EntityName"]);
-        //string DimensionName = Convert.ToString(Session["SelectedDimensionData"]);
-        string FirstName = string.Empty;
-        // string url = Request.Url.GetLeftPart(UriPartial.Authority) + appName + "/CATEGORY_Workflow.aspx?&Action=" + DimensionName;
-        // string url = "url";
+        UserManager _UserManagerBL = new UserManager();        
+        List<Mail_Master> lstMailMaster = new List<Mail_Master>();       
+        string FirstName = string.Empty;     
 
         try
         {
@@ -49,7 +38,6 @@ public class MailManagerViewModel : IDisposable
                 else if (action == Constant.update)
                     id = Convert.ToInt32(Mail_Master.MailEventDetail.UPDATEWITHOUTWORKFLOW);
                 _MAIL_MASTER = _MAIL_MANAGERBL.GetMailDetails(id, out outMsg);
-                //url = Request.Url.GetLeftPart(UriPartial.Authority) + appName + "/CATEGORY.aspx?&Action=" + DimensionName;
             }
             else
             {

@@ -25,14 +25,13 @@
         $('#btnUpdate').hide();
     });
     $("#btnWorkflow").click(function () {
-
         $("#cmdName")[0].value = "AttributeDetail";
         $('#viewPlaceHolder').empty();
         $('#btnUpdate').hide();
     });
     $(function () {
-        $("#txtFrom").datepicker({ changeMonth: true, changeYear: true, yearRange: "2023:2050" });
-        $("#txtTo").datepicker({ changeMonth: true, changeYear: true, yearRange: "2023:2050" });
+        $("#txtFrom").datepicker({ changeMonth: true, changeYear: true, yearRange: "2000:2050" });
+        $("#txtTo").datepicker({ changeMonth: true, changeYear: true, yearRange: "2000:2050" });
     });
 });
 

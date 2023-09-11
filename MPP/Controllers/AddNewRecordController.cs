@@ -1,5 +1,6 @@
 ﻿using Azure.Core;
 using DAL.Common;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Model;
 using MPP.Filter;
@@ -19,6 +20,8 @@ namespace MPP.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<AddNewRecordController> _logger;
         private readonly IConfiguration _configuration;
+        private string Link = "//MPP//";
+
         public AddNewRecordController(IHttpContextAccessor httpContextAccessor, ILogger<AddNewRecordController> logger, IConfiguration configuration)  
         {
             _httpContextAccessor = httpContextAccessor;
@@ -195,10 +198,11 @@ namespace MPP.Controllers
                     }
                     if (outMsg == Constant.statusSuccess)
                     {
-                        //MailManagerViewModel objMAilManagerViewModel = new MailManagerViewModel();
-                        //string url = Request.Url.GetLeftPart(UriPartial.Authority) + ConfigurationManager.AppSettings["Link"].ToString();
-                        //objMAilManagerViewModel.Mail("1", "record", Convert.ToInt32(Session["EntityTypeID"]), Convert.ToString(Session["EntityName"]),
-                        //Convert.ToString(Session["SelectedDimensionData"]), url, Constant.addNew, out outMsg);
+                        MailManagerViewModel objMAilManagerViewModel = new MailManagerViewModel();
+                        string url = Request.GetDisplayUrl() + Link;
+                        string[] user = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
+                        objMAilManagerViewModel.Mail("1", "record", Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")), Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")),
+                        user, url, Constant.addNew, out outMsg);
                     }
                     else
                         return Content(outMsg + "error");

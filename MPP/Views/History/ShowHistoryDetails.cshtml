@@ -29,7 +29,6 @@
 
                     <label style="color:red;font-size:12pt;font-weight:bold">History Display</label>
 
-                    @*<label Font-Size="17px" ForeColor="#0f75da" Font-Bold="true">History Display</label>*@
                 </td>
             </tr>
             <tr>
@@ -42,23 +41,23 @@
             <tr style="width:100%">
                 <td style="width: 100%;padding-left:20px;height:auto" align="left">
                     <table width="280" border="0" cellspacing="0" cellpadding="0" align="center" bordercolor="#E3E3E3"
-                           bgcolor="#FFFFFF" id="tblLegend" style="border-style:solid;border-color:White">
-                        <tr valign="top" bgcolor="#ECEBE9">
+                           bgcolor="#f5c4c4" id="tblLegend" style="border-style:solid;border-color:White">
+                        <tr valign="top" bgcolor="blanchedalmond">
                             <td width="280" colspan="2" align="center">
                                 <b><font size="1" face="Verdana, Arial">&nbsp;LEGEND</font></b>
                             </td>
                         </tr>
                         <tr></tr>
                         <tr valign="top">
-                            <td width="40" height="10" bgcolor="#d9edf9"></td>
-                            <td width="240" bgcolor="#FFFFFF">
+                            <td width="40" height="10" bgcolor="#FF7F7F"></td>
+                            <td width="240" bgcolor="#f5c4c4">
                                 <font face="Verdana, Arial" size="1">Not modified</font>
                             </td>
                         </tr>
                         <tr height="1"></tr>
                         <tr valign="top">
-                            <td width="40" height="10" bgcolor="SkyBlue"></td>
-                            <td width="240" bgcolor="#FFFFFF">
+                            <td width="40" height="10" bgcolor="#FF0000"></td>
+                            <td width="240" bgcolor="#f5c4c4">
                                 <font face="Verdana, Arial" size="1">Modified cells</font>
                             </td>
                         </tr>
@@ -131,7 +130,6 @@
                                     <tr align="center" style="width: 100%;padding-top:10px">
                                         <td style="width: 100%" align="center">
 
-                                            @*<asp:Label ID="lblErrorMsg" runat="server" Width="448px" ForeColor="Red"></asp:Label>*@
                                         </td>
                                     </tr>
                                 </table>
@@ -150,7 +148,7 @@
             rows = table.find('tr'), cells, background, code;
         for (var i = 0; i < rows.length; i += 1) {
             if (i != 0) {
-                $(rows[i]).css('background-color', '#d9edf9');
+                $(rows[i]).css('background-color', '#f5c4c4');
             }
             var entityData = [];
             cells = $(rows[i]).children('td');
@@ -166,10 +164,10 @@
                     if (data != entityData[j]) {
 
                         if (i % 2 != 0) {
-                            background = 'SkyBlue';
+                            background = '#FF0000';
                         }
                         else {
-                            background = 'CadetBlue';
+                            background = '#FF7F7F';
 
                         }
                         $(cells[j]).css('background-color', background)

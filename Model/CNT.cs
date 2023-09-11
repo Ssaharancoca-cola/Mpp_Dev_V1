@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    public class PK_CODE
+    public class CNTS
     {
-        public string PK_CODES { get; set; }
-    }   
+        public int CNT { get; set; }
+    }
 }

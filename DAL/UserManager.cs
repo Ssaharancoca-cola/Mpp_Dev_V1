@@ -94,16 +94,18 @@ namespace DAL
             int count = 0;
             try
             {
-                query = "SELECT count(*) as CNT from MPP_CORE.MPP_USER_PRIVILEGE WHERE UPPER(USER_ID)='" + UserId.ToUpper() + "' AND ENTITY_TYPE_ID=" + entityId + " AND APPROVER IS NULL";
+                query = "SELECT count(*) as CNT from MPP_CORE.MPP_USER_PRIVILAGE WHERE UPPER(USER_ID)='" + UserId.ToUpper() + "' AND ENTITY_TYPE_ID=" + entityId + " AND APPROVER IS NULL";
                 using (MPP_Context objMPP_Context = new MPP_Context())
                 {
-                    //count = objMPP_Context.Database.SqlQuery<int>(query).FirstOrDefault();
+                    CNTS dm = new CNTS();
+                    dm = objMPP_Context.Set<CNTS>().FromSqlRaw(query).FirstOrDefault();
+                    count = dm.CNT;
                 }
                 if (count != 0)
                     lstApproverInfo = null;
                 else
                 {
-                    query = "SELECT U.USER_NAME as UserName ,U.EMAIL_ID as UserEmail FROM MDM_CORE.MDM_USER U,MDM_CORE.MDM_USER_PRIVILEGE t1,TABLE(t1.APPROVER)t2 WHERE U.USER_ID = t2.APPROVER_ID AND UPPER(t1.USER_ID) = '" + UserId.ToUpper() + "' AND t1.ENTITY_TYPE_ID=" + entityId;
+                    query = "SELECT U.USER_NAME as UserName ,U.EMAIL_ID as UserEmail FROM MPP_CORE.MPP_USER U,MPP_CORE.MPP_USER_PRIVILAGE t1,TABLE(t1.APPROVER)t2 WHERE U.USER_ID = t2.APPROVER_ID AND UPPER(t1.USER_ID) = '" + UserId.ToUpper() + "' AND t1.ENTITY_TYPE_ID=" + entityId;
                     using (MPP_Context objMPP_Context = new MPP_Context())
                     {
                         lstApproverInfo = objMPP_Context.Set<UserInfo>().FromSqlRaw(query).ToList();

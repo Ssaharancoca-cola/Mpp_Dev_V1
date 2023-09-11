@@ -56,6 +56,9 @@ namespace Model.Models
         public DbSet<UserSecurityValuess> userSecurityValue { get; set; }
         public DbSet<ApproverDetails> approverDetails { get; set; }
         public DbSet<ApproverDetail> approverDetail { get; set; }
+        public DbSet<CNTS> cNT { get; set; }
+        //public DbSet<Mail_Master> mail_Master { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -73,7 +76,8 @@ namespace Model.Models
             modelBuilder.Entity<UserSecurityValuess>().HasNoKey();
             modelBuilder.Entity<ApproverDetails>().HasNoKey();
             modelBuilder.Entity<ApproverDetail>().HasNoKey();
-
+            modelBuilder.Entity<CNTS>().HasNoKey();
+            //modelBuilder.Entity<Mail_Master>().HasNoKey();
 
             modelBuilder.Entity<DimBusinessorg>(entity =>
             {

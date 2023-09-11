@@ -111,7 +111,7 @@
                         </strong>
                     </span> | <span class="whiteTextNormal">
                         Total Pages :
-                        <label class="whiteTextNormal" id="lblCurrentPagesDetails">0</label>
+                        <label class="whiteTextNormal" id="lblCurrentPageDetails">0</label>
                     </span>
                 </td>
                 <td height="40" class="whiteTextNormal" align ="right">
@@ -132,17 +132,16 @@
     <script>
     $(document).ready(function () {
         applyDatePicker(); // Apply datepicker on document ready
-
     });
+
     // Declare the applyDatePicker function
     function applyDatePicker() {
+        //$(document).on('focus', '#')
         $(".datepicker").datepicker({
             changeMonth: true, changeYear: true, yearRange: "2000:2050"
         });
     }
     $('#formid').on('submit', submitFormWithAjax);
-    //$(document).on('submit', '#formid', submitFormWithAjax);
-
             function CallChangefunc(val, parcombo) {
                 $('#' + val + '').empty();
 
@@ -178,7 +177,8 @@
             success: function (data) {
                 debugger;
                 // Update your DOM based on the received data.
-                onSuccess(data);                
+                onSuccess(data);   
+                applyDatePicker();
             },
             error: function (err) {
                 console.error("Error", err);

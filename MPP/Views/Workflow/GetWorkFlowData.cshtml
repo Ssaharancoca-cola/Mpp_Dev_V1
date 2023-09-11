@@ -418,7 +418,6 @@
         <li><a href="#divSubmitted">View Submitted</a></li>
         <li><a href="#divRejected">View Rejected</a></li>
         <li><a href="#divApproval">My Approval</a></li>
-
     </ul>
     <div id="divSubmitted">
 
@@ -433,26 +432,19 @@
             }
             @if (submittedRowData.Count() > 0)
             {
-
                 <table style="width:100%;height:300px" border="0" cellspacing="0" cellpadding="0">
-
                     <tr align="center" valign="top">
                         <td>
-
                             <table width="796px" border="0" cellspacing="0" cellpadding="0" id="TableTopView">
                                 <tr valign="middle" align="left" style="background-image:url(Images/TableTop.jpg);background-repeat:repeat-x;height:100%">
                                     <td height="40" class="whiteTextNormal">
-                                        @* @Html.Label(Convert.ToString(Context.Session.GetString("EntityName")), new { @class = "whiteTextNormal", @id = "lblcaption" })*@
                                         <label asp-for="@Context.Session.GetString("EntityName")" class="whiteTextNormal" id="lblcaption"></label>
-
                                         | <span class="whiteTextNormal">
                                             Total Records : <strong>
                                                 <label>@submittedRowData.Count()</label>
                                             </strong>
                                         </span> | <span class="whiteTextNormal">
-                                            @*                                        @Html.Label("", new { @class = "whiteTextNormal", @id = "lblPageDetails" }) *@
                                             <label class="whiteTextNormal" id="lblPageDetails"></label>
-
                                         </span>
                                     </td>
                                 </tr>
@@ -465,7 +457,6 @@
                                                 <label style="font-family:Arial">Select all</label>
                                                 @Html.CheckBox("chkSelectAll", new { @class = "chkSelectAll" })
                                             </th>
-
                                             @foreach (var data in colName)
                                             {
                                                 if (data == "inputRowId" || data == "ldOID")
@@ -474,14 +465,13 @@
                                                 }
                                                 else
                                                 {
-                                                    <th>
-                                                        <label class="colorWhite">@data</label>
-                                                    </th>
+                                                <th>
+                                                    <label class="colorWhite">@data</label>
+                                                </th>
                                                 }
                                             }
                                         </tr>
                                     </thead>
-
                                     @foreach (var item in submitteddataList)
                                     {
                                         <tr class="trgridsubmitteddata">
@@ -521,9 +511,7 @@
 
                                     }
                                 </table>
-
                             </div>
-
                         </td>
                     </tr>
 
@@ -566,10 +554,8 @@
             else
             {
                 <h1>No records available with status submitted! </h1>
-
             }
         </div>
-
     </div>
     <div id="divRejected">
         <div>
@@ -729,7 +715,6 @@
         </div>
 
     </div>
-
     <div id="divApproval">
         <div>
             @{
@@ -870,7 +855,6 @@
         </div>
 
     </div>
-
 </div>
 <div id="divLoading" class="loader">
 
@@ -931,7 +915,6 @@
     }
 </style>
 <script>
-
     $(function () {
         $("#tabs").tabs();
     });
