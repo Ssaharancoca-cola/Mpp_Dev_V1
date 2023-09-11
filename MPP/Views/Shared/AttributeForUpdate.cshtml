@@ -12,13 +12,10 @@
 
     });
     function onBegin() {
-        // debugger;
         $('#divLoading').show();
 
     }
     function onSuccess(result, path) {
-
-        debugger;
         $('#lblSearchWarnings').html("");
         var fileId = $('#cmdName').val();
         if (result.indexOf("export") == 0) {
@@ -224,13 +221,11 @@ else
             form[$(this).attr('name')] = $(this).val();
         });
         form['Command'] = commandValue;
-        debugger;
         $.ajax({
             type: 'POST',
             url: '@Url.Action("UpdateSelectedRecords", "Update")',
             data: form,
             success: function (data) {
-                debugger;
                 // Update your DOM based on the received data.
                 onSuccess(data);
             },

@@ -183,7 +183,6 @@
 
     }
     function onSuccess(result) {
-        //   debugger;
         if (result.length > 1000) {
             var fileId = "AttributeDetail";
             $('#' + fileId).html(result);
@@ -270,13 +269,11 @@
             form[$(this).attr('name')] = $(this).val();
         });
         form['Command'] = commandValue;
-        debugger;
         $.ajax({
             type: 'POST',
             url: '@Url.Action("SaveRecord", "AddNewRecord")',
             data: form,
             success: function (data) {
-                debugger;
                 // Update your DOM based on the received data.
                 onSuccess(data);
             },

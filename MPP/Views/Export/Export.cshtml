@@ -137,7 +137,6 @@
 
     }
     function onSuccess(result, FilePath) {
-        debugger;
         if (result.indexOf("error") == 0) {
             alert(result.replace("error", ""));
         }
@@ -176,7 +175,6 @@
         let commandValue = $(document.activeElement).attr("value");
         // Declare an object to store the form data
         let form = {};
-        debugger;
         // Loop through form elements and collect the data
         $('#formid input, #formid select').each(function () {
             if ($(this).attr('type') === 'checkbox') {
@@ -184,13 +182,11 @@
             }
         });
         form['Command'] = commandValue;
-        debugger;
         $.ajax({
             type: 'POST',
             url: '@Url.Action("ExportData", "Export")',
             data: form,
             success: function (data) {
-                debugger;
                 // Update your DOM based on the received data.
                 onSuccess(data);
             },

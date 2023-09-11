@@ -169,13 +169,11 @@
             form[$(this).attr('name')] = $(this).val();
         });
         form['Command'] = commandValue;
-        debugger;
         $.ajax({
             type: 'POST',
             url: '@Url.Action("GetSearchData", "Search")',
             data: form,            
             success: function (data) {
-                debugger;
                 // Update your DOM based on the received data.
                 onSuccess(data);   
                 applyDatePicker();

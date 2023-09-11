@@ -9,7 +9,6 @@
         $('#tbldataRejected').find('tr').each(function () {
 
             var row = $(this);
-            debugger;
 
             if (row.find('input[type="checkbox"]').is(':checked')) {
                 try {
@@ -38,7 +37,6 @@
                     $('#AttributeDetail').html(data);
                     $.post('@Url.Action("ShowAttribute", "Menu")', { entityTypeId: '@Context.Session.GetInt32("EntityTypeID")', entityName: '@Context.Session.GetString("EntityName")', viewType: "update" },
                         function (data) {
-                            debugger;
                             if (data.indexOf("error") == 0) {
                                 alert(data.replace("error", ""));
 
@@ -150,7 +148,6 @@
 
         $.post('@Url.Action("UpdateRecords", "WorkFlow")', { OIDList: OID, Comment: comment, ActionType: 'Approve' },
             function (data) {
-                debugger;
                 if (data.indexOf("error") == 0) {
                     alert(data.replace("error", ""));
 

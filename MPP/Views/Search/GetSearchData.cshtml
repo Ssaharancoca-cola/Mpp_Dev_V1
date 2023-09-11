@@ -159,7 +159,6 @@
 
         });
         $("#chkSelectAll").change(function () {
-            debugger;
             var status = this.checked; // "select all" checked status
             $('.checkbox').each(function () { //iterate all listed checkbox items
                 this.checked = status; //change ".checkbox" checked status
@@ -225,7 +224,6 @@
                 });
         });
         $("#btnUpdate").click(function (e) {
-            debugger;
             var OID = "";
             $('#tblsearchdata').find('tr').each(function () {
                 var row = $(this);
@@ -254,7 +252,6 @@
 
                     }
                     else {
-                        debugger;
                         $('#AttributeDetail').empty();
                         $('#viewPlaceHolder').empty();
                         $('#btnUpdate').hide();

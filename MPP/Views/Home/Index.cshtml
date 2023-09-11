@@ -15,7 +15,7 @@
 <body>
     <table border="0" cellpadding="0" align="center" width="1004px">
         <tr>
-            <td style="background-image:url('~/wwwroot/Images/Header_new1.png');height:110px;background-repeat:no-repeat;">
+            <td style="background-image:url('MPP/Images/Header_new1.png');height:110px;background-repeat:no-repeat;">
                 <div id="mainmenu">
                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
                         <tr>
@@ -68,7 +68,7 @@
                 <div id="contentpage"></div>
             </td>
         </tr>
-        <tr id="trAdminContent" style="background-image:url(~/wwwroot/Images/menuBG.png);background-repeat:repeat-x;height:100%;display:none">
+        <tr id="trAdminContent" style="background-image:url(MPP/Images/menuBG.png);background-repeat:repeat-x;height:100%;display:none">
             <td style="padding-left:140px;vertical-align:middle">
                 <div id="chromemenu">
                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -154,7 +154,6 @@
     $("#lblAdmin").click(function () {
         $.post('@Url.Action("GetAllUsers", "Admin")',
             function (data) {
-                //debugger;
                 if (data.indexOf("error") == 0) {
                     alert(data.replace("error", ""));
                 } else {

@@ -57,7 +57,6 @@
         }
         $.post('@Url.Action("GetUserDetailsForAddingUser", "Admin")', { userId: userid },
                 function (data) {
-                    debugger;
                     if (data.indexOf("Access denied") > -1) {
                         alert(data.replace("error", ""));
                     }
@@ -98,7 +97,6 @@
 
                 $.post('@Url.Action("GetUserDetails", "Admin")', { userId: selectedValue },
          function (data) {
-                        debugger;
              if (data.indexOf("error") == 0) {
                  alert(data.replace("error", ""));
              }

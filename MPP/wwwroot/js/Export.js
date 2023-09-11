@@ -4,7 +4,6 @@
         $('#viewPlaceHolder').html();
     });
     $("#chkSelectAll").change(function () {
-        debugger;
         var staus = this.checked;
         $('.label').each(function () {
             this.checked = status;
@@ -16,7 +15,6 @@ function onBegin() {
     $('#divLoading').show();
 }
 function onSuccess(result) {
-    debugger;
     if (result.indexOf("error") == 0) {
         alert(result.replace("error", ""));
     }

@@ -47,7 +47,6 @@
         var submenu = true;
     $.post('@Url.Action( "ShowAttribute", "Menu")', { EntityTypeId: evt.currentTarget.id, entityName: evt.currentTarget.innerText, viewType: "search" },
             function(data) {
-                debugger;
             if(submenu == true){
                 if(data.indexOf("Access denied") > -1){
                     alert(data);
@@ -56,7 +55,6 @@
                     alert(result.replace("error", ""));
                 }
                 else {
-                    debugger;
                         $('#AttributeDetail').empty();
                         
                         $('#AttributeDetail').html(data);

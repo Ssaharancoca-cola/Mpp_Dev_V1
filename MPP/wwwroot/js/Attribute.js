@@ -1,6 +1,5 @@
 ﻿$(document).ready(function () {
     $("#btnAddNew").click(function () {
-        debugger;
         $("#cmdName")[0].value = "AttributeDetail";
         $('#viewPlaceHolder').empty();
         $('#btnUpdate').hide();
@@ -41,7 +40,6 @@ function onBegin() {
 }
 function onSuccess(result) {
     var r = result;
-    debugger;
     $('#lblcaption').val('@ViewData["EntityName"]');
     var fileId = $('#cmdName').val();
     if (r.indexOf("error") == 0) {
