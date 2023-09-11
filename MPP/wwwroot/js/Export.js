@@ -19,7 +19,7 @@ function onSuccess(result) {
         alert(result.replace("error", ""));
     }
     if (result.indexOf("export") == 0) {
-        window.location.href = result.replace("export", "") + 'Export/Download';
+        window.location.href = result.replace("export", "") + 'MPP/Export/Download';
     }
     else {
         $('#AttributeDetail').empty();

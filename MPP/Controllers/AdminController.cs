@@ -231,8 +231,15 @@ namespace MPP.Controllers
                 user.IsAdmin = IsAdmin == "true" ? 1 : 0;
                 user.IsActive = IsActive == "true" ? 1 : 0;
                 string UserRowSecurityJson = _httpContextAccessor.HttpContext.Session.GetString("UserRowSecurity");
-
-                List<UserRowSecurity> cslst = JsonConvert.DeserializeObject<List<UserRowSecurity>>(UserRowSecurityJson);
+                List<UserRowSecurity> cslst;
+                if (string.IsNullOrEmpty(UserRowSecurityJson))
+                {
+                    cslst = new List<UserRowSecurity>();   // initialize as an empty list if the JSON is null
+                }
+                else
+                {
+                    cslst = JsonConvert.DeserializeObject<List<UserRowSecurity>>(UserRowSecurityJson);
+                }
 
                 List<EntityPrivileges> entityList = new List<EntityPrivileges>();
                 EntityPrivileges entityPrivileges = null;
