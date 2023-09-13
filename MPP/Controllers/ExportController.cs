@@ -71,7 +71,10 @@ namespace MPP.Controllers
                         }
                     }
                     strExport.Append(form[Constant.dateFromColumnName] == "false" ? "" : Constant.dateFromColumnName);
-                    string whereClause = GetWhereClause((List<SearchParameter>)ViewData["fieldCollection"]);
+                    var fieldCollectionString = _httpContextAccessor.HttpContext.Session.GetString("fieldCollection");
+                    var fieldCollection = JsonConvert.DeserializeObject<List<SearchParameter>>(fieldCollectionString);
+                    string whereClause = GetWhereClause(fieldCollection);
+                    
                     string SortBy = string.IsNullOrEmpty(Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString(""))) ? " 1 " : Convert.ToString(_httpContextAccessor.HttpContext.Session.GetInt32("currentField"));
                     if (SortBy.Trim() != "1")
                     {
@@ -242,33 +245,7 @@ namespace MPP.Controllers
                 }
             }
             return strQuery.ToString();
-        }
-        //public virtual ActionResult Download(string path)
-        //{
-        //    try
-        //    {
-        //        string file = "";
-        //        string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
-        //        string FileName = "E" + userName[1] + path.Split(',')[1] + ".csv";
-        //        Response.Clear();
-        //        Response.ContentType = "text/plain";
-        //        Response.AddHeader("Content-Disposition",
-        //        "attachment; filename=\"" + FileName + "\"");
-        //        Response.Flush();
-        //        Response.WriteFile(path.Split(',')[2]);
-        //        Response.End();
-        //        return Content("");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        using (LogErrorViewModel objLogErrorViewModel = new LogErrorViewModel())
-        //        {
-        //            objLogErrorViewModel.LogErrorInTextFile(ex);
-        //        }
-        //        return Content(ex.Message + ex.StackTrace);
-        //    }
-        //}
-       
+        }       
         public virtual IActionResult Download(string path)
         {
             try

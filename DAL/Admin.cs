@@ -271,7 +271,7 @@ namespace DAL
                 }
                 queryBuilder = new StringBuilder();
                 query = string.Format("insert into MPP_CORE.MPP_USER (USER_NAME, USER_ID, EMAIL_ID, ROLE_NAME, LANGUAGE_CODE, ADMIN_FLAG, ACTIVE) values ('{0}', UPPER('{1}'), '{2}', '{3}', '{4}', {5},{6});",
-                                            userInfo.UserName, userInfo.UserID, userInfo.UserEmail, "MPP", "en", Convert.ToInt32(userInfo.IsAdmin), Convert.ToInt32(userInfo.IsActive));
+                                         userInfo.UserName, userInfo.UserID, userInfo.UserEmail, "MPP", "en", Convert.ToInt32(userInfo.IsAdmin), Convert.ToInt32(userInfo.IsActive));
                 queryBuilder.Append(query);
 
                 if (lstEntityTypeId != null && lstEntityTypeId.Count > 0)
