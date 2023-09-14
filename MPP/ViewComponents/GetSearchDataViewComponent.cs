@@ -18,7 +18,6 @@ namespace MPP.ViewComponents
         }
         public async Task<IViewComponentResult> InvokeAsync(IFormCollection form, string Command)
         {
-
             ViewBag.sortId = "";
             int totalRecord = 0;
             int currentPageNo = 1;
@@ -125,6 +124,7 @@ namespace MPP.ViewComponents
             {
                 GetWorkFlowData();
                 return await Task.FromResult<IViewComponentResult>(View("~/Views/Workflow/GetWorkFlowData.cshtml"));
+
             }
             return View("GetSearchData");
         }
@@ -317,20 +317,38 @@ namespace MPP.ViewComponents
                     List<Dictionary<string, string>> existingRecordDataList = new List<Dictionary<string, string>>();
 
                     objWorkFlowViewModel.LoadContentView(entityTypeId, out submittedColumnData, out submittedRowData, out submittedDataList);
-                    TempData["submittedColumnData"] = submittedColumnData;
-                    TempData["submittedRowData"] = submittedRowData;
-                    TempData["submitteddataList"] = submittedDataList;
+                    
+                    string ListJson1 = JsonConvert.SerializeObject(submittedColumnData);
+                    TempData["submittedColumnData"] = ListJson1;
+
+                    string ListJson2 = JsonConvert.SerializeObject(submittedRowData);
+                    TempData["submittedRowData"] = ListJson2;
+
+                    string ListJson3 = JsonConvert.SerializeObject(submittedDataList);
+                    TempData["submitteddataList"] = ListJson3;
 
                     objWorkFlowViewModel.LoadContentReject(entityTypeId, out rejectedColumnData, out rejectedRowData, out rejectedDataList);
-                    TempData["rejectedColumnData"] = rejectedColumnData;
-                    TempData["rejectedRowData"] = rejectedRowData;
-                    TempData["rejecteddataList"] = rejectedDataList;
+
+                    string ListJson4 = JsonConvert.SerializeObject(rejectedColumnData);
+                    TempData["rejectedColumnData"] = ListJson4;
+
+                    string ListJson5 = JsonConvert.SerializeObject(rejectedRowData);
+                    TempData["rejectedRowData"] = ListJson5;
+
+                    string ListJson6 = JsonConvert.SerializeObject(rejectedDataList);
+                    TempData["rejecteddataList"] = ListJson6;
 
                     objWorkFlowViewModel.LoadContentMyApproval(entityTypeId, out approvalPendingColumnData, out approvalPendingRowData,
                         out approvalPendingDataList, out existingRecordColumnData, out existingRecordRowData, out existingRecordDataList);
-                    TempData["approvalPendingColumnData"] = approvalPendingColumnData;
-                    TempData["approvalPendingRowData"] = approvalPendingRowData;
-                    TempData["approvalPendingdataList"] = approvalPendingDataList;
+
+                    string ListJson7 = JsonConvert.SerializeObject(approvalPendingColumnData);
+                    TempData["approvalPendingColumnData"] = ListJson7;
+
+                    string ListJson8 = JsonConvert.SerializeObject(approvalPendingRowData);
+                    TempData["approvalPendingRowData"] = ListJson8;
+
+                    string ListJson9 = JsonConvert.SerializeObject(approvalPendingDataList);
+                    TempData["approvalPendingdataList"] = ListJson9;
 
                     StringBuilder rowdata = new StringBuilder();
                     foreach (var data in existingRecordRowData)

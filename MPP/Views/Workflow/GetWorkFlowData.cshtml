@@ -1,7 +1,9 @@
-﻿@using Model;
-@using Newtonsoft.Json;
+﻿<!DOCTYPE html>
 
+@using Model;
+@using Newtonsoft.Json;
 <script src="~/js/workflow.js"></script>
+
 <script>
 
     $("#btnUpdateReject").click(function (e) {
@@ -385,6 +387,7 @@
         text-align: center;
     }
 </style>
+
 <table style="width: 100%" border="0" cellspacing="0" cellpadding="0">
     <tr style="width:100%;height:31px;">
         <td colspan="2" style="padding-left:5px">
@@ -394,11 +397,11 @@
                 <label style="color:red;font-family:Georgia;font-size:13pt;font-weight:bold">@Context.Session.GetString("SelectedDimensionData").ToString()</label>
                 <label style="color:black;font-family:Georgia;font-weight:bold">@Context.Session.GetString("EntityName").ToString()</label>
             }
-            @{string serializedList1 = TempData["attributeList"] as string;
+            @*@{string serializedList1 = TempData["attributeList"] as string;
                 var attributeList = JsonConvert.DeserializeObject<List<Entity_Type_Attr_Detail>>(serializedList1);
                 TempData["attributeList"] = attributeList;
                 TempData.Keep();
-            }
+            }*@
         </td>
     </tr>
     <tr style="width:100%">
@@ -420,12 +423,16 @@
 
         <div>
             @{
-                var submittedColumnData = (TempData["submittedColumnData"]);
+                var jsonlist = TempData["submittedColumnData"] as string;
+                var submittedColumnData = JsonConvert.DeserializeObject<string>(jsonlist);
                 string[] colName = submittedColumnData.ToString().Split(',');
-                var submittedRowData = ((List<string>
-                )(TempData["submittedRowData"]));
-                var submitteddataList = (List<Dictionary<string, string>>)(TempData["submitteddataList"]);
-                TempData.Keep();
+
+                var jsonlist1 = TempData["submittedRowData"] as string;                
+                var submittedRowData = JsonConvert.DeserializeObject<List<string>>(jsonlist1);
+
+                var jsonlist2 = TempData["submitteddataList"] as string;
+                var submitteddataList = JsonConvert.DeserializeObject <List<Dictionary<string, string>>>(jsonlist2);
+                //TempData.Keep();
             }
             @if (submittedRowData.Count() > 0)
             {
@@ -557,11 +564,16 @@
     <div id="divRejected">
         <div>
             @{
-                var rejectedColumnData = (TempData["rejectedColumnData"]);
+                var jsonlist3 = TempData["rejectedColumnData"] as string;
+                var rejectedColumnData = JsonConvert.DeserializeObject<string>(jsonlist3);
                 string[] rejectedcolName = rejectedColumnData.ToString().Split(',');
-                var rejectedRowData = ((List<string>
-                )(TempData["rejectedRowData"]));
-                var rejecteddataList = (List<Dictionary<string, string>>)(TempData["rejecteddataList"]);
+
+                var jsonlist4 = TempData["rejectedRowData"] as string;
+                var rejectedRowData = JsonConvert.DeserializeObject<List<string>>(jsonlist4);
+
+                var jsonlist5 = TempData["rejecteddataList"] as string;
+                var rejecteddataList = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(jsonlist5);
+
                 TempData.Keep();
             }
             @if (rejectedRowData.Count() > 0)
@@ -715,11 +727,16 @@
     <div id="divApproval">
         <div>
             @{
-                var approvalPendingColumnData = (TempData["approvalPendingColumnData"]);
+                var jsonlist6 = TempData["approvalPendingColumnData"] as string;
+                var approvalPendingColumnData = JsonConvert.DeserializeObject<string>(jsonlist6);
                 string[] approvalPendingcolName = approvalPendingColumnData.ToString().Split(',');
-                var approvalPendingRowData = ((List<string>
-                )(TempData["approvalPendingRowData"]));
-                var approvalPendingdataList = (List<Dictionary<string, string>>)(TempData["approvalPendingdataList"]);
+
+                var jsonlist7 = TempData["approvalPendingRowData"] as string;
+                var approvalPendingRowData = JsonConvert.DeserializeObject<List<string>>(jsonlist4);
+
+                var jsonlist8 = TempData["approvalPendingdataList"] as string;
+                var approvalPendingdataList = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(jsonlist5);
+                
                 TempData.Keep();
 
             }
@@ -911,7 +928,9 @@
         position: absolute;
     }
 </style>
+
 <script>
+
     $(function () {
         $("#tabs").tabs();
     });

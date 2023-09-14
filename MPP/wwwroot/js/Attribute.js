@@ -23,7 +23,7 @@
         $('#viewPlaceHolder').empty();
         $('#btnUpdate').hide();
     });
-    $("#btnWorkflow").click(function () {
+    $("#btnWorkFlow").click(function () {
         $("#cmdName")[0].value = "AttributeDetail";
         $('#viewPlaceHolder').empty();
         $('#btnUpdate').hide();

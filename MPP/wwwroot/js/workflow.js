@@ -49,7 +49,7 @@ function onBegin() {
 
 }
 function onSuccess(result) {
-    //var r = result;
+    var r = result;
     $('#lblcaption').val = '@Session["EntityName"]';
     var fileId = $('#cmdName').val();
     $('#AttributeDetail').empty();
