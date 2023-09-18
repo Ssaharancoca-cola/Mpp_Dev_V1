@@ -1,4 +1,5 @@
 ﻿using DAL.Common;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Model;
 using MPP.Filter;
@@ -15,6 +16,7 @@ namespace MPP.Controllers
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IWebHostEnvironment _environment;
+        private string Link = "//MPP//";
         public ImportController(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment environment)
         {
             _httpContextAccessor = httpContextAccessor;
@@ -126,10 +128,10 @@ namespace MPP.Controllers
 
                     errorRowcount = errorRowcount + loadErrorCount;
                     int successRowCount = totalRowcount - errorRowcount;
-                    //if (successRowCount > 0)
-                    //{
-                    //    SendMail(successRowCount.ToString(), out outMsg);
-                    //}
+                    if (successRowCount > 0)
+                    {
+                        SendMail(successRowCount.ToString(), out outMsg);
+                    }
                     if ((errorRowcount != 0 || hasLoadErrors == true) && download == true)
                     {
                         TempData["filepath"] = strRejectFilePath;
@@ -222,26 +224,27 @@ namespace MPP.Controllers
 
         }
 
-        //private void SendMail(string successRowCount, out string outMsg)
-        //{
-        //    try
-        //    {
-        //        outMsg = Constant.statusSuccess;
-        //        MailManagerViewModel objMAilManagerViewModel = new MailManagerViewModel();
-        //        string url = Request.Url.GetLeftPart(UriPartial.Authority) + ConfigurationManager.AppSettings["Link"].ToString();
-        //        objMAilManagerViewModel.Mail(successRowCount, "record", Convert.ToInt32(Session["EntityTypeID"]), Convert.ToString(Session["EntityName"]),
-        //        Convert.ToString(Session["SelectedDimensionData"]), url, Constant.import, out outMsg);
-        //    }
+        private void SendMail(string successRowCount, out string outMsg)
+        {
+            try
+            {
+                outMsg = Constant.statusSuccess;
+                MailManagerViewModel objMAilManagerViewModel = new MailManagerViewModel();
+                string url = Request.GetDisplayUrl() + Link;
+                string[] user = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
+                objMAilManagerViewModel.Mail(successRowCount, "record", Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")), Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")),
+                user, url, Constant.import, out outMsg);
+            }
 
-        //    catch (Exception ex)
-        //    {
-        //        using (LogErrorViewModel objLogErrorViewModel = new LogErrorViewModel())
-        //        {
-        //            objLogErrorViewModel.LogErrorInTextFile(ex);
-        //        }
-        //        outMsg = ex.Message;
-        //    }
-        //}
+            catch (Exception ex)
+            {
+                using (LogErrorViewModel objLogErrorViewModel = new LogErrorViewModel())
+                {
+                    objLogErrorViewModel.LogErrorInTextFile(ex);
+                }
+                outMsg = ex.Message;
+            }
+        }
 
         private void ValidateUploadedFile(IFormFile file, IFormCollection form, out string outMsg)
         {

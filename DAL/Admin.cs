@@ -461,7 +461,18 @@ namespace DAL
                     DM = objMPP_Context.Set<DimensionName>().FromSqlRaw(selectQuery).FirstOrDefault();
                     suppliedCode = DM.Dimension;
                 }
-                string selectCommand = @"SELECT " + suppliedCode + " AS DisplayMember," + entityName + "_OID AS ValueMember FROM (" + result + ") AS AliasName";
+                string selectCommand = string.Empty;
+                if(result.Contains("SELECT"))
+                {
+                     selectCommand = @"SELECT " + suppliedCode + " AS DisplayMember," + entityName + "_OID AS ValueMember FROM (" + result + ") AS AliasName";
+
+                }
+                else
+                {
+                     selectCommand = @"SELECT " + suppliedCode + " AS DisplayMember," + entityName + "_OID AS ValueMember FROM " + result + " AS AliasName";
+
+                }
+                //string selectCommand = @"SELECT " + suppliedCode + " AS DisplayMember," + entityName + "_OID AS ValueMember FROM (" + result + ") AS AliasName";
                 using (MPP_Context objMPP_Context = new MPP_Context())
                 {
                     listRowLevelSecurityValues = objMPP_Context.Set<RowLevelSecurityValues>().FromSqlRaw(selectCommand).ToList();

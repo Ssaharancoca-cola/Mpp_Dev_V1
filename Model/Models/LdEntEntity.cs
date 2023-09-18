@@ -41,5 +41,7 @@ namespace Model.Models
         public string EntEntityDesc { get; set; }
         public int InputRowId { get; set; }
         public string EntGroupCode { get; set; }
+        public string Validationcode { get; set; }
+        public string ApproverStatus { get; set; }
     }
 }

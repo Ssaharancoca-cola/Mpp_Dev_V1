@@ -26,13 +26,16 @@ namespace DAL
         public UserInfo GetUserEmail(string userID, out string outMsg)
         {
             UserInfo userInfo = new UserInfo();
+            _ = new UserDto();
             outMsg = Constant.statusSuccess;
             try
             {
                 string query = string.Format("select USER_NAME as UserName, EMAIL_ID as UserEmail from MPP_CORE.MPP_USER where UPPER(USER_ID) = UPPER('{0}')AND ACTIVE=1", userID);
                 using (MPP_Context objMPP_Context = new MPP_Context())
                 {
-                    userInfo = objMPP_Context.Set<UserInfo>().FromSqlRaw(query).FirstOrDefault();
+                    UserDto userDto = objMPP_Context.Set<UserDto>().FromSqlRaw(query).FirstOrDefault();
+                    userInfo.UserName = userDto.UserName;
+                    userInfo.UserEmail = userDto.UserEmail;
                 }
             }
             catch (Exception ex)

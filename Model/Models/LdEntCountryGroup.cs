@@ -40,5 +40,7 @@ namespace Model.Models
         public int? CurrentEditLevel { get; set; }
         public string EntCountryGroupDesc { get; set; }
         public int InputRowId { get; set; }
+        public string Validationcode { get; set; }
+        public string ApproverStatus { get; set; }
     }
 }

@@ -13,11 +13,11 @@ namespace Model.Models
         public string DisplayName { get; set; }
         public string DimensionName { get; set; }
         public string InputTableName { get; set; }
-        public bool IsStrongEntity { get; set; }
-        public bool IsManyToMany { get; set; }
-        public bool IsSubType { get; set; }
-        public bool IsSuperType { get; set; }
-        public bool DefaultSortBy { get; set; }
+        public int IsStrongEntity { get; set; }
+        public int IsManyToMany { get; set; }
+        public int IsSubType { get; set; }
+        public int IsSuperType { get; set; }
+        public int? DefaultSortBy { get; set; }
         public string DefaultSortOrder { get; set; }
         public string DimensionDisplayName { get; set; }
         public string DisplayOrder { get; set; }

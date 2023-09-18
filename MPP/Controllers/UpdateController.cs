@@ -1,6 +1,7 @@
 ﻿using DAL;
 using DAL.Common;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Model;
 using MPP.ViewModel;
@@ -16,6 +17,7 @@ namespace MPP.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IWebHostEnvironment _environment;
         private readonly IConfiguration _configuration;
+        private string Link = "//MPP//";
 
         public UpdateController(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment environment, IConfiguration configuration)
         {
@@ -229,13 +231,14 @@ namespace MPP.Controllers
                             ErrorRowCount = listattrValues.Count;
 
                         CountDiff = TotalRowCount - ErrorRowCount;
-                        //if (CountDiff > 0)
-                        //{
-                        //    MailManagerViewModel objMAilManagerViewModel = new MailManagerViewModel();
-                        //    string url = Request.Url.GetLeftPart(UriPartial.Authority) + ConfigurationManager.AppSettings["Link"].ToString();
-                        //    objMAilManagerViewModel.Mail(CountDiff.ToString(), "record", Convert.ToInt32(Session["EntityTypeID"]), Convert.ToString(Session["EntityName"]),
-                        //    Convert.ToString(Session["SelectedDimensionData"]), url, Constant.update, out outMsg);
-                        //}
+                        if (CountDiff > 0)
+                        {
+                            MailManagerViewModel objMAilManagerViewModel = new MailManagerViewModel();
+                            string url = Request.GetDisplayUrl() + Link;
+                            string[] user = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None); 
+                            objMAilManagerViewModel.Mail(CountDiff.ToString(), "record", Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")), Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")),
+                            user, url, Constant.update, out outMsg);
+                        }
                         return Content("export," + _httpContextAccessor.HttpContext.Session.GetString("EntityName") + "," + FilePath);
                     }
                 }
@@ -243,14 +246,15 @@ namespace MPP.Controllers
                     ErrorRowCount = listattrValues.Count;
 
                 CountDiff = TotalRowCount - ErrorRowCount;
-                //if (CountDiff > 0)
-                //{
-                //    MailManagerViewModel objMAilManagerViewModel = new MailManagerViewModel();
+                if (CountDiff > 0)
+                {
+                    MailManagerViewModel objMAilManagerViewModel = new MailManagerViewModel();
+                    string url = Request.GetDisplayUrl() + Link;
+                    string[] user = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
+                    objMAilManagerViewModel.Mail(CountDiff.ToString(), "record", Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")), Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")),
+                    user, url, Constant.update, out outMsg);
 
-                //    string url = Request.Url.GetLeftPart(UriPartial.Authority) + ConfigurationManager.AppSettings["Link"].ToString();
-                //    objMAilManagerViewModel.Mail(CountDiff.ToString(), "record", Convert.ToInt32(Session["EntityTypeID"]), Convert.ToString(Session["EntityName"]),
-                //    Convert.ToString(Session["SelectedDimensionData"]), url, Constant.update, out outMsg);
-                //}
+                }
                 if (outMsg == Constant.statusSuccess)
                     return Content("success");
             }

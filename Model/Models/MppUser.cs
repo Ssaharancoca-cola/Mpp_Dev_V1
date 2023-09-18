@@ -18,5 +18,7 @@ namespace Model.Models
         public int? AuthType { get; set; }
         public string EmailId { get; set; }
         public string LanguageCode { get; set; }
+        public string TotalRecords { get; set; }
+        public int? Isactive { get; set; }
     }
 }
