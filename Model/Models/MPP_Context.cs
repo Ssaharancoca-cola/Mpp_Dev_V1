@@ -40,7 +40,7 @@ namespace Model.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source=zwdmyad0001;Initial Catalog=MPP_DEV;Persist Security Info=True;User ID=MPP_DEV_APP;Password=LASyYbj0ZX#B;TrustServerCertificate=True");
+                optionsBuilder.UseSqlServer("Data Source=zwqmyad0001;Initial Catalog=MPP_QA;Persist Security Info=True;User ID=MPP_DEV_APP;Password=LZ/&&S]Q9rnin8)5;TrustServerCertificate=True");
             }
         }
         //Entity Model
@@ -59,6 +59,9 @@ namespace Model.Models
         public DbSet<ApproverDetail> approverDetail { get; set; }
         public DbSet<CNTS> cNT { get; set; }
         public DbSet<UserDto> userDto { get; set; }
+        public DbSet<MailData> mailData { get; set; }
+
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -77,6 +80,7 @@ namespace Model.Models
             modelBuilder.Entity<ApproverDetail>().HasNoKey();
             modelBuilder.Entity<CNTS>().HasNoKey();
             modelBuilder.Entity<UserDto>().HasNoKey();
+            modelBuilder.Entity<MailData>().HasNoKey();
 
             modelBuilder.Entity<DimBusinessorg>(entity =>
             {

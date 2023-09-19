@@ -27,13 +27,13 @@ namespace Model
                 
 
         }
-        public virtual List<string> Tocollection { get; set; }
-        public virtual string Bodyalternate { get; set; }
-        public virtual List<string> CCcollection { get; set; }
+        //public virtual List<string> Tocollection { get; set; }
+        //public virtual string Bodyalternate { get; set; }
+        //public virtual List<string> CCcollection { get; set; }
         public virtual string MailToCC { get; set; }
         public virtual string MailBody { get; set; }
         public virtual string MailTo { get; set; }
-        public virtual string MailFrom { get; set; }
+        //public virtual string MailFrom { get; set; }
         public virtual string MailSubject { get; set; }
 
     }

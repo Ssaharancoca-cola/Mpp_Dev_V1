@@ -130,7 +130,7 @@ namespace MPP.Controllers
                     int successRowCount = totalRowcount - errorRowcount;
                     if (successRowCount > 0)
                     {
-                        SendMail(successRowCount.ToString(), out outMsg);
+                        //SendMail(successRowCount.ToString(), out outMsg);
                     }
                     if ((errorRowcount != 0 || hasLoadErrors == true) && download == true)
                     {
