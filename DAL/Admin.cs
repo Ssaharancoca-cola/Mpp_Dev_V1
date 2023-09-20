@@ -709,39 +709,27 @@ namespace DAL
 
         public string SaveSelectedApprover(string RoleId, string UserId, int EntityTypeId, List<ApproverDetail> selectedApproverId)
         {
-            string query = string.Empty;
-            StringBuilder queryBuilder = null;
-            StringBuilder subQueryBuilder = null;
             string outMsg = Constant.statusSuccess;
             try
             {
-                queryBuilder = new StringBuilder();
-                //queryBuilder.Append("begin ");
 
                 if (selectedApproverId != null && selectedApproverId.Count > 0)
-                {
-                    subQueryBuilder = new StringBuilder();
-                    subQueryBuilder.Append("MPP_CORE.APPR_TAB(");
-
+                {                   
                     foreach (var item in selectedApproverId)
                     {
-                        subQueryBuilder.Append("MPP_CORE.APPR_ID('" + item.ApproverId + "'),");
+                        using (MPP_Context objMPP_Context = new MPP_Context())
+                        {
+                            objMPP_Context.Procedures.UPDATE_USER_PRIVILAGEAsync(UserId, EntityTypeId, int.Parse(RoleId), item.ApproverId);
+                        }
                     }
-                    subQueryBuilder.Replace(",", ")", subQueryBuilder.Length - 1, 1);
-                    query = string.Format("UPDATE MPP_CORE.MPP_USER_PRIVILAGE SET ROLE_ID = '" + RoleId + "',APPROVER = " + subQueryBuilder + " WHERE USER_ID = '" + UserId + "' AND ENTITY_TYPE_ID = '" + EntityTypeId + "';");
-
                 }
                 else
                 {
-                    query = string.Format("UPDATE MPP_CORE.MPP_USER_PRIVILAGE SET ROLE_ID = '" + RoleId + "',APPROVER = NULL WHERE USER_ID = '" + UserId + "' AND ENTITY_TYPE_ID = '" + EntityTypeId + "';");
-                }
-
-                queryBuilder.Append(query);
-                //queryBuilder.Append(" end;");
-                using (MPP_Context objMPP_Context = new MPP_Context())
-                {
-                    int noOfRowUpdated = objMPP_Context.Database.ExecuteSqlRaw(queryBuilder.ToString());
-                }
+                    using (MPP_Context objMPP_Context = new MPP_Context())
+                    {
+                        objMPP_Context.Procedures.UPDATE_USER_PRIVILAGEAsync(UserId, EntityTypeId, int.Parse(RoleId), null);
+                    }
+                }                
             }
             catch (Exception ex)
             {

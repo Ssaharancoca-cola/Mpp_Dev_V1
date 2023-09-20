@@ -8,7 +8,7 @@ namespace MPP.ViewModel
 {
 public class MailManagerViewModel : IDisposable
 {
-        private readonly string SMTPHost = "10.112.160.31";
+        private readonly string SMTPHost = "zwdmyaa0001.apac.ko.com";
         private readonly string MailFrom = "Do-Not-Reply@coca-cola.com";
     void IDisposable.Dispose()
     {

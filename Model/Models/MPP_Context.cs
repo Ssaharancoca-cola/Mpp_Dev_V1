@@ -36,13 +36,6 @@ namespace Model.Models
         public virtual DbSet<Querytext2> Querytext2 { get; set; }
         public virtual DbSet<Querytexttype2> Querytexttype2 { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Data Source=zwqmyad0001;Initial Catalog=MPP_QA;Persist Security Info=True;User ID=MPP_DEV_APP;Password=LZ/&&S]Q9rnin8)5;TrustServerCertificate=True");
-            }
-        }
         //Entity Model
         public DbSet<UserInfo> UserInfo { get; set; }
         public DbSet<DimensionName> DimensionName { get; set; }
@@ -61,10 +54,16 @@ namespace Model.Models
         public DbSet<UserDto> userDto { get; set; }
         public DbSet<MailData> mailData { get; set; }
 
-        
-
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Data Source=zwdmyad0001;Initial Catalog=MPP_DEV;Persist Security Info=True;User ID=MPP_DEV_APP;Password=LASyYbj0ZX#B;TrustServerCertificate=True");
+            }
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             modelBuilder.Entity<UserInfo>().HasNoKey();
             modelBuilder.Entity<DimensionName>().HasNoKey();
             modelBuilder.Entity<Previleges>().HasNoKey();
@@ -81,7 +80,6 @@ namespace Model.Models
             modelBuilder.Entity<CNTS>().HasNoKey();
             modelBuilder.Entity<UserDto>().HasNoKey();
             modelBuilder.Entity<MailData>().HasNoKey();
-
             modelBuilder.Entity<DimBusinessorg>(entity =>
             {
                 entity.ToTable("DIM_BUSINESSORG", "MPP_APP");
@@ -256,10 +254,7 @@ namespace Model.Models
                     .IsRequired()
                     .HasColumnName("DISPLAY_NAME");
 
-                entity.Property(e => e.DisplayOrder)
-                    .HasMaxLength(500)
-                    .IsUnicode(false)
-                    .HasColumnName("DISPLAY_ORDER");
+                entity.Property(e => e.DisplayOrder).HasColumnName("DISPLAY_ORDER");
 
                 entity.Property(e => e.EditLevel)
                     .ValueGeneratedOnAdd()
@@ -308,11 +303,7 @@ namespace Model.Models
                     .IsUnicode(false)
                     .HasColumnName("ATTR_DISPLAY_NAME");
 
-                entity.Property(e => e.AttrDisplayOrder)
-                    .IsRequired()
-                    .HasMaxLength(500)
-                    .IsUnicode(false)
-                    .HasColumnName("ATTR_DISPLAY_ORDER");
+                entity.Property(e => e.AttrDisplayOrder).HasColumnName("ATTR_DISPLAY_ORDER");
 
                 entity.Property(e => e.AttrLength).HasColumnName("ATTR_LENGTH");
 
@@ -1092,38 +1083,9 @@ namespace Model.Models
                     .IsFixedLength();
 
                 entity.Property(e => e.ApproverStatus)
+                    .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("APPROVER_STATUS");
-
-                entity.Property(e => e.BppContainerPackSegmentCode)
-                    .IsUnicode(false)
-                    .HasColumnName("BPP_CONTAINER_PACK_SEGMENT_CODE");
-
-                entity.Property(e => e.BppContainerVolume).HasColumnName("BPP_CONTAINER_VOLUME");
-
-                entity.Property(e => e.BppContainerVolumeCode)
-                    .IsUnicode(false)
-                    .HasColumnName("BPP_CONTAINER_VOLUME_CODE");
-
-                entity.Property(e => e.BppContainerVolumeDesc)
-                    .IsUnicode(false)
-                    .HasColumnName("BPP_CONTAINER_VOLUME_DESC");
-
-                entity.Property(e => e.BppContainerVolumeLongName)
-                    .IsUnicode(false)
-                    .HasColumnName("BPP_CONTAINER_VOLUME_LONG_NAME");
-
-                entity.Property(e => e.BppContainerVolumeShortName)
-                    .IsUnicode(false)
-                    .HasColumnName("BPP_CONTAINER_VOLUME_SHORT_NAME");
-
-                entity.Property(e => e.BppContainerVolumeUom)
-                    .IsUnicode(false)
-                    .HasColumnName("BPP_CONTAINER_VOLUME_UOM");
-
-                entity.Property(e => e.BppContainerVolumeUomDesc)
-                    .IsUnicode(false)
-                    .HasColumnName("BPP_CONTAINER_VOLUME_UOM_DESC");
 
                 entity.Property(e => e.Comments)
                     .HasMaxLength(500)
@@ -1160,6 +1122,22 @@ namespace Model.Models
                     .HasColumnType("datetime")
                     .HasColumnName("EFFECTIVE_START_DATE");
 
+                entity.Property(e => e.EntCountryGroupCode)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_COUNTRY_GROUP_CODE");
+
+                entity.Property(e => e.EntCountryGroupDesc)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_COUNTRY_GROUP_DESC");
+
+                entity.Property(e => e.EntCountryGroupLongName)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_COUNTRY_GROUP_LONG_NAME");
+
+                entity.Property(e => e.EntCountryGroupShortName)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_COUNTRY_GROUP_SHORT_NAME");
+
                 entity.Property(e => e.ErrorMessage)
                     .HasMaxLength(255)
                     .IsUnicode(false)
@@ -1167,7 +1145,7 @@ namespace Model.Models
 
                 entity.Property(e => e.InputRowId)
                     .ValueGeneratedOnAdd()
-                    .HasColumnName("INPUT_ROW_ID");
+                    .HasColumnName("input_row_id");
 
                 entity.Property(e => e.LastModifiedBy)
                     .HasMaxLength(500)
@@ -1647,7 +1625,7 @@ namespace Model.Models
                 entity.Property(e => e.EntityTypeId).HasColumnName("ENTITY_TYPE_ID");
 
                 entity.Property(e => e.ErrorMessage)
-                    .HasMaxLength(44)
+                    .HasMaxLength(29)
                     .IsUnicode(false)
                     .HasColumnName("ERROR_MESSAGE");
 

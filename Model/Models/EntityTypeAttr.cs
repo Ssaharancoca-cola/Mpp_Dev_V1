@@ -26,7 +26,7 @@ namespace Model.Models
         public int? ParentEntityTypeId { get; set; }
         public string ListBoxQuery { get; set; }
         public string AttrDisplayName { get; set; }
-        public string AttrDisplayOrder { get; set; }
+        public int AttrDisplayOrder { get; set; }
         public string DisplayType { get; set; }
         public int IsSearchable { get; set; }
         public int IsListable { get; set; }

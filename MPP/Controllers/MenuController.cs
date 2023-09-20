@@ -71,7 +71,7 @@ namespace MPP.Controllers
                 {
                     entityTypeList = menuViewModel.ShowSubMenuData(SelectedDimensionValue, out outMsg);
                 }
-                entityTypeList = entityTypeList.OrderBy(x => int.TryParse(x.DisplayOrder, out int num) ? num : int.MaxValue).ToList();
+                entityTypeList = entityTypeList.OrderBy(x=> x.DisplayOrder).ToList();
             }
             catch(Exception ex)
             {

@@ -4,7 +4,7 @@
    "ContextNamespace": null,
    "DefaultDacpacSchema": null,
    "FilterSchemas": false,
-   "IncludeConnectionString": true,
+   "IncludeConnectionString": false,
    "ModelNamespace": null,
    "OutputContextPath": null,
    "OutputPath": "Models",
@@ -105,6 +105,10 @@
       },
       {
          "Name": "[dbo].[MPP_REFRESH_ROW_SECURITY]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[UPDATE_USER_PRIVILAGE]",
          "ObjectType": 1
       }
    ],

@@ -189,8 +189,7 @@
 
         }
         else {
-            if (result.indexOf("error") == -1) {
-                preventDefault();
+            if (result.indexOf("error") == -1) {                
                 alert("Data Save Successfully");
                 $.post('@Url.Action("ShowAttribute", "Menu")', { entityTypeId: '@Context.Session.GetInt32("EntityTypeID")', entityName: '@Context.Session.GetString("EntityName")', viewType: "search" },
                     function (data) {

@@ -20,6 +20,6 @@ namespace Model.Models
         public int? DefaultSortBy { get; set; }
         public string DefaultSortOrder { get; set; }
         public string DimensionDisplayName { get; set; }
-        public string DisplayOrder { get; set; }
+        public int? DisplayOrder { get; set; }
     }
 }

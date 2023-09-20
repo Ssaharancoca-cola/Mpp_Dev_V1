@@ -106,7 +106,8 @@ namespace MPP.Controllers
                 List<Entity_Type_Attr_Detail> attributeList = new List<Entity_Type_Attr_Detail>();
                 string[] userName = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
                 List<SearchParameter> fieldCollection = new List<SearchParameter>();
-                //fieldCollection = (List<SearchParameter>).Session["fieldCollection"];
+                var fieldCollectionString = _httpContextAccessor.HttpContext.Session.GetString("fieldCollection");
+                fieldCollection = JsonConvert.DeserializeObject<List<SearchParameter>>(fieldCollectionString);
                 using (SearchDataViewModel objSearchData = new SearchDataViewModel())
                 {
 
@@ -118,14 +119,11 @@ namespace MPP.Controllers
                         return Content("error" + Constant.noRecordFound);
 
                 }
-                TempData["totalRecord"] = totalRecord;
-
-                // TempData["originaldataList"] = dataList;
-
-                // dataList = dataList.Take(10).ToList<Dictionary<string, string>>();
+                ViewData["totalRecord"] = totalRecord;
 
 
-                TempData["dataList"] = dataList;
+                string ListJson = JsonConvert.SerializeObject(dataList);
+                TempData["dataList"] = ListJson;
             }
             catch (Exception ex)
             {
@@ -136,7 +134,7 @@ namespace MPP.Controllers
                 return Content("error" + Constant.commonErrorMsg);
 
             }
-            return PartialView("GetSearchData");
+            return View("GetSearchData");
 
         }
 

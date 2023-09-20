@@ -554,7 +554,11 @@ namespace MPP.Controllers
             string outMsg = Constant.statusSuccess;
             try
             {
-                SelectedApproverId = SelectedApproverId.Trim(',');
+                if(!string.IsNullOrEmpty(SelectedApproverId))
+                {
+                    SelectedApproverId = SelectedApproverId.Trim(',');
+                }
+                
                 using (AdminViewModel objAdminViewModel = new AdminViewModel())
                 {
                     objAdminViewModel.SaveSelectedApprover(RoleId, UserId, EntityName, SelectedApproverId);
