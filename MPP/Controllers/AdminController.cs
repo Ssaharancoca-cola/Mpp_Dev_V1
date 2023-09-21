@@ -127,8 +127,8 @@ namespace MPP.Controllers
             try
             {
                 if (string.IsNullOrEmpty(userId.Trim(' ')))
-                    return Content("error" + Constant.requiredFieldUserID);              
-                    currentUserInfo = GetCurrentUser(out outMsg);               
+                    return Content("error" + Constant.requiredFieldUserID);
+                currentUserInfo = GetCurrentUser(out outMsg);
                 if (currentUserInfo.IsAdmin != 1)
                     return Content("error" + Constant.accessDenied);
 
@@ -143,7 +143,7 @@ namespace MPP.Controllers
                 }
                 if (userInfo == null)
                 {
-                     adUserInfo = GetADUserInfo(userId.ToUpper(), out outMsg);                    
+                    adUserInfo = GetADUserInfo(userId.ToUpper(), out outMsg);
                     if (outMsg != Constant.statusSuccess)
                         return Content("error" + outMsg);
                     if (adUserInfo != null)
@@ -365,15 +365,15 @@ namespace MPP.Controllers
             }
             return userInfo;
         }
-       
-    public List<UserInfo> GetAllUserInfo(out string outMsg)
+
+        public List<UserInfo> GetAllUserInfo(out string outMsg)
         {
             outMsg = Constant.statusSuccess;
             UserInfo currentUserInfo = new UserInfo();
             List<UserInfo> allUserInfo = new List<UserInfo>();
             try
             {
-                    currentUserInfo = GetCurrentUser(out outMsg);
+                currentUserInfo = GetCurrentUser(out outMsg);
                 if (currentUserInfo == null || currentUserInfo.IsAdmin != 1)
                 {
                     outMsg = Constant.accessDenied;
@@ -554,11 +554,10 @@ namespace MPP.Controllers
             string outMsg = Constant.statusSuccess;
             try
             {
-                if(!string.IsNullOrEmpty(SelectedApproverId))
+                if (!string.IsNullOrEmpty(SelectedApproverId))
                 {
                     SelectedApproverId = SelectedApproverId.Trim(',');
-                }
-                
+                }                
                 using (AdminViewModel objAdminViewModel = new AdminViewModel())
                 {
                     objAdminViewModel.SaveSelectedApprover(RoleId, UserId, EntityName, SelectedApproverId);
