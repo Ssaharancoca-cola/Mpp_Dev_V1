@@ -11,10 +11,10 @@
             var dataList = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(serializedList1);
             TempData.Keep();
             var total = ViewData["totalRecord"];
-            var pagecount = Math.Ceiling(Convert.ToDouble(total) / 10);
+            var pagecount = Math.Ceiling(Convert.ToDouble(total) / 50);
 
         }
-
+        
         @if (dataList != null && dataList.Count() > 0)
         {
             <div style="display:none">totalrecord  @total</div>
@@ -101,7 +101,7 @@
                                     &lt;Prev
                                 </label>
                             }
-                            if ((Math.Round(Convert.ToDecimal(total) / 10, 2)) < Convert.ToDecimal(Context.Session.GetInt32("currentPageNo")) || Math.Round(Convert.ToDecimal(total) / 10, 2) == 0)
+                            if ((Math.Round(Convert.ToDecimal(total)/ 50,2)) < Convert.ToDecimal(Context.Session.GetInt32("currentPageNo")) || Math.Round(Convert.ToDecimal(total) / 50,2) == 0)
                             {
                                 <label class="griddatadisabled" disabled id="btnNext">Next&gt;</label>
                             }
@@ -111,7 +111,7 @@
                             }
                             <span style="margin-left:100px">
                                 Page: @Convert.ToInt32(@Context.Session.GetInt32("currentPageNo")) of
-                                @if (@Math.Round(Convert.ToDecimal(total) / 10) == 0)
+                                @if (@Math.Round(Convert.ToDecimal(total) /50) == 0)
                                 {
                                     <label>1</label>
                                 }
@@ -128,7 +128,7 @@
                         {
                             <script>alert("Session expire. Please login again")</script>
                         }
-                    </strong>
+                    </strong>                 
                 </td>
             </tr>
         </table>
@@ -167,8 +167,6 @@
         $(".paging").click(function (e) {
             e.preventDefault();
             $.ajax({
-
-
                 url: this.href,
                 type: 'POST',
                 cache: false,
@@ -181,8 +179,6 @@
         $(".colorWhite").click(function (e) {
             e.preventDefault();
             $.ajax({
-
-
                 url: this.href,
                 type: 'POST',
                 cache: false,
@@ -196,7 +192,6 @@
                 function (data) {
 
                     if (data.indexOf("error") == 0) {
-
 
                         alert(data.replace("error", ""));
 

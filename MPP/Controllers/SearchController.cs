@@ -67,7 +67,7 @@ namespace MPP.Controllers
             ViewData["currentField"] = splitSortOrder[0].ToString(); 
             string ListJson = JsonConvert.SerializeObject(resultQuery);
             TempData["dataList"] = ListJson;
-            return PartialView("GetSearchData", resultQuery);
+            return PartialView("~/Views/Search/Components/GetSearchData/GetSearchData.cshtml", resultQuery);
         }       
 
         [HttpPost]
@@ -134,7 +134,7 @@ namespace MPP.Controllers
                 return Content("error" + Constant.commonErrorMsg);
 
             }
-            return View("GetSearchData");
+            return View("~/Views/Search/Components/GetSearchData/GetSearchData.cshtml");
 
         }
 

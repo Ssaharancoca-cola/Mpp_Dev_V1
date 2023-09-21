@@ -2,6 +2,8 @@
 using DAL.Common;
 using Microsoft.AspNetCore.Identity;
 using Model;
+using System.Drawing.Text;
+using System.Net;
 using System.Net.Mail;
 
 namespace MPP.ViewModel
@@ -9,7 +11,7 @@ namespace MPP.ViewModel
 public class MailManagerViewModel : IDisposable
 {
         private readonly string SMTPHost = "zwdmyaa0001.apac.ko.com";
-        private readonly string MailFrom = "Do-Not-Reply@coca-cola.com";
+        private readonly string MailFrom = "ssaharan@coca-cola.com";
     void IDisposable.Dispose()
     {
 
@@ -456,12 +458,18 @@ public class MailManagerViewModel : IDisposable
     }
 
 
-    #region SendMail
+        #region SendMail
+        private readonly string smtpusername = "ssaharan@coca-cola.com";
+        private readonly string smtppass = "1234512345";
     public void SendMail(List<Mail_Master> lstMailMaster, string outMsg)
-    {
-        SmtpClient smtpClient = new SmtpClient();
+      {
+
+        SmtpClient smtpClient = new SmtpClient();        
         smtpClient.Host = SMTPHost;
-        try
+            smtpClient.Port = 25;
+            smtpClient.Credentials = new NetworkCredential(smtpusername, smtppass);
+
+            try
         {
             foreach (Mail_Master mail in lstMailMaster)
             {
