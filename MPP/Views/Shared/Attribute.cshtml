@@ -1,9 +1,8 @@
 ﻿@model List<Model.Entity_Type_Attr_Detail>
 
 <link rel="stylesheet" href="~/css/Masters.css" />
-<link rel="stylesheet" href="~/lib/jquery/dist/jquery-ui.min.css" asp-append-version="true" />
-<script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
-<script src="~/lib/jquery/dist/jquery-ui.min.js" asp-append-version="true"></script>
+
+
 <script src="~/js/attribute.js"></script>
 
 <form id="formid">
@@ -84,14 +83,14 @@
                             <input type="text" readonly style="width:19%" name="txtFrom" id="txtFrom" /> To
                             <input type="text" readonly style="width:20%" name="txtTo" id="txtTo" />
                         </span>
-                    </span>
+                    </span>                    
                 </div>
             </td>
         </tr>
         <tr align="center" style="width:100%;padding-top:10px">
             <td style="width:50%" align="center" colspan="1">
                 <button type="submit" class="button" id="btnSearch" style="width: 80px" name="Command" value="Search">
-                    <img src="~/Images/Search1.png" />
+                    <img src="~/Images/search1.png" />
                 </button>
                 <div style="color:red" id="lblSearchWarnings"></div>
             </td>
@@ -130,16 +129,9 @@
     </div>
  </form>
     <script>
-    $(document).ready(function () {
-        applyDatePicker(); // Apply datepicker on document ready
-    });
-
-    // Declare the applyDatePicker function
-    function applyDatePicker() {
-        //$(document).on('focus', '#')
-        $(".datepicker").datepicker({
-            changeMonth: true, changeYear: true, yearRange: "2000:2050"
-        });
+    function applyDatepicker() {        
+        $("#txtFrom").datepicker({ changeMonth: true, changeYear: true, yearRange: "2000:2050" });
+        $("#txtTo").datepicker({ changeMonth: true, changeYear: true, yearRange: "2000:2050" });
     }
     $('#formid').on('submit', submitFormWithAjax);
             function CallChangefunc(val, parcombo) {
@@ -158,7 +150,7 @@
                     }
                 });
             };
-
+    
     function submitFormWithAjax(event) {
         event.preventDefault();
         let commandValue = $(document.activeElement).attr("value");
@@ -172,15 +164,14 @@
         $.ajax({
             type: 'POST',
             url: '@Url.Action("GetSearchData", "Search")',
-            data: form,            
+            data: form,       
             success: function (data) {
                 // Update your DOM based on the received data.
-                onSuccess(data);   
-                //applyDatePicker();
+                onSuccess(data); 
             },
             error: function (err) {
                 console.error("Error", err);
             }            
-        });
+        });           
     }       
 </script>

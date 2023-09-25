@@ -15,8 +15,12 @@
       "destination": "Scripts/jquery/jquery-ajax-unobtrusive/"
     },
     {
+      "library": "jquery-datetimepicker@2.5.20",
+      "destination": "wwwroot/lib/jquery-datetimepicker/"
+    },
+    {
       "library": "datepicker@1.0.10",
-      "destination": "Scripts/datepicker/"
+      "destination": "wwwroot/lib/datepicker/"
     }
   ]
 }

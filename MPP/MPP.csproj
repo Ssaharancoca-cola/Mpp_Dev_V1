@@ -10,20 +10,25 @@
     <Compile Remove="ImportFile\**" />
     <Compile Remove="Scripts\**" />
     <Compile Remove="Views\NewFolder\**" />
+    <Compile Remove="wwwroot\lib\jquery\**" />
     <Content Remove="ImportFile\**" />
     <Content Remove="Scripts\**" />
     <Content Remove="Views\NewFolder\**" />
+    <Content Remove="wwwroot\lib\jquery\**" />
     <EmbeddedResource Remove="ImportFile\**" />
     <EmbeddedResource Remove="Scripts\**" />
     <EmbeddedResource Remove="Views\NewFolder\**" />
+    <EmbeddedResource Remove="wwwroot\lib\jquery\**" />
     <None Remove="ImportFile\**" />
     <None Remove="Scripts\**" />
     <None Remove="Views\NewFolder\**" />
+    <None Remove="wwwroot\lib\jquery\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Remove="Views\Search\GetSearchData.cshtml" />
     <Content Remove="Views\TEST.cshtml" />
+    <Content Remove="Views\Workflow\Index.cshtml" />
     <Content Remove="wwwroot\js\Attribute.js" />
   </ItemGroup>
 
@@ -65,5 +70,7 @@
     <None Include="wwwroot\Images\spinner.gif" />
     <None Include="wwwroot\js\attribute.js" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties libman_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

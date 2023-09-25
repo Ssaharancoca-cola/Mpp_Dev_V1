@@ -1,4 +1,4 @@
-﻿$(document).ready(function () {
+﻿$(document).ready(function () {    
     $("#btnAddNew").click(function () {
         $("#cmdName")[0].value = "AttributeDetail";
         $('#viewPlaceHolder').empty();
@@ -28,7 +28,7 @@
         $('#viewPlaceHolder').empty();
         $('#btnUpdate').hide();
     });
-    $(function () {
+    $(function applyDatepicker() {
         $("#txtFrom").datepicker({ changeMonth: true, changeYear: true, yearRange: "2000:2050" });
         $("#txtTo").datepicker({ changeMonth: true, changeYear: true, yearRange: "2000:2050" });
     });

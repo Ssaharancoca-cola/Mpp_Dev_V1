@@ -72,7 +72,12 @@ namespace MPP.Controllers
                     }
                     strExport.Append(form[Constant.dateFromColumnName] == "false" ? "" : Constant.dateFromColumnName);
                     var fieldCollectionString = _httpContextAccessor.HttpContext.Session.GetString("fieldCollection");
-                    var fieldCollection = JsonConvert.DeserializeObject<List<SearchParameter>>(fieldCollectionString);
+                    List<SearchParameter> fieldCollection = new List<SearchParameter>();
+
+                    if (fieldCollectionString != null)
+                    {
+                         fieldCollection = JsonConvert.DeserializeObject<List<SearchParameter>>(fieldCollectionString);
+                    }
                     string whereClause = GetWhereClause(fieldCollection);
                     
                     string SortBy = string.IsNullOrEmpty(Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString(""))) ? " 1 " : Convert.ToString(_httpContextAccessor.HttpContext.Session.GetInt32("currentField"));

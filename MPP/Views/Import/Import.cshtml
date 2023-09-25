@@ -1,9 +1,5 @@
 ﻿@model List<Model.Entity_Type_Attr_Detail>
 
-<script src="~/lib/jquery/dist/jquery.form.js"></script>
-
-<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-
 <form id="formid">
     <table style="width: 100%" border="0" cellspacing="0" cellpadding="0">
         <tr style="width:100%;height:31px;">
@@ -229,7 +225,9 @@
                     });
             }
             else if (result.indexOf("import") == 0) {
-                window.location.href = 'MPP/Import/Download?path=' + result;
+                //window.location.href = 'MPP/Import/Download?path=' + result;
+                window.location.href = 'Import/Download?path=' + result;
+
                 alert("Please refer downloaded file for rejected records");
             }
             else {

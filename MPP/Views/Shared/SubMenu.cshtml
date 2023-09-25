@@ -3,6 +3,7 @@
 @{
     var SelectedDimensionData = ViewBag.SelectedDimensionData;
 }
+
 <table width="100%" border="0" cellspacing="0" cellpadding="1">
     <tr style="background-image: url('/Images/C1_heading.png'); background-color:red; background-repeat: repeat-x; height: 100%;background-repeat: repeat-x;background-size: contain;">
         <td align="center">
@@ -40,8 +41,9 @@
         </td>
     </tr>
 </table>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
+
 <script>
+
     $(".Attribute").click(function (evt) {
         var entityName = evt.currentTarget.innerText; 
         var submenu = true;
@@ -55,13 +57,12 @@
                     alert(result.replace("error", ""));
                 }
                 else {
-                        $('#AttributeDetail').empty();
-                        
+                        $('#AttributeDetail').empty();                        
                         $('#AttributeDetail').html(data);
-
                         $('#lblcaption').html(entityName);
                         $('#viewPalceHolder').empty();
                         $('#btnUpdate').hide();
+                        
                 }
                 submenu = false;
             }

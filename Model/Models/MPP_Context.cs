@@ -58,6 +58,8 @@ namespace Model.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+                //optionsBuilder.UseSqlServer("Data Source=zwqmyad0001;Initial Catalog=MPP_QA;Persist Security Info=True;User ID=MPP_DEV_APP;Password=LZ/&&S]Q9rnin8)5;TrustServerCertificate=True");
+
                 optionsBuilder.UseSqlServer("Data Source=zwdmyad0001;Initial Catalog=MPP_DEV;Persist Security Info=True;User ID=MPP_DEV_APP;Password=LASyYbj0ZX#B;TrustServerCertificate=True");
             }
         }
@@ -1083,7 +1085,6 @@ namespace Model.Models
                     .IsFixedLength();
 
                 entity.Property(e => e.ApproverStatus)
-                    .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("APPROVER_STATUS");
 
@@ -1100,6 +1101,22 @@ namespace Model.Models
                     .HasColumnName("CREATED_USER_ID");
 
                 entity.Property(e => e.CurrentEditLevel).HasColumnName("CURRENT_EDIT_LEVEL");
+
+                entity.Property(e => e.CusRegionCode)
+                    .IsUnicode(false)
+                    .HasColumnName("CUS_REGION_CODE");
+
+                entity.Property(e => e.CusRegionDesc)
+                    .IsUnicode(false)
+                    .HasColumnName("CUS_REGION_DESC");
+
+                entity.Property(e => e.CusRegionLongName)
+                    .IsUnicode(false)
+                    .HasColumnName("CUS_REGION_LONG_NAME");
+
+                entity.Property(e => e.CusRegionShortName)
+                    .IsUnicode(false)
+                    .HasColumnName("CUS_REGION_SHORT_NAME");
 
                 entity.Property(e => e.DateFrom)
                     .HasColumnType("date")
@@ -1122,30 +1139,12 @@ namespace Model.Models
                     .HasColumnType("datetime")
                     .HasColumnName("EFFECTIVE_START_DATE");
 
-                entity.Property(e => e.EntCountryGroupCode)
-                    .IsUnicode(false)
-                    .HasColumnName("ENT_COUNTRY_GROUP_CODE");
-
-                entity.Property(e => e.EntCountryGroupDesc)
-                    .IsUnicode(false)
-                    .HasColumnName("ENT_COUNTRY_GROUP_DESC");
-
-                entity.Property(e => e.EntCountryGroupLongName)
-                    .IsUnicode(false)
-                    .HasColumnName("ENT_COUNTRY_GROUP_LONG_NAME");
-
-                entity.Property(e => e.EntCountryGroupShortName)
-                    .IsUnicode(false)
-                    .HasColumnName("ENT_COUNTRY_GROUP_SHORT_NAME");
-
                 entity.Property(e => e.ErrorMessage)
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("ERROR_MESSAGE");
 
-                entity.Property(e => e.InputRowId)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("input_row_id");
+                entity.Property(e => e.InputRowId).HasColumnName("INPUT_ROW_ID");
 
                 entity.Property(e => e.LastModifiedBy)
                     .HasMaxLength(500)
@@ -1625,7 +1624,7 @@ namespace Model.Models
                 entity.Property(e => e.EntityTypeId).HasColumnName("ENTITY_TYPE_ID");
 
                 entity.Property(e => e.ErrorMessage)
-                    .HasMaxLength(29)
+                    .HasMaxLength(35)
                     .IsUnicode(false)
                     .HasColumnName("ERROR_MESSAGE");
 

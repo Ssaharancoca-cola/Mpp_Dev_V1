@@ -1,18 +1,25 @@
 ﻿<style>
     body {
-        background-color: #FF7F7F;
+        background-color: whitesmoke;
     }
 </style>
 
 @model List<Model.DimensionName>
 
 <link href="~/css/Masters.css" rel="stylesheet" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+<!-- Only import jQuery once and make sure it's before jQuery UI -->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
+<!-- Only import jQuery UI once -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+<!-- Only import jQuery Validation once -->
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+
+<!-- Only import jQuery Validation Unobtrusive once -->
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 @{
     ViewBag.Title = "MPP";
 }
@@ -50,9 +57,9 @@
         <tr id="trDropDownData">
             <td>
                 <div>
-                    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:3px">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:3px; background-color: indianred;">
                         <tr>
-                            <td align="center">
+                            <td align="center" style="background-color: indianred">
                                 @Html.DropDownList("ddl", Model.Select(item=> new SelectListItem
                                 {
                                 Value = Convert.ToString(item.Dimension),
@@ -61,8 +68,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:center">
-                                <img src="~/Images/Homepage.png" height="500" alt="MPP Schema" />
+                            <td style="text-align:center; background-color: indianred;">
+                                <img src="~/Images/homepage.png" height="500" alt="MPP Schema" />
                             </td>
                         </tr>
                     </table>
@@ -92,7 +99,7 @@
                 <div class="lightRedBg" id="divUserDetails"></div>
             </td>
         </tr>
-        <tr style="background-color:red">
+        <tr style="background-color:lightcoral">
             <td height="20" align="center" class="blackText">Copyright &copy; 2023 Coca Cola, Inc. All Rights Reserved</td>
         </tr>
         <tr>

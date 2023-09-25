@@ -1,8 +1,6 @@
 ﻿@model List<Model.Entity_Type_Attr_Detail>
 
-<link rel="stylesheet" href="~/lib/jquery/dist/jquery-ui.min.css" asp-append-version="true" />
-<script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
-<script src="~/lib/jquery/dist/jquery-ui.min.js" asp-append-version="true"></script>
+
 <script src="~/js/Export.js"></script>
 
 <form id="formid">
@@ -141,7 +139,9 @@
         }
         if (result.indexOf("export") == 0) {
 
-            window.location.href = 'MPP/Export/Download?path=' + result;
+            //window.location.href = 'MPP/Export/Download?path=' + result;
+
+            window.location.href = 'Export/Download?path=' + result;            
         }
         else {
             $('#AttributeDetail').empty();
