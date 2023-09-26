@@ -11,12 +11,12 @@
             @Html.ActionLink("Home", "Index", "Home")
         </td>
         <td></td>
-        <td style="padding-left:695px;">
+        <td style="padding-left:700px;">
             @Html.DropDownList("dll", Model.Select(item => new SelectListItem
             {
                 Value = Convert.ToString(item.Dimension),
             Text = Convert.ToString(item.Dimension.ToString())
-            }), new { @id = "ddlDim" })
+            }), new { @id = "ddlDim",@style = "height: 27px; width: 157px; border: 1px solid lightcoral;" })
         </td>
     </tr>
 </table>

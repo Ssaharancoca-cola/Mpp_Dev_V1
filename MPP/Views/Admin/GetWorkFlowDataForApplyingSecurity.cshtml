@@ -24,9 +24,6 @@
                 </td>
                 <td align="left" style="width: 56%">
                     @Html.TextBoxFor(m => m.UserID,new { @id = "txtUserId" })
-
-
-                    @*<asp:TextBox ID="ctrlUser_Id" runat="server" CssClass="edittxtfield" Font-Names="Verdana" ReadOnly="true" Enabled="false" MaxLength="100" width="160px" />*@
                 </td>
             </tr>
             <tr style="width: 100%" align="center" class="darkBlueBg">
@@ -35,9 +32,6 @@
                 </td>
                 <td align="left" style="width: 56%">
                     @Html.TextBoxFor(m => m.UserRole, new { @id = "txtUserRole" })
-
-
-                    @*<asp:TextBox ID="ctrlUser_Role" runat="server" CssClass="edittxtfield" Font-Names="Verdana" ReadOnly="true" Enabled="false" MaxLength="100" width="160px" />*@
                 </td>
             </tr>
             <tr align="center" style="width: 100%" class="darkBlueBg">
@@ -46,9 +40,6 @@
                 </td>
                 <td align="left" style="width: 56%">
                     @Html.TextBoxFor(m => m.EntityId,new { @id = "txtEntityName" })
-
-
-                    @*<asp:TextBox ID="ctrlEntity_Id" runat="server" CssClass="edittxtfield" Font-Names="Verdana" ReadOnly="true" Enabled="false" MaxLength="100" width="160px" />*@
                 </td>
             </tr>
         </table>
@@ -205,17 +196,17 @@
         var userId = $("#txtUserId").val();
 
         $.post('@Url.Action("GetAllUsers", "Admin")',
-                                                           function (data) {
-                                                               if (data.indexOf("error") == 0) {
-                                                                   alert(data.replace("error", ""))
-                                                               }
-                                                               else {
+        function (data) {
+            if (data.indexOf("error") == 0) {
+                alert(data.replace("error", ""))
+            }
+            else {
 
-                                                                   $('#divDisplayAllUsers').html(data);
+                $('#divDisplayAllUsers').html(data);
 
-                                                               }
+            }
 
-                                                           });
+        });
         $.post('@Url.Action("GetNewUserIndex", "Admin")', { newUserId: userId },
              function (data) {
                  if (data.indexOf("error") == 0) {

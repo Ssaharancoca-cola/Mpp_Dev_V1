@@ -69,7 +69,7 @@
                    }), "--Select--")
                     }
                 </td>
-                <td>
+                <td style="text-align:center;">
                     @if (@item.UPDATE_FLAG == 1 || @item.CREATE_FLAG == 1 || @item.IMPORT_FLAG == 1)
                     {
                         @Html.CheckBox("chkReadFlag", new { @class = "label", @checked = true, @disabled = true })
@@ -83,7 +83,7 @@
                         @Html.CheckBox("chkReadFlag", new { @class = "label" })
                     }
                 </td>
-                <td>
+                <td style="text-align:center;">
                     @if (@item.UPDATE_FLAG == 1)
                     {
                         @Html.CheckBox("chkUpdateFlag", new { @class = "label", @id = "chkUpdateFlag", @checked = true })
@@ -93,7 +93,7 @@
                         @Html.CheckBox("chkUpdateFlag", new { @class = "label", @id = "chkUpdateFlag" })
                     }
                 </td>
-                <td>
+                <td style="text-align:center;">
                     @if (@item.CREATE_FLAG == 1)
                     {
                         @Html.CheckBox("chkCreateFlag", new { @class = "label", @checked = true })
@@ -103,7 +103,7 @@
                         @Html.CheckBox("chkCreateFlag", new { @class = "label" })
                     }
                 </td>
-                <td>
+                <td style="text-align:center;">
                     @if (@item.IMPORT_FLAG == 1)
                     {
                         @Html.CheckBox("chkImportFlag", new { @class = "label", @checked = true })

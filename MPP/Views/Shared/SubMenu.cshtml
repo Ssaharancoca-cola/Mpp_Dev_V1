@@ -5,12 +5,12 @@
 }
 
 <table width="100%" border="0" cellspacing="0" cellpadding="1">
-    <tr style="background-image: url('/Images/C1_heading.png'); background-color:red; background-repeat: repeat-x; height: 100%;background-repeat: repeat-x;background-size: contain;">
+    <tr style="background-color:orangered; background-repeat: repeat-x; height: 100%;background-repeat: repeat-x;background-size: contain;">
         <td align="center">
             @{
                 var selectedDimensionData = SelectedDimensionData?.ToString() ?? "";
             }
-            <label style="margin-top: 4px; font-size: 12pt; width: 100%; font-family: Arial; font-weight: bold; display: inline-block;">
+            <label style="margin-top: 4px; font-size: 12pt; width: 100%; font-family: Arial; font-weight: bold; display: inline-block;color: white;">
                 @Html.Raw(selectedDimensionData)
             </label>
 

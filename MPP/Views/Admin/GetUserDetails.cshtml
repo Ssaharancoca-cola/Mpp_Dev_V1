@@ -87,12 +87,17 @@
         <div class="panelDataGridWithMaxWidth" id="leftBar">
 
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                <tr align="center" style="width:100%; height:25px" bgcolor="white" class="whiteTextNormal">
+                <tr align="center" style="width:100%; height:25px" class="whiteTextNormal">
                     <td colspan="4" rowspan="1" style="width: 100%" align="left">
                         <label style="font-size:small;font-weight:normal;color:red;font-family:Arial Black">
                             User Privilege
                         </label>
 
+                    </td>
+                </tr>
+                <tr align="center" style="width: 100%; height: 5px">
+                    <td style="padding-left: 10px; padding-right: 10px; padding-bottom: 20px" valign="top" align="right">
+                        <hr style="width: 100%; height: 2px; background-color: red;" />
                     </td>
                 </tr>
                 <tr  style="width:100%" >
@@ -127,12 +132,7 @@
                                     <td style="width: 100%" align="center"></td>
                                 </tr>
                             </table>
-
-
-
                         </div>
-
-
                     </td>
                 </tr>
             </table>
@@ -165,7 +165,6 @@
                              else {
 
                                  $('#divDisplayAllUsers').html(data);
-                                 //   $('#ddlUserList option:eq(4)').attr('selected', 'selected');
 
                              }
 
@@ -255,7 +254,6 @@
             $(".dropdownchange").change(function (evt) {
 
                 var selectedValue = evt.currentTarget.value;
-                // $("#txtUserIdForNewUser").val() = "" ;
                 if (selectedValue == "") {
                     $('#divEntityDetail').empty();
                     return false;
