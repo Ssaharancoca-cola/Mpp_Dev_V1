@@ -17,7 +17,7 @@ namespace Model.Models
         public DateTime? EffectiveStartDate { get; set; }
         public DateTime? EffectiveEndDate { get; set; }
         public string SourceSystemCode { get; set; }
-        public string SortOrder { get; set; }
+        public int? SortOrder { get; set; }
         public string ErrorMessage { get; set; }
         public string WarningMessage { get; set; }
         public string SessionId { get; set; }

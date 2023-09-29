@@ -1,8 +1,8 @@
 ﻿.darkRedBg {
-    background-color: #FFC1C1;
+    background-color: white;
 }
 .lightRedBg {
-    background-color: #f5c4c4;
+    background-color: #FFFFFF;
 }
 .blackText {
     font-family: Verdana, Arial, Helvetica, Arial;
@@ -355,7 +355,7 @@ color:#1E323E;
 }
 
 .gridheader {
-    background-color: #FF5C5C;
+    background-color: #F40000;
     color: White;
     font-family: Arial;
     font-size: 11pt;
@@ -2854,7 +2854,7 @@ a.Attribute:hover {
 }
 
 .alternate_color tr:nth-child(odd) td {
-    background-color: #FFC0CB;
+    background-color: #E8E2E2;
     font-family: Arial;
     color: #8B0000;
     font-size: 8pt;

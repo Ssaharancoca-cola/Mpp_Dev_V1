@@ -35,7 +35,6 @@ namespace Model.Models
         public virtual DbSet<MppUserPrivilage> MppUserPrivilage { get; set; }
         public virtual DbSet<Querytext2> Querytext2 { get; set; }
         public virtual DbSet<Querytexttype2> Querytexttype2 { get; set; }
-
         //Entity Model
         public DbSet<UserInfo> UserInfo { get; set; }
         public DbSet<DimensionName> DimensionName { get; set; }
@@ -543,9 +542,7 @@ namespace Model.Models
                     .IsUnicode(false)
                     .HasColumnName("SESSION_ID");
 
-                entity.Property(e => e.SortOrder)
-                    .HasMaxLength(100)
-                    .HasColumnName("SORT_ORDER");
+                entity.Property(e => e.SortOrder).HasColumnName("SORT_ORDER");
 
                 entity.Property(e => e.SourceSystemCode)
                     .HasMaxLength(255)
@@ -700,9 +697,7 @@ namespace Model.Models
                     .IsUnicode(false)
                     .HasColumnName("SESSION_ID");
 
-                entity.Property(e => e.SortOrder)
-                    .HasMaxLength(100)
-                    .HasColumnName("SORT_ORDER");
+                entity.Property(e => e.SortOrder).HasColumnName("SORT_ORDER");
 
                 entity.Property(e => e.SourceSystemCode)
                     .HasMaxLength(255)
@@ -860,9 +855,7 @@ namespace Model.Models
                     .IsUnicode(false)
                     .HasColumnName("SESSION_ID");
 
-                entity.Property(e => e.SortOrder)
-                    .HasMaxLength(100)
-                    .HasColumnName("SORT_ORDER");
+                entity.Property(e => e.SortOrder).HasColumnName("SORT_ORDER");
 
                 entity.Property(e => e.SourceSystemCode)
                     .HasMaxLength(255)
@@ -1020,9 +1013,7 @@ namespace Model.Models
                     .IsUnicode(false)
                     .HasColumnName("SESSION_ID");
 
-                entity.Property(e => e.SortOrder)
-                    .HasMaxLength(100)
-                    .HasColumnName("SORT_ORDER");
+                entity.Property(e => e.SortOrder).HasColumnName("SORT_ORDER");
 
                 entity.Property(e => e.SourceSystemCode)
                     .HasMaxLength(255)
@@ -1088,6 +1079,26 @@ namespace Model.Models
                     .IsUnicode(false)
                     .HasColumnName("APPROVER_STATUS");
 
+                entity.Property(e => e.BppBeverageGroupCode)
+                    .IsUnicode(false)
+                    .HasColumnName("BPP_BEVERAGE_GROUP_CODE");
+
+                entity.Property(e => e.BppBeverageGroupDesc)
+                    .IsUnicode(false)
+                    .HasColumnName("BPP_BEVERAGE_GROUP_DESC");
+
+                entity.Property(e => e.BppBeverageGroupLongName)
+                    .IsUnicode(false)
+                    .HasColumnName("BPP_BEVERAGE_GROUP_LONG_NAME");
+
+                entity.Property(e => e.BppBeverageGroupShortName)
+                    .IsUnicode(false)
+                    .HasColumnName("BPP_BEVERAGE_GROUP_SHORT_NAME");
+
+                entity.Property(e => e.BppIndustryTypeCode)
+                    .IsUnicode(false)
+                    .HasColumnName("BPP_INDUSTRY_TYPE_CODE");
+
                 entity.Property(e => e.Comments)
                     .HasMaxLength(500)
                     .IsUnicode(false)
@@ -1101,22 +1112,6 @@ namespace Model.Models
                     .HasColumnName("CREATED_USER_ID");
 
                 entity.Property(e => e.CurrentEditLevel).HasColumnName("CURRENT_EDIT_LEVEL");
-
-                entity.Property(e => e.CusRegionCode)
-                    .IsUnicode(false)
-                    .HasColumnName("CUS_REGION_CODE");
-
-                entity.Property(e => e.CusRegionDesc)
-                    .IsUnicode(false)
-                    .HasColumnName("CUS_REGION_DESC");
-
-                entity.Property(e => e.CusRegionLongName)
-                    .IsUnicode(false)
-                    .HasColumnName("CUS_REGION_LONG_NAME");
-
-                entity.Property(e => e.CusRegionShortName)
-                    .IsUnicode(false)
-                    .HasColumnName("CUS_REGION_SHORT_NAME");
 
                 entity.Property(e => e.DateFrom)
                     .HasColumnType("date")
@@ -1144,7 +1139,9 @@ namespace Model.Models
                     .IsUnicode(false)
                     .HasColumnName("ERROR_MESSAGE");
 
-                entity.Property(e => e.InputRowId).HasColumnName("INPUT_ROW_ID");
+                entity.Property(e => e.InputRowId)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("INPUT_ROW_ID");
 
                 entity.Property(e => e.LastModifiedBy)
                     .HasMaxLength(500)
