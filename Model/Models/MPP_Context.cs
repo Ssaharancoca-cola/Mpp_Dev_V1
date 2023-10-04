@@ -51,15 +51,15 @@ namespace Model.Models
         public DbSet<ApproverDetail> approverDetail { get; set; }
         public DbSet<CNTS> cNT { get; set; }
         public DbSet<UserDto> userDto { get; set; }
-        public DbSet<MailData> mailData { get; set; }
+       // public DbSet<MailData> mailData { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //optionsBuilder.UseSqlServer("Data Source=zwqmyad0001;Initial Catalog=MPP_QA;Persist Security Info=True;User ID=MPP_DEV_APP;Password=LZ/&&S]Q9rnin8)5;TrustServerCertificate=True");
+                optionsBuilder.UseSqlServer("Data Source=zwqmyad0001;Initial Catalog=MPP_QA;Persist Security Info=True;User ID=MPP_DEV_APP;Password=LZ/&&S]Q9rnin8)5;TrustServerCertificate=True");
 
-                optionsBuilder.UseSqlServer("Data Source=zwdmyad0001;Initial Catalog=MPP_DEV;Persist Security Info=True;User ID=MPP_DEV_APP;Password=LASyYbj0ZX#B;TrustServerCertificate=True");
+                //optionsBuilder.UseSqlServer("Data Source=zwdmyad0001;Initial Catalog=MPP_DEV;Persist Security Info=True;User ID=MPP_DEV_APP;Password=LASyYbj0ZX#B;TrustServerCertificate=True");
             }
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -80,7 +80,6 @@ namespace Model.Models
             modelBuilder.Entity<ApproverDetail>().HasNoKey();
             modelBuilder.Entity<CNTS>().HasNoKey();
             modelBuilder.Entity<UserDto>().HasNoKey();
-            modelBuilder.Entity<MailData>().HasNoKey();
             modelBuilder.Entity<DimBusinessorg>(entity =>
             {
                 entity.ToTable("DIM_BUSINESSORG", "MPP_APP");
@@ -1079,26 +1078,6 @@ namespace Model.Models
                     .IsUnicode(false)
                     .HasColumnName("APPROVER_STATUS");
 
-                entity.Property(e => e.BppBeverageGroupCode)
-                    .IsUnicode(false)
-                    .HasColumnName("BPP_BEVERAGE_GROUP_CODE");
-
-                entity.Property(e => e.BppBeverageGroupDesc)
-                    .IsUnicode(false)
-                    .HasColumnName("BPP_BEVERAGE_GROUP_DESC");
-
-                entity.Property(e => e.BppBeverageGroupLongName)
-                    .IsUnicode(false)
-                    .HasColumnName("BPP_BEVERAGE_GROUP_LONG_NAME");
-
-                entity.Property(e => e.BppBeverageGroupShortName)
-                    .IsUnicode(false)
-                    .HasColumnName("BPP_BEVERAGE_GROUP_SHORT_NAME");
-
-                entity.Property(e => e.BppIndustryTypeCode)
-                    .IsUnicode(false)
-                    .HasColumnName("BPP_INDUSTRY_TYPE_CODE");
-
                 entity.Property(e => e.Comments)
                     .HasMaxLength(500)
                     .IsUnicode(false)
@@ -1139,6 +1118,26 @@ namespace Model.Models
                     .IsUnicode(false)
                     .HasColumnName("ERROR_MESSAGE");
 
+                entity.Property(e => e.GeoCountryCode)
+                    .IsUnicode(false)
+                    .HasColumnName("GEO_COUNTRY_CODE");
+
+                entity.Property(e => e.GeoZoneCode)
+                    .IsUnicode(false)
+                    .HasColumnName("GEO_ZONE_CODE");
+
+                entity.Property(e => e.GeoZoneDesc)
+                    .IsUnicode(false)
+                    .HasColumnName("GEO_ZONE_DESC");
+
+                entity.Property(e => e.GeoZoneLongName)
+                    .IsUnicode(false)
+                    .HasColumnName("GEO_ZONE_LONG_NAME");
+
+                entity.Property(e => e.GeoZoneShortName)
+                    .IsUnicode(false)
+                    .HasColumnName("GEO_ZONE_SHORT_NAME");
+
                 entity.Property(e => e.InputRowId)
                     .ValueGeneratedOnAdd()
                     .HasColumnName("INPUT_ROW_ID");
@@ -1165,9 +1164,7 @@ namespace Model.Models
                     .IsUnicode(false)
                     .HasColumnName("SESSION_ID");
 
-                entity.Property(e => e.SortOrder)
-                    .HasMaxLength(100)
-                    .HasColumnName("SORT_ORDER");
+                entity.Property(e => e.SortOrder).HasColumnName("SORT_ORDER");
 
                 entity.Property(e => e.SourceSystemCode)
                     .HasMaxLength(255)
@@ -1203,6 +1200,14 @@ namespace Model.Models
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("WARNING_MESSAGE");
+
+                entity.Property(e => e.ZoneHeadOfficeLatitude)
+                    .IsUnicode(false)
+                    .HasColumnName("ZONE_HEAD_OFFICE_LATITUDE");
+
+                entity.Property(e => e.ZoneHeadOfficeLongitude)
+                    .IsUnicode(false)
+                    .HasColumnName("ZONE_HEAD_OFFICE_LONGITUDE");
             });
 
             modelBuilder.Entity<MppConfig>(entity =>
@@ -1621,7 +1626,7 @@ namespace Model.Models
                 entity.Property(e => e.EntityTypeId).HasColumnName("ENTITY_TYPE_ID");
 
                 entity.Property(e => e.ErrorMessage)
-                    .HasMaxLength(35)
+                    .HasMaxLength(29)
                     .IsUnicode(false)
                     .HasColumnName("ERROR_MESSAGE");
 

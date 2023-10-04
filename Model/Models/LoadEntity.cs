@@ -9,19 +9,18 @@ namespace Model.Models
     {
         public DateTime? DateFrom { get; set; }
         public DateTime? DateTo { get; set; }
-        public string BppBeverageGroupCode { get; set; }
-        public string BppBeverageGroupLongName { get; set; }
-        public string BppBeverageGroupShortName { get; set; }
+        public string GeoZoneCode { get; set; }
+        public string GeoZoneLongName { get; set; }
+        public string GeoZoneShortName { get; set; }
         public string DummyFlag { get; set; }
         public string ActiveFlag { get; set; }
         public DateTime? EffectiveStartDate { get; set; }
         public DateTime? EffectiveEndDate { get; set; }
         public string SourceSystemCode { get; set; }
-        public string SortOrder { get; set; }
+        public int? SortOrder { get; set; }
         public string ErrorMessage { get; set; }
         public string WarningMessage { get; set; }
         public string SessionId { get; set; }
-        public int InputRowId { get; set; }
         public TimeSpan? CreatedDate { get; set; }
         public string CreatedUserId { get; set; }
         public DateTime? UpdateDate { get; set; }
@@ -39,9 +38,12 @@ namespace Model.Models
         public int? RecLockFlag { get; set; }
         public int? TreatNullsAsNulls { get; set; }
         public int? CurrentEditLevel { get; set; }
-        public string BppBeverageGroupDesc { get; set; }
+        public string GeoZoneDesc { get; set; }
+        public string ZoneHeadOfficeLatitude { get; set; }
+        public string ZoneHeadOfficeLongitude { get; set; }
+        public int InputRowId { get; set; }
+        public string GeoCountryCode { get; set; }
         public string Validationcode { get; set; }
         public string ApproverStatus { get; set; }
-        public string BppIndustryTypeCode { get; set; }
     }
 }

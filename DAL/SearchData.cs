@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Entity;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using System.Text.RegularExpressions;
 
 namespace DAL
 {
@@ -171,18 +172,16 @@ namespace DAL
                 int RowStart = ((PageNo - 1) * PageSize) + 1;
                 int RowEnd = PageNo * PageSize;
                 Dictionary<string, string> PropNameType = new Dictionary<string, string>();
-
-                //strQuery.Append("Select * from ( Select " + strSelectClause + ", row_number() over(order by " + strSortClause + " ) recno, count(*) over() Total_Records, ceil((count(*) over()) / " + PageSize.ToString() + ") Total_Pages from ");
-                //strQuery.Append(" ( " + tableName + " ) ");
-                //strQuery.Append(" t ");
-                //strQuery.Append(strWhereClause);
-                //strQuery.Append(") Where recno between ");
-                //strQuery.Append(RowStart.ToString());
-                //strQuery.Append(" and ");
-                //strQuery.Append(RowEnd.ToString());
-                //searchQuery = strQuery.ToString();
                 strQuery.Append("Select * from ( Select " + strSelectClause + ", row_number() over(order by " + strSortClause + " ) recno, count(*) over() Total_Records, CEILING((count(*) over()) / " + PageSize.ToString() + ") Total_Pages from ");
-                strQuery.Append("  " + tableName + "  ");
+
+                if(tableName.Contains("31-DEC-2049"))
+                {
+                    strQuery.Append(" ( " + tableName + " ) ");
+                }
+                else
+                {
+                    strQuery.Append(" " + tableName + " ");
+                }
                 strQuery.Append(" t ");
                 strQuery.Append(strWhereClause);
                 strQuery.Append(") AS SUBQUERY Where recno between ");
@@ -190,8 +189,6 @@ namespace DAL
                 strQuery.Append(" and ");
                 strQuery.Append(RowEnd.ToString());
                 searchQuery = strQuery.ToString();
-
-
             }
             catch (Exception ex)
             {
@@ -445,19 +442,6 @@ namespace DAL
         private string GetSortClause(string SortBy, string SortOrder, string tableName)
         {
             string strSortClause = "";
-
-            //if (SortBy.ToUpper() == "PROPERTY_ID" || SortBy.ToUpper() == "SUB_CHAIN_CODE" || SortBy.ToUpper() == "CHAIN_CODE" || SortBy.ToUpper() == "CORPORATE_CHAIN_CODE")
-            //{
-            //    strSortClause = "TO_NUMBER(" + SortBy + ")";
-            //}
-            //else
-            //{
-            //    strSortClause = SortBy;
-            //}
-
-            //strSortClause += " " + SortOrder;
-
-            // Formulate additional sort by to make ensure unique sorting 
             if (tableName.ToUpper().StartsWith("MPP_APP.FL_"))
             {
                 if (tableName.ToUpper() == "MPP_APP.FL_DSP")
@@ -466,10 +450,21 @@ namespace DAL
                 }
                 else
                 {
-                    strSortClause +=  tableName.ToUpper().Replace("MPP_APP.FL_", "") + "_OID ASC ";
+                    strSortClause += tableName.ToUpper().Replace("MPP_APP.FL_", "") + "_OID ASC ";
                 }
             }
-
+            else
+            {
+                Regex rgx = new Regex(@"MPP_APP\.FL_([a-zA-Z_]+)");
+                Match match = rgx.Match(tableName);
+                if (match.Success)
+                {
+                    strSortClause = match.Groups[1].Value; // This contains the dynamic part after "MPP_APP.FL_"
+                    strSortClause = strSortClause + "_OID"; // Add "_OID" to the result
+                    strSortClause += " " + SortOrder;
+                    return strSortClause;
+                }
+            }                   
             return strSortClause;
         }
     }
