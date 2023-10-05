@@ -440,7 +440,7 @@
                     <tr align="center" valign="top">
                         <td>
                             <table width="796px" border="0" cellspacing="0" cellpadding="0" id="TableTopView">
-                                <tr valign="middle" align="left" style="background-image:url(Images/TableTop.jpg);background-repeat:repeat-x;height:100%">
+                                <tr valign="middle" align="left" style="background-image:url(Images/TableTop1.jpg);background-repeat:repeat-x;height:100%">
                                     <td height="40" class="whiteTextNormal">
                                         <label asp-for="@Context.Session.GetString("EntityName")" class="whiteTextNormal" id="lblcaption"></label>
                                         | <span class="whiteTextNormal">
@@ -538,12 +538,12 @@
                             <table>
                                 <tr valign="top">
                                     <td align="left">
-                                        <button type="submit" class="button" style="width:80px" id="btnAbandon" name="Command" title="Abandon" value="Abandon">
+                                        <button type="submit" class="button" style="width:100px" id="btnAbandon" name="Command" title="Abandon" value="Abandon">
                                             <img src="~/Images/Abandon.png" />
                                         </button>
                                     </td>
                                     <td align="left" style="padding-left:10px">
-                                        <button type="submit" class="button" style="width:80px" id="btnCancel" name="Command" title="Cancel" value="Cancel">
+                                        <button type="submit" class="button" style="width:100px" id="btnCancel" name="Command" title="Cancel" value="Cancel">
                                             <img src="~/Images/Cancel.png" />
                                         </button>
                                     </td>
@@ -602,7 +602,7 @@
                         <td>
 
                             <table width="796px" border="0" cellspacing="0" cellpadding="0" id="TableTopView">
-                                <tr valign="middle" align="left" style="background-image:url(Images/TableTop.jpg);background-repeat:repeat-x;height:100%">
+                                <tr valign="middle" align="left" style="background-image:url(Images/TableTop1.jpg);background-repeat:repeat-x;height:100%">
                                     <td height="40" class="whiteTextNormal">
                                         <label asp-for="@Context.Session.GetString("EntityName")" class="whiteTextNormal" id="lblcaption"></label>
                                         | <span class="whiteTextNormal">
@@ -693,17 +693,17 @@
                             <table>
                                 <tr valign="top">
                                     <td align="left">
-                                        <button type="submit" class="button" style="width:80px" id="btnUpdateReject" name="Command" title="Update" value="Update">
+                                        <button type="submit" class="button" style="width:100px" id="btnUpdateReject" name="Command" title="Update" value="Update">
                                             <img src="~/Images/Update.png" />
                                         </button>
                                     </td>
                                     <td align="left" style="padding-left:10px">
-                                        <button type="submit" class="button" style="width:80px" id="btnDeleteReject" name="Command" title="Delete" value="Delete">
+                                        <button type="submit" class="button" style="width:100px" id="btnDeleteReject" name="Command" title="Delete" value="Delete">
                                             <img src="~/Images/Delete_Button.gif" />
                                         </button>
                                     </td>
                                     <td align="left" style="padding-left:10px">
-                                        <button type="submit" class="button" style="width:80px" id="btnCancelReject" name="Command" title="Cancel" value="Cancel">
+                                        <button type="submit" class="button" style="width:100px" id="btnCancelReject" name="Command" title="Cancel" value="Cancel">
                                             <img src="~/Images/Cancel.png" />
                                         </button>
                                     </td>
@@ -732,10 +732,10 @@
                 string[] approvalPendingcolName = approvalPendingColumnData.ToString().Split(',');
 
                 var jsonlist7 = TempData["approvalPendingRowData"] as string;
-                var approvalPendingRowData = JsonConvert.DeserializeObject<List<string>>(jsonlist4);
+                var approvalPendingRowData = JsonConvert.DeserializeObject<List<string>>(jsonlist7);
 
                 var jsonlist8 = TempData["approvalPendingdataList"] as string;
-                var approvalPendingdataList = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(jsonlist5);
+                var approvalPendingdataList = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(jsonlist8);
                 
                 TempData.Keep();
 
@@ -749,7 +749,7 @@
                         <td>
 
                             <table width="796px" border="0" cellspacing="0" cellpadding="0" id="TableTopView">
-                                <tr valign="middle" align="left" style="background-image:url(Images/TableTop.jpg);background-repeat:repeat-x;height:100%">
+                                <tr valign="middle" align="left" style="background-image:url(Images/TableTop1.jpg);background-repeat:repeat-x;height:100%">
                                     <td height="40" class="whiteTextNormal">
                                         <label asp-for="@Context.Session.GetString("EntityName")" class="whiteTextNormal" id="lblcaption"></label>
                                         | <span class="whiteTextNormal">
@@ -840,18 +840,18 @@
                             <table>
                                 <tr valign="top">
                                     <td align="left">
-                                        <button type="submit" class="button" id="btnApprove" name="Command" style="width:80px" title="Approve" value="Approve">
+                                        <button type="submit" class="button" id="btnApprove" name="Command" style="width:100px" title="Approve" value="Approve">
                                             <img src="~/Images/Approve.png" />
                                         </button>
                                     </td>
 
                                     <td align="left" style="padding-left:10px">
-                                        <button type="submit" class="button" id="btnRejectApprove" name="Command" style="width:80px" title="Reject" value="Reject">
+                                        <button type="submit" class="button" id="btnRejectApprove" name="Command" style="width:100px" title="Reject" value="Reject">
                                             <img src="~/Images/Reject.png" />
                                         </button>
                                     </td>
                                     <td align="left" style="padding-left:10px">
-                                        <button type="submit" class="button" id="btnCancelApprove" name="Command" style="width:80px" title="Cancel" value="Cancel">
+                                        <button type="submit" class="button" id="btnCancelApprove" name="Command" style="width:100px" title="Cancel" value="Cancel">
                                             <img src="~/Images/Cancel.png" />
                                         </button>
                                     </td>
