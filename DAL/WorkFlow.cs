@@ -77,11 +77,8 @@ namespace DAL
 
                 if (Status.ToUpper() == Constant.ABANDON)
                 {
-                    finalQuery.Append("begin ");
                     string command = "UPDATE MPP_APP." + tableName + " SET ROW_STATUS = 5, SESSION_ID = " + SessionID + ", COMMENTS = CASE WHEN INPUT_ROW_ID IN (" + InputRowIds + ") THEN '" + Comments + "' ELSE COMMENTS END WHERE LD_OID IN(SELECT LD_OID FROM MPP_APP." + tableName + " WHERE INPUT_ROW_ID IN(" + InputRowIds + ")) AND User_Id = '" + UserId + "'";
-                    finalQuery.Append(command + ";");
-                    finalQuery.Append(" Commit; ");
-                    finalQuery.Append(" End;");
+                    finalQuery.Append(command + ";");                  
                 }
                 else if (Status.ToUpper() == Constant.DELETE)
                 {
@@ -91,11 +88,9 @@ namespace DAL
                 }
                 else if (Status.ToUpper() == Constant.REJECT)
                 {
-                    finalQuery.Append("begin ");
                     string command = "UPDATE MPP_APP." + tableName + " SET ROW_STATUS = 4, SESSION_ID = " + SessionID + ", COMMENTS = CASE WHEN INPUT_ROW_ID IN (" + InputRowIds + ") THEN '" + Comments + "' ELSE COMMENTS END, APPROVER_STATUS = CASE WHEN INPUT_ROW_ID IN (" + InputRowIds + ") THEN 'REJECTED' ELSE APPROVER_STATUS END WHERE LD_OID IN(SELECT LD_OID FROM MPP_APP." + tableName + " WHERE INPUT_ROW_ID IN(" + InputRowIds + "))";
                     finalQuery.Append(command + ";");
-                    finalQuery.Append(" Commit; ");
-                    finalQuery.Append(" End;");
+                   
                 }
                 else if (Status.ToUpper() == Constant.APPROVE)
                 {

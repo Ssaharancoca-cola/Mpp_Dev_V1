@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-
     $("#btnCancel").click(function () {
         $("#cmdName")[0].value = "AttributeDetail";
         $('#viewPlaceHolder').empty();
@@ -49,6 +48,7 @@ function onBegin() {
 
 }
 function onSuccess(result) {
+    debugger;
     var r = result;
     $('#lblcaption').val = '@Session["EntityName"]';
     var fileId = $('#cmdName').val();
