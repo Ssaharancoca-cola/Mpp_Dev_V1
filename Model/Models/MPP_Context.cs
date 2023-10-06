@@ -1078,6 +1078,28 @@ namespace Model.Models
                     .IsUnicode(false)
                     .HasColumnName("APPROVER_STATUS");
 
+                entity.Property(e => e.BppContainerPackSegmentCode)
+                    .IsUnicode(false)
+                    .HasColumnName("BPP_CONTAINER_PACK_SEGMENT_CODE");
+
+                entity.Property(e => e.BppContainerVolume).HasColumnName("BPP_CONTAINER_VOLUME");
+
+                entity.Property(e => e.BppContainerVolumeCode)
+                    .IsUnicode(false)
+                    .HasColumnName("BPP_CONTAINER_VOLUME_CODE");
+
+                entity.Property(e => e.BppContainerVolumeDesc)
+                    .IsUnicode(false)
+                    .HasColumnName("BPP_CONTAINER_VOLUME_DESC");
+
+                entity.Property(e => e.BppContainerVolumeUom)
+                    .IsUnicode(false)
+                    .HasColumnName("BPP_CONTAINER_VOLUME_UOM");
+
+                entity.Property(e => e.BppContainerVolumeUomDesc)
+                    .IsUnicode(false)
+                    .HasColumnName("BPP_CONTAINER_VOLUME_UOM_DESC");
+
                 entity.Property(e => e.Comments)
                     .HasMaxLength(500)
                     .IsUnicode(false)
@@ -1626,7 +1648,7 @@ namespace Model.Models
                 entity.Property(e => e.EntityTypeId).HasColumnName("ENTITY_TYPE_ID");
 
                 entity.Property(e => e.ErrorMessage)
-                    .HasMaxLength(29)
+                    .HasMaxLength(27)
                     .IsUnicode(false)
                     .HasColumnName("ERROR_MESSAGE");
 
