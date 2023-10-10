@@ -98,7 +98,15 @@ namespace MPP.Controllers
                         outMsg = dataImportExportViewModel.GetViewName(entityTypeId, userName[1].ToUpper(), out viewName);
                         if (outMsg != Constant.statusSuccess || string.IsNullOrEmpty(viewName))                    
                             return Content("error" + Constant.commonErrorMsg);
+                        if (viewName.Contains("31-DEC-2049"))
+                        {
+
                         outMsg = dataImportExportViewModel.LoadTableToFlatFile(attrbuteList, FilePath, viewName, strExport.ToString().Trim(','), "", whereClause, "", SortBy, true, ",", 1, false);
+                        }
+                        else
+                        {
+                            outMsg = dataImportExportViewModel.LoadTableToFlatFile(attrbuteList, FilePath, viewName, strExport.ToString().Trim(','), "", whereClause, "", SortBy, true, ",", 1, false);
+                        }
                         
                         if (outMsg == Constant.statusSuccess)
                         {

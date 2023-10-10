@@ -2,7 +2,6 @@
 @using Newtonsoft.Json;
 <link href="~/css/masters.css" rel="stylesheet" />
 <script src="~/js/workflow.js"></script>
-
 <script>
 
     $("#btnUpdateReject").click(function (e) {
@@ -261,7 +260,7 @@
             catch (ex) { }
 
             if (rowstatus == 5) {
-                $(this)[0].bgColor = "SkyBlue";
+                $(this)[0].bgColor = "#E8E2E2";
             }
             else {
                 $(this)[0].bgColor = "#d9edf9";
@@ -297,10 +296,10 @@
                             for (var l = 0; l < entityData.length; l++) {
                                 if (rowdata[l] != entityData[l]) {
                                     if (chkrownum % 2 == 0) {
-                                        background = 'CadetBlue';
+                                        background = '#6E3D34';
                                     }
                                     else {
-                                        background = 'SkyBlue';
+                                        background = '#E8E2E2';
                                     }
                                     $(cells[l + 1]).css('background-color', background)
                                 }
@@ -367,6 +366,7 @@
 
     });
 </script>
+
 <style type="text/css">
     .trgridsubmitteddata {
         color: black;
@@ -393,13 +393,8 @@
             @if (Context.Session.GetString("SelectedDimensionData") != null && Context.Session.GetString("EntityName") != null)
             {
                 <label style="color:red;font-family:Georgia;font-size:13pt;font-weight:bold">@Context.Session.GetString("SelectedDimensionData").ToString()></label>
-                <label style="color:black;font-family:Georgia;font-weight:bold">@Context.Session.GetString("EntityName").ToString()></label>
-            }
-            @*@{string serializedList1 = TempData["attributeList"] as string;
-                var attributeList = JsonConvert.DeserializeObject<List<Entity_Type_Attr_Detail>>(serializedList1);
-                TempData["attributeList"] = attributeList;
-                TempData.Keep();
-            }*@
+                <label style="color:black;font-family:Georgia;font-weight:bold">@Context.Session.GetString("EntityName").ToString()</label>
+            }           
         </td>
     </tr>
     <tr style="width:100%">
@@ -425,13 +420,14 @@
                 var submittedColumnData = JsonConvert.DeserializeObject<string>(jsonlist);
                 string[] colName = submittedColumnData.ToString().Split(',');
 
-                var jsonlist1 = TempData["submittedRowData"] as string;                
+                var jsonlist1 = TempData["submittedRowData"] as string;
                 var submittedRowData = JsonConvert.DeserializeObject<List<string>>(jsonlist1);
 
                 var jsonlist2 = TempData["submitteddataList"] as string;
                 var submitteddataList = JsonConvert.DeserializeObject <List<Dictionary<string, string>>>(jsonlist2);
                 TempData.Keep();
             }
+            <label>@submittedRowData.Count()</label>
             @if (submittedRowData.Count() > 0)
             {
                 <table style="width:100%;height:300px" border="0" cellspacing="0" cellpadding="0">
@@ -584,11 +580,11 @@
                         </td>
                     </tr>
                     <tr valign="top">
-                        <td bgcolor="#d9edf9" height="10" width="40"></td>
+                        <td bgcolor="#6E3D34" height="10" width="40"></td>
                         <td bgcolor="#FFFFFF" width="240"><font face="Verdana, Arial" size="1">Records rejected by the approver</font> </td>
                     </tr>
                     <tr valign="top">
-                        <td width="40" height="10" bgcolor="SkyBlue"></td>
+                        <td width="40" height="10" bgcolor="#E8E2E2"></td>
                         <td width="240" bgcolor="#FFFFFF">
                             <font face="Verdana, Arial" size="1">Records abandoned by the user</font>
                         </td>
@@ -697,7 +693,7 @@
                                     </td>
                                     <td align="left" style="padding-left:10px">
                                         <button type="submit" class="button" style="width:100px" id="btnDeleteReject" name="Command" title="Delete" value="Delete">
-                                            <img src="~/Images/Delete_Button.gif" />
+                                            <img src="~/Images/delete.png" />
                                         </button>
                                     </td>
                                     <td align="left" style="padding-left:10px">

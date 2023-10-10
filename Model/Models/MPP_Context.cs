@@ -1075,6 +1075,7 @@ namespace Model.Models
                     .IsFixedLength();
 
                 entity.Property(e => e.ApproverStatus)
+                    .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("APPROVER_STATUS");
 
@@ -1135,34 +1136,30 @@ namespace Model.Models
                     .HasColumnType("datetime")
                     .HasColumnName("EFFECTIVE_START_DATE");
 
+                entity.Property(e => e.EntCountryGroupCode)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_COUNTRY_GROUP_CODE");
+
+                entity.Property(e => e.EntCountryGroupDesc)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_COUNTRY_GROUP_DESC");
+
+                entity.Property(e => e.EntCountryGroupLongName)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_COUNTRY_GROUP_LONG_NAME");
+
+                entity.Property(e => e.EntCountryGroupShortName)
+                    .IsUnicode(false)
+                    .HasColumnName("ENT_COUNTRY_GROUP_SHORT_NAME");
+
                 entity.Property(e => e.ErrorMessage)
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("ERROR_MESSAGE");
 
-                entity.Property(e => e.GeoCountryCode)
-                    .IsUnicode(false)
-                    .HasColumnName("GEO_COUNTRY_CODE");
-
-                entity.Property(e => e.GeoZoneCode)
-                    .IsUnicode(false)
-                    .HasColumnName("GEO_ZONE_CODE");
-
-                entity.Property(e => e.GeoZoneDesc)
-                    .IsUnicode(false)
-                    .HasColumnName("GEO_ZONE_DESC");
-
-                entity.Property(e => e.GeoZoneLongName)
-                    .IsUnicode(false)
-                    .HasColumnName("GEO_ZONE_LONG_NAME");
-
-                entity.Property(e => e.GeoZoneShortName)
-                    .IsUnicode(false)
-                    .HasColumnName("GEO_ZONE_SHORT_NAME");
-
                 entity.Property(e => e.InputRowId)
                     .ValueGeneratedOnAdd()
-                    .HasColumnName("INPUT_ROW_ID");
+                    .HasColumnName("input_row_id");
 
                 entity.Property(e => e.LastModifiedBy)
                     .HasMaxLength(500)
@@ -1648,7 +1645,8 @@ namespace Model.Models
                 entity.Property(e => e.EntityTypeId).HasColumnName("ENTITY_TYPE_ID");
 
                 entity.Property(e => e.ErrorMessage)
-                    .HasMaxLength(27)
+                    .IsRequired()
+                    .HasMaxLength(306)
                     .IsUnicode(false)
                     .HasColumnName("ERROR_MESSAGE");
 

@@ -50,7 +50,6 @@ namespace MPP.Controllers
             List<UserInfo> userInfolist = new List<UserInfo>();
             if (!string.IsNullOrEmpty(OIDList))
             {
-                // string[] InputRowIdList = OIDList.Split(',') ;
                 List<Mail_Master> lstMailMaster = new List<Mail_Master>();
                 string outMsg = Constant.statusSuccess;
                 string Status = string.Empty;

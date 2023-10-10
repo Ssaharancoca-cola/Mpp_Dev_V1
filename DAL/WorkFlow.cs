@@ -206,7 +206,15 @@ namespace DAL
                 }
                 if (outMsg != Constant.statusSuccess || string.IsNullOrEmpty(viewName))
                     return ds;
-                string query = "SELECT " + colName + " FROM  " + viewName + "  WHERE (" + pkCode + ") IN (SELECT " + pkCode + " FROM MPP_APP." + tableName + " WHERE APPROVER_ID ='" + approverId + "' AND APPROVER_STATUS='" + status + "' AND ROW_STATUS =3)";
+                string query = "";
+                if (viewName.Contains("31-DEC-2049"))
+                {
+                     query = "SELECT " + colName + " FROM  (" + viewName + ") AS Q  WHERE (Q." + pkCode + ") IN (SELECT " + pkCode + " FROM MPP_APP." + tableName + " WHERE APPROVER_ID ='" + approverId + "' AND APPROVER_STATUS='" + status + "' AND ROW_STATUS =3)";
+                }
+                else
+                {
+                     query = "SELECT " + colName + " FROM  " + viewName + "  WHERE (" + pkCode + ") IN (SELECT " + pkCode + " FROM MPP_APP." + tableName + " WHERE APPROVER_ID ='" + approverId + "' AND APPROVER_STATUS='" + status + "' AND ROW_STATUS =3)";
+                }
                 ds = GetSubmittedRecords(query, out outMsg);
                 if (outMsg != Constant.statusSuccess)
                     return ds;

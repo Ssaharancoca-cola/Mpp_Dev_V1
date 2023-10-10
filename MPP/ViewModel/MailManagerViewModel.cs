@@ -10,7 +10,7 @@ namespace MPP.ViewModel
 {
 public class MailManagerViewModel : IDisposable
 {
-        private readonly string SMTPHost = "zwdmyaa0001.apac.ko.com";
+        private readonly string SMTPHost = "smtp.coca-cola.com";
         private readonly string MailFrom = "ssaharan@coca-cola.com";
     void IDisposable.Dispose()
     {
@@ -459,15 +459,15 @@ public class MailManagerViewModel : IDisposable
 
 
         #region SendMail
-        private readonly string smtpusername = "ssaharan@coca-cola.com";
-        private readonly string smtppass = "1234512345";
+        //private readonly string smtpusername = "ssaharan@coca-cola.com";
+        //private readonly string smtppass = "Silverwinter$1";
     public void SendMail(List<Mail_Master> lstMailMaster, string outMsg)
       {
 
         SmtpClient smtpClient = new SmtpClient();        
         smtpClient.Host = SMTPHost;
             smtpClient.Port = 25;
-            smtpClient.Credentials = new NetworkCredential(smtpusername, smtppass);
+            //smtpClient.Credentials = new NetworkCredential(smtpusername, smtppass);
 
             try
         {

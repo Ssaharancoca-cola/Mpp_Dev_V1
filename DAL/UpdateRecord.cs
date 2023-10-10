@@ -223,7 +223,14 @@ namespace DAL
                 if (outMsg != Constant.statusSuccess)
                     return outMsg;
                 strQuery.Append("SELECT " + strSelectClause + " FROM ");
-                strQuery.Append(  tableName );
+                if (tableName.Contains("31-DEC-2049"))
+                {
+                    strQuery.Append(" ( " + tableName + " ) ");
+                }
+                else
+                {
+                    strQuery.Append(" " + tableName + " ");
+                }
                 strQuery.Append(" t ");
                 strQuery.Append(strWhereClause);
                 searchQuery = strQuery.ToString();

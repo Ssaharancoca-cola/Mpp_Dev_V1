@@ -11,7 +11,7 @@
                 @if (Context.Session.GetString("SelectedDimensionData") != null && Context.Session.GetString("EntityName") != null)
                 {
                     <label style="color:#F40000;font-family:Arial;font-size:12pt;font-weight:bold">@Context.Session.GetString("SelectedDimensionData").ToString()></label>
-                    <label style="color:black;font-family:Arial;font-size:10pt;font-weight:bold">@Context.Session.GetString("EntityName").ToString()></label>
+                    <label style="color:black;font-family:Arial;font-size:10pt;font-weight:bold">@Context.Session.GetString("EntityName").ToString()</label>
                 }
 
             </td>

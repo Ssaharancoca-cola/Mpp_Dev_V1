@@ -9,7 +9,9 @@ namespace Model.Models
     {
         public DateTime? DateFrom { get; set; }
         public DateTime? DateTo { get; set; }
-        public string BppContainerVolumeCode { get; set; }
+        public string EntCountryGroupCode { get; set; }
+        public string EntCountryGroupLongName { get; set; }
+        public string EntCountryGroupShortName { get; set; }
         public string DummyFlag { get; set; }
         public string ActiveFlag { get; set; }
         public DateTime? EffectiveStartDate { get; set; }
@@ -19,7 +21,6 @@ namespace Model.Models
         public string ErrorMessage { get; set; }
         public string WarningMessage { get; set; }
         public string SessionId { get; set; }
-        public int InputRowId { get; set; }
         public TimeSpan? CreatedDate { get; set; }
         public string CreatedUserId { get; set; }
         public DateTime? UpdateDate { get; set; }
@@ -37,12 +38,9 @@ namespace Model.Models
         public int? RecLockFlag { get; set; }
         public int? TreatNullsAsNulls { get; set; }
         public int? CurrentEditLevel { get; set; }
-        public string BppContainerVolumeDesc { get; set; }
+        public string EntCountryGroupDesc { get; set; }
+        public int InputRowId { get; set; }
         public string Validationcode { get; set; }
         public string ApproverStatus { get; set; }
-        public string BppContainerPackSegmentCode { get; set; }
-        public int? BppContainerVolume { get; set; }
-        public string BppContainerVolumeUom { get; set; }
-        public string BppContainerVolumeUomDesc { get; set; }
     }
 }

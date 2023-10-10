@@ -28,6 +28,7 @@
   <ItemGroup>
     <Content Remove="Views\Search\GetSearchData.cshtml" />
     <Content Remove="Views\TEST.cshtml" />
+    <Content Remove="Views\Workflow\Index.cshtml" />
     <Content Remove="wwwroot\js\Attribute.js" />
   </ItemGroup>
 
