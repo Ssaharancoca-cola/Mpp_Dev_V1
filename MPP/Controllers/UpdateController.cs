@@ -17,7 +17,6 @@ namespace MPP.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IWebHostEnvironment _environment;
         private readonly IConfiguration _configuration;
-        private string Link = "//MPP//";
 
         public UpdateController(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment environment, IConfiguration configuration)
         {
@@ -32,8 +31,6 @@ namespace MPP.Controllers
             int entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID"));
             _httpContextAccessor.HttpContext.Session.SetString("INPUTROWIDS", OIDList);
             _httpContextAccessor.HttpContext.Session.SetString("ActionType", ActionType);
-            //ViewData["ActionType"] = ActionType;
-            //ViewData["INPUTROWIDS"] = OIDList;
             DataSet ds = new DataSet();
             string outMsg = Constant.statusSuccess;
             bool isInputRowId = false;
@@ -233,11 +230,11 @@ namespace MPP.Controllers
                         CountDiff = TotalRowCount - ErrorRowCount;
                         if (CountDiff > 0)
                         {
-                            //MailManagerViewModel objMAilManagerViewModel = new MailManagerViewModel();
-                            //string url = Request.GetDisplayUrl() + Link;
-                            //string[] user = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None); 
-                            //objMAilManagerViewModel.Mail(CountDiff.ToString(), "record", Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")), Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")),
-                            //user, url, Constant.update, out outMsg);
+                            MailManagerViewModel objMAilManagerViewModel = new MailManagerViewModel();
+                            string url = _configuration["PATH:Url"];
+                            string[] user = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
+                            objMAilManagerViewModel.Mail(CountDiff.ToString(), "record", Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")), Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")),
+                            user, url, Constant.update, out outMsg);
                         }
                         return Content("export," + _httpContextAccessor.HttpContext.Session.GetString("EntityName") + "," + FilePath);
                     }
@@ -248,11 +245,11 @@ namespace MPP.Controllers
                 CountDiff = TotalRowCount - ErrorRowCount;
                 if (CountDiff > 0)
                 {
-                    //MailManagerViewModel objMAilManagerViewModel = new MailManagerViewModel();
-                    //string url = Request.GetDisplayUrl() + Link;
-                    //string[] user = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
-                    //objMAilManagerViewModel.Mail(CountDiff.ToString(), "record", Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")), Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")),
-                    //user, url, Constant.update, out outMsg);
+                    MailManagerViewModel objMAilManagerViewModel = new MailManagerViewModel();
+                    string url = _configuration["PATH:Url"];
+                    string[] user = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
+                    objMAilManagerViewModel.Mail(CountDiff.ToString(), "record", Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")), Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")),
+                    user, url, Constant.update, out outMsg);
 
                 }
                 if (outMsg == Constant.statusSuccess)

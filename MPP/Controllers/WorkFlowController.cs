@@ -15,7 +15,6 @@ namespace MPP.Controllers
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IConfiguration _configuration;
-        private readonly string Link = "/MPP/";
         public WorkFlowController(IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
         {
             _httpContextAccessor = httpContextAccessor;
@@ -140,7 +139,7 @@ namespace MPP.Controllers
                 outMsg = Constant.statusSuccess;
                 using (MailManagerViewModel objMailManagerViewModel = new MailManagerViewModel())
                 {
-                    string url = Request.GetDisplayUrl() + Link;
+                    string url = _configuration["PATH:Url"];
                     string[] userName = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
 
                     lstMailMaster = objMailManagerViewModel.CreateMailListForWorkFlow(userName, OIDList.Trim(','), Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")),
@@ -170,7 +169,7 @@ namespace MPP.Controllers
                     eventId = Convert.ToInt32(Mail_Master.MailEventDetail.REJECT);
                 using (MailManagerViewModel objMailManagerViewModel = new MailManagerViewModel())
                 {
-                    string url = Request.GetDisplayUrl() + Link;
+                    string url = _configuration["PATH:Url"];
                     string[] userName = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
                     objMailManagerViewModel.CreateMailListForApproveReject(userName, eventId, OIDList.Trim(','), Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetString("EntityName")),
                     Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")), Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("SelectedDimensionData")), url, Constant.ABANDON, userInfoList,
@@ -196,7 +195,7 @@ namespace MPP.Controllers
 
                 using (MailManagerViewModel objMailManagerViewModel = new MailManagerViewModel())
                 {
-                    string url = Request.GetDisplayUrl() + Link;
+                    string url = _configuration["PATH:Url"];
                     objMailManagerViewModel.SendMailError(eventId, OIDList.Trim(','), Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")), errorMessage,
                         Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")), userName[1], out outMsg);
                 }

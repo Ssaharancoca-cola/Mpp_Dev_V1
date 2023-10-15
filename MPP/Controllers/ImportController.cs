@@ -16,11 +16,12 @@ namespace MPP.Controllers
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IWebHostEnvironment _environment;
-        private string Link = "//MPP//";
-        public ImportController(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment environment)
+        private readonly IConfiguration _configuration;
+        public ImportController(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment environment, IConfiguration configuration)
         {
             _httpContextAccessor = httpContextAccessor;
             _environment = environment;
+            _configuration = configuration;
         }
         public ActionResult Index() { return View(); }
         [HttpPost]
@@ -230,7 +231,7 @@ namespace MPP.Controllers
             {
                 outMsg = Constant.statusSuccess;
                 MailManagerViewModel objMAilManagerViewModel = new MailManagerViewModel();
-                string url = Request.GetDisplayUrl() + Link;
+                string url = _configuration["PATH:Url"];
                 string[] user = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
                 objMAilManagerViewModel.Mail(successRowCount, "record", Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")), Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")),
                 user, url, Constant.import, out outMsg);
