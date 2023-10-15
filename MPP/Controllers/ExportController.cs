@@ -3,11 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Model;
 using MPP.ViewModel;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Configuration;
 using System.Data;
-using System.Diagnostics;
-using System.Security.Claims;
 using System.Text;
 
 namespace MPP.Controllers
@@ -101,13 +97,13 @@ namespace MPP.Controllers
                         if (viewName.Contains("31-DEC-2049"))
                         {
                             viewName = "("+ viewName + ") AS Q";
-                        outMsg = dataImportExportViewModel.LoadTableToFlatFile(attrbuteList, FilePath, viewName, strExport.ToString().Trim(','), "", whereClause, "", SortBy, true, ",", 1, false);
+                            outMsg = dataImportExportViewModel.LoadTableToFlatFile(attrbuteList, FilePath, viewName, strExport.ToString().Trim(','), "", whereClause, "", SortBy, true, ",", 1, false);
                         }
                         else
                         {
                             outMsg = dataImportExportViewModel.LoadTableToFlatFile(attrbuteList, FilePath, viewName, strExport.ToString().Trim(','), "", whereClause, "", SortBy, true, ",", 1, false);
                         }
-                        
+
                         if (outMsg == Constant.statusSuccess)
                         {
                             ViewData["filepath"] = FilePath;
