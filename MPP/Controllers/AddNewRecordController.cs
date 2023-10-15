@@ -198,11 +198,11 @@ namespace MPP.Controllers
                     }
                     if (outMsg == Constant.statusSuccess)
                     {
-                        //MailManagerViewModel objMAilManagerViewModel = new MailManagerViewModel();
-                        //string url = Request.GetDisplayUrl() + Link;
-                        //string[] user = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
-                        //objMAilManagerViewModel.Mail("1", "record", Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")), Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")),
-                        //user, url, Constant.addNew, out outMsg);
+                        MailManagerViewModel objMAilManagerViewModel = new MailManagerViewModel();
+                        string url = Request.GetDisplayUrl() + Link;
+                        string[] user = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
+                        objMAilManagerViewModel.Mail("1", "record", Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")), Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")),
+                        user, url, Constant.addNew, out outMsg);
                     }
                     else
                         return Content(outMsg + "error");

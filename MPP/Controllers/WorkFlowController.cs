@@ -103,17 +103,17 @@ namespace MPP.Controllers
                             userInfolist = objMailManagerViewModel.GetUsersListForApproval(OIDList.Trim(','), entityTypeId, out outMsg);
                         }
                     }
-                    //if (outMsg == Constant.statusSuccess)
-                    //    SendMailApproveReject(ActionType, OIDList.Trim(','), userInfolist, out outMsg);
-                    //else
-                    //{
-                    //    //send error mail only in case of error in approving record
-                    //    if (ActionType == "Approve")
-                    //    {
-                    //        SendMailError(OIDList, outMsg, out outMsg);
-                    //        return Content("error" + "Please contact MPP team for support by mailing them the snapshot of the error which is given below" + outMsg);
-                    //    }
-                    //}
+                    if (outMsg == Constant.statusSuccess)
+                        SendMailApproveReject(ActionType, OIDList.Trim(','), userInfolist, out outMsg);
+                    else
+                    {
+                        //send error mail only in case of error in approving record
+                        if (ActionType == "Approve")
+                        {
+                            SendMailError(OIDList, outMsg, out outMsg);
+                            return Content("error" + "Please contact MPP team for support by mailing them the snapshot of the error which is given below" + outMsg);
+                        }
+                    }
 
 
                 }

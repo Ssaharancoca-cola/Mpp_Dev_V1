@@ -138,7 +138,7 @@ namespace MPP.ViewModel
                     rowData.Add(strRowDetail.ToString().Trim(','));
                     strRowDetail.AppendLine();
                 }
-            }
+                }
             catch (Exception ex)
             {
                 using (LogError objLogError = new LogError())
@@ -173,7 +173,7 @@ namespace MPP.ViewModel
             }
             return colName.ToString();
         }
-        public string LoadContentView(int entityTypeId, out string submittedColumnData, out List<string> submittedRowData, out List<Dictionary<string, string>> dataList)
+        public string LoadContentView(string[] userName,int entityTypeId, out string submittedColumnData, out List<string> submittedRowData, out List<Dictionary<string, string>> dataList)
         {
             DataSet dsResult = new DataSet();
             string ApproverId = String.Empty;
@@ -187,7 +187,7 @@ namespace MPP.ViewModel
 
                 string status = SubmittedStatus;
                 
-                string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
+                //string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
                 if (!String.IsNullOrEmpty(userName[1].ToString()))
                 {
                     using (WorkFlowViewModel objWorkFlowViewModel = new WorkFlowViewModel())
@@ -208,7 +208,7 @@ namespace MPP.ViewModel
             }
             return outMsg;
         }
-        public string LoadContentReject(int entityTypeId, out string rejectedColumnData, out List<string> rejectedRowData, out List<Dictionary<string, string>> dataList)
+        public string LoadContentReject(string[] userName, int entityTypeId, out string rejectedColumnData, out List<string> rejectedRowData, out List<Dictionary<string, string>> dataList)
         {
             DataSet dsResult = new DataSet();
             string ApproverId = String.Empty;
@@ -219,7 +219,7 @@ namespace MPP.ViewModel
             try
             {
                 string status = RejectedStatus;
-                string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
+                //string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
                 if (!String.IsNullOrEmpty(userName[1].ToString()))
                 {
                     using (WorkFlowViewModel objWorkFlowViewModel = new WorkFlowViewModel())
@@ -241,7 +241,7 @@ namespace MPP.ViewModel
             return outMsg;
 
         }
-        public string LoadContentMyApproval(int entityTypeId, out string approvalPendingColumnData, out List<string> approvalPendingRowData,
+        public string LoadContentMyApproval(string[] userName, int entityTypeId, out string approvalPendingColumnData, out List<string> approvalPendingRowData,
             out List<Dictionary<string, string>> dataList, out string existingRecordColumnData, out List<string> existingRecordRowData,
             out List<Dictionary<string, string>> existingRecordDataList)
         {
@@ -257,7 +257,7 @@ namespace MPP.ViewModel
             try
             {
                 string status = ApproverStatusPending;
-                string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
+                //string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
                 ApproverId = userName[1].ToString().ToUpper();
                 if (!String.IsNullOrEmpty(userName[1].ToString()))
                 {
@@ -267,7 +267,7 @@ namespace MPP.ViewModel
                             out outMsg, out approvalPendingColumnData, out approvalPendingRowData, out dataList);
                         if (outMsg != Constant.statusSuccess)
                             return outMsg;
-                        objWorkFlowViewModel.GetExistingRecordList(entityTypeId, userName[1].ToString(), status, out existingRecordColumnData, out existingRecordRowData,
+                        objWorkFlowViewModel.GetExistingRecordList(userName, entityTypeId, userName[1].ToString(), status, out existingRecordColumnData, out existingRecordRowData,
                           out existingRecordDataList, out outMsg);
                         if (outMsg != Constant.statusSuccess)
                             return outMsg;
@@ -310,7 +310,7 @@ namespace MPP.ViewModel
             return outMsg;
         }
 
-        public string GetExistingRecordList(int entityTypeId, string approverId, string status, out string columnData, out List<string> rowData,
+        public string GetExistingRecordList(string[] userName, int entityTypeId, string approverId, string status, out string columnData, out List<string> rowData,
          out List<Dictionary<string, string>> dataList, out string outMsg)
         {
             DataSet dsresult = new DataSet();
@@ -322,9 +322,8 @@ namespace MPP.ViewModel
             List<Entity_Type_Attr_Detail> attributeList = new List<Entity_Type_Attr_Detail>();
             try
             {
-                string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
+                //string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
               
-                //string str = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
                 using (MenuViewModel objMenuViewModel = new MenuViewModel())
                 {
                     (attributeList, outMsg) = Task.Run(() => objMenuViewModel.ShowAttributeDataAsync(entityTypeId, "", userName[1].ToUpper())).Result;

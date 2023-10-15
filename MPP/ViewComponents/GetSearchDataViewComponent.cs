@@ -315,8 +315,9 @@ namespace MPP.ViewComponents
                     List<Dictionary<string, string>> rejectedDataList = new List<Dictionary<string, string>>();
                     List<Dictionary<string, string>> approvalPendingDataList = new List<Dictionary<string, string>>();
                     List<Dictionary<string, string>> existingRecordDataList = new List<Dictionary<string, string>>();
+                    string[] userName = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
 
-                    objWorkFlowViewModel.LoadContentView(entityTypeId, out submittedColumnData, out submittedRowData, out submittedDataList);
+                    objWorkFlowViewModel.LoadContentView(userName, entityTypeId, out submittedColumnData, out submittedRowData, out submittedDataList);
                     
                     string ListJson1 = JsonConvert.SerializeObject(submittedColumnData);
                     TempData["submittedColumnData"] = ListJson1;
@@ -327,7 +328,7 @@ namespace MPP.ViewComponents
                     string ListJson3 = JsonConvert.SerializeObject(submittedDataList);
                     TempData["submitteddataList"] = ListJson3;
 
-                    objWorkFlowViewModel.LoadContentReject(entityTypeId, out rejectedColumnData, out rejectedRowData, out rejectedDataList);
+                    objWorkFlowViewModel.LoadContentReject(userName, entityTypeId, out rejectedColumnData, out rejectedRowData, out rejectedDataList);
 
                     string ListJson4 = JsonConvert.SerializeObject(rejectedColumnData);
                     TempData["rejectedColumnData"] = ListJson4;
@@ -338,7 +339,7 @@ namespace MPP.ViewComponents
                     string ListJson6 = JsonConvert.SerializeObject(rejectedDataList);
                     TempData["rejecteddataList"] = ListJson6;
 
-                    objWorkFlowViewModel.LoadContentMyApproval(entityTypeId, out approvalPendingColumnData, out approvalPendingRowData,
+                    objWorkFlowViewModel.LoadContentMyApproval(userName, entityTypeId, out approvalPendingColumnData, out approvalPendingRowData,
                         out approvalPendingDataList, out existingRecordColumnData, out existingRecordRowData, out existingRecordDataList);
 
                     string ListJson7 = JsonConvert.SerializeObject(approvalPendingColumnData);
@@ -349,7 +350,7 @@ namespace MPP.ViewComponents
 
                     string ListJson9 = JsonConvert.SerializeObject(approvalPendingDataList);
                     TempData["approvalPendingdataList"] = ListJson9;
-
+                    
                     StringBuilder rowdata = new StringBuilder();
                     foreach (var data in existingRecordRowData)
                     {

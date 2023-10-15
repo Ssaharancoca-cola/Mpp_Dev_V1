@@ -9,9 +9,9 @@ using System.Net.Mail;
 namespace MPP.ViewModel
 {
 public class MailManagerViewModel : IDisposable
-{
+{        
         private readonly string SMTPHost = "smtp.coca-cola.com";
-        private readonly string MailFrom = "ssaharan@coca-cola.com";
+        private readonly string MailFrom = "noreplympp@coca-cola.com";
     void IDisposable.Dispose()
     {
 
@@ -82,11 +82,10 @@ public class MailManagerViewModel : IDisposable
                     string MailBody = body;
                     if (count.ToString() == "1")
                         MailBody = body.Replace("records", "record");
-                    MailBody = MailBody.Replace("&count&", count);// = body.Replace("&count&", "one");
+                    MailBody = MailBody.Replace("&count&", count);
                     MailBody = MailBody.Replace("&approvername&", approver.UserName);
                     MailBody = MailBody.Replace("&username&", _UserInfo.UserName);
                     MailBody = MailBody.Replace("are", "is");
-                    // MailBody = MailBody.Replace("records", "record");
                     MailBody = MailBody.Replace("&entity&", EntityName);
                     MailBody = MailBody.Replace("&url&", url);
                     _MAIL_MASTER.MailBody = MailBody;
@@ -459,16 +458,13 @@ public class MailManagerViewModel : IDisposable
 
 
         #region SendMail
-        //private readonly string smtpusername = "ssaharan@coca-cola.com";
-        //private readonly string smtppass = "Silverwinter$1";
+       
     public void SendMail(List<Mail_Master> lstMailMaster, string outMsg)
       {
 
         SmtpClient smtpClient = new SmtpClient();        
         smtpClient.Host = SMTPHost;
             smtpClient.Port = 25;
-            //smtpClient.Credentials = new NetworkCredential(smtpusername, smtppass);
-
             try
         {
             foreach (Mail_Master mail in lstMailMaster)

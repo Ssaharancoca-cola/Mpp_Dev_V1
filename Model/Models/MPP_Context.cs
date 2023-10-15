@@ -51,7 +51,7 @@ namespace Model.Models
         public DbSet<ApproverDetail> approverDetail { get; set; }
         public DbSet<CNTS> cNT { get; set; }
         public DbSet<UserDto> userDto { get; set; }
-       // public DbSet<MailData> mailData { get; set; }
+        public DbSet<MailData> mailData { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
