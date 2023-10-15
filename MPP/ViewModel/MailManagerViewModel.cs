@@ -105,10 +105,10 @@ public class MailManagerViewModel : IDisposable
         }
     }
 
-    public List<Mail_Master> CreateMailListForWorkFlow(string InputRowIds, int entityID, string EntityName, string DimensionName, string url,
+    public List<Mail_Master> CreateMailListForWorkFlow(string[] userName, string InputRowIds, int entityID, string EntityName, string DimensionName, string url,
         string action, out string outMsg)
     {
-        string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
+        //string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
         outMsg = Constant.statusSuccess;
         Mail_Master _MAIL_MASTER;
         List<Mail_Master> lstMailMaster = new List<Mail_Master>();
@@ -190,14 +190,14 @@ public class MailManagerViewModel : IDisposable
         }
         return lstMailMaster;
     }
-    public List<UserInfo> GetUsersListForApproval(string InputRowIds, int entityID, out string outMsg)
+    public List<UserInfo> GetUsersListForApproval(string[] userName, string InputRowIds, int entityID, out string outMsg)
     {
         List<UserInfo> userInfolist = new List<UserInfo>();
         try
         {
             outMsg = Constant.statusSuccess;
             string tableName = string.Empty;
-            string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
+            //string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
             using (GetViewDetail objGetViewDetail = new GetViewDetail())
             {
                 tableName = objGetViewDetail.GetTableName(entityID, out outMsg);
@@ -217,7 +217,7 @@ public class MailManagerViewModel : IDisposable
         }
         return userInfolist;
     }
-    public void CreateMailListForApproveReject(int eventID, string InputRowIds, int entityID, string EntityName, string DimensionName, string url,
+    public void CreateMailListForApproveReject(string[] userName, int eventID, string InputRowIds, int entityID, string EntityName, string DimensionName, string url,
      string action, List<UserInfo> userInfolist, out string outMsg)
     {
         string tableName = string.Empty;
@@ -228,7 +228,7 @@ public class MailManagerViewModel : IDisposable
         List<Mail_Master> lstMailMaster = new List<Mail_Master>();
         int ApproveId = Convert.ToInt32(Mail_Master.MailEventDetail.APPROVE);
         int RejectId = Convert.ToInt32(Mail_Master.MailEventDetail.REJECT);
-        string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
+        //string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
         try
         {
             using (GetViewDetail objGetViewDetail = new GetViewDetail())
@@ -304,7 +304,6 @@ public class MailManagerViewModel : IDisposable
                 }
                 //check final approver & send mail to user
                 int count = 0, FinalApprovalCount = 0;
-                //url = Request.Url.GetLeftPart(UriPartial.Authority) + appName + "/CATEGORY.aspx?&Action=" + DimensionName;
                 int finalApproval = Convert.ToInt32(Mail_Master.MailEventDetail.FINALAPPROVE);
 
                 using (Mail_Manager objmailManager = new Mail_Manager())

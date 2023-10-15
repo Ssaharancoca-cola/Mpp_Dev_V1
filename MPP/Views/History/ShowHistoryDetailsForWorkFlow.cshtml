@@ -23,7 +23,7 @@
             <tr style="width:100%">
                 <td style="width: 100%;padding-left:20px;height:auto" align="left">
                     <table width="796px" border="0" cellspacing="0" cellpadding="0">
-                        <tr valign="middle" align="left" style="background-image:url(App_Themes/Master/Images/TableTop.jpg);background-repeat:repeat-x;height:100%">
+                        <tr valign="middle" align="left" style="background-image:url(Images/TableTop1.jpg);background-repeat:repeat-x;height:100%">
                             <td height="40" class="whiteTextNormal">
                                 <span class="whiteTextNormal">
                                     <strong>
@@ -94,7 +94,7 @@
     $("#btnCancel").click(function () {
         $('#AttributeDetail').empty();
         $('#viewPlaceHolder').empty();
-        $.post('@Url.Action("GetWorkFlowData", "WorkFlow")',
+        $.post('@Url.Action("GetSearchData", "Search")',
             function (data) {
                 $('#viewPlaceHolder').empty();
                 $('#AttributeDetail').html(data);

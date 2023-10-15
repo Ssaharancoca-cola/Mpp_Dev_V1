@@ -68,7 +68,7 @@ namespace MPP.Controllers
                     returnMsg = Constant.approvedSuccessFullyMessage;
                     using (MailManagerViewModel objMailManagerViewModel = new MailManagerViewModel())
                     {
-                        userInfolist = objMailManagerViewModel.GetUsersListForApproval(OIDList.Trim(','), entityTypeId, out outMsg);
+                        userInfolist = objMailManagerViewModel.GetUsersListForApproval(userName, OIDList.Trim(','), entityTypeId, out outMsg);
                     }
 
                 }
@@ -100,7 +100,7 @@ namespace MPP.Controllers
                     {
                         using (MailManagerViewModel objMailManagerViewModel = new MailManagerViewModel())
                         {
-                            userInfolist = objMailManagerViewModel.GetUsersListForApproval(OIDList.Trim(','), entityTypeId, out outMsg);
+                            userInfolist = objMailManagerViewModel.GetUsersListForApproval(userName, OIDList.Trim(','), entityTypeId, out outMsg);
                         }
                     }
                     if (outMsg == Constant.statusSuccess)
@@ -114,12 +114,9 @@ namespace MPP.Controllers
                             return Content("error" + "Please contact MPP team for support by mailing them the snapshot of the error which is given below" + outMsg);
                         }
                     }
-
-
                 }
-
                 if (outMsg != Constant.statusSuccess)
-                    return Content("error" + Constant.commonErrorMsg);                
+                    return Content("error" + Constant.commonErrorMsg);               
 
             }
             return Content("success" + returnMsg);
@@ -135,70 +132,6 @@ namespace MPP.Controllers
                                                                  viewType = "search"
                                                              }));
         }
-    
-        //public ActionResult GetWorkFlowData()
-        //{
-        //    string outMsg = Constant.statusSuccess;
-        //    try
-        //    {
-        //        using (WorkFlowViewModel objWorkFlowViewModel = new WorkFlowViewModel())
-        //        {
-        //            int entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID"));
-        //            string submittedColumnData;
-        //            string rejectedColumnData;
-        //            string approvalPendingColumnData;
-        //            string existingRecordColumnData;
-
-        //            List<string> submittedRowData = new List<string>();
-        //            List<string> rejectedRowData = new List<string>();
-        //            List<string> approvalPendingRowData = new List<string>();
-        //            List<string> existingRecordRowData = new List<string>();
-
-        //            List<Dictionary<string, string>> submittedDataList = new List<Dictionary<string, string>>();
-        //            List<Dictionary<string, string>> rejectedDataList = new List<Dictionary<string, string>>();
-        //            List<Dictionary<string, string>> approvalPendingDataList = new List<Dictionary<string, string>>();
-        //            List<Dictionary<string, string>> existingRecordDataList = new List<Dictionary<string, string>>();
-
-
-        //            objWorkFlowViewModel.LoadContentView(entityTypeId, out submittedColumnData, out submittedRowData, out submittedDataList);
-        //            TempData["submittedColumnData"] = submittedColumnData;
-        //            TempData["submittedRowData"] = submittedRowData;
-        //            TempData["submitteddataList"] = submittedDataList;
-
-        //            objWorkFlowViewModel.LoadContentReject(entityTypeId, out rejectedColumnData, out rejectedRowData, out rejectedDataList);
-        //            TempData["rejectedColumnData"] = rejectedColumnData;
-        //            TempData["rejectedRowData"] = rejectedRowData;
-        //            TempData["rejecteddataList"] = rejectedDataList;
-
-        //            objWorkFlowViewModel.LoadContentMyApproval(entityTypeId, out approvalPendingColumnData, out approvalPendingRowData,
-        //                out approvalPendingDataList, out existingRecordColumnData, out existingRecordRowData, out existingRecordDataList);
-        //            TempData["approvalPendingColumnData"] = approvalPendingColumnData;
-        //            TempData["approvalPendingRowData"] = approvalPendingRowData;
-        //            TempData["approvalPendingdataList"] = approvalPendingDataList;
-
-        //            StringBuilder rowdata = new StringBuilder();
-        //            foreach (var data in existingRecordRowData)
-        //            {
-
-        //                rowdata.Append(data.ToString());
-
-        //                rowdata.Append(";");
-
-        //            }
-        //            _httpContextAccessor.HttpContext.Session.SetString("ExistingList", rowdata.ToString());
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        using (LogErrorViewModel objLogErrorViewModel = new LogErrorViewModel())
-        //        {
-        //            objLogErrorViewModel.LogErrorInTextFile(ex);
-        //        }
-        //        outMsg = ex.Message;
-        //    }
-        //    return PartialView("~/Views/WorkFlow/GetWorkFlowData.cshtml");
-
-        //}
         private List<Mail_Master> CreateMailListForAbandoned(string OIDList, out string outMsg)
         {
             List<Mail_Master> lstMailMaster = new List<Mail_Master>();
@@ -208,7 +141,9 @@ namespace MPP.Controllers
                 using (MailManagerViewModel objMailManagerViewModel = new MailManagerViewModel())
                 {
                     string url = Request.GetDisplayUrl() + Link;
-                    lstMailMaster = objMailManagerViewModel.CreateMailListForWorkFlow(OIDList.Trim(','), Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")),
+                    string[] userName = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
+
+                    lstMailMaster = objMailManagerViewModel.CreateMailListForWorkFlow(userName, OIDList.Trim(','), Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")),
                      Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")), Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("SelectedDimensionData")), url, Constant.ABANDON, out outMsg);
                 }
             }
@@ -236,7 +171,8 @@ namespace MPP.Controllers
                 using (MailManagerViewModel objMailManagerViewModel = new MailManagerViewModel())
                 {
                     string url = Request.GetDisplayUrl() + Link;
-                    objMailManagerViewModel.CreateMailListForApproveReject(eventId, OIDList.Trim(','), Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetString("EntityName")),
+                    string[] userName = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
+                    objMailManagerViewModel.CreateMailListForApproveReject(userName, eventId, OIDList.Trim(','), Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetString("EntityName")),
                     Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")), Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("SelectedDimensionData")), url, Constant.ABANDON, userInfoList,
                     out outMsg);
                 }

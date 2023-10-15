@@ -102,7 +102,7 @@ namespace MPP.ViewComponents
                 List<Entity_Type_Attr_Detail> entityAttrList = new List<Entity_Type_Attr_Detail>();
                 using (AddNewRecordViewModel objAddNewRecordViewModel = new AddNewRecordViewModel())
                 {
-                    entityAttrList = await objAddNewRecordViewModel.GetAddNewField(Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")));
+                    entityAttrList = await objAddNewRecordViewModel.GetAddNewField(userName, Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")));
                 }
                 if (Command == "AddNew")
                 {

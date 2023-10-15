@@ -86,7 +86,7 @@ namespace MPP.Controllers
                 }
                 using (HistoryViewModel objHistoryViewModel = new HistoryViewModel())
                 {
-                    objHistoryViewModel.GetHistoryDetailsForWorkFLow(OID, entityTypeId, out columnData, out rowData, out dataList, out outMsg);
+                    objHistoryViewModel.GetHistoryDetailsForWorkFLow(userName, OID, entityTypeId, out columnData, out rowData, out dataList, out outMsg);
                 }
                 TempData["dataList"] = dataList;
 

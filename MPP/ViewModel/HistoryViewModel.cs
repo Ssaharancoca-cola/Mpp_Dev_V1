@@ -30,7 +30,7 @@ namespace MPP.ViewModel
             GetDataFromDataSet(dsResult, entityTypeId, out columnData, out rowData, out dataList);
 
         }
-        public void GetHistoryDetailsForWorkFLow(int OIDCode, int entityTypeId, out string columnData, out List<string> rowData,
+        public void GetHistoryDetailsForWorkFLow(string[] userName, int OIDCode, int entityTypeId, out string columnData, out List<string> rowData,
             out List<Dictionary<string, string>> dataList, out string outMsg)
         {
             string tableName = string.Empty;
@@ -38,7 +38,7 @@ namespace MPP.ViewModel
             columnData = string.Empty;
             rowData = new List<string>();
             dataList = new List<Dictionary<string, string>>();
-            string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
+            //string[] userName = System.Security.Principal.WindowsIdentity.GetCurrent().Name.Split(new[] { "\\" }, StringSplitOptions.None);
 
             using (MPP_Context objMPP_Context = new MPP_Context())
             {
