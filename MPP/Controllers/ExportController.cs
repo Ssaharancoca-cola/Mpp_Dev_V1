@@ -100,7 +100,7 @@ namespace MPP.Controllers
                             return Content("error" + Constant.commonErrorMsg);
                         if (viewName.Contains("31-DEC-2049"))
                         {
-
+                            viewName = "("+ viewName + ") AS Q";
                         outMsg = dataImportExportViewModel.LoadTableToFlatFile(attrbuteList, FilePath, viewName, strExport.ToString().Trim(','), "", whereClause, "", SortBy, true, ",", 1, false);
                         }
                         else
