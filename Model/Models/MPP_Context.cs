@@ -80,6 +80,7 @@ namespace Model.Models
             modelBuilder.Entity<ApproverDetail>().HasNoKey();
             modelBuilder.Entity<CNTS>().HasNoKey();
             modelBuilder.Entity<UserDto>().HasNoKey();
+            modelBuilder.Entity<MailData>().HasNoKey();
             modelBuilder.Entity<DimBusinessorg>(entity =>
             {
                 entity.ToTable("DIM_BUSINESSORG", "MPP_APP");

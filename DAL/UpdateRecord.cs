@@ -261,7 +261,7 @@ namespace DAL
                 if (outMsg != Constant.statusSuccess)
                     return outMsg;
                 strQuery.Append("SELECT " + strSelectClause + " FROM ");
-
+                
                 strQuery.Append("MPP_APP." + tableName);
                 strQuery.Append(" t ");
                 strQuery.Append(strWhereClause);
