@@ -112,7 +112,7 @@
          "ObjectType": 1
       }
    ],
-   "UiHint": "zwdmyad0001.MPP_DEV.dbo",
+   "UiHint": "zwqmyad0001.MPP_QA.dbo",
    "UncountableWords": null,
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": false,

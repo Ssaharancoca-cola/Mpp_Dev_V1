@@ -25,5 +25,27 @@ namespace Model.Models
         public string Dlevel { get; set; }
         public int? Oid { get; set; }
         public int Id { get; set; }
+        public int? CusParentCustomerOid { get; set; }
+        public int? CusParentCustomerLoid { get; set; }
+        public int? CusRegionOid { get; set; }
+        public int? CusRegionLoid { get; set; }
+        public int? CusCustomerCategoryOid { get; set; }
+        public int? CusCustomerCategoryLoid { get; set; }
+        public int? CusOutletGroupOid { get; set; }
+        public int? CusOutletGroupLoid { get; set; }
+        public int? CusOutletVpoClassOid { get; set; }
+        public int? CusOutletVpoClassLoid { get; set; }
+        public int? CusOutletCmgVerticalOid { get; set; }
+        public int? CusOutletCmgVerticalLoid { get; set; }
+        public int? CusOutletCmgClassOid { get; set; }
+        public int? CusOutletCmgClassLoid { get; set; }
+        public int? CusOutletTradeTypeOid { get; set; }
+        public int? CusOutletTradeTypeLoid { get; set; }
+        public int? CusCustomerOid { get; set; }
+        public int? CusCustomerLoid { get; set; }
+        public int? CusTownClassOid { get; set; }
+        public int? CusTownClassLoid { get; set; }
+        public int? EntMasterGroupOid { get; set; }
+        public int? EntMasterGroupLoid { get; set; }
     }
 }

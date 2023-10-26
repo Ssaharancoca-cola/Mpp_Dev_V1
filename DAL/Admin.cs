@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using DAL.Common;
+﻿using DAL.Common;
 using System.Text;
-using System.Threading.Tasks;
 using Model.Models;
 using Microsoft.EntityFrameworkCore;
 using Model;
-using System.Data.Entity.Core.Objects;
-using System.Data.Entity;
-using Microsoft.Identity.Client;
-using System.Diagnostics.Metrics;
 
 namespace DAL
 {

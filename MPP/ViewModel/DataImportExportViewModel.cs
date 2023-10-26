@@ -304,7 +304,14 @@ namespace MPP.ViewModel
                     extraColumnValues = "NULL,";
                 }
             }
-            extraColumnNames = extraColumnNames + ",SOURCE_SYSTEM_CODE,LD_OID,SESSION_ID,TREAT_NULLS_AS_NULLS,USER_ID";
+            if (tableName.Contains("MAPPING"))
+            {
+                extraColumnNames = extraColumnNames + ",SOURCE_SYSTEM_NAME,LD_OID,SESSION_ID,TREAT_NULLS_AS_NULLS,USER_ID";
+            }
+            else
+            {
+                extraColumnNames = extraColumnNames + ",SOURCE_SYSTEM_CODE,LD_OID,SESSION_ID,TREAT_NULLS_AS_NULLS,USER_ID";
+            }
             extraColumnValues = extraColumnValues + "'MPP_IMPORT',NEXT VALUE FOR MPP_CORE.SEQ_LD_OID,'" + sessionID + "',1,'" + g_UserID + "'";
             
             outMsg = CheckFileLength(filePath, tableName, sessionID, userID, loadID);
@@ -542,7 +549,15 @@ namespace MPP.ViewModel
                         return outMsg;
 
                 }
-                extraColumnNames = extraColumnNames + ",SOURCE_SYSTEM_CODE,LD_OID,SESSION_ID,TREAT_NULLS_AS_NULLS,USER_ID";
+                if (tableName.Contains("MAPPING"))
+                {
+                    extraColumnNames = extraColumnNames + ",SOURCE_SYSTEM_NAME,LD_OID,SESSION_ID,TREAT_NULLS_AS_NULLS,USER_ID";
+                }
+                else
+                {
+                    extraColumnNames = extraColumnNames + ",SOURCE_SYSTEM_CODE,LD_OID,SESSION_ID,TREAT_NULLS_AS_NULLS,USER_ID";
+                }
+
                 extraColumnValues = extraColumnValues + "'MPP_IMPORT',NEXT VALUE FOR [MPP_CORE].SEQ_LD_OID," + sessionID + ",1,'" + g_UserID + "'";
                 outMsg = CheckFileLength(filePath, tableName, sessionID, userID, loadID);
                 if (outMsg != Constant.statusSuccess)
