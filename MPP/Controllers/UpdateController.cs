@@ -329,8 +329,7 @@ namespace MPP.Controllers
                                     string val = form[data.Key.ToString()];
                                     if (val != String.Empty)
                                     {
-
-                                        value = string.IsNullOrEmpty(form[data.Key.ToString()]) ? "to_date('" + (DateTime.Parse(data.Value)).ToString("MM/dd/yyyy") + "','MM/DD/YYYY')" : "to_date('" + (DateTime.Parse(form[data.Key.ToString()])).ToString("MM/dd/yyyy") + "','MM/DD/YYYY')";
+                                        value = string.IsNullOrEmpty(form[data.Key.ToString()]) ? "CONVERT(DATETIME, '" + (DateTime.Parse(data.Value)).ToString("MM/dd/yyyy") + "', 101)" : "CONVERT(DATETIME, '" + (DateTime.Parse(form[data.Key.ToString()])).ToString("MM/dd/yyyy") + "', 101)";
                                     }
                                     else
                                     {

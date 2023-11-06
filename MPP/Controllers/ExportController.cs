@@ -183,7 +183,8 @@ namespace MPP.Controllers
                                         case "DATETIME":
                                         case "DT":
                                             lValue = var.DBFieldName;
-                                            rValue = "TO_DATE('" + var.SearchValue.ToUpper().Replace("\'", "\'\'") + "','MM/DD/YYYY";
+                                            //rValue = "TO_DATE('" + var.SearchValue.ToUpper().Replace("\'", "\'\'") + "','MM/DD/YYYY";
+                                            rValue = "CONVERT(DATETIME, '" + var.SearchValue.ToUpper().Replace("'", "''") + "', 101)";
                                             break;
 
                                     }

@@ -120,7 +120,7 @@ namespace MPP.Controllers
 
                         else
                             value = form[data.AttrName];
-                        if (!string.IsNullOrEmpty(form[data.AttrName]) && (data.AttrDataType.ToUpper() == "N" || (data.AttrDataType.ToUpper() != "DT" && (!string.IsNullOrEmpty(form[data.AttrName]) && (data.AttrName).StartsWith("ADDRESS")))))
+                        if (!string.IsNullOrEmpty(form[data.AttrName]) && (data.AttrDataType.ToUpper() == "N" || (data.AttrDataType.ToUpper() != "DT" && !string.IsNullOrEmpty(form[data.AttrName]))))
                         {
                             int res;
                             bool isNumeric = int.TryParse(form[data.AttrName], out res);
@@ -159,7 +159,8 @@ namespace MPP.Controllers
                         }
                         else if (data.AttrDataType.ToUpper() == "DT")
                         {
-                            string dateC = value == null || value == "" ? "convert(date,getdate())" : "to_date('" + (DateTime.Parse(value)).ToString("MM/dd/yyyy") + "','MM/DD/YYYY')"; ;
+                            //string dateC = value == null || value == "" ? "convert(date,getdate())" : "to_date('" + (DateTime.Parse(value)).ToString("MM/dd/yyyy") + "','MM/DD/YYYY')"; ;
+                            string dateC = string.IsNullOrEmpty(value) ? "convert(date,getdate())" : "CONVERT(DATE, '" + (DateTime.Parse(value)).ToString("MM/dd/yyyy") + "', 101)";
                             attrValues.Add(data.AttrName, dateC);
                         }
                         else

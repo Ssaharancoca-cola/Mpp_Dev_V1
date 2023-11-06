@@ -621,6 +621,12 @@ namespace DAL
             string outMsg = Constant.statusSuccess;
             try
             {
+                
+                using (LogError objLogErrorViewModel = new LogError())
+                {
+                    objLogErrorViewModel.LogErrorInTextFileTest(USV._USER_ID, USV._ENTITY_TYPE_ID, USV._DIMENSION);
+                }
+                
                 using (MPP_Context objMPP_Context = new MPP_Context())
                 {
                     objMPP_Context.Procedures.MPP_REFRESH_ROW_SECURITYAsync(USV._USER_ID, USV._ENTITY_TYPE_ID, USV._DIMENSION);

@@ -414,7 +414,7 @@ namespace MPP.ViewModel
                 USV._DIMENSION = dimensionId;
                 USV._ENTITY_NAME = entityName;
                 USV._USER_ID = userId;
-                USV._ENTITY_TYPE_ID = Convert.ToString(entityTypeId); ;
+                USV._ENTITY_TYPE_ID = Convert.ToString(entityTypeId);
                 USV.v_SUPPLIED_CODE = supplyCode;
                 using (Admin objadmin = new Admin())
                 {
