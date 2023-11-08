@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Model;
 using MPP.Filter;
 using MPP.ViewModel;
+using Newtonsoft.Json;
 using System.Security.Policy;
 using System.Text;
 
@@ -171,9 +172,9 @@ namespace MPP.Controllers
                 {
                     string url = _configuration["PATH:Url"];
                     string[] userName = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
-                    objMailManagerViewModel.CreateMailListForApproveReject(userName, eventId, OIDList.Trim(','), Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetString("EntityName")),
-                    Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")), Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("SelectedDimensionData")), url, Constant.ABANDON, userInfoList,
-                    out outMsg);
+                    objMailManagerViewModel.CreateMailListForApproveReject(userName, eventId, OIDList.Trim(','), Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetString("EntityTypeID")),
+                    Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")), url, userInfoList,
+                    out outMsg);                   
                 }
             }
             catch (Exception ex)
@@ -209,6 +210,87 @@ namespace MPP.Controllers
                 outMsg = ex.Message;
             }
         }
+        public IActionResult GetWorkFlowData()
+        {
+            string outMsg = Constant.statusSuccess;
+            try
+            {
+                using (WorkFlowViewModel objWorkFlowViewModel = new WorkFlowViewModel())
+                {
+                    int entityTypeId = Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID"));
+                    string submittedColumnData;
+                    string rejectedColumnData;
+                    string approvalPendingColumnData;
+                    string existingRecordColumnData;
+
+                    List<string> submittedRowData = new List<string>();
+                    List<string> rejectedRowData = new List<string>();
+                    List<string> approvalPendingRowData = new List<string>();
+                    List<string> existingRecordRowData = new List<string>();
+
+                    List<Dictionary<string, string>> submittedDataList = new List<Dictionary<string, string>>();
+                    List<Dictionary<string, string>> rejectedDataList = new List<Dictionary<string, string>>();
+                    List<Dictionary<string, string>> approvalPendingDataList = new List<Dictionary<string, string>>();
+                    List<Dictionary<string, string>> existingRecordDataList = new List<Dictionary<string, string>>();
+                    string[] userName = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
+
+                    objWorkFlowViewModel.LoadContentView(userName, entityTypeId, out submittedColumnData, out submittedRowData, out submittedDataList);
+
+                    string ListJson1 = JsonConvert.SerializeObject(submittedColumnData);
+                    TempData["submittedColumnData"] = ListJson1;
+
+                    string ListJson2 = JsonConvert.SerializeObject(submittedRowData);
+                    TempData["submittedRowData"] = ListJson2;
+
+                    string ListJson3 = JsonConvert.SerializeObject(submittedDataList);
+                    TempData["submitteddataList"] = ListJson3;
+
+                    objWorkFlowViewModel.LoadContentReject(userName, entityTypeId, out rejectedColumnData, out rejectedRowData, out rejectedDataList);
+
+                    string ListJson4 = JsonConvert.SerializeObject(rejectedColumnData);
+                    TempData["rejectedColumnData"] = ListJson4;
+
+                    string ListJson5 = JsonConvert.SerializeObject(rejectedRowData);
+                    TempData["rejectedRowData"] = ListJson5;
+
+                    string ListJson6 = JsonConvert.SerializeObject(rejectedDataList);
+                    TempData["rejecteddataList"] = ListJson6;
+
+                    objWorkFlowViewModel.LoadContentMyApproval(userName, entityTypeId, out approvalPendingColumnData, out approvalPendingRowData,
+                        out approvalPendingDataList, out existingRecordColumnData, out existingRecordRowData, out existingRecordDataList);
+
+                    string ListJson7 = JsonConvert.SerializeObject(approvalPendingColumnData);
+                    TempData["approvalPendingColumnData"] = ListJson7;
+
+                    string ListJson8 = JsonConvert.SerializeObject(approvalPendingRowData);
+                    TempData["approvalPendingRowData"] = ListJson8;
+
+                    string ListJson9 = JsonConvert.SerializeObject(approvalPendingDataList);
+                    TempData["approvalPendingdataList"] = ListJson9;
+
+                    StringBuilder rowdata = new StringBuilder();
+                    foreach (var data in existingRecordRowData)
+                    {
+
+                        rowdata.Append(data.ToString());
+
+                        rowdata.Append("^");
+
+                    }
+                    _httpContextAccessor.HttpContext.Session.SetString("ExistingList", rowdata.ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                using (LogErrorViewModel objLogErrorViewModel = new LogErrorViewModel())
+                {
+                    objLogErrorViewModel.LogErrorInTextFile(ex);
+                }
+                outMsg = ex.Message;
+            }
+            return View();
+        }
+
 
     }
 }

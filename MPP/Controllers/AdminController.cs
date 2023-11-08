@@ -490,12 +490,7 @@ namespace MPP.Controllers
 
         public ActionResult DeleteRowLevelSecurity(string userId, string supplyCode)
         {
-            
-                using (LogError objLogErrorViewModel = new LogError())
-                {
-                    objLogErrorViewModel.LogErrorInTextFileTest(supplyCode, userId, userId);
-                }
-            
+           
             if (_httpContextAccessor.HttpContext.Session.GetString("EntityName") == null || _httpContextAccessor.HttpContext.Session.GetString("DimensionId") == null || _httpContextAccessor.HttpContext.Session.GetString("DimensionName") == null)
             {
                 return Content("error" + Constant.sessionexpire);

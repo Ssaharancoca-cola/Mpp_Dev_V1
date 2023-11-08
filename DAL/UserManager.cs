@@ -57,7 +57,7 @@ namespace DAL
             outMsg = Constant.statusSuccess;
             try
             {
-                string selectCommand = "SELECT USER_ID as UserID,USER_NAME as UserName, EMAIL_ID as UserEmail FROM MPP_CORE.MPP_USER WHERE USER_ID IN (SELECT DISTINCT USER_ID FROM MPP_APP."+tableName+" WHERE INPUT_ROW_ID IN (" + InputRowIds + "))";
+                string selectCommand = "SELECT USER_ID as UserID,USER_NAME as UserName, EMAIL_ID as UserEmail, ISACTIVE as IsActive, ADMIN_FLAG as IsAdmin, PASSWORD as Password, ROLE_NAME AS ROLE_NAME, TOTAL_RECORDS AS Total_Records  FROM MPP_CORE.MPP_USER WHERE USER_ID IN (SELECT DISTINCT USER_ID FROM MPP_APP." + tableName+" WHERE INPUT_ROW_ID IN (" + InputRowIds + "))";
                 using (MPP_Context objMPP_Context = new MPP_Context())
                 {
                     lstUserInfo = objMPP_Context.Set<UserInfo>().FromSqlRaw(selectCommand).ToList();
@@ -68,9 +68,9 @@ namespace DAL
                     string selectQuery = "SELECT COUNT(DISTINCT LD_OID) AS CNT FROM MPP_APP." + tableName + " WHERE LD_OID IN (SELECT LD_OID FROM MPP_APP." + tableName + " WHERE INPUT_ROW_ID IN (" + InputRowIds + ")) AND UPPER(USER_ID)=UPPER('" + user.UserID + "')";
                     using (MPP_Context objMPP_Context = new MPP_Context())
                     {
-                        int count = 0;
-                        //int count = objMPP_Context.Database.SqlQuery<int>(selectQuery).FirstOrDefault();
-                        user.Total_Records = count.ToString();
+                        CNTS cNTS = new CNTS();
+                         cNTS = objMPP_Context.Set<CNTS>().FromSqlRaw(selectQuery).FirstOrDefault();
+                        user.Total_Records = cNTS.CNT.ToString();
                     }
                 }
             }

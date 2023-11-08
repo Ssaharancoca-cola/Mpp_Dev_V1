@@ -3,6 +3,7 @@ using System.Text;
 using Model.Models;
 using Microsoft.EntityFrameworkCore;
 using Model;
+using System.Threading.Tasks;
 
 namespace DAL
 {
@@ -620,16 +621,11 @@ namespace DAL
         {
             string outMsg = Constant.statusSuccess;
             try
-            {
-                
-                using (LogError objLogErrorViewModel = new LogError())
-                {
-                    objLogErrorViewModel.LogErrorInTextFileTest(USV._USER_ID, USV._ENTITY_TYPE_ID, USV._DIMENSION);
-                }
-                
+            {                            
                 using (MPP_Context objMPP_Context = new MPP_Context())
                 {
-                    objMPP_Context.Procedures.MPP_REFRESH_ROW_SECURITYAsync(USV._USER_ID, USV._ENTITY_TYPE_ID, USV._DIMENSION);
+                    Task task = objMPP_Context.Procedures.MPP_REFRESH_ROW_SECURITYAsync(USV._USER_ID, USV._ENTITY_TYPE_ID, USV._DIMENSION);
+                    task.Wait();
                 }
             }
             catch (Exception ex)

@@ -19,7 +19,7 @@
             }
         });
         if (OID == "") {
-            alert("Please Select Atleast one record to update");
+            alert("Please Select Atleast one record to update"); UpdateRecords
             return false;
         }
         $.post('@Url.Action("GetSelectedRecordForUpdate", "Update")', { OIDList: OID, ActionType: "workFlowUpdate" },

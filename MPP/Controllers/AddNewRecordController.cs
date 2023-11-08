@@ -120,8 +120,9 @@ namespace MPP.Controllers
 
                         else
                             value = form[data.AttrName];
-                        if (!string.IsNullOrEmpty(form[data.AttrName]) && (data.AttrDataType.ToUpper() == "N" || (data.AttrDataType.ToUpper() != "DT" && !string.IsNullOrEmpty(form[data.AttrName]))))
-                        {
+                        //if (!string.IsNullOrEmpty(form[data.ATTR_NAME]) && (data.ATTR_DATA_TYPE.ToUpper() == "N" || (data.ATTR_DATA_TYPE.ToUpper() != "DT" && (!string.IsNullOrEmpty(form[data.ATTR_NAME]) && (data.ATTR_NAME).StartsWith("ADDRESS")))))
+                            if (!string.IsNullOrEmpty(form[data.AttrName]) && (data.AttrDataType.ToUpper() == "N"))
+                            {
                             int res;
                             bool isNumeric = int.TryParse(form[data.AttrName], out res);
                             if (!isNumeric)

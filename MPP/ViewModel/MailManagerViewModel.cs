@@ -217,8 +217,8 @@ public class MailManagerViewModel : IDisposable
         }
         return userInfolist;
     }
-    public void CreateMailListForApproveReject(string[] userName, int eventID, string InputRowIds, int entityID, string EntityName, string DimensionName, string url,
-     string action, List<UserInfo> userInfolist, out string outMsg)
+    public void CreateMailListForApproveReject(string[] userName, int eventID, string InputRowIds, int entityID, string EntityName, string url,
+      List<UserInfo> userInfolist, out string outMsg)
     {
         string tableName = string.Empty;
         UserInfo _ApproverInfo = null;
