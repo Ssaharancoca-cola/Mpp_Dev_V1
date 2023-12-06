@@ -172,7 +172,8 @@ namespace MPP.Controllers
                 {
                     string url = _configuration["PATH:Url"];
                     string[] userName = User.Identity.Name.Split(new[] { "\\" }, StringSplitOptions.None);
-                    objMailManagerViewModel.CreateMailListForApproveReject(userName, eventId, OIDList.Trim(','), Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetString("EntityTypeID")),
+                    objMailManagerViewModel.CreateMailListForApproveReject(userName, eventId, OIDList.Trim(','), 
+                        Convert.ToInt32(_httpContextAccessor.HttpContext.Session.GetInt32("EntityTypeID")),
                     Convert.ToString(_httpContextAccessor.HttpContext.Session.GetString("EntityName")), url, userInfoList,
                     out outMsg);                   
                 }

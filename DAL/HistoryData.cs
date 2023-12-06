@@ -61,8 +61,20 @@ namespace DAL
                 if (outMsg != Constant.statusSuccess)
                     return outMsg;
 
+                //strQuery.Append(" Select " + strSelectClause + " from ");
+                //strQuery.Append( tableName);
+                //strQuery.Append("  t");
+
                 strQuery.Append(" Select " + strSelectClause + " from ");
-                strQuery.Append( tableName);
+                //strQuery.Append( tableName);
+                if (tableName.Contains("31-DEC-2049"))
+                {
+                    strQuery.Append(" ( " + tableName + " ) ");
+                }
+                else
+                {
+                    strQuery.Append(" " + tableName + " ");
+               }
                 strQuery.Append("  t");
                 strQuery.Append(strWhereClause);
                 strQuery.Append(orderby);

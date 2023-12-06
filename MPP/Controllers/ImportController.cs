@@ -77,7 +77,8 @@ namespace MPP.Controllers
                     // Create a FileStream and save the file
                     using (var fileStream = new FileStream(FilePath, FileMode.Create))
                     {
-                         file.CopyToAsync(fileStream);
+                        //Savita- file corrupted issue
+                         file.CopyTo(fileStream);
                     }
                     //file.s(FilePath);
 
