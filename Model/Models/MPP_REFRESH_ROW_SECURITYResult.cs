@@ -5,7 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.Models
 {
-    public partial class GET_MPP_WORKFLOW_SAVEResult
+    public partial class MPP_REFRESH_ROW_SECURITYResult
     {
+        [Column("Error Message")]
+        public int? ErrorMessage { get; set; }
     }
 }

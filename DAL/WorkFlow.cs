@@ -123,8 +123,8 @@ namespace DAL
                                 //var viewnameParameter = new ObjectParameter("resultval", typeof(string));
                                 OutputParameter<int?> resultval = new OutputParameter<int?>();
                                 OutputParameter<int> returnValue = new OutputParameter<int>();
-                                 objMPP_Context.Procedures.GET_MPP_WORKFLOW_SAVEAsync(SessionID.ToString(), entityTypeid, UserId, Status, resultval, returnValue);
-                               
+                                 objMPP_Context.Procedures.GET_MPP_WORKFLOW_SAVEAsync(SessionID.ToString(), entityTypeid, UserId, Status, resultval, returnValue).GetAwaiter().GetResult();
+
                                 result = Convert.ToInt32(returnValue._value);
 
                                 if (result == 0)

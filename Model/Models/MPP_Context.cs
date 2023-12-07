@@ -17,7 +17,7 @@ namespace Model.Models
             : base(options)
         {
         }
-
+        
         public virtual DbSet<DimBusinessorg> DimBusinessorg { get; set; }
         public virtual DbSet<Dimension> Dimension { get; set; }
         public virtual DbSet<Entity> Entity { get; set; }
@@ -80,7 +80,8 @@ namespace Model.Models
             modelBuilder.Entity<ApproverDetail>().HasNoKey();
             modelBuilder.Entity<CNTS>().HasNoKey();
             modelBuilder.Entity<UserDto>().HasNoKey();
-            modelBuilder.Entity<MailData>().HasNoKey(); modelBuilder.Entity<DimBusinessorg>(entity =>
+            modelBuilder.Entity<MailData>().HasNoKey();
+            modelBuilder.Entity<DimBusinessorg>(entity =>
             {
                 entity.ToTable("DIM_BUSINESSORG", "MPP_APP");
 
@@ -1118,9 +1119,9 @@ namespace Model.Models
                     .HasColumnName("APPROVER_LEVEL")
                     .IsFixedLength();
 
-                entity.Property(e => e.BppLocalProductCode)
+                entity.Property(e => e.ApproverStatus)
                     .IsUnicode(false)
-                    .HasColumnName("BPP_LOCAL_PRODUCT_CODE");
+                    .HasColumnName("APPROVER_STATUS");
 
                 entity.Property(e => e.Comments)
                     .HasMaxLength(500)
@@ -1144,6 +1145,11 @@ namespace Model.Models
                     .HasColumnType("date")
                     .HasColumnName("DATE_TO");
 
+                entity.Property(e => e.DummyFlag)
+                    .HasMaxLength(1)
+                    .IsUnicode(false)
+                    .HasColumnName("DUMMY_FLAG");
+
                 entity.Property(e => e.EffectiveEndDate)
                     .HasColumnType("datetime")
                     .HasColumnName("EFFECTIVE_END_DATE");
@@ -1156,6 +1162,26 @@ namespace Model.Models
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("ERROR_MESSAGE");
+
+                entity.Property(e => e.GeoDistrictCode)
+                    .IsUnicode(false)
+                    .HasColumnName("GEO_DISTRICT_CODE");
+
+                entity.Property(e => e.GeoSubDistrictCode)
+                    .IsUnicode(false)
+                    .HasColumnName("GEO_SUB_DISTRICT_CODE");
+
+                entity.Property(e => e.GeoSubDistrictDesc)
+                    .IsUnicode(false)
+                    .HasColumnName("GEO_SUB_DISTRICT_DESC");
+
+                entity.Property(e => e.GeoSubDistrictLongName)
+                    .IsUnicode(false)
+                    .HasColumnName("GEO_SUB_DISTRICT_LONG_NAME");
+
+                entity.Property(e => e.GeoSubDistrictShortName)
+                    .IsUnicode(false)
+                    .HasColumnName("GEO_SUB_DISTRICT_SHORT_NAME");
 
                 entity.Property(e => e.InputRowId)
                     .ValueGeneratedOnAdd()
@@ -1172,16 +1198,7 @@ namespace Model.Models
 
                 entity.Property(e => e.LdOid).HasColumnName("LD_OID");
 
-                entity.Property(e => e.PrincipalCode)
-                    .IsUnicode(false)
-                    .HasColumnName("PRINCIPAL_CODE");
-
                 entity.Property(e => e.RecLockFlag).HasColumnName("REC_LOCK_FLAG");
-
-                entity.Property(e => e.RejectFlag)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("REJECT_FLAG");
 
                 entity.Property(e => e.RowSecFlag).HasColumnName("ROW_SEC_FLAG");
 
@@ -1195,20 +1212,21 @@ namespace Model.Models
                 entity.Property(e => e.SortOrder).HasColumnName("SORT_ORDER");
 
                 entity.Property(e => e.SourceSystemCode)
+                    .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("SOURCE_SYSTEM_CODE");
 
-                entity.Property(e => e.SourceSystemName)
+                entity.Property(e => e.SubDistrictCensusCode)
                     .IsUnicode(false)
-                    .HasColumnName("SOURCE_SYSTEM_NAME");
+                    .HasColumnName("SUB_DISTRICT_CENSUS_CODE");
 
-                entity.Property(e => e.SrcLocalProductCode)
+                entity.Property(e => e.SubDistrictLatitude)
                     .IsUnicode(false)
-                    .HasColumnName("SRC_LOCAL_PRODUCT_CODE");
+                    .HasColumnName("SUB_DISTRICT_LATITUDE");
 
-                entity.Property(e => e.SrcLocalProductDesc)
+                entity.Property(e => e.SubDistrictLongitude)
                     .IsUnicode(false)
-                    .HasColumnName("SRC_LOCAL_PRODUCT_DESC");
+                    .HasColumnName("SUB_DISTRICT_LONGITUDE");
 
                 entity.Property(e => e.TreatNullsAsNulls).HasColumnName("TREAT_NULLS_AS_NULLS");
 
@@ -1657,7 +1675,7 @@ namespace Model.Models
                 entity.Property(e => e.EntityTypeId).HasColumnName("ENTITY_TYPE_ID");
 
                 entity.Property(e => e.ErrorMessage)
-                    .HasMaxLength(35)
+                    .HasMaxLength(30)
                     .IsUnicode(false)
                     .HasColumnName("ERROR_MESSAGE");
 
@@ -1677,6 +1695,7 @@ namespace Model.Models
                     .HasColumnName("SESSION_ID");
 
                 entity.Property(e => e.SourceSystemCode)
+                    .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("SOURCE_SYSTEM_CODE");
 

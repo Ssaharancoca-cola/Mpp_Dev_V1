@@ -9,20 +9,20 @@ namespace Model.Models
     {
         public DateTime? DateFrom { get; set; }
         public DateTime? DateTo { get; set; }
-        public string SourceSystemCode { get; set; }
-        public string PrincipalCode { get; set; }
-        public string SrcLocalProductCode { get; set; }
-        public string SrcLocalProductDesc { get; set; }
-        public string BppLocalProductCode { get; set; }
-        public string RejectFlag { get; set; }
+        public string GeoSubDistrictCode { get; set; }
+        public string GeoSubDistrictLongName { get; set; }
+        public string GeoSubDistrictShortName { get; set; }
+        public string DummyFlag { get; set; }
         public string ActiveFlag { get; set; }
         public DateTime? EffectiveStartDate { get; set; }
         public DateTime? EffectiveEndDate { get; set; }
+        public string SourceSystemCode { get; set; }
         public int? SortOrder { get; set; }
         public string ErrorMessage { get; set; }
         public string WarningMessage { get; set; }
+        public string SubDistrictLatitude { get; set; }
+        public string SubDistrictLongitude { get; set; }
         public string SessionId { get; set; }
-        public int InputRowId { get; set; }
         public TimeSpan? CreatedDate { get; set; }
         public string CreatedUserId { get; set; }
         public DateTime? UpdateDate { get; set; }
@@ -40,7 +40,11 @@ namespace Model.Models
         public int? RecLockFlag { get; set; }
         public int? TreatNullsAsNulls { get; set; }
         public int? CurrentEditLevel { get; set; }
+        public string GeoSubDistrictDesc { get; set; }
+        public int InputRowId { get; set; }
+        public string GeoDistrictCode { get; set; }
         public string Validationcode { get; set; }
-        public string SourceSystemName { get; set; }
+        public string ApproverStatus { get; set; }
+        public string SubDistrictCensusCode { get; set; }
     }
 }

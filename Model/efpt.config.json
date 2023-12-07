@@ -100,7 +100,15 @@
          "ObjectType": 1
       },
       {
+         "Name": "[dbo].[MPP_LEVEL_LOAD]",
+         "ObjectType": 1
+      },
+      {
          "Name": "[dbo].[MPP_LOAD_CHK]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[MPP_LOAD3]",
          "ObjectType": 1
       },
       {
@@ -118,6 +126,7 @@
    "UseDatabaseNames": false,
    "UseDateOnlyTimeOnly": false,
    "UseDbContextSplitting": false,
+   "UseDecimalDataAnnotationForSprocResult": true,
    "UseFluentApiOnly": true,
    "UseHandleBars": false,
    "UseHierarchyId": false,
@@ -125,6 +134,7 @@
    "UseLegacyPluralizer": false,
    "UseManyToManyEntity": false,
    "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
    "UseNoObjectFilter": false,
    "UseNodaTime": false,
    "UseNullableReferences": false,
