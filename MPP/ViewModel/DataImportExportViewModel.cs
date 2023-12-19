@@ -374,6 +374,11 @@ namespace MPP.ViewModel
                     dtTable.Columns.Remove(colWarningMessage);
 
                 }
+                if (!(dtTable.Columns.Contains(Constant.dateFromColumnName)))
+                {
+                    dtTable.Columns.Add(Constant.dateFromColumnName);
+
+                }
                 dtTable.Columns.Add(colErrorMessage);
                 dtTable.Columns.Add(colWarningMessage);
 

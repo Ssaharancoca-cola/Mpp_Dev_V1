@@ -558,7 +558,7 @@ namespace DAL
             {
                 using (MPP_Context objMPP_Context = new MPP_Context())
                 {
-                    objMPP_Context.Procedures.MPP_REFRESH_ROW_SECURITYAsync(USV[0]._USER_ID, USV[0]._ENTITY_TYPE_ID, USV[0]._DIMENSION);
+                    objMPP_Context.Procedures.MPP_REFRESH_ROW_SECURITYAsync(USV[0]._USER_ID, USV[0]._ENTITY_TYPE_ID, USV[0]._DIMENSION).GetAwaiter().GetResult(); 
                 }
 
                 #region Insert New RowLevel Security Values
@@ -624,7 +624,7 @@ namespace DAL
             {                            
                 using (MPP_Context objMPP_Context = new MPP_Context())
                 {
-                    Task task = objMPP_Context.Procedures.MPP_REFRESH_ROW_SECURITYAsync(USV._USER_ID, USV._ENTITY_TYPE_ID, USV._DIMENSION);
+                    Task task = objMPP_Context.Procedures.MPP_REFRESH_ROW_SECURITYAsync(USV._USER_ID, USV._ENTITY_TYPE_ID, USV._DIMENSION); 
                     task.Wait();
                 }
             }
@@ -713,7 +713,7 @@ namespace DAL
                     {
                         using (MPP_Context objMPP_Context = new MPP_Context())
                         {
-                            objMPP_Context.Procedures.UPDATE_USER_PRIVILAGEAsync(UserId, EntityTypeId, int.Parse(RoleId), item.ApproverId);
+                            objMPP_Context.Procedures.UPDATE_USER_PRIVILAGEAsync(UserId, EntityTypeId, int.Parse(RoleId), item.ApproverId).GetAwaiter().GetResult();
                         }
                     }
                 }
@@ -721,7 +721,7 @@ namespace DAL
                 {
                     using (MPP_Context objMPP_Context = new MPP_Context())
                     {
-                        objMPP_Context.Procedures.UPDATE_USER_PRIVILAGEAsync(UserId, EntityTypeId, int.Parse(RoleId), null);
+                        objMPP_Context.Procedures.UPDATE_USER_PRIVILAGEAsync(UserId, EntityTypeId, int.Parse(RoleId), null).GetAwaiter().GetResult();
                     }
                 }                
             }

@@ -100,11 +100,12 @@ namespace MPP.Controllers
                             }
                         }
                     }
-                    if (!(form[Constant.dateFromColumnName] == "false"))
-                    {
+                    //Savita - As part of Effective Date uncheck
+                    //if (!(form[Constant.dateFromColumnName] == "false"))
+                    //{
                         strExport.Append(Constant.dateFromColumnName + ",");
                         strDataType.Append("DATE" + ",");
-                    }
+                    //}
 
                     int[] ArrayRowsCount = new int[] { 0, 0 };
                     using (DataImportExportViewModel objDataExportViewModel = new DataImportExportViewModel())
