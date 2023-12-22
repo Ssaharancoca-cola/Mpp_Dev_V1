@@ -326,16 +326,16 @@ namespace MPP.Controllers
                                 string value = string.Empty;
                                 if (datatype == "DT")
                                 {
-                                    string val = form[data.Key.ToString()];
-                                    if (val != String.Empty)
+                                    if (!string.IsNullOrEmpty(form[data.Key.ToString()]))
                                     {
                                         value = string.IsNullOrEmpty(form[data.Key.ToString()]) ? "CONVERT(DATETIME, '" + (DateTime.Parse(data.Value)).ToString("MM/dd/yyyy") + "', 101)" : "CONVERT(DATETIME, '" + (DateTime.Parse(form[data.Key.ToString()])).ToString("MM/dd/yyyy") + "', 101)";
                                     }
-                                    else
-                                    {
-                                        value = "''";
-                                    }
-                                    
+                                    //else
+                                    //{
+                                    //    value = "''";
+                                    //}
+                                    value = string.IsNullOrEmpty(form[data.Key.ToString()]) ? "CONVERT(DATETIME, '" + (DateTime.Parse(data.Value)).ToString("MM/dd/yyyy") + "', 101)" : "CONVERT(DATETIME, '" + (DateTime.Parse(form[data.Key.ToString()])).ToString("MM/dd/yyyy") + "', 101)";
+
                                 }
                                 else
                                 {

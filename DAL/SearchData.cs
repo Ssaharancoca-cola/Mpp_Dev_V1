@@ -418,7 +418,8 @@ namespace DAL
 
                                             lValue = var.DBFieldName;
                                             //rValue = "TO_DATE('" + fromDate.ToUpper().Replace("\'", "\'\'") + "','MM/DD/YYYY') AND TO_DATE('" + toDate.ToUpper().Replace("\'", "\'\'") + "','MM/DD/YYYY')";
-                                            rValue = "CONVERT(DATETIME, '" + fromDate.ToUpper().Replace("'", "''") + "', 101)";
+                                            //rValue = "CONVERT(DATETIME, '" + fromDate.ToUpper().Replace("'", "''") + "', 101)";
+                                            rValue = "CONVERT(DATETIME, '" + fromDate.ToUpper().Replace("\'", "\'\'") + "', 101) AND CONVERT(DATETIME, '" + toDate.ToUpper().Replace("\'", "\'\'") + "', 101)";
                                             break;
                                     }
                                     strWhereClause.Append(lValue);

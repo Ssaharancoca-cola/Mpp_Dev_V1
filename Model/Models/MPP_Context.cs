@@ -57,7 +57,7 @@ namespace Model.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //optionsBuilder.UseSqlServer("Data Source=zwqmyad0001;Initial Catalog=MPP_QA;Persist Security Info=True;User ID=MPP_DEV_APP;Password=LZ/&&S]Q9rnin8)5;Connection Timeout=180;TrustServerCertificate=True");
+              //  optionsBuilder.UseSqlServer("Data Source=zwqmyad0001;Initial Catalog=MPP_QA;Persist Security Info=True;User ID=MPP_DEV_APP;Password=LZ/&&S]Q9rnin8)5;Connection Timeout=180;TrustServerCertificate=True");
 
                 optionsBuilder.UseSqlServer("Data Source=zwdmyad0001;Initial Catalog=MPP_DEV;Persist Security Info=True;User ID=MPP_DEV_APP;Password=LASyYbj0ZX#B;Connection Timeout=180;TrustServerCertificate=True");
             }

@@ -185,7 +185,7 @@ namespace MPP.ViewComponents
                             }
 
                         }
-                    }
+                    
                     if ((txtFrom != "" && txtFrom != null) && (txtTo != "" && txtTo != null))
                     {
                         SearchParameter DATE_FROMfield = new SearchParameter();
@@ -215,6 +215,7 @@ namespace MPP.ViewComponents
                     }
                 }
 
+            }
             }
             catch (Exception ex)
             {
