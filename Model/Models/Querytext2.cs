@@ -84,5 +84,20 @@ namespace Model.Models
         public string Vc33 { get; set; }
         public string Vc34 { get; set; }
         public string Vc35 { get; set; }
+        public string Vc36 { get; set; }
+        public string Vc37 { get; set; }
+        public string Vc38 { get; set; }
+        public string Vc39 { get; set; }
+        public string Vc40 { get; set; }
+        public string Vc41 { get; set; }
+        public string Vc42 { get; set; }
+        public string Vc43 { get; set; }
+        public string Vc44 { get; set; }
+        public string Vc45 { get; set; }
+        public string Vc46 { get; set; }
+        public string Vc47 { get; set; }
+        public string Vc48 { get; set; }
+        public string Vc49 { get; set; }
+        public string Vc50 { get; set; }
     }
 }

@@ -38,7 +38,6 @@ namespace Model.Models
             modelBuilder.Entity<MPP_LEVEL_LOADResult>().HasNoKey().ToView(null);
             modelBuilder.Entity<MPP_LOAD_CHKResult>().HasNoKey().ToView(null);
             modelBuilder.Entity<MPP_LOAD3Result>().HasNoKey().ToView(null);
-            modelBuilder.Entity<MPP_REFRESH_ROW_SECURITYResult>().HasNoKey().ToView(null);
         }
     }
 
@@ -378,7 +377,7 @@ namespace Model.Models
             return _;
         }
 
-        public virtual async Task<List<MPP_REFRESH_ROW_SECURITYResult>> MPP_REFRESH_ROW_SECURITYAsync(string I_USER_ID, string I_ENTITY_ID, string I_DIM, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
+        public virtual async Task<int> MPP_REFRESH_ROW_SECURITYAsync(string I_USER_ID, string I_ENTITY_ID, string I_DIM, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default)
         {
             var parameterreturnValue = new SqlParameter
             {
@@ -412,7 +411,7 @@ namespace Model.Models
                 },
                 parameterreturnValue,
             };
-            var _ = await _context.SqlQueryAsync<MPP_REFRESH_ROW_SECURITYResult>("EXEC @returnValue = [dbo].[MPP_REFRESH_ROW_SECURITY] @I_USER_ID, @I_ENTITY_ID, @I_DIM", sqlParameters, cancellationToken);
+            var _ = await _context.Database.ExecuteSqlRawAsync("EXEC @returnValue = [dbo].[MPP_REFRESH_ROW_SECURITY] @I_USER_ID, @I_ENTITY_ID, @I_DIM", sqlParameters, cancellationToken);
 
             returnValue?.SetValue(parameterreturnValue.Value);
 
@@ -452,7 +451,7 @@ namespace Model.Models
                 new SqlParameter
                 {
                     ParameterName = "ApprId",
-                    Size = 100,
+                    Size = -1,
                     Value = ApprId ?? Convert.DBNull,
                     SqlDbType = System.Data.SqlDbType.NVarChar,
                 },

@@ -7,11 +7,6 @@ namespace Model.Models
 {
     public partial class EntityTypeAttr
     {
-        public EntityTypeAttr()
-        {
-            EntityTypeAttrLov = new HashSet<EntityTypeAttrLov>();
-        }
-
         public int EntityTypeId { get; set; }
         public string AttrName { get; set; }
         public string AttrDataType { get; set; }
@@ -35,7 +30,5 @@ namespace Model.Models
         public string Isvisible { get; set; }
         public string CasQuery { get; set; }
         public string CasDrop { get; set; }
-
-        public virtual ICollection<EntityTypeAttrLov> EntityTypeAttrLov { get; set; }
     }
 }

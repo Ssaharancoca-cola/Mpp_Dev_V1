@@ -17,7 +17,7 @@ namespace Model.Models
             : base(options)
         {
         }
-        
+
         public virtual DbSet<DimBusinessorg> DimBusinessorg { get; set; }
         public virtual DbSet<Dimension> Dimension { get; set; }
         public virtual DbSet<Entity> Entity { get; set; }
@@ -57,9 +57,11 @@ namespace Model.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-              //  optionsBuilder.UseSqlServer("Data Source=zwqmyad0001;Initial Catalog=MPP_QA;Persist Security Info=True;User ID=MPP_DEV_APP;Password=LZ/&&S]Q9rnin8)5;Connection Timeout=180;TrustServerCertificate=True");
+                optionsBuilder.UseSqlServer("Data Source=zwPmyad0001;Initial Catalog=MPP_PROD;Persist Security Info=True;User ID=MPP_PROD_APP;Password=5w!p2oP&LmAvBu;Connection Timeout=180;TrustServerCertificate=True");
 
-                optionsBuilder.UseSqlServer("Data Source=zwdmyad0001;Initial Catalog=MPP_DEV;Persist Security Info=True;User ID=MPP_DEV_APP;Password=LASyYbj0ZX#B;Connection Timeout=180;TrustServerCertificate=True");
+                //  optionsBuilder.UseSqlServer("Data Source=zwqmyad0001;Initial Catalog=MPP_QA;Persist Security Info=True;User ID=MPP_DEV_APP;Password=LZ/&&S]Q9rnin8)5;Connection Timeout=180;TrustServerCertificate=True");
+
+                //optionsBuilder.UseSqlServer("Data Source=zwdmyad0001;Initial Catalog=MPP_DEV;Persist Security Info=True;User ID=MPP_DEV_APP;Password=LASyYbj0ZX#B;Connection Timeout=180;TrustServerCertificate=True");
             }
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -223,7 +225,9 @@ namespace Model.Models
                     .HasColumnType("datetime")
                     .HasColumnName("ENTITY_END_DATE");
 
-                entity.Property(e => e.EntityLatestName).HasColumnName("ENTITY_LATEST_NAME");
+                entity.Property(e => e.EntityLatestName)
+                    .IsRequired()
+                    .HasColumnName("ENTITY_LATEST_NAME");
 
                 entity.Property(e => e.EntityStartDate)
                     .HasColumnType("date")
@@ -238,7 +242,8 @@ namespace Model.Models
 
                 entity.Property(e => e.LastUpdatedTimeStamp)
                     .HasColumnType("datetime")
-                    .HasColumnName("LAST_UPDATED_TIME_STAMP");
+                    .HasColumnName("LAST_UPDATED_TIME_STAMP")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.LatestFlag)
                     .HasColumnName("LATEST_FLAG")
@@ -413,7 +418,7 @@ namespace Model.Models
             modelBuilder.Entity<EntityTypeAttrLov>(entity =>
             {
                 entity.HasKey(e => new { e.AttrName, e.EntityTypeId, e.ValidValues })
-                    .HasName("PK__ENTITY_T__6B57F4BB10120E73");
+                    .HasName("PK__ENTITY_T__6B57F4BBB018C295");
 
                 entity.ToTable("ENTITY_TYPE_ATTR_LOV", "MPP_CORE");
 
@@ -435,12 +440,6 @@ namespace Model.Models
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("VALUE_NAME");
-
-                entity.HasOne(d => d.EntityTypeAttr)
-                    .WithMany(p => p.EntityTypeAttrLov)
-                    .HasForeignKey(d => new { d.EntityTypeId, d.AttrName })
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ETAL_ETID_ANAME");
             });
 
             modelBuilder.Entity<EntityTypeRelation>(entity =>
@@ -1123,6 +1122,26 @@ namespace Model.Models
                     .IsUnicode(false)
                     .HasColumnName("APPROVER_STATUS");
 
+                entity.Property(e => e.BppBeverageGroupCode)
+                    .IsUnicode(false)
+                    .HasColumnName("BPP_BEVERAGE_GROUP_CODE");
+
+                entity.Property(e => e.BppBeverageGroupDesc)
+                    .IsUnicode(false)
+                    .HasColumnName("BPP_BEVERAGE_GROUP_DESC");
+
+                entity.Property(e => e.BppBeverageGroupLongName)
+                    .IsUnicode(false)
+                    .HasColumnName("BPP_BEVERAGE_GROUP_LONG_NAME");
+
+                entity.Property(e => e.BppBeverageGroupShortName)
+                    .IsUnicode(false)
+                    .HasColumnName("BPP_BEVERAGE_GROUP_SHORT_NAME");
+
+                entity.Property(e => e.BppIndustryTypeCode)
+                    .IsUnicode(false)
+                    .HasColumnName("BPP_INDUSTRY_TYPE_CODE");
+
                 entity.Property(e => e.Comments)
                     .HasMaxLength(500)
                     .IsUnicode(false)
@@ -1163,29 +1182,14 @@ namespace Model.Models
                     .IsUnicode(false)
                     .HasColumnName("ERROR_MESSAGE");
 
-                entity.Property(e => e.GeoDistrictCode)
-                    .IsUnicode(false)
-                    .HasColumnName("GEO_DISTRICT_CODE");
-
-                entity.Property(e => e.GeoSubDistrictCode)
-                    .IsUnicode(false)
-                    .HasColumnName("GEO_SUB_DISTRICT_CODE");
-
-                entity.Property(e => e.GeoSubDistrictDesc)
-                    .IsUnicode(false)
-                    .HasColumnName("GEO_SUB_DISTRICT_DESC");
-
-                entity.Property(e => e.GeoSubDistrictLongName)
-                    .IsUnicode(false)
-                    .HasColumnName("GEO_SUB_DISTRICT_LONG_NAME");
-
-                entity.Property(e => e.GeoSubDistrictShortName)
-                    .IsUnicode(false)
-                    .HasColumnName("GEO_SUB_DISTRICT_SHORT_NAME");
-
                 entity.Property(e => e.InputRowId)
                     .ValueGeneratedOnAdd()
                     .HasColumnName("INPUT_ROW_ID");
+
+                entity.Property(e => e.IsscomBeverageGroupCode)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("ISSCOM_BEVERAGE_GROUP_CODE");
 
                 entity.Property(e => e.LastModifiedBy)
                     .HasMaxLength(500)
@@ -1215,18 +1219,6 @@ namespace Model.Models
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("SOURCE_SYSTEM_CODE");
-
-                entity.Property(e => e.SubDistrictCensusCode)
-                    .IsUnicode(false)
-                    .HasColumnName("SUB_DISTRICT_CENSUS_CODE");
-
-                entity.Property(e => e.SubDistrictLatitude)
-                    .IsUnicode(false)
-                    .HasColumnName("SUB_DISTRICT_LATITUDE");
-
-                entity.Property(e => e.SubDistrictLongitude)
-                    .IsUnicode(false)
-                    .HasColumnName("SUB_DISTRICT_LONGITUDE");
 
                 entity.Property(e => e.TreatNullsAsNulls).HasColumnName("TREAT_NULLS_AS_NULLS");
 
@@ -1621,15 +1613,90 @@ namespace Model.Models
                     .IsUnicode(false)
                     .HasColumnName("VC35");
 
+                entity.Property(e => e.Vc36)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC36");
+
+                entity.Property(e => e.Vc37)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC37");
+
+                entity.Property(e => e.Vc38)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC38");
+
+                entity.Property(e => e.Vc39)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC39");
+
                 entity.Property(e => e.Vc4)
                     .HasMaxLength(100)
                     .IsUnicode(false)
                     .HasColumnName("VC4");
 
+                entity.Property(e => e.Vc40)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC40");
+
+                entity.Property(e => e.Vc41)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC41");
+
+                entity.Property(e => e.Vc42)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC42");
+
+                entity.Property(e => e.Vc43)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC43");
+
+                entity.Property(e => e.Vc44)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC44");
+
+                entity.Property(e => e.Vc45)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC45");
+
+                entity.Property(e => e.Vc46)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC46");
+
+                entity.Property(e => e.Vc47)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC47");
+
+                entity.Property(e => e.Vc48)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC48");
+
+                entity.Property(e => e.Vc49)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC49");
+
                 entity.Property(e => e.Vc5)
                     .HasMaxLength(100)
                     .IsUnicode(false)
                     .HasColumnName("VC5");
+
+                entity.Property(e => e.Vc50)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("VC50");
 
                 entity.Property(e => e.Vc6)
                     .HasMaxLength(100)
@@ -1675,7 +1742,7 @@ namespace Model.Models
                 entity.Property(e => e.EntityTypeId).HasColumnName("ENTITY_TYPE_ID");
 
                 entity.Property(e => e.ErrorMessage)
-                    .HasMaxLength(30)
+                    .HasMaxLength(35)
                     .IsUnicode(false)
                     .HasColumnName("ERROR_MESSAGE");
 

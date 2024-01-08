@@ -12,7 +12,5 @@ namespace Model.Models
         public string ValidValues { get; set; }
         public string ValueName { get; set; }
         public int? SortOrder { get; set; }
-
-        public virtual EntityTypeAttr EntityTypeAttr { get; set; }
     }
 }
