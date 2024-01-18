@@ -37,10 +37,10 @@ builder.Services.AddSession(options =>
 builder.Services.AddSingleton(builder.Environment);
 
 builder.Services.AddDbContext<MPP_Context>(
-         options => options.UseSqlServer(builder.Configuration.GetConnectionString("Data Source=zwpmyad0001;Initial Catalog=MPP_PROD;Connection Timeout=180;Persist Security Info=True;User ID=MPP_PROD_APP;Password=5w!p2oP&LmAvBu;TrustServerCertificate=True")));
+         //options => options.UseSqlServer(builder.Configuration.GetConnectionString("Data Source=zwpmyad0001;Initial Catalog=MPP_PROD;Connection Timeout=180;Persist Security Info=True;User ID=MPP_PROD_APP;Password=5w!p2oP&LmAvBu;TrustServerCertificate=True")));
 
 //  options => options.UseSqlServer(builder.Configuration.GetConnectionString("Data Source=zwqmyad0001;Initial Catalog=MPP_QA;Persist Security Info=True;Connection Timeout=180;User ID=MPP_DEV_APP;Password=LZ/&&S]Q9rnin8)5;TrustServerCertificate=True")));
-//options => options.UseSqlServer(builder.Configuration.GetConnectionString("Data Source=zwdmyad0001;Initial Catalog=MPP_DEV;Connection Timeout=180;Persist Security Info=True;User ID=MPP_DEV_APP;Password=LASyYbj0ZX#B;TrustServerCertificate=True")));
+options => options.UseSqlServer(builder.Configuration.GetConnectionString("Data Source=zwdmyad0001;Initial Catalog=MPP_DEV;Connection Timeout=180;Persist Security Info=True;User ID=MPP_DEV_APP;Password=LASyYbj0ZX#B;TrustServerCertificate=True")));
 
 builder.Services.AddHttpsRedirection(options =>
 {

@@ -533,14 +533,14 @@ namespace DAL
                         }
 
                     }
-                    if (inputTableName.Contains("MAPPING"))
-                    {
+                    //if (inputTableName.Contains("MAPPING"))
+                    //{
+                    //    selectColumn.Append("SESSION_ID ,SOURCE_SYSTEM_NAME, TREAT_NULLS_AS_NULLS,LD_OID ");
+                    //}
+                    //else
+                    //{
                         selectColumn.Append("SESSION_ID ,SOURCE_SYSTEM_NAME, TREAT_NULLS_AS_NULLS,LD_OID ");
-                    }
-                    else
-                    {
-                        selectColumn.Append("SESSION_ID ,SOURCE_SYSTEM_CODE, TREAT_NULLS_AS_NULLS,LD_OID ");
-                    }
+                    //}
                     whereClause.Append("" + sessionID + ",'" + sourceSystemName + "'," + treat_nulls_as_nulls + "," + ldOid + "");
                     insertQuery.Append(" INSERT INTO ");
                     insertQuery.Append("MPP_APP." + inputTableName + "(");
