@@ -15,7 +15,7 @@ namespace Model.Models
         public DateTime? DateFrom { get; set; }
         public string SessionId { get; set; }
         public int InputRowId { get; set; }
-        public string SourceSystemCode { get; set; }
+        public string SourceSystemName { get; set; }
         public int? TreatNullsAsNulls { get; set; }
         public int? CurrentEditLevel { get; set; }
         public string ErrorMessage { get; set; }

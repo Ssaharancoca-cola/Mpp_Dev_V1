@@ -35,6 +35,7 @@ namespace Model.Models
         public virtual DbSet<MppUserPrivilage> MppUserPrivilage { get; set; }
         public virtual DbSet<Querytext2> Querytext2 { get; set; }
         public virtual DbSet<Querytexttype2> Querytexttype2 { get; set; }
+
         //Entity Model
         public DbSet<UserInfo> UserInfo { get; set; }
         public DbSet<DimensionName> DimensionName { get; set; }
@@ -57,7 +58,7 @@ namespace Model.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-               // optionsBuilder.UseSqlServer("Data Source=zwPmyad0001;Initial Catalog=MPP_PROD;Persist Security Info=True;User ID=MPP_PROD_APP;Password=5w!p2oP&LmAvBu;Connection Timeout=180;TrustServerCertificate=True");
+                // optionsBuilder.UseSqlServer("Data Source=zwPmyad0001;Initial Catalog=MPP_PROD;Persist Security Info=True;User ID=MPP_PROD_APP;Password=5w!p2oP&LmAvBu;Connection Timeout=180;TrustServerCertificate=True");
 
                 //  optionsBuilder.UseSqlServer("Data Source=zwqmyad0001;Initial Catalog=MPP_QA;Persist Security Info=True;User ID=MPP_DEV_APP;Password=LZ/&&S]Q9rnin8)5;Connection Timeout=180;TrustServerCertificate=True");
 
@@ -82,8 +83,7 @@ namespace Model.Models
             modelBuilder.Entity<ApproverDetail>().HasNoKey();
             modelBuilder.Entity<CNTS>().HasNoKey();
             modelBuilder.Entity<UserDto>().HasNoKey();
-            modelBuilder.Entity<MailData>().HasNoKey();
-            modelBuilder.Entity<DimBusinessorg>(entity =>
+            modelBuilder.Entity<MailData>().HasNoKey(); modelBuilder.Entity<DimBusinessorg>(entity =>
             {
                 entity.ToTable("DIM_BUSINESSORG", "MPP_APP");
 
@@ -225,9 +225,7 @@ namespace Model.Models
                     .HasColumnType("datetime")
                     .HasColumnName("ENTITY_END_DATE");
 
-                entity.Property(e => e.EntityLatestName)
-                    .IsRequired()
-                    .HasColumnName("ENTITY_LATEST_NAME");
+                entity.Property(e => e.EntityLatestName).HasColumnName("ENTITY_LATEST_NAME");
 
                 entity.Property(e => e.EntityStartDate)
                     .HasColumnType("date")
@@ -242,8 +240,7 @@ namespace Model.Models
 
                 entity.Property(e => e.LastUpdatedTimeStamp)
                     .HasColumnType("datetime")
-                    .HasColumnName("LAST_UPDATED_TIME_STAMP")
-                    .HasDefaultValueSql("(getdate())");
+                    .HasColumnName("LAST_UPDATED_TIME_STAMP");
 
                 entity.Property(e => e.LatestFlag)
                     .HasColumnName("LATEST_FLAG")
@@ -418,7 +415,7 @@ namespace Model.Models
             modelBuilder.Entity<EntityTypeAttrLov>(entity =>
             {
                 entity.HasKey(e => new { e.AttrName, e.EntityTypeId, e.ValidValues })
-                    .HasName("PK__ENTITY_T__6B57F4BBB018C295");
+                    .HasName("PK__ENTITY_T__6B57F4BB10120E73");
 
                 entity.ToTable("ENTITY_TYPE_ATTR_LOV", "MPP_CORE");
 
@@ -440,6 +437,12 @@ namespace Model.Models
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("VALUE_NAME");
+
+                entity.HasOne(d => d.EntityTypeAttr)
+                    .WithMany(p => p.EntityTypeAttrLov)
+                    .HasForeignKey(d => new { d.EntityTypeId, d.AttrName })
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ETAL_ETID_ANAME");
             });
 
             modelBuilder.Entity<EntityTypeRelation>(entity =>
@@ -587,10 +590,10 @@ namespace Model.Models
 
                 entity.Property(e => e.SortOrder).HasColumnName("SORT_ORDER");
 
-                entity.Property(e => e.SourceSystemCode)
+                entity.Property(e => e.SourceSystemName)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("SOURCE_SYSTEM_CODE");
+                    .HasColumnName("SOURCE_SYSTEM_NAME");
 
                 entity.Property(e => e.TreatNullsAsNulls)
                     .HasColumnName("TREAT_NULLS_AS_NULLS")
@@ -742,10 +745,10 @@ namespace Model.Models
 
                 entity.Property(e => e.SortOrder).HasColumnName("SORT_ORDER");
 
-                entity.Property(e => e.SourceSystemCode)
+                entity.Property(e => e.SourceSystemName)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("SOURCE_SYSTEM_CODE");
+                    .HasColumnName("SOURCE_SYSTEM_NAME");
 
                 entity.Property(e => e.TreatNullsAsNulls)
                     .HasColumnName("TREAT_NULLS_AS_NULLS")
@@ -900,10 +903,10 @@ namespace Model.Models
 
                 entity.Property(e => e.SortOrder).HasColumnName("SORT_ORDER");
 
-                entity.Property(e => e.SourceSystemCode)
+                entity.Property(e => e.SourceSystemName)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("SOURCE_SYSTEM_CODE");
+                    .HasColumnName("SOURCE_SYSTEM_NAME");
 
                 entity.Property(e => e.TreatNullsAsNulls)
                     .HasColumnName("TREAT_NULLS_AS_NULLS")
@@ -1058,10 +1061,10 @@ namespace Model.Models
 
                 entity.Property(e => e.SortOrder).HasColumnName("SORT_ORDER");
 
-                entity.Property(e => e.SourceSystemCode)
+                entity.Property(e => e.SourceSystemName)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("SOURCE_SYSTEM_CODE");
+                    .HasColumnName("SOURCE_SYSTEM_NAME");
 
                 entity.Property(e => e.TreatNullsAsNulls)
                     .HasColumnName("TREAT_NULLS_AS_NULLS")
@@ -1122,25 +1125,29 @@ namespace Model.Models
                     .IsUnicode(false)
                     .HasColumnName("APPROVER_STATUS");
 
-                entity.Property(e => e.BppBeverageGroupCode)
+                entity.Property(e => e.BppContainerPackSegmentCode)
                     .IsUnicode(false)
-                    .HasColumnName("BPP_BEVERAGE_GROUP_CODE");
+                    .HasColumnName("BPP_CONTAINER_PACK_SEGMENT_CODE");
 
-                entity.Property(e => e.BppBeverageGroupDesc)
+                entity.Property(e => e.BppContainerVolume)
                     .IsUnicode(false)
-                    .HasColumnName("BPP_BEVERAGE_GROUP_DESC");
+                    .HasColumnName("BPP_CONTAINER_VOLUME");
 
-                entity.Property(e => e.BppBeverageGroupLongName)
+                entity.Property(e => e.BppContainerVolumeCode)
                     .IsUnicode(false)
-                    .HasColumnName("BPP_BEVERAGE_GROUP_LONG_NAME");
+                    .HasColumnName("BPP_CONTAINER_VOLUME_CODE");
 
-                entity.Property(e => e.BppBeverageGroupShortName)
+                entity.Property(e => e.BppContainerVolumeDesc)
                     .IsUnicode(false)
-                    .HasColumnName("BPP_BEVERAGE_GROUP_SHORT_NAME");
+                    .HasColumnName("BPP_CONTAINER_VOLUME_DESC");
 
-                entity.Property(e => e.BppIndustryTypeCode)
+                entity.Property(e => e.BppContainerVolumeUom)
                     .IsUnicode(false)
-                    .HasColumnName("BPP_INDUSTRY_TYPE_CODE");
+                    .HasColumnName("BPP_CONTAINER_VOLUME_UOM");
+
+                entity.Property(e => e.BppContainerVolumeUomDesc)
+                    .IsUnicode(false)
+                    .HasColumnName("BPP_CONTAINER_VOLUME_UOM_DESC");
 
                 entity.Property(e => e.Comments)
                     .HasMaxLength(500)
@@ -1186,10 +1193,10 @@ namespace Model.Models
                     .ValueGeneratedOnAdd()
                     .HasColumnName("INPUT_ROW_ID");
 
-                entity.Property(e => e.IsscomBeverageGroupCode)
+                entity.Property(e => e.IsscomContainerVolumeCode)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("ISSCOM_BEVERAGE_GROUP_CODE");
+                    .HasColumnName("ISSCOM_CONTAINER_VOLUME_CODE");
 
                 entity.Property(e => e.LastModifiedBy)
                     .HasMaxLength(500)
@@ -1215,10 +1222,10 @@ namespace Model.Models
 
                 entity.Property(e => e.SortOrder).HasColumnName("SORT_ORDER");
 
-                entity.Property(e => e.SourceSystemCode)
+                entity.Property(e => e.SourceSystemName)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("SOURCE_SYSTEM_CODE");
+                    .HasColumnName("SOURCE_SYSTEM_NAME");
 
                 entity.Property(e => e.TreatNullsAsNulls).HasColumnName("TREAT_NULLS_AS_NULLS");
 
@@ -1447,10 +1454,10 @@ namespace Model.Models
 
                 entity.Property(e => e.SessionId).HasColumnName("SESSION_ID");
 
-                entity.Property(e => e.SourceSystemCode)
+                entity.Property(e => e.SourceSystemName)
                     .HasMaxLength(100)
                     .IsUnicode(false)
-                    .HasColumnName("SOURCE_SYSTEM_CODE");
+                    .HasColumnName("SOURCE_SYSTEM_NAME");
 
                 entity.Property(e => e.SuppliedCode1)
                     .HasMaxLength(100)
@@ -1742,7 +1749,7 @@ namespace Model.Models
                 entity.Property(e => e.EntityTypeId).HasColumnName("ENTITY_TYPE_ID");
 
                 entity.Property(e => e.ErrorMessage)
-                    .HasMaxLength(35)
+                    .HasMaxLength(44)
                     .IsUnicode(false)
                     .HasColumnName("ERROR_MESSAGE");
 
@@ -1761,10 +1768,10 @@ namespace Model.Models
                     .IsUnicode(false)
                     .HasColumnName("SESSION_ID");
 
-                entity.Property(e => e.SourceSystemCode)
+                entity.Property(e => e.SourceSystemName)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("SOURCE_SYSTEM_CODE");
+                    .HasColumnName("SOURCE_SYSTEM_NAME");
 
                 entity.Property(e => e.TreatNullsAsNulls).HasColumnName("TREAT_NULLS_AS_NULLS");
             });

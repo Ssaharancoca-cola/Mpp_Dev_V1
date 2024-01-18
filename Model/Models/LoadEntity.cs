@@ -9,14 +9,12 @@ namespace Model.Models
     {
         public DateTime? DateFrom { get; set; }
         public DateTime? DateTo { get; set; }
-        public string BppBeverageGroupCode { get; set; }
-        public string BppBeverageGroupLongName { get; set; }
-        public string BppBeverageGroupShortName { get; set; }
+        public string BppContainerVolumeCode { get; set; }
         public string DummyFlag { get; set; }
         public string ActiveFlag { get; set; }
         public DateTime? EffectiveStartDate { get; set; }
         public DateTime? EffectiveEndDate { get; set; }
-        public string SourceSystemCode { get; set; }
+        public string SourceSystemName { get; set; }
         public int? SortOrder { get; set; }
         public string ErrorMessage { get; set; }
         public string WarningMessage { get; set; }
@@ -39,10 +37,13 @@ namespace Model.Models
         public int? RecLockFlag { get; set; }
         public int? TreatNullsAsNulls { get; set; }
         public int? CurrentEditLevel { get; set; }
-        public string BppBeverageGroupDesc { get; set; }
+        public string BppContainerVolumeDesc { get; set; }
         public string Validationcode { get; set; }
         public string ApproverStatus { get; set; }
-        public string BppIndustryTypeCode { get; set; }
-        public string IsscomBeverageGroupCode { get; set; }
+        public string BppContainerPackSegmentCode { get; set; }
+        public string BppContainerVolume { get; set; }
+        public string BppContainerVolumeUom { get; set; }
+        public string BppContainerVolumeUomDesc { get; set; }
+        public string IsscomContainerVolumeCode { get; set; }
     }
 }
