@@ -114,7 +114,10 @@
                 </td>
                 <td height="40" class="whiteTextNormal" align ="right">
                     <button type="submit" class="button" id="btnWorkFlow" name="Command" title="WorkFlow" value="WorkFlow"><img class="Image" src="~/Images/WorkFlow.png" style="height: 25px;width: 25px;" /></button>
-                    <button type="submit" class="button" id="btnViewAll" name="Command" title="ViewAll" value="ViewAll"><img class="Image" src="~/Images/ViewAll.png" style="height: 25px;width: 25px;" /> </button>
+                    @if (Context.Session.GetString("EntityName") != "Customer")
+                    {
+                        <button type="submit" class="button" id="btnViewAll" name="Command" title="ViewAll" value="ViewAll"><img class="Image" src="~/Images/ViewAll.png" style="height: 25px;width: 25px;" /> </button>
+                    }
                     <button type="submit" class="button" id="btnImport" name="Command" title="Import" value="Import"><img class="Image" src="~/Images/Import.png" style="height: 25px;width: 25px;" /> </button>
                     <button type="submit" class="button" id="btnExport" name="Command" title="Export" value="Export"><img class="Image" src="~/Images/Export.png" style="height: 25px;width: 25px;" /> </button>
                     <button type="submit" class="button" id="btnAddNew" name="Command" title="AddNew" value="AddNew"><img class="Image" src="~/Images/AddNew.png" style="height: 25px;width: 25px;" /> </button>
