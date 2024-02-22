@@ -573,9 +573,10 @@ namespace DAL
             string outMsg = Constant.statusSuccess;
             try
             {
-                using (MPP_Context objMdmContext = new MPP_Context())
+                using (MPP_Context mPP_Context = new MPP_Context())
                 {
-                    objMdmContext.Procedures.MPP_LOAD_CHKAsync(sessionId.ToString(), entityTypeId.ToString(), userID.ToUpper(), suppressWarning).GetAwaiter().GetResult();
+                    mPP_Context.Database.SetCommandTimeout(360);
+                    mPP_Context.Procedures.MPP_LOAD_CHKAsync(sessionId.ToString(), entityTypeId.ToString(), userID.ToUpper(), suppressWarning).GetAwaiter().GetResult();
                 }
             }
             catch (Exception ex)

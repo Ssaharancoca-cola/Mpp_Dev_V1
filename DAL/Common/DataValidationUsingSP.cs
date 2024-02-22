@@ -1,5 +1,7 @@
-﻿using Model;
+﻿using Microsoft.EntityFrameworkCore;
+using Model;
 using Model.Models;
+using System;
 using System.Data;
 using System.Text;
 
@@ -21,6 +23,7 @@ namespace DAL.Common
             {
                 using (MPP_Context mPP_Context = new MPP_Context())
                 {
+                    mPP_Context.Database.SetCommandTimeout(360);
                     mPP_Context.Procedures.MPP_LOAD_CHKAsync(sessionId, entityTypeId, userID.ToUpper(), suppressWarning).GetAwaiter().GetResult();
                 }
             }
@@ -105,9 +108,10 @@ namespace DAL.Common
             loadErrorCount = 0;
             try
             {
-                using (MPP_Context objMdmContext = new MPP_Context())
+                using (MPP_Context mPP_Context = new MPP_Context())
                 {
-                    objMdmContext.Procedures.MPP_LOAD_CHKAsync(strSessionId, entityTypeId, userID.ToUpper(), suppressWarning).GetAwaiter().GetResult(); ;
+                    mPP_Context.Database.SetCommandTimeout(360);
+                    mPP_Context.Procedures.MPP_LOAD_CHKAsync(strSessionId, entityTypeId, userID.ToUpper(), suppressWarning).GetAwaiter().GetResult(); ;
                 }
             }
             catch (Exception ex)
