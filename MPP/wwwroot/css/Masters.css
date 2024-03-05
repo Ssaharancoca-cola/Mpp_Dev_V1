@@ -16,7 +16,7 @@
     color: #8B0000;
     padding-right: 5px;
 }
-.form-control{
+/*.form-control{
     display: block;
     width: 220px;
     height: 34px;
@@ -32,7 +32,7 @@
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
     transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-}
+}*/
 .loader{
     margin: 0px;
     padding: 0px;
@@ -91,10 +91,10 @@ color:#1E323E;
 }*/
 
 .dropdown {
-    width: 230px;
+    /*width: 230px;
     color: #8B0000;
     font-family: Verdana;
-    font-size: 12px;
+    font-size: 12px;*/
 }
 
 .txtfield {
@@ -209,11 +209,11 @@ color:#1E323E;
 }
 
 .tableheader {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
+   /* font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: smaller;
     font-weight: bold;
     color: #FFFFFF;
-    background-color: #993C5C;
+    background-color: #993C5C;*/
 }
 
 .row1 {
@@ -265,10 +265,9 @@ color:#1E323E;
 }
 
 .panelDataGrid {
-    overflow: auto;
+    /*overflow: auto;
     height: auto;
-    text-align: center;
-    width: 796px;
+    text-align: center;  */  
 }
 
 .panelDataGridWithScroll {
@@ -281,8 +280,7 @@ color:#1E323E;
 .panelDataGridSearch {
     overflow: auto;
     max-height: 460px;
-    text-align: center;
-    width: 850px;
+    text-align: center;    
 }
 
 .panelDataGridWithMaxWidth {
@@ -355,13 +353,13 @@ color:#1E323E;
 }
 
 .gridheader {
-    background-color: #F40000;
+   /* background-color: #F40000;
     color: White;
     font-family: Arial;
     font-size: 11pt;
     font-weight: bold;
     text-align: center;
-    border: 1px solid gray;
+    border: 1px solid gray;*/
 }
 
 .linkbutton {
@@ -620,8 +618,8 @@ div#main {
 }
 
 #chromemenu {
-    width: 100%;
-    height: 28px;
+    /*width: 100%;
+    height: 28px;*/
 }
 
 .whiteText {
@@ -637,12 +635,12 @@ div#main {
 }
 
 .whiteTextNormal {
-    font-family: Arial;
+    /*font-family: Arial;
     color: #535353;
     font-size: 11px;
     font-weight: bold;
     padding-left: 7px;
-    padding-right: 7px;
+    padding-right: 7px;*/
 }
 
 .formTxt {
@@ -2700,7 +2698,7 @@ body .ui-tooltip {
 }
 
 #chromemenu a {
-    color: white;
+    /*color: white;*/
     text-decoration: none;
     font-family: Arial;
     font-size: 15pt;
@@ -2726,11 +2724,11 @@ body .ui-tooltip {
 }
 
 .Attribute {
-    color: black;
+   /* color: black;
     font-family: Arial;
     font-size: 10pt;
     text-decoration: none;
-    cursor: pointer;
+    cursor: pointer;*/
 }
 
 a.Attribute:hover {
@@ -2830,10 +2828,10 @@ a.Attribute:hover {
 }
 
 .resultHeader {
-    color: #FFFFFF;
+    /*color: #FFFFFF;
     text-decoration: none;
     font-size: 10pt;
-    line-height: 25px;
+    line-height: 25px;*/
 }
 
 .colorWhite {
@@ -2854,20 +2852,20 @@ a.Attribute:hover {
 }
 
 .alternate_color tr:nth-child(odd) td {
-    background-color: #E8E2E2;
+    /*background-color: #E8E2E2;
     font-family: Arial;
     color: #8B0000;
     font-size: 8pt;
     text-align: left;
     font-style: normal;
-    font-weight: normal;
+    font-weight: normal;*/
 }
 
 .table {
-    border-collapse: collapse;
+   /* border-collapse: collapse;
     border-left: 1px solid gray;
     border-right: 1px solid gray;
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid gray;*/
 }
 
 hr {
@@ -2877,8 +2875,8 @@ hr {
 }
 
 .table th td {
-    border: 1px solid;
-    border-color: gray;
+    /*border: 1px solid;
+    border-color: gray;*/
 }
 
 .alignright {
@@ -2934,7 +2932,7 @@ hr {
 }
 
 
-.form-control {
+/*.form-control {
     display: block;
     width: 220px;
     height: 34px;
@@ -2950,7 +2948,7 @@ hr {
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
     transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-}
+}*/
 
 
     .form-control:focus {
@@ -2961,10 +2959,8 @@ hr {
     }
 
 
-    .form-control[disabled]
-    .form-control[readonly]
-
-
+.form-control[disabled]
+.form-control[readonly]
 
 
 

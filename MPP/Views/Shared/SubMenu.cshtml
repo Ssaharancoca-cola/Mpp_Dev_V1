@@ -4,50 +4,30 @@
     var SelectedDimensionData = ViewBag.SelectedDimensionData;
 }
 
-<table width="100%" border="0" cellspacing="0" cellpadding="1">
-    <tr style="background-color:#F40000; background-repeat: repeat-x; height: 100%;background-repeat: repeat-x;background-size: contain;">
-        <td align="center">
-            @{
-                var selectedDimensionData = SelectedDimensionData?.ToString() ?? "";
-            }
-            <label style="margin-top: 4px; font-size: 12pt; width: 100%; font-family: Arial; font-weight: bold; display: inline-block;color: white;">
-                @Html.Raw(selectedDimensionData)
-            </label>
+<div class="page-label d-none">
+    @{
+        var selectedDimensionData = SelectedDimensionData?.ToString() ?? "";
+    }
+    
+        @Html.Raw(selectedDimensionData)
+    
+</div>
+<ul class="nav nav-pills flex-column mb-auto">
+    @foreach (var menuOption in Model)
+    {          
+        <li class="nav-item">
+            <a class="nav-link Attribute" id=@menuOption.Id> @menuOption.DisplayName</a>
+        </li>
+    }
+    </ul>
 
-        </td>
-    </tr>
-    <tr style="width:100%">
-        <td valign="top" style="vertical-align:top;width:100%">
-            <table width="100%" border="0" cellpadding="0" cellspacing="0" style="background-color:white">
-                @foreach (var menuOption in Model)
-                {
-                    <tr>
-                        <td>
-                            <table width="100%" border="0" cellpadding="0" cellspacing="0" style="background-color:white; border: 1px solid black; padding:2px 5px 2px 5px">
-                                <tr>
-                                    <td style="cursor:pointer;">
-                                        <a id=@menuOption.Id class="Attribute">
-                                            @menuOption.DisplayName
-                                        </a>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr style="height:1px;"><td></td></tr>
-                    <tr style="height:1px;"><td></td></tr>
-                }
-            </table>
-        </td>
-    </tr>
-</table>
 
 <script>
 
     $(".Attribute").click(function (evt) {
         var entityName = evt.currentTarget.innerText; 
         var submenu = true;
-    $.post('@Url.Action( "ShowAttribute", "Menu")', { EntityTypeId: evt.currentTarget.id, entityName: evt.currentTarget.innerText, viewType: "search" },
+        $.post('@Url.Action( "ShowAttribute", "Menu")', { EntityTypeId: evt.currentTarget.id, entityName: evt.currentTarget.innerText, viewType: "search" },
             function(data) {
             if(submenu == true){
                 if(data.indexOf("Access denied") > -1){

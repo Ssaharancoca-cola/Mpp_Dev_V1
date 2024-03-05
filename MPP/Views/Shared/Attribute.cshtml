@@ -5,104 +5,139 @@
 <script src="~/js/attribute.js"></script>
 
 <form id="formid">
-    <table border="0" cellspacing="0" cellpadding="0" class="width-100 margin-top-0_1em inputFormDtls">
-        <tr style="width:100%;height:31px;">
-            <td colspan="2" style="padding-left:5px">
-                @if (Context.Session.GetString("SelectedDimensionData") != null && Context.Session.GetString("EntityName") != null)
-                {
-                    <label style="color:#F40000;font-family:Arial;font-size:12pt;font-weight:bold">@Context.Session.GetString("SelectedDimensionData").ToString()></label>
-                    <label style="color:black;font-family:Arial;font-size:10pt;font-weight:bold">@Context.Session.GetString("EntityName").ToString()</label>
-                }
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb rounded-3">
+            @if (Context.Session.GetString("SelectedDimensionData") != null && Context.Session.GetString("EntityName") != null)
+            {
+                <li class="breadcrumb-item">
+                    <a class="link-body-emphasis" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
+                            <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z" />
+                        </svg>
+                        <span class="visually-hidden">Home</span>
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a class="link-body-emphasis fw-semibold text-decoration-none" href="#">@Context.Session.GetString("SelectedDimensionData").ToString()</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    @Context.Session.GetString("EntityName").ToString()
+                </li>
+            }
+        </ol>
+    </nav>
 
-            </td>
-        </tr>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <h1 class="h2">@Context.Session.GetString("SelectedDimensionData").ToString()</h1>        
+    </div>
 
-        <tr class="margin-top-2em" style="padding-top :40px">
-            <td>
-                <div class="width-100">
-                    <span style="height:30px">
-                        <hr>
-                    </span>
-                    @foreach (var menuOption in Model)
-                    {
-                        if (@menuOption.Isvisible != "N")
-                        {
-                            <span class="width-49 padding_0_2 fleft">
-                                @if (@menuOption.DisplayType.ToLower() != "checkboxlist")
-                                {
-                                    if (@menuOption.AttrDisplayName.ToUpper() == ("SORT ORDER"))
-                                    {
-                                        <span class="fleft width-44 whiteText alignright">@menuOption.AttrDisplayName<label id="lblSORT_ORDER_FORMAT" class="sortlimit">(9999999999)</label></span>
-                                    }
-                                    else
-                                    {
-                                        <span class="fleft width-44 whiteText alignright">
-                                            @menuOption.AttrDisplayName
-                                        </span>
-                                    }
-                                }
-                                <span class="pad_left_0_2">
-                                    @switch (@menuOption.DisplayType.ToLower())
-                                    {
-                                        case "textbox":
-                                            <input type="text" style="width:45%" maxlength="@menuOption.AttrLength" name="@menuOption.AttrName" id="@menuOption.AttrName" />
-                                            break;
-                                        case "datepicker":
-                                            <input type="text" style="width:45%" name="@menuOption.AttrName" id="@menuOption.AttrName" class="datepicker" />
-                                            break;
-                                        case "combobox":
-                                            <select id="@menuOption.AttrName" name="@menuOption.AttrName" style="width: 45%;">
-                                                <option value="">--Select--</option>
-                                                @foreach (var item in @menuOption.dropDownDataList)
-                                                {
-                                                    <option value="@item.VALID_VALUES">@item.VALUE_NAME</option>
-                                                }
-                                            </select>
-                                            break;
-                                        case "Parcombo":
-                                            @Html.DropDownListFor(m => menuOption.EntityTypeId, new SelectList(menuOption.dropDownDataList, "VALID_VALUES", "VALUE_NAME"), "--Select--", new {@id= menuOption.AttrName, @Name = menuOption.AttrName, style ="width: 45%;", @onchange = "CallChangefunc('" + menuOption.CasDrop + "', this.value)" })
-                                            break;
-                                        case "cascombo":
-                                            @Html.DropDownList(menuOption.AttrName, new SelectList(string.Empty, "Value", "Text"), "--Select--", new {@style = "width:45%;" })
-                                            break;
-                                        case "userbox":
-                                            <input type="text" style="width:45%" maxlength=@menuOption.AttrLength name=@menuOption.AttrName id=@menuOption.AttrName />
-                                            break;
 
-                                        default:
-                                            break;
-                                    }
-                                </span>
-                            </span>
-                        }
-                    }
-                    <span class="width-49 padding_0_2 fleft">
-                        <span class="fleft width-44 whiteText alignright">Effective Date From</span>
-                        <span class="pad_right_2" style="margin-left:3px">
-                            <input type="text" readonly style="width:19%" name="txtFrom" id="txtFrom" /> To
-                            <input type="text" readonly style="width:20%" name="txtTo" id="txtTo" />
-                        </span>
-                    </span>                    
-                </div>
-            </td>
-        </tr>
-        <tr align="center" style="width:100%;padding-top:10px">
-            <td style="width:50%" align="center" colspan="1">
-                <button type="submit" class="button" id="btnSearch" style="width: 80px" name="Command" value="Search">
-                    <img src="~/Images/search1.png" />
-                </button>
+    <div class="card box-shadow mb-4 sidebar-filter" id="sidebarFilter">
+        <div class="card-header" id="headingOne">
+            <h5 class="mb-0">Search @Context.Session.GetString("EntityName").ToString()</h5>
+            <a href="javascript:void(0)" class="closeBtn" onclick="closeSidebar()">&times;</a>
+        </div>
+        <div class="card-body">
+            <div class="card-form">
                 <div style="color:#F40000" id="lblSearchWarnings"></div>
-            </td>
-        </tr>
-    </table>
-    <div ID="tableHeaderDiv">
-        <table width="100%" border="0" cellspacing="0" cellpadding="0">
-            <tr valign="middle">
-                <td height="40" class="whiteTextNormal">
-                    @if (Context.Session.GetString("EntityName") != null)
+                @foreach (var menuOption in Model)
+                {
+                    if (@menuOption.Isvisible != "N")
                     {
-                        <label class="whiteTextNormal" id="lblcaption">@Context.Session.GetString("EntityName").ToString()</label>
+                        <div class="form-group">
+                            @if (@menuOption.DisplayType.ToLower() != "checkboxlist")
+                            {
+                                if (@menuOption.AttrDisplayName.ToUpper() == ("SORT ORDER"))
+                                {
+                                    <label>@menuOption.AttrDisplayName<label id="lblSORT_ORDER_FORMAT" class="sortlimit">(9999999999)</label></label>
+                                }
+                                else
+                                {
+                                    <label>
+                                        @menuOption.AttrDisplayName
+                                    </label>
+                                }
+                            }
+                            @switch (@menuOption.DisplayType.ToLower())
+                            {
+                                case "textbox":
+                                    <input type="text" class="form-control" maxlength="@menuOption.AttrLength" name="@menuOption.AttrName" id="@menuOption.AttrName" />
+                                    break;
+                                case "datepicker":
+                                    <input type="text" class="form-control" name="@menuOption.AttrName" id="@menuOption.AttrName" class="datepicker" />
+                                    break;
+                                case "combobox":
+                                    <select id="@menuOption.AttrName" name="@menuOption.AttrName" class="form-control">
+                                        <option value="">--Select--</option>
+                                        @foreach (var item in @menuOption.dropDownDataList)
+                                        {
+                                            <option value="@item.VALID_VALUES">@item.VALUE_NAME</option>
+                                        }
+                                    </select>
+                                    break;
+                                case "Parcombo":
+                                    @Html.DropDownListFor(m => menuOption.EntityTypeId, new SelectList(menuOption.dropDownDataList, "VALID_VALUES", "VALUE_NAME"), "--Select--", new { @id = menuOption.AttrName, @Name = menuOption.AttrName, style = "width: 45%;", @onchange = "CallChangefunc('" + menuOption.CasDrop + "', this.value)" })
+                                    break;
+                                case "cascombo":
+                                    @Html.DropDownList(menuOption.AttrName, new SelectList(string.Empty, "Value", "Text"), "--Select--", new { @style = "width:45%;" })
+                                    break;
+                                case "userbox":
+                                    <input type="text" class="form-control" maxlength=@menuOption.AttrLength name=@menuOption.AttrName id=@menuOption.AttrName />
+                                    break;
+
+                                default:
+                                    break;
+                            }
+
+                        </div>
                     }
+                }
+                <div class="form-group">
+                    <label>Effective Date</label>
+                    <div class="wrapper-effective-date">
+                        <input type="text" readonly class="form-control" name="txtFrom" id="txtFrom" placeholder="From" />
+                        <input type="text" readonly class="form-control" name="txtTo" id="txtTo" placeholder="To" />
+                    </div>
+                </div>
+            </div>           
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary" id="btnSearch" name="Command" value="Search">
+                Filter Your Search
+            </button>
+        </div>
+    </div>
+    @* <table border="0" cellspacing="0" cellpadding="0" class="width-100 margin-top-0_1em inputFormDtls">
+
+
+    <tr class="margin-top-2em" style="padding-top :40px">
+    <td>
+    <div class="width-100">
+    <span style="height:30px">
+    <hr>
+    </span>
+
+    </div>
+    </td>
+    </tr>
+    <tr align="center" style="width:100%;padding-top:10px">
+    <td style="width:50%" align="center" colspan="1">
+
+    </td>
+    </tr>
+    </table> *@
+    <div ID="tableHeaderDiv" class="card box-shadow">
+        <div class="card-header" id="headingOne">
+            @if (Context.Session.GetString("EntityName") != null)
+            {
+                <h5 class="mb-0" id="lblcaption">@Context.Session.GetString("EntityName").ToString()</h5>
+            }
+
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+
                     <span class="whiteTextNormal">
                         Total Records: <strong>
                             <label id="lblTotalRecords">0</label>
@@ -111,48 +146,88 @@
                         Total Pages :
                         <label class="whiteTextNormal" id="lblCurrentPageDetails">0</label>
                     </span>
-                </td>
-                <td height="40" class="whiteTextNormal" align ="right">
-                    <button type="submit" class="button" id="btnWorkFlow" name="Command" title="WorkFlow" value="WorkFlow"><img class="Image" src="~/Images/WorkFlow.png" style="height: 25px;width: 25px;" /></button>
-                    @if (Context.Session.GetString("EntityName") != "Customer")
-                    {
-                        <button type="submit" class="button" id="btnViewAll" name="Command" title="ViewAll" value="ViewAll"><img class="Image" src="~/Images/ViewAll.png" style="height: 25px;width: 25px;" /> </button>
-                    }
-                    <button type="submit" class="button" id="btnImport" name="Command" title="Import" value="Import"><img class="Image" src="~/Images/Import.png" style="height: 25px;width: 25px;" /> </button>
-                    <button type="submit" class="button" id="btnExport" name="Command" title="Export" value="Export"><img class="Image" src="~/Images/Export.png" style="height: 25px;width: 25px;" /> </button>
-                    <button type="submit" class="button" id="btnAddNew" name="Command" title="AddNew" value="AddNew"><img class="Image" src="~/Images/AddNew.png" style="height: 25px;width: 25px;" /> </button>
-                </td>
-            </tr>
-        </table>
-        <div id="divLoading" class="loader">
-            <img alt="Loading, please wait" style="position:absolute; top: 30px; left: 45%; width:110px; height:110px" src="~/Images/spinner.gif" />
+                </div>
+                <div class="col">
+                    <div class="btn-toolbar btn-main-toolbar mb-2 mb-md-0">
+                        <div class="btn-group me-2">
+                            <span class="btn btn-sm btn-outline-secondary openBtn" onclick="openSidebar()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                                </svg>
+                                Search</span>
+                            
+                            <button type="submit" class="btn btn-sm btn-outline-secondary" id="btnWorkFlow" name="Command" title="WorkFlow" value="WorkFlow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-diagram-3" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M6 3.5A1.5 1.5 0 0 1 7.5 2h1A1.5 1.5 0 0 1 10 3.5v1A1.5 1.5 0 0 1 8.5 6v1H14a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0V8h-5v.5a.5.5 0 0 1-1 0V8h-5v.5a.5.5 0 0 1-1 0v-1A.5.5 0 0 1 2 7h5.5V6A1.5 1.5 0 0 1 6 4.5zM8.5 5a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5zM0 11.5A1.5 1.5 0 0 1 1.5 10h1A1.5 1.5 0 0 1 4 11.5v1A1.5 1.5 0 0 1 2.5 14h-1A1.5 1.5 0 0 1 0 12.5zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm4.5.5A1.5 1.5 0 0 1 7.5 10h1a1.5 1.5 0 0 1 1.5 1.5v1A1.5 1.5 0 0 1 8.5 14h-1A1.5 1.5 0 0 1 6 12.5zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm4.5.5a1.5 1.5 0 0 1 1.5-1.5h1a1.5 1.5 0 0 1 1.5 1.5v1a1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z" />
+                                </svg>
+                                 Workflow
+                            </button>
+                        @if (Context.Session.GetString("EntityName") != "Customer")
+                        {
+                            <button type="submit" class="btn btn-sm btn-outline-secondary" id="btnViewAll" name="Command" title="ViewAll" value="ViewAll">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
+                                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
+                                    </svg>
+                                     View
+                            </button>
+                        }
+                            <button type="submit" class="btn btn-sm btn-outline-secondary" id="btnAddNew" name="Command" title="AddNew" value="AddNew">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                                    <path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5" />
+                                    <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z" />
+                                </svg>
+                                Add New
+                            </button>                                                   
+                    </div>
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle d-flex align-items-center gap-1" data-bs-toggle="dropdown" aria-expanded="false">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                                    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                                </svg>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end" style="">
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item" id="btnExport">Export</a>
+                                <!-- item-->
+                                <a href="javascript:void(0);" class="dropdown-item" id="btnImport">Import</a>                                
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>            
+            
+            <div id="divLoading" class="loader">
+                <img alt="Loading, please wait" style="position:absolute; top: 30px; left: 45%; width:110px; height:110px" src="~/Images/spinner.gif" />
+            </div>
+            <input type="hidden" id="cmdName" name="cmdName" value="viewPlaceHolder" />
         </div>
-        <input type="hidden" id="cmdName" name="cmdName" value="viewPlaceHolder" />
     </div>
- </form>
-    <script>
-    function applyDatepicker() {        
+</form>
+<script>
+    function applyDatepicker() {
         $("#txtFrom").datepicker({ changeMonth: true, changeYear: true, yearRange: "2000:2050" });
         $("#txtTo").datepicker({ changeMonth: true, changeYear: true, yearRange: "2000:2050" });
     }
     $('#formid').on('submit', submitFormWithAjax);
-            function CallChangefunc(val, parcombo) {
-                $('#' + val + '').empty();
+    function CallChangefunc(val, parcombo) {
+        $('#' + val + '').empty();
 
-                $.ajax({
-                    type: "POST",
-                    url: "Search/GetCasCombo",
-                    datatype: "Json",
-                    data: { Id: parcombo, cId: val },
-                    success: function (data) {
-                        $('#' + val + '').append('<option value="">--Select--</option>');
-                        $.each(data, function (index, value) {
-                            $('#' + val + '').append('<option value="' + value.Value + '">' + value.Text + '</option>');
-                        });
-                    }
+        $.ajax({
+            type: "POST",
+            url: "Search/GetCasCombo",
+            datatype: "Json",
+            data: { Id: parcombo, cId: val },
+            success: function (data) {
+                $('#' + val + '').append('<option value="">--Select--</option>');
+                $.each(data, function (index, value) {
+                    $('#' + val + '').append('<option value="' + value.Value + '">' + value.Text + '</option>');
                 });
-            };
-    
+            }
+        });
+    };
+
     function submitFormWithAjax(event) {
         event.preventDefault();
         let commandValue = $(document.activeElement).attr("value");
@@ -166,14 +241,16 @@
         $.ajax({
             type: 'POST',
             url: '@Url.Action("GetSearchData", "Search")',
-            data: form,       
+            data: form,
             success: function (data) {
                 // Update your DOM based on the received data.
-                onSuccess(data); 
+                onSuccess(data);
             },
             error: function (err) {
                 console.error("Error", err);
-            }            
-        });           
-    }       
+            }
+        });
+    }
+   
+    
 </script>
