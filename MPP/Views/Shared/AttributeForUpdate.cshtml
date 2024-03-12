@@ -85,112 +85,112 @@
 @if (ViewData.ModelState.IsValid)
 {
     <form id="formid">
-<table style="width: 100%;background-color:orangered" border="0" cellspacing="0" cellpadding="0">
-    <tr>
-        <td valign="top">
-            <hr style="width:100%;height:3px;background-color:red;" />
-        </td>
-    </tr>
-</table>
-<table border="1" cellspacing="0" cellpadding="0" class="width-100 margin-top-2em inputFormDtls">
-    <tr>
-        <td>
-            <div class="width-100">
+
+        <div class="card-header">
+            <h5 class="mb-0">Update @Context.Session.GetString("EntityName").ToString()</h5>
+        </div>
+        <div class="card-body">
+            <div class="row form-group">
+                @*  <table border="1" cellspacing="0" cellpadding="0" class="width-100 inputFormDtls">
+            <tr>
+            <td> *@
+
                 @foreach (var menuOption in Model)
                 {
                     if (@menuOption.Isvisible != "N")
                     {
-                        <span class="width-46 padding_0_1 fleft">
-                            <span class="fleft width-21">@menuOption.AttrDisplayName</span>
-                            <span class="pad_right_4">
-                                @switch (@menuOption.DisplayType.ToLower())
-                                {
-                                    case "textbox":
-                                        @*@Html.TextBoxFor(m=> @menuOption.ENTITY_TYPE_ID, new { @class = "width-40" })*@
-                                        <input type="text" style="width:45%" maxlength=@menuOption.AttrLength name=@menuOption.AttrName id=@menuOption.AttrName />
-                                        if (@menuOption.AttrDisplayName.ToUpper() == ("SORT ORDER"))
+                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                            <label>@menuOption.AttrDisplayName</label>
+                            @switch (@menuOption.DisplayType.ToLower())
+                            {
+                                case "textbox":
+                                    @*@Html.TextBoxFor(m=> @menuOption.ENTITY_TYPE_ID, new { @class = "width-40" })*@
+                                    <input type="text" class="form-control" maxlength=@menuOption.AttrLength name=@menuOption.AttrName id=@menuOption.AttrName />
+                                    if (@menuOption.AttrDisplayName.ToUpper() == ("SORT ORDER"))
+                                    {
+                                        <label id="lblSORT_ORDER_format" class="hintlabel">(9999999999)</label>
+                                    }
+                                    break;
+                                case "datepicker":
+                                    <input type="text" name=@menuOption.AttrName id=@menuOption.AttrName class="form-control datepicker" />
+
+                                    break;
+                                case "checkboxlist":
+                                    foreach (var data in menuOption.dropDownDataList)
+                                    {
+                                        var chkname = data.VALID_VALUES;
+
+                                        @Html.CheckBox(@menuOption.AttrName)
+                                        @data.VALUE_NAME.Substring(0, 1).ToUpper()
+
+                                        @data.VALUE_NAME.Substring(1).ToLower()
+                                        ;
+
+                                    }
+                                    break;
+                                case "combobox":
+                                    <select id="@menuOption.AttrName" name="@menuOption.AttrName" class="form-control">
+                                        <option value="">--Select--</option>
+                                        @foreach (var item in @menuOption.dropDownDataList)
                                         {
-                                            <label id="lblSORT_ORDER_format" class="hintlabel">&nbsp;(9999999999)</label>
+                                            <option value="@item.VALID_VALUES">@item.VALUE_NAME</option>
                                         }
-                                        break;
-                                    case "datepicker":
-                                        <input type="text" style="width:45%" name=@menuOption.AttrName id=@menuOption.AttrName class="datepicker" />
+                                    </select>
+                                    break;
+                                default:
+                                    break;
+                            }
+                        </div>
 
-                                        break;
-                                    case "checkboxlist":
-                                        foreach (var data in menuOption.dropDownDataList)
-                                        {
-                                            var chkname = data.VALID_VALUES;
-
-                                            @Html.CheckBox(@menuOption.AttrName)
-                                            @data.VALUE_NAME.Substring(0, 1).ToUpper()
-
-                                            @data.VALUE_NAME.Substring(1).ToLower()
-                                            ;
-
-                                        }
-                                        break;
-                                    case "combobox":
-                                                <select id="@menuOption.AttrName" name="@menuOption.AttrName" style="width: 45%;">
-                                                    <option value="">--Select--</option>
-                                                    @foreach (var item in @menuOption.dropDownDataList)
-                                                    {
-                                                        <option value="@item.VALID_VALUES">@item.VALUE_NAME</option>
-                                                    }
-                                                </select>
-                                                break;
-                                    default:
-                                        break;
-                                }
-                            </span>
-                        </span>
                     }
                 }
-                <span class="width-45 padding_0_2 fleft">
-                    <span class="pad_right_1 fleft width-30" style="margin-left:-5px">Effective Date </span>
-                    <span class="pad_right_1" style="margin-left:-42px">
-                        <input type="text" class="width-45" name="txtEffectiveDate" id="txtEffectiveDate" />
-                    </span>
-                </span>
+
+                <div class="col-xs-12 col-sm-4 col-md-4 mt-3">
+                    <label>Effective Date </label>
+
+                    <input type="text" class="form-control" name="txtEffectiveDate" id="txtEffectiveDate" />
+
+                </div>
+
+                @*  </td>
+            </tr>
+
+            </table> *@
             </div>
-        </td>
-    </tr>
-    <tr align="center" style="width:100%;padding-top:10px">
-        <td style="width: 50%" align="center" colspan="1">
-                    <button type="submit" class="button" id="btnUpdate" style="width:80px; margin-right: 20px;" name="Command" value="update">
-                <img src="~/Images/Update.png" />
-            </button>
-            <button type="submit" class="button" id="btnCancel" style="width:80px" name="Command" title="Cancel" value="Cancel">
-                <img src="~/Images/Cancel.png" />
-            </button>
-            <div style="color:red" id="lblSearchWarnings"></div>
+            <div class="row">
+                <div class="col">
+                    <button type="submit" class="btn btn-primary" id="btnUpdate" name="Command" value="update">
+                        Update
+                    </button>
+                    <button type="submit" class="btn btn-outline-primary" id="btnCancel" name="Command" title="Cancel" value="Cancel">
+                        Cancel
+                    </button>
+                    <div style="color:red" id="lblSearchWarnings"></div>
+                </div>
+            </div>
+        </div>
 
 
-        </td>
+        <div id="divLoading" class="loader">
 
-    </tr>
-</table>
-
-<div id="divLoading" class="loader">
-
-    <img alt="Loading, please wait" style="position: absolute; top: 30%; left: 45%; width:110px; height:110px" src="~/Images/spinner.gif" />
-</div>
-</form>
+            <img alt="Loading, please wait" style="position: absolute; top: 30%; left: 45%; width:110px; height:110px" src="~/Images/spinner.gif" />
+        </div>
+    </form>
 }
 else
 {
     <script>
 
-    alert('Accesss denied');
+        alert('Accesss denied');
 
     </script>
 }
 
 <script>
-    $(document).ready(function () {        
+    $(document).ready(function () {
         $(function () {
             $("#txtEffectiveDate").datepicker({ changeMonth: true, changeYear: true, yearRange: "2000:2050" });
-        });       
+        });
     });
     $('#formid').on('submit', submitFormWithAjax);
 

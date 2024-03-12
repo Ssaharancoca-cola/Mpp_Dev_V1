@@ -1,5 +1,5 @@
 ﻿
-
+<div class="container-fluid page-body-wrapper">
 <div class="sidebar">
     <div id="chromemenu" class="sidebar-menu">
         <h3>Menu</h3>
@@ -23,26 +23,19 @@
 
 </div>
 <div class="main-panel mt-4">
-    <div id="AttributeDetail" class="row">
+    <div id="AttributeDetail">
         <div id="divLoading" class="loader">
             <img alt="Loading, please wait" style="display:none; position: absolute; top: 30%; left: 45%; width:110px; height:110px;" src="~/Images/spinner.gif" />
         </div>
     </div>
     <div class="card box-shadow mt-4" id="viewPlaceHolder">
         <div class="card-body">           
-                    <h3>Select entities from left panel</h3>
-           
+                    <h3 class="text-center mt-4 mb-4">Select Entities From Left Panel</h3>           
             </div>        
     </div>
 </div>
 
-
-
-
-
-
-
-
+</div>
 <script>
     $(document).ready(function () {
         $(document).ajaxStart(function () {

@@ -5,13 +5,13 @@
     background-color: #FFFFFF;
 }
 .blackText {
-    font-family: Verdana, Arial, Helvetica, Arial;
+    /*font-family: Verdana, Arial, Helvetica, Arial;*/
     color: #FFFFFF;
-    font-size: 10px;
+    /*font-size: 10px;*/
 }
 .label{
-    font-family: Verdana;
-    font-size: 12px;
+    /*font-family: Verdana;*/
+    /*font-size: 12px;*/
     text-align: right;
     color: #8B0000;
     padding-right: 5px;
@@ -76,9 +76,9 @@ input#txtfield {
 }
 
 hyperlinks a#whitetext {
-    font-family: Arial;
+    /*font-family: Arial;
     font-size: 11pt;
-    color: #484848;
+    color: #484848;*/
 }
 
 /*
@@ -98,13 +98,13 @@ color:#1E323E;
 }
 
 .txtfield {
-    font-family: Verdana;
+    /*font-family: Verdana;*/
     background-color: #FFFFFF;
     border: 1px solid #939369;
     color: #8B0000;
-    font-size: 12px;
+    /*font-size: 12px;
     height: 16px;
-    width: 225px;
+    width: 225px;*/
 }
 
 .OperatorChange {
@@ -123,12 +123,12 @@ color:#1E323E;
     background-color: #EAEAEA;
     border: 1px solid #993C5C;
     color: #993C5C;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
+    /*font-family: Verdana, Arial, Helvetica, sans-serif;*/
     font-weight: normal;
 }
 
 .label {
-    font-family: Verdana;
+    /*font-family: Verdana;*/
     font-size: 12px;
     text-align: right;
     color: #8B0000;
@@ -136,7 +136,7 @@ color:#1E323E;
 }
 
 .message {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
+    /*font-family: Verdana, Arial, Helvetica, sans-serif;*/
     font-size: medium;
     font-weight: bold;
     text-align: center;
@@ -145,20 +145,20 @@ color:#1E323E;
 }
 
 .mandatory {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
+    /*font-family: Verdana, Arial, Helvetica, sans-serif;*/
     font-size: smaller;
     color: red;
 }
 
 .footer {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
+    /*font-family: Verdana, Arial, Helvetica, sans-serif;*/
     font-size: smaller;
     font-weight: normal;
     color: #993C5C;
 }
 
 .section {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
+    /*font-family: Verdana, Arial, Helvetica, sans-serif;*/
     font-size: small;
     font-weight: normal;
     color: #000000;
@@ -166,7 +166,7 @@ color:#1E323E;
 }
 
 .sectionheading {
-    font-family: Verdana;
+    /*font-family: Verdana;*/
     font-size: 16px;
     font-weight: bold;
     color: #993C5C;
@@ -174,7 +174,7 @@ color:#1E323E;
 }
 
 .Mainheading {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
+    /*font-family: Verdana, Arial, Helvetica, sans-serif;*/
     font-size: smaller;
     font-weight: bold;
     color: #993C5C;
@@ -183,7 +183,7 @@ color:#1E323E;
 }
 
 .pagination {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
+    /*font-family: Verdana, Arial, Helvetica, sans-serif;*/
     font-size: smaller;
     font-weight: bold;
     color: #15232B;
@@ -193,7 +193,7 @@ color:#1E323E;
 }
 
 .headingbold {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
+    /*font-family: Verdana, Arial, Helvetica, sans-serif;*/
     font-weight: bold;
     color: #993C5C;
 }
@@ -256,7 +256,7 @@ color:#1E323E;
 }
 
 .panel {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
+    /*font-family: Verdana, Arial, Helvetica, sans-serif;*/
     font-size: small;
     font-weight: normal;
     color: #000000;
@@ -278,9 +278,9 @@ color:#1E323E;
 }
 
 .panelDataGridSearch {
-    overflow: auto;
+    /*overflow: auto;
     max-height: 460px;
-    text-align: center;    
+    text-align: center;  */  
 }
 
 .panelDataGridWithMaxWidth {
@@ -315,7 +315,7 @@ color:#1E323E;
 }
 
 .loginlink {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
+    /*font-family: Verdana, Arial, Helvetica, sans-serif;*/
     font-size: small;
     font-weight: normal;
     color: #993C5C;
@@ -323,7 +323,7 @@ color:#1E323E;
 
 .gridroweven {
     background-color: #FFC0CB;
-    font-family: Verdana;
+    /*font-family: Verdana;*/
     color: #8B0000;
     font-size: 12px;
     text-align: center;
@@ -347,7 +347,7 @@ color:#1E323E;
 
 .gridfooter {
     background-color: #FFC0CB;
-    font-family: Verdana;
+    /*font-family: Verdana;*/
     color: #241d1b;
     padding-left: 2px;
 }
@@ -363,7 +363,7 @@ color:#1E323E;
 }
 
 .linkbutton {
-    font-family: Verdana;
+    /*font-family: Verdana;*/
     font-size: 12px;
     color: #11449e;
 }
@@ -411,14 +411,14 @@ color:#1E323E;
 }
 
 .ComboBox {
-    font-family: Verdana;
+    /*font-family: Verdana;*/
     font-size: 12px;
     color: #11449e;
     width: 154px;
 }
 
 .sectionheader {
-    font-family: Verdana;
+    /*font-family: Verdana;*/
     font-size: 16px;
     font-weight: bold;
     color: #FF0000;
@@ -426,7 +426,7 @@ color:#1E323E;
 }
 
 .sectionheader2 {
-    font-family: Verdana;
+    /*font-family: Verdana;*/
     font-size: 14px;
     font-weight: bold;
     color: #FF0000;
@@ -466,13 +466,13 @@ color:#1E323E;
 }
 
 .editlabel {
-    font-family: Verdhana;
+    /*font-family: Verdhana;*/
     font-size: 11pt;
     color: Black;
 }
 
 .edittxtfield {
-    font-family: Verdana;
+    /*font-family: Verdana;*/
     background-color: #FFFFFF;
     border: 1px solid #939369;
     color: #8B0000;
@@ -484,12 +484,12 @@ color:#1E323E;
 .editdropdown {
     width: 183px;
     color: #8B0000;
-    font-family: Verdana;
+    /*font-family: Verdana;*/
     font-size: 12px;
 }
 
 .hintlabel {
-    font-family: Verdana;
+    /*font-family: Verdana;*/
     font-size: Smaller;
     text-align: right;
     color: #11449e;
@@ -549,24 +549,24 @@ color:#1E323E;
 }
 
 .textWhiteSmall {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 10px;
+    /*font-family: Verdana, Arial, Helvetica, sans-serif;*/
+    /*font-size: 10px;*/
     font-weight: normal;
     color: #FFFFFF;
 }
 
     .textWhiteSmall a, .textWhiteSmall a:visited {
-        font-family: Verdana, Arial, Helvetica, sans-serif;
-        font-size: 10px;
+        /*font-family: Verdana, Arial, Helvetica, sans-serif;*/
+        /*font-size: 10px;*/
         font-weight: normal;
         color: #FFFFFF;
         text-decoration: none;
     }
 
         .textWhiteSmall a:hover {
-            font-family: Verdana, Arial, Helvetica, sans-serif;
+            /*font-family: Verdana, Arial, Helvetica, sans-serif;
             font-size: 10px;
-            font-weight: normal;
+            font-weight: normal;*/
             color: #FFFFFF;
             text-decoration: underline;
         }
@@ -587,34 +587,34 @@ div#main {
 }
 
 .blackText {
-    font-family: verdana, helvetica, arial;
+    /*font-family: verdana, helvetica, arial;
     color: #000000;
-    font-size: 10px;
+    font-size: 10px;*/
 }
 
 .grayLinktext {
-    font-family: Arial;
+   /* font-family: Arial;
     font-size: 8pt;
     font-weight: normal;
-    color: #000000;
+    color: #000000;*/
 }
 
 .blueLinktext {
-    font-family: verdana, helvetica, arial;
+    /*font-family: verdana, helvetica, arial;
     font-size: 10px;
-    color: #FF0000; /*text-decoration:underline;*/
+    color: #FF0000;*/ /*text-decoration:underline;*/
 }
 
 .BlueText {
-    font-family: verdana, helvetica, arial;
+    /*font-family: verdana, helvetica, arial;
     color: #FF0000;
-    font-size: 10px;
+    font-size: 10px;*/
 }
 
 .grayText {
-    font-family: verdana, helvetica, arial;
+    /*font-family: verdana, helvetica, arial;
     color: #737373;
-    font-size: 10px;
+    font-size: 10px;*/
 }
 
 #chromemenu {
@@ -623,15 +623,15 @@ div#main {
 }
 
 .whiteText {
-    font-family: Arial;
+   /* font-family: Arial;
     color: #484848;
-    font-size: 10pt;
+    font-size: 10pt;*/
 }
 
 .sortlimit {
-    font-family: Times New Roman;
+   /* font-family: Times New Roman;
     color: #484848;
-    font-size: 9pt;
+    font-size: 9pt;*/
 }
 
 .whiteTextNormal {
@@ -645,17 +645,17 @@ div#main {
 
 .formTxt {
     border: 1px solid #8c8c8c;
-    font-family: verdana, helvetica, arial;
+   /* font-family: verdana, helvetica, arial;
     font-size: 3px;
-    color: #000000;
+    color: #000000;*/
     width: 450px;
     background-color: Red;
 }
 
 .formDateTxt {
     border: 1px solid #8c8c8c;
-    font-family: verdana, helvetica, arial;
-    font-size: 3px;
+    /*font-family: verdana, helvetica, arial;
+    font-size: 3px;*/
     color: #000000;
     width: 100px;
     background-color: White;
@@ -663,17 +663,17 @@ div#main {
 
 .formDropDown {
     border: 1px solid #8c8c8c;
-    font-family: verdana, helvetica, arial;
-    font-size: 10px;
+    /*font-family: verdana, helvetica, arial;
+    font-size: 10px;*/
     color: #000000;
     width: 183px;
 }
 
 .breadcrumps {
-    font-family: verdana, helvetica, arial;
+    /*font-family: verdana, helvetica, arial;
     font-size: 11px;
     color: #b9dcf0;
-    text-decoration: none;
+    text-decoration: none;*/
 }
 
 .viewchangehyperlink {
@@ -681,19 +681,19 @@ div#main {
 }
 
 .viewchange {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
+   /* font-family: Verdana, Arial, Helvetica, sans-serif;
     text-decoration: none;
     font-size: 12px;
     color: Black;
-    font-weight: bold;
+    font-weight: bold;*/
 }
 
 .hasChanges {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
+   /* font-family: Verdana, Arial, Helvetica, sans-serif;
     text-decoration: none;
     color: Red;
     font-weight: bold;
-    font-size: 12px;
+    font-size: 12px;*/
 }
 
 .yellowBackHistory {
@@ -2816,7 +2816,7 @@ a.Attribute:hover {
 }
 
 .inputFormDtls {
-    font-size: 15px;
+    /*font-size: 15px;*/
 }
 
 .margin-top-2em {
@@ -2835,7 +2835,7 @@ a.Attribute:hover {
 }
 
 .colorWhite {
-    color: #FFFFFF;
+    /*color: #FFFFFF;*/
 }
 
 .headerLink {

@@ -30,22 +30,21 @@
             <h5 class="mb-0">Add New</h5>
         </div>
         <div class="card-body">
-            <table width="100%" border="0" cellspacing="2" cellpadding="0">
+            <div class="row form-group">
                 @foreach (var menuOption in Model)
                 {
 
                     if (@menuOption.Isvisible != "N")
                     {
-                        <tr style="width: 100%;padding-top:10px">
-                            <td style="width: 50%;padding-left:270px;">
-                                @menuOption.AttrDisplayName
-                            </td>
-                            <td style="width: 50%" align="left">
+                       <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                         
+                            <label>@menuOption.AttrDisplayName</label>                                                    
+                           
 
                                 @switch (@menuOption.DisplayType.ToLower())
                                 {
                                     case "textbox":
-                                        <input type="text" class="SortButton" style="width:45%" maxlength=@menuOption.AttrLength name=@menuOption.AttrName id=@menuOption.AttrName />
+                                        <input type="text" class="form-control SortButton" maxlength=@menuOption.AttrLength name=@menuOption.AttrName id=@menuOption.AttrName />
                                         if (@menuOption.IsMandatoryFlag == 1)
                                         {
                                             <label style="color:red">*</label>
@@ -54,7 +53,7 @@
 
                                         break;
                                     case "datepicker":
-                                        <input type="text" style="width:45%" name=@menuOption.AttrName id=@menuOption.AttrName class="datepicker" />
+                                <input type="text" name=@menuOption.AttrName id=@menuOption.AttrName class="form-control datepicker" />
 
                                         if (@menuOption.IsMandatoryFlag == 1)
                                         {
@@ -82,7 +81,7 @@
                                         break;
 
                                     case "combobox":
-                                        <select id="@menuOption.AttrName" name="@menuOption.AttrName" style="width: 45%;">
+                                <select id="@menuOption.AttrName" name="@menuOption.AttrName" class="form-control">
                                             <option value="">--Select--</option>
                                             @foreach (var item in @menuOption.dropDownDataList)
                                             {
@@ -120,38 +119,32 @@
                                     default:
                                         break;
                                 }
-                            </td>
-                        </tr>
+                            </div>
+                        
                     }
                 }
-                <tr style="width: 100%;padding-top:10px">
-                    <td style="width: 50%;padding-left:270px;">Effective Date</td>
-                    <td style="width: 50%" align="left">
-                        <input type="text" class="SortButton datepicker" style="width:45%" name=txtEffectiveDate id=txtEffectiveDate @*readonly="readonly"*@ />
-                    </td>
-                </tr>
-                <tr align="center" style="width: 100%; display:none" class="pageheadernfooter">
-                    <td style="width: 50%" align="right"></td>
-                    <td style="width: 50%" align="left">
-                        <input type="text" class="SortButton" style="width:45%" name="txtEditLevel" id="txtEditLevel" />
-                    </td>
-                </tr>
-                <tr align="center" style="width: 100%">
-                    <td style="width: 50%" align="right"></td>
-                    <td style="width: 50%" align="left">
-                        <button type="submit" class="button" id="btnSave" name="Command" value="Save" title="Save" style="width:75px; margin-right:30px;"><img src="~/Images/Save.png" alt="Save" /></button>
-                        <button type="submit" class="button" id="btnCancel" name="Command" value="Cancel" title="Cancel" style="width:75px;"><img src="~/Images/Cancel.png" alt="Cancel" /></button>
-
-                    </td>
-                </tr>
-                <tr align="center" style="width: 100%;">
-                    <td colspan="2" style="width: 100%" align="center">
-                        <div style="color:red" id="lblErrorMsg"></div>
-
-                    </td>
-                </tr>
-
-            </table>
+              </div>
+                <div class="row form-group">
+                    <div class="col-xs-12 col-md-3 col-sm-3 col-lg-3">
+                        <label>Effective Date</label>                    
+                        <input type="text" class="SortButton datepicker form-control" name=txtEffectiveDate id=txtEffectiveDate @*readonly="readonly"*@ />                    
+                    </div>
+                    <div class="col-xs-12 col-md-3 col-sm-3 col-lg-3 pageheadernfooter" style="display:none;">
+                        <label>Effective Date</label>                    
+                        <input type="text" class="form-control SortButton" name="txtEditLevel" id="txtEditLevel" />
+                    </div>
+                </div>               
+             <div class="row mt-3">                    
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary" id="btnSave" name="Command" value="Save" title="Save" alt="Save" >Save</button>
+                        <button type="submit" class="btn btn-outline-primary" id="btnCancel" name="Command" value="Cancel" title="Cancel" alt="Cancel">Cancel</button>
+                    </div>
+                </div>
+            <div class="row form-group">
+                <div class="col text-center">
+                            <div style="color:red" id="lblErrorMsg"></div>
+                </div>
+            </div>           
         </div>
     </div>
     

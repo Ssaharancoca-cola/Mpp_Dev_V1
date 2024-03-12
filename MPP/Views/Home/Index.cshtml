@@ -35,11 +35,13 @@
 </head>
 
 <body>
-    <header class="p-3 mb-3 border-bottom navbar-bg-color fixed-top navbar-shadow ">
+<!--Start Header -->
+    <header class="p-3 border-bottom navbar-bg-color fixed-top navbar-shadow ">
         <div class="container-fluid">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start" id="navbarSupportedContent">
                 <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
-                    <img src="~/Images/common/logo-mpp.png" alt="MPP Logo" />
+                    @* <img src="~/Images/common/logo-mpp.png" alt="MPP Logo" /> *@
+                    <img src="~/Images/common/Logo-KOINE.png" class="logo-brand" alt="MPP Logo" />
                 </a>
                 <ul class="mainmenu nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                     <li id="lblHome"><a class="nav-link" aria-current="home" href="#">Home</a></li>
@@ -60,7 +62,7 @@
             </div>
         </div>
     </header>
-
+    <!--End Header -->
     <div class="container-fluid page-body-wrapper" id="trDropDownData2">
         <div class="sidebar" id="trDropDownData">
             <div class="sidebar-menu">
@@ -88,8 +90,8 @@
         </div>
     </div>
 
-    <div id="trContent" class="container-fluid page-body-wrapper">
-        <div id="contentpage" class="d-flex w-100">
+    <div id="trContent">
+        <div id="contentpage">
         </div>
     </div>
     <div id="trAdminContent" class="container-fluid page-body-wrapper">
@@ -103,10 +105,8 @@
         </div>
     </div>
     <div id="trAdminDisplayAllUsers" class="container-fluid page-body-wrapper">
-
         <div class="lightRedBg col" id="divDisplayAllUsers"></div>
         <div class="lightRedBg col" id="divUserDetails"></div>
-
     </div>
 
     <footer>

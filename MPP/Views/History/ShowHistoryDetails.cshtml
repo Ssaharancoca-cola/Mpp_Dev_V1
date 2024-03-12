@@ -4,67 +4,43 @@
 
     if (dataList.Count() > 0)
     {
-        
-        <table width="100%" border="0" cellspacing="0" cellpadding="0">
-            <tr style="width:100%;height:31px;">
-                <td colspan="2" style="padding-left:5px">
-                    @if (Context.Session.GetString("SelectedDimensionData") != null && Context.Session.GetString("EntityName") != null)
-                    {
-                        <label style="color:red;font-family:Arial;font-size:12pt;font-weight:bold">@Context.Session.GetString("SelectedDimensionData").ToString()></label>
-                        <label style="color:black;font-family:Arial;font-size:10pt;font-weight:bold">@Context.Session.GetString("EntityName").ToString()></label>
-                    }
-                </td>
-            </tr>
-            <tr style="width:100%">
-                <td>
-                    <span style="height:30px">
-                        <hr />
-                    </span>
-                </td>
-
-            </tr>
-
-            <tr style="width:100%; height:25px">
-
-                <td colspan="2" style="width: 100%;padding-left:10px;padding-top:10px;" align="left">
-
-                    <label style="color:red;font-size:12pt;font-weight:bold">History Display</label>
-
-                </td>
-            </tr>
-            <tr>
-                <td style="padding-left:10px;padding-right:10px;padding-bottom:20px" valign="top">
-                    <hr style="width:100%;height:2px;background-color:red;" />
-                </td>
-            </tr>
-        </table>
-        <table style="width: 100%" border="0" cellspacing="0" cellpadding="0">
-            <tr style="width:100%">
-                <td style="width: 100%;padding-left:20px;height:auto" align="left">
-                    <table width="280" border="0" cellspacing="0" cellpadding="0" align="center" bordercolor="#E3E3E3"
-                           bgcolor="#f5c4c4" id="tblLegend" style="border-style:solid;border-color:White">
-                        <tr valign="top" bgcolor="blanchedalmond">
-                            <td width="280" colspan="2" align="center">
-                                <b><font size="1" face="Verdana, Arial">&nbsp;LEGEND</font></b>
-                            </td>
-                        </tr>
-                        <tr></tr>
-                        <tr valign="top">
-                            <td width="40" height="10" bgcolor="#FF7F7F"></td>
-                            <td width="240" bgcolor="#f5c4c4">
-                                <font face="Verdana, Arial" size="1">Not modified</font>
-                            </td>
-                        </tr>
-                        <tr height="1"></tr>
-                        <tr valign="top">
-                            <td width="40" height="10" bgcolor="#FF0000"></td>
-                            <td width="240" bgcolor="#f5c4c4">
-                                <font face="Verdana, Arial" size="1">Modified cells</font>
-                            </td>
-                        </tr>
-                    </table>
-                    <br />
-                    <table width="796px" border="0" cellspacing="0" cellpadding="0">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb rounded-3">
+                @if (Context.Session.GetString("SelectedDimensionData") != null && Context.Session.GetString("EntityName") != null)
+                {
+                    <li class="breadcrumb-item">
+                        <a class="link-body-emphasis" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
+                                <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z" />
+                            </svg>
+                            <span class="visually-hidden">Home</span>
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a class="link-body-emphasis fw-semibold text-decoration-none" href="#">@Context.Session.GetString("SelectedDimensionData").ToString()</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        @Context.Session.GetString("EntityName").ToString()
+                    </li>
+                }
+            </ol>
+        </nav>
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+            <h1 class="h2">@Context.Session.GetString("SelectedDimensionData").ToString()</h1>
+        </div>
+        <div class="card box-shadow">
+            <div class="card-header">
+                <h5 class="mb-0">History @Context.Session.GetString("EntityName").ToString()</h5>
+            </div>
+            <div class="card-body">
+            <ul class="legend">
+                    <li class="title-legend">LEGEND</li>
+                    <li class="item-legend not-modi">Not modified</li>
+                    <li class="item-legend modified">Modified cells</li>
+            </ul>
+                            
+                 
+                    <table border="0" cellspacing="0" cellpadding="0">
                         <tr valign="middle" align="left" style="background-image:url(/wwwroot/Images/TableTop1.jpg);background-repeat:repeat-x;height:100%">
                             <td height="40" class="whiteTextNormal">
                                 <label asp-for="@Context.Session.GetString("EntityName").ToString()" class="whiteTextNormal"></label>
@@ -82,9 +58,8 @@
                             @if (dataList != null && dataList.Count() > 0)
                             {
                                 <div style="display:none">totalrecord dataList.Count()</div>
-                                <div class="panelDataGridSearch">
-
-                                    <table border="0" id="tblHistorydata" rules="cols" class="width-100 table">
+                                <div class="panelDataGridSearch table-responsive">
+                                    <table border="0" id="tblHistorydata" rules="cols" class="table table-data">
                                         <thead>
                                             <tr class="gridheader resultHeader">
                                                 @foreach (var data in dataList)
@@ -112,7 +87,7 @@
                                                         }
                                                         else
                                                         {
-                                                            <a class="griddata" style="font-family:Arial;font-size:8pt;">
+                                                            <a class="griddata">
                                                                 @item.Value.ToString()
                                                             </a>
                                                         }
@@ -125,21 +100,16 @@
                                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 10px;">
                                     <tr align="center" style="width: 100%;padding-top:10px">
                                         <td style="width: 100%" align="center">
-                                            <input type="image" id="btnCancel" value="submit" src="~/images/cancel.png" alt="Cancel">
+                                        <input type="button" id="btnCancel" value="Cancel" src="~/images/cancel.png" alt="Cancel" class="btn btn-primary">
                                         </td>
-                                    </tr>
-                                    <tr align="center" style="width: 100%;padding-top:10px">
-                                        <td style="width: 100%" align="center">
-
-                                        </td>
-                                    </tr>
+                                    </tr>                                   
                                 </table>
                             }
                         </div>
                     }
-                </td>
-            </tr>
-        </table>
+            
+            </div>
+        </div>
     }
 }
 <script>
