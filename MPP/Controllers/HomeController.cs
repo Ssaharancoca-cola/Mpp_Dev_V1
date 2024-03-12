@@ -54,7 +54,7 @@ namespace MPP.Controllers
                 if (outMsg != Constant.statusSuccess)
                     return View("~/Views/Shared/AccessDenied.cshtml");
                 if (actionType == "Index")
-                    HttpContext.Session.SetInt32("selectedIndex", Convert.ToInt32(selectedIndex) - 1);
+                    HttpContext.Session.SetInt32("selectedIndex", Convert.ToInt32(selectedIndex));
                 else
                     HttpContext.Session.SetString("selectedIndex", selectedIndex);
                 HttpContext.Session.SetString("SelectedDimensionData", dropDownData.First().ToString().ToUpper() + String.Join("", dropDownData.Skip(1)).ToLower());
