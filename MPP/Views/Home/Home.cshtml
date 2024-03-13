@@ -4,7 +4,7 @@
     <div id="chromemenu" class="sidebar-menu">
         <h3>Menu</h3>
         <div class="form-group">
-        <label>Choose Diminision</label>
+        <label>Choose Diminision:</label>
         @{
             @await Component.InvokeAsync("Menu")
         }
@@ -53,7 +53,7 @@
             $("#trAdminContent").hide();
             $("#trAdminDisplayAllUsers").hide();
             $('#divDisplayAllUsers').hide();
-            $('#ddlDimension option:eq(0)').attr('selected', 'selected'); // Select first option
+            $('#Dimension option:eq(0)').attr('selected', 'selected'); // Select first option
         };
         $(".Attribute").click(function (evt) {
 

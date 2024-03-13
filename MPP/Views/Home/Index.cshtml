@@ -67,12 +67,11 @@
         <div class="sidebar" id="trDropDownData">
             <div class="sidebar-menu">
                 <h3>Menu</h3>
-                <div class="form-group">
-                    @Html.DropDownList("ddl", Model.Select(item => new SelectListItem
-                   {
-                       Value = Convert.ToString(item.Dimension),
-                       Text = Convert.ToString(item.Dimension.ToString())
-                   }), "Please Select Dimension", new { @id = "ddlDimension", @class = "form-control" })
+                <div class="list-group">
+                    @foreach (var item in Model.Select((value, i) => (value, i)))
+                    {
+                        <a href="javascript:void(0);" class="list-group-item list-group-item-action" id="Dimension" onclick="loadDimension('@item.value.Dimension', @item.i)">@(item.value.Dimension)</a>
+                    }
                 </div>
             </div>
         </div>
@@ -152,37 +151,31 @@
 
             $(document).ajaxComplete(function () {
                 $('#divLoad').hide();
-            });
-
-           
-               
-            
+            });    
 
         });
-
-        $("#ddlDimension").change(function () {
-            var selectedIndex = this.options[this.selectedIndex].index;
-            var selectedValue = this.options[this.selectedIndex].value;
-            var selecteddropdownvalue = this.options[this.selectedIndex].text;
+        function loadDimension(dimension, index) {
+            var selectedIndex = index
+            var selectedValue = dimension;
+            var selectedDropdownValue = dimension;
 
             $.post('@Url.Action("Home", "Home")', {
-                dropdownvalue: selectedValue, dropdowndata: selecteddropdownvalue,
-                selectedIndex: selectedIndex, actionType: 'Index'
+                dropdownvalue: selectedValue,
+                dropdowndata: selectedDropdownValue,
+                selectedIndex: selectedIndex,
+                actionType: 'Index'
             },
                 function (data) {
                     if (data.indexOf("error") == 0) {
-                        $('#divLoad').hide();
                         alert(data.replace("error", ""));
                     } else {
-                        $('#divLoad').hide();
                         $('#contentpage').html(data);
                         $("#trContent").show();
                         $("#trDropDownData").hide();
                         $("#trDropDownData2").hide();
                     }
                 });
-        });
-
+        }
         function redirect(dropDownValue, dropdowndata) {
             window.location.href = '/Home/Home?dropdownvalue=' + dropDownValue + '&dropdowndata=' + dropdowndata;
         }

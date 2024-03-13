@@ -19,15 +19,13 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#ddlDim')[0].selectedIndex = @Context.Session.GetInt32("selectedIndex");
+        $('#ddlDim').prop('selectedIndex', @Context.Session.GetInt32("selectedIndex") || 0);
     });
 
     $("#ddlDim").change(function () {
-        
-        var selectedIndex = this.options[this.selectedIndex].index;
+        var selectedIndex = this.selectedIndex; // Correct way to get selectedIndex.
         var selectedValue = this.options[this.selectedIndex].value;
         var selecteddropdownvalue = this.options[this.selectedIndex].text;
-
         $.post('@Url.Action("ShowSubMenu", "Menu")', { dropdownvalue: selectedValue, dropdowndata: selecteddropdownvalue,
             selectedIndex: selectedIndex},
             function (data){
