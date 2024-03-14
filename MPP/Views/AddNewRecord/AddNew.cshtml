@@ -38,29 +38,21 @@
                     {
                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
                          
-                            <label>@menuOption.AttrDisplayName</label>                                                    
-                           
+                            <label>@menuOption.AttrDisplayName</label>
 
+                            @if(@menuOption.IsMandatoryFlag == 1)
+                            {
+                            <label style="color:red">*</label>
+
+                            }
                                 @switch (@menuOption.DisplayType.ToLower())
                                 {
                                     case "textbox":
-                                        <input type="text" class="form-control SortButton" maxlength=@menuOption.AttrLength name=@menuOption.AttrName id=@menuOption.AttrName />
-                                        if (@menuOption.IsMandatoryFlag == 1)
-                                        {
-                                            <label style="color:red">*</label>
-
-                                        }
+                                        <input type="text" class="form-control SortButton" maxlength=@menuOption.AttrLength name=@menuOption.AttrName id=@menuOption.AttrName />                                        
 
                                         break;
                                     case "datepicker":
                                 <input type="text" name=@menuOption.AttrName id=@menuOption.AttrName class="form-control datepicker" />
-
-                                        if (@menuOption.IsMandatoryFlag == 1)
-                                        {
-                                            <label style="color:red">*</label>
-
-                                        }
-
                                         break;
                                     case "checkboxlist":
                                         foreach (var data in menuOption.dropDownDataList)
@@ -72,12 +64,7 @@
                                             @data.VALUE_NAME.Substring(1).ToLower()
                                             ;
 
-                                        }
-                                        if (@menuOption.IsMandatoryFlag == 1)
-                                        {
-                                            <label style="color:red">*</label>
-
-                                        }
+                                        }                                       
                                         break;
 
                                     case "combobox":
@@ -88,32 +75,16 @@
                                                 <option value="@item.VALID_VALUES">@item.VALUE_NAME</option>
                                             }
                                         </select>
-                                        <label style="color:red">*</label>
                                         break;
                                     case "parcombo":
-                                        @Html.DropDownListFor(m => @menuOption.EntityTypeId, new SelectList(@menuOption.dropDownDataList, "VALID_VALUES", "VALUE_NAME"), "--Select--", new { @id = @menuOption.AttrName, @Name = @menuOption.AttrName, style = "width: 45%; ", @onchange = "CallChangefunc('" + menuOption.CasDrop + "',this.value)" })
-                                        if (@menuOption.IsMandatoryFlag == 1)
-                                        {
-                                            <label style="color:red">*</label>
-
-                                        }
+                                        @Html.DropDownListFor(m => @menuOption.EntityTypeId, new SelectList(@menuOption.dropDownDataList, "VALID_VALUES", "VALUE_NAME"), "--Select--", new { @id = @menuOption.AttrName, @Name = @menuOption.AttrName, style = "width: 45%; ", @onchange = "CallChangefunc('" + menuOption.CasDrop + "',this.value)" })                                        
                                         break;
 
                                     case "cascombo":
-                                        @Html.DropDownList(@menuOption.AttrName, new SelectList(string.Empty, "Value", "Text"), "--Select--", new { @style = "width:45%;" })
-                                        if (@menuOption.IsMandatoryFlag == 1)
-                                        {
-                                            <label style="color:red">*</label>
-
-                                        }
+                                        @Html.DropDownList(@menuOption.AttrName, new SelectList(string.Empty, "Value", "Text"), "--Select--", new { @style = "width:45%;" })                                       
                                         break;
                                     case "userbox":
-                                        <input type="text" class="SortButton" style="width:45%" maxlength=@menuOption.AttrLength name=@menuOption.AttrName id=@menuOption.AttrName />
-                                        if (@menuOption.IsMandatoryFlag == 1)
-                                        {
-                                            <label style="color:red">*</label>
-
-                                        }
+                                        <input type="text" class="SortButton" style="width:45%" maxlength=@menuOption.AttrLength name=@menuOption.AttrName id=@menuOption.AttrName />                                        
                                         break;
 
                                     default:

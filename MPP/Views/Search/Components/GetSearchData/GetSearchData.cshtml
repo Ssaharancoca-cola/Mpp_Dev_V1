@@ -32,9 +32,9 @@
                                 {
                                     if (@item.Key.ToString() != "OID")
                                     {
-                                        <th class="">
+                                        <th style="white-space:nowrap">
                                             @Html.ActionLink(@item.Key.ToString(), "Index", new { sortOrder = @item.Key.ToString() + "^" + ViewBag.sortId },
-                                                     new { @class = "" })
+                        new { @class = "colorWhite" })
                                         </th>
                                     }
                                 }
