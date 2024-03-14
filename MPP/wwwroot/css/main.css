@@ -78,7 +78,7 @@ header .dropdown .dropdown-menu .dropdown-item {
     flex-direction: row;
     padding-left: 0;
     padding-right: 0;
-    padding-top: 60px;
+    /*padding-top: 60px;*/
 }
 
 .sidebar {
@@ -97,13 +97,13 @@ header .dropdown .dropdown-menu .dropdown-item {
 
 .main-panel {
     transition: width 0.25s ease, margin 0.25s ease;
-    width: calc(100% - 280px);
+    width: 100%;
     /*min-height: calc(100vh - 60px);*/
     display: -webkit-flex;
     display: flex;
     -webkit-flex-direction: column;
     flex-direction: column;
-    padding: 0px 30px;
+    /*padding: 0px 30px;*/
 }
 
 .sidebar h3 {
@@ -370,3 +370,7 @@ ul.legend li.title-legend {
 .card-header {
     padding:0.8rem;
 }
+
+
+
+
