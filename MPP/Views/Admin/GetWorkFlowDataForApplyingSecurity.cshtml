@@ -1,13 +1,70 @@
 ﻿@model Model.WorkFlowDetailForRowLevelSecurity
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb rounded-3">
+        <li class="breadcrumb-item">
+            <a class="link-body-emphasis" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
+                    <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z"></path>
+                </svg>
+                <span class="visually-hidden">Home</span>
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="link-body-emphasis fw-semibold text-decoration-none" href="#">Apply Workflow</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Apply Workflow
+        </li>
+    </ol>
+</nav>
+@* <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h1 class="h2">User Details</h1>
+</div> *@
+<div class="card box-shadow">
+    <div class="card-header">
+        <h5 class="mb-0" id="lblcaption">User Details</h5>
+    </div>
+    <div class="card-body">
+        <div class="row form-group">
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                <label class="editlabel">User Id</label>
+                @Html.TextBoxFor(m => m.UserID, new { @id = "txtUserId", @class = "form-control" })
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                <label class="editlabel">User Role</label>
+                @Html.TextBoxFor(m => m.UserRole, new { @id = "txtUserRole", @class = "form-control" })
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                <label class="editlabel">Entity Id</label>
+                @Html.TextBoxFor(m => m.EntityId, new { @id = "txtEntityName", @class = "form-control" })
+            </div>
+            <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+                <label class="gridheader">List of Approvers</label>
+                    @Html.ListBoxFor(model => model.ApproverDetail,
+                             new MultiSelectList(Model.ApproverDetail, "ApproverId", "ApproverName"), new { @id = "ddlApproverListBox", @class = "approverdetail form-control" })
+            </div>
+            <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2 d-flex align-items-center justify-content-center">
+                <input type="button" id="btnMoveRight" style="font-size:larger;height:30px;width:100px" value=">>" alt="Save">
+                <input type="button" id="btnMoveLeft" style="font-size:larger;height:30px;width:100px" value="<<" alt="Save">
+            </div>
+            <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+                <label class="gridheader">Selected Approvers</label>
+                @Html.ListBoxFor(model => model.SelectedApproverDetail,
+                         new MultiSelectList(Model.SelectedApproverDetail, "ApproverId", "ApproverName"), new { @id = "ddlApproverSelectedListBox", @class = "approverdetail form-control" })
 
+            </div>
+            <div class="col text-center">
 
+                @Html.HiddenFor(x=>x.SelectedApproverId, new { @id = "hdnSelectedApprover" })
+            @Html.HiddenFor(x => x.RoleID,new {@id ="hdnRoleID"})
+                <input type="button" id="btnSaveApprover" value="submit" class="btn btn-primary" alt="Save">
+                <input type="button" id="btnCancelApprover" value="Cancel" class="btn btn-outline-primary" alt="Cancel">
+            </div>
 <div class="darkBlueBg">
-    <table style="width: 100%">
+    @* <table style="width: 100%">
         <tr align="center" style="width:100%; height:25px">
             <td style="width: 100%;padding-left:10px" align="left">
-                <label style="font-size:small;font-weight:bold;color:red;font-family:Arial Black">
-                    Apply Workflow
-                </label>
+                
             </td>
         </tr>
         <tr align="left" style="width:100%; height:5px">
@@ -20,84 +77,72 @@
         <table>
             <tr style="width: 100%" align="center" class="darkBlueBg">
                 <td style="width: 45%;padding-left:350px">
-                    <label class="editlabel">User Id</label>
+                   
                 </td>
                 <td align="left" style="width: 56%">
-                    @Html.TextBoxFor(m => m.UserID,new { @id = "txtUserId" })
+                    
                 </td>
             </tr>
             <tr style="width: 100%" align="center" class="darkBlueBg">
                 <td style="width: 45%;padding-left:350px">
-                    <label class="editlabel">User Role</label>
+                    
                 </td>
                 <td align="left" style="width: 56%">
-                    @Html.TextBoxFor(m => m.UserRole, new { @id = "txtUserRole" })
+                    
                 </td>
             </tr>
             <tr align="center" style="width: 100%" class="darkBlueBg">
                 <td style="width: 45%;padding-left:350px">
-                    <label class="editlabel">Entity Id</label>
+                    
                 </td>
                 <td align="left" style="width: 56%">
-                    @Html.TextBoxFor(m => m.EntityId,new { @id = "txtEntityName" })
+                    
                 </td>
             </tr>
         </table>
-    </centre>
+    </centre> *@
 </div>
 
 <div>
     <table cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr style="width:100%">
             <td style="width:40%;padding-left:102px" rowspan="1" colspan="1">
-                <label class="gridheader" style="font-weight:bold;color:black;font-family:Arial Black;display:inline-block; width:299px">
-                    List of Approvers
-                </label>
+                
             </td>
             <td style="width:20%" rowspan="1" colspan="1"></td>
             <td style="width:40%">
-                <label class="gridheader" style="font-weight:bold;color:black;font-family:Arial Black;display:inline-block; width:299px">
-                    Selected Approvers
-                </label>
+                
             </td>
         </tr>
         <tr style="width:100%">
             <td style="width:40%" rowspan="1" colspan="1" align="right">
-                @Html.ListBoxFor(model => model.ApproverDetail,
-               new MultiSelectList(Model.ApproverDetail, "ApproverId", "ApproverName"), new { @id = "ddlApproverListBox",@class="approverdetail" })
+                
 
             </td>
             <td style="width:20%" align="center" rowspan="1" colspan="1">
                 <table cellpadding="0" cellspacing="0" border="0">
                     <tr>
                         <td rowspan="1" colspan="1">
-                            <input type="button" id="btnMoveRight"  style="font-size:larger;height:30px;width:100px" value=">>" alt="Save">
 
                         </td>
                     </tr>
                     <tr>
                         <td rowspan="1" colspan="1">
-                            <input type="button" id="btnMoveLeft"  style="font-size:larger;height:30px;width:100px" value="<<" alt="Save">
+                            
 
                         </td>
                     </tr>
                 </table>
             </td>
             <td style="width:40%" rowspan="1" colspan="1" align="left">
-                @Html.ListBoxFor(model => model.SelectedApproverDetail,
-               new MultiSelectList(Model.SelectedApproverDetail, "ApproverId", "ApproverName"), new { @id = "ddlApproverSelectedListBox",@class= "approverdetail" })
-
+                
             </td>
             <td>
-                @Html.HiddenFor(x=>x.SelectedApproverId, new { @id = "hdnSelectedApprover" })
-            @Html.HiddenFor(x => x.RoleID,new {@id ="hdnRoleID"})
 </td>
         </tr>
         <tr style="width:100%">
             <td style="width:40%"></td>
             <td style="width:20%;padding:10px" align="center">
-                <input type="image" id="btnSaveApprover" height="75%" value="submit" src="~/Images/Save.png" alt="Save">
-                <input type="image" id="btnCancelApprover" height="75%" value="submit" src="~/Images/Cancel.png" alt="Cancel">
 
 
 
@@ -295,7 +340,7 @@
     });
 </script>
 <style type="text/css">
-.approverdetail
+/* .approverdetail
 {
     width:300px;
     height:150px;
@@ -306,5 +351,5 @@
     width:150px;
     font-family:Verdana;
     width:300px;
-}
+} */
 </style>

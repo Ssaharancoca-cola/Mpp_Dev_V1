@@ -1,145 +1,121 @@
 ﻿@model Model.UserInfo
-<center style="padding-left:10px">
 
-    <table>
+    <div class="card box-shadow">
+    <div class="card-header">
+        <h5 class="mb-0" id="lblcaption">User Details</h5>
+    </div>
+        <div class="card-body">
+            <div class="row form-group">          
         @if (Convert.ToString(TempData["IsSearch"]) != "1")
         {
-            <tr style="width: 100%" align="center" class="darkBlueBg">
-                <td align="right" rowspan="1" style="width: 20%">
-                    <label  class="editlabel">User ID</label>
-                </td>
-                <td align="left" style="width: 80%">
-                    <input type="text" id="txtUserId" readonly class="edittxtfield" style="font-family:Verdana;" width="175px" maxlength="100" value=@Model.UserID>
-                    <label style="color:red">*</label>
-                </td>
-
-            </tr>
+                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                            <label class="editlabel">User ID <span style="color:red">*</span></label>
+                            <input type="text" id="txtUserId" readonly class="edittxtfield form-control" style="font-family:Verdana;" maxlength="100" value=@Model.UserID>
+                            
+                        </div>
+           
         }
-
-        <tr style="width: 100%" align="center" class="darkBlueBg">
-
-            <td align="right" style="width: 20%">
-                <label  class="editlabel">User Name</label>
-            </td>
-            <td align="left" style="width: 80%">
-                <input type="text" id="txtUserName" value=@Model.UserName readonly class="edittxtfield" style="font-family:Verdana;" width="175px" maxlength="100" />
-            </td>
-        </tr>
-
-        <tr style="width: 100%" align="center" class="darkBlueBg">
-
-            <td align="right" style="width: 20%">
-                <label class="editlabel">User Email</label>
-            </td>
-            <td align="left" style="width: 80%">
-                <input type="text" id="txtUserEmail" value=@Model.UserEmail readonly class="edittxtfield" style="font-family:Verdana;" width="175px" maxlength="100" />
-                <label style="color:red">*</label>
-            </td>
-        </tr>
-        <tr style="width: 100%" align="center" class="darkBlueBg">
-            <td align="right" style="width: 20%">
-                <label class="editlabel">Is Active</label>
-            </td>
-            <td align="left" style="width: 80%">
-                @if (Model.IsActive == 1 || Convert.ToString(TempData["IsSearch"]) == "1")
-            {
-                    @Html.CheckBox("chkIsActive", new { @class = "label", @checked = true })
-                }
-                else
-                {
-                    @Html.CheckBox("chkIsActive", new { @class = "label" })
-                }
-            </td>
-        </tr>
-
-        <tr style="width: 100%" align="center" class="darkBlueBg">
-            <td align="right" style="width: 20%">
-                <label class="editlabel">Is Admin</label>
-            </td>
-            <td align="left" style="width: 80%">
-                @if (Model.IsAdmin == 1)
-            {
-                    @Html.CheckBox("chkIsAdmin", new { @class = "label", @checked = true })
-                }
-                else
-                {
-                    @Html.CheckBox("chkIsAdmin", new { @class = "label" })
-                }
-            </td>
-        </tr>
-
-    </table>
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                        <label class="editlabel">User Name</label>
+                    <input type="text" id="txtUserName" value=@Model.UserName readonly class="edittxtfield form-control" style="font-family:Verdana;" width="175px" maxlength="100" />
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                        <label class="editlabel">User Email <span style="color:red">*</span></label>
+                    <input type="text" id="txtUserEmail" value=@Model.UserEmail readonly class="edittxtfield form-control" style="font-family:Verdana;" width="175px" maxlength="100" />
+                    </div>
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <label class="editlabel">Is Active</label>
+                        @if (Model.IsActive == 1 || Convert.ToString(TempData["IsSearch"]) == "1")
+                        {
+                            @Html.CheckBox("chkIsActive", new { @class = "label", @checked = true })
+                        }
+                        else
+                        {
+                            @Html.CheckBox("chkIsActive", new { @class = "label" })
+                        }
+                    </div>
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <label class="editlabel">Is Admin</label>
+                        @if (Model.IsAdmin == 1)
+                        {
+                            @Html.CheckBox("chkIsAdmin", new { @class = "label", @checked = true })
+                        }
+                        else
+                        {
+                            @Html.CheckBox("chkIsAdmin", new { @class = "label" })
+                        }
+                    </div>
+                    
+       
+            </div>
+        </div>
+    </div>
     @if (Convert.ToString(TempData["IsSearch"]) == "1")
     {
-        <table border="0" cellpadding="0" cellspacing="0" width="100%">
-            <tr align="center" style="width: 100%;padding-top:10px">
+        <div class="col">
+        <input type="button" id="btnSaveNewUser" value="submit" class="btn btn-primary" alt="Cancel">
+        </div>
+        @* <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <tr  style="width: 100%;padding-top:10px">
                 <td style="width: 100%" align="center">
-                    <input type="image" id="btnSaveNewUser" value="submit" src="~/images/save.png" alt="Cancel">
+                    
                 </td>
             </tr>
             <tr align="center" style="width: 100%;padding-top:10px">
-                <td style="width: 100%" align="center"></td>
+                <td style="width: 100%" ></td>
             </tr>
-        </table>
+        </table> *@
     }
     @if (Convert.ToString(TempData["IsSearch"]) == "0")
     {
-        <div class="panelDataGridWithMaxWidth" id="leftBar">
-
-            <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                <tr align="center" style="width:100%; height:25px" class="whiteTextNormal">
+    <div class="panelDataGridWithMaxWidth card box-shadow mt-4" id="leftBar">
+        <div class="card-header">
+            <h5 class="mb-0" id="lblcaption">User Privilege</h5>
+        </div>
+        <div class="card-body">
+            <div class="form-group form-group col-sm-3 col-md-3 col-lg-3 col-xs-12 mx-auto mb-3">
+               
+                    <label>Dimension</label>
+                    @Html.DropDownList("ddlDimensionList", Model.dimnesionList.Select(item => new SelectListItem
+           {
+               Value = item.DimensionDisplayName.ToString(),
+               Text = item.DimensionDisplayName.ToString()
+           }), "--Select--", new { @class = "dropdownchange form-control" })
+            </div>   
+                <div id="divEntityDetail" class="table-responsive"></div>
+           @*  <table width="100%" border="0" cellspacing="0" cellpadding="0"> *@
+                @* <tr align="center" style="width:100%; height:25px" class="whiteTextNormal">
                     <td colspan="4" rowspan="1" style="width: 100%" align="left">
                         <label style="font-size:small;font-weight:normal;color:red;font-family:Arial Black">
-                            User Privilege
+                            
                         </label>
 
                     </td>
-                </tr>
-                <tr align="center" style="width: 100%; height: 5px">
+                </tr> *@
+                @* <tr align="center" style="width: 100%; height: 5px">
                     <td style="padding-left: 10px; padding-right: 10px; padding-bottom: 20px" valign="top" align="right">
                         <hr style="width: 100%; height: 2px; background-color: red;" />
                     </td>
-                </tr>
-                <tr  style="width:100%" >
+                </tr> *@
+               @*  <tr  style="width:100%" >
                     <td style="width: 100%;padding-left:20px;height:auto" align="left">
-                        <br />
-                        <table width="796px" border="0" cellspacing="0" cellpadding="0">
-                            <tr valign="middle" align="left" style="background-repeat:repeat-x;height:100%">
-
-                                <td height="30" class="whiteTextNormal" align="right" style="width:10%">
-                                    <label>Dimension</label>
-                                </td>
-                                <td height="30" class="whiteTextNormal" align="left" style="width:40%">
-                                    @Html.DropDownList("ddlDimensionList", Model.dimnesionList.Select(item => new SelectListItem
-                           {
-                               Value = item.DimensionDisplayName.ToString(),
-                               Text = item.DimensionDisplayName.ToString()
-                           }), "--Select--", new { @class = "dropdownchange" })
-                                </td>
-                            </tr>
-                        </table>
+                        <br /> *@
+                        
 
 
-                        <div>
-                            <div id="divEntityDetail"></div>
-                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style=" margin-top: 5px">
-                                <tr align="center" style="width: 100%;padding-top:10px">
-                                    <td style="width: 100%" align="center">
-                                        <input type="image" id="btnSave" value="submit" src="~/Images/Save.png" alt="save">
-                                    </td>
-                                </tr>
-                                <tr align="center" style="width: 100%;padding-top:10px">
-                                    <td style="width: 100%" align="center"></td>
-                                </tr>
-                            </table>
+                        <div class="col">
+                                        <input type="button" id="btnSave" value="submit" class="btn btn-primary" alt="save">
+                            
+                            
                         </div>
-                    </td>
+                   @*  </td>
                 </tr>
-            </table>
-
-        </div>
+            </table> *@
+            </div>
+            </div>
+        
     }
-</center>
+
     <script>
         $("#btnSaveNewUser").click(function () {
             var selectedUserName = $("#ddlUserList option:selected").text();
