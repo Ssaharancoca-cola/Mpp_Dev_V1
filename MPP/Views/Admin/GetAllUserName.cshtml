@@ -1,83 +1,100 @@
 ﻿@model List<Model.UserInfo>
+@* <div class="container-fluid page-body-wrapper"> *@
+@*  <div class="main-panel mt-4"> *@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb rounded-3">
+        <li class="breadcrumb-item">
+            <a class="link-body-emphasis" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
+                    <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z"></path>
+                </svg>
+                <span class="visually-hidden">Home</span>
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="link-body-emphasis fw-semibold text-decoration-none" href="#">Admin</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            User Details
+        </li>
+    </ol>
+</nav>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h1 class="h2">User Details</h1>
+</div>
+<div class="card box-shadow">
+    <div class="card-header">
+        <h5 class="mb-0" id="lblcaption">Search User</h5>
+    </div>
+    <div class="card-body">
+        <div class="form-group form-group col-sm-3 col-md-3 col-lg-3 col-xs-12 mx-auto mb-3">
+            <label class="editlabel">Users List</label>
+            @Html.DropDownList("ddlUserList", Model.Select(item => new SelectListItem
+       {
+           Value = item.UserID.ToString(),
+           Text = item.UserName.ToString()
+       }), "--Select--", new { @class = "editdropdown form-control" })
+        </div>
+        <div class="form-group form-group col-sm-3 col-md-3 col-lg-3 col-xs-12 mx-auto" style="display:none;" id="trUserId">
+            <label class="editlabel">User ID <span style="color:red">*</span></label>
+            <input type="text" id="txtUserIdForNewUser" class="txtBox form-control" maxlength="100" />
+            
+            <input type="button" id="btnSearchUser" class="btn btn-primary mt-3" value="submit" alt="Search User In AD">
+        </div>
+       @*  <table>
 
-
-    <table style="width: 100%">
-        <tr align="center" style="width: 100%; height: 25px">
-            <td style="width: 100%; padding-left: 10px" align="left">
-                <label style="font-size:small;font-weight:bold;color:red;font-family:Arial Black">
-                    User Details
-                </label>            
-            </td>
-        </tr>
-        <tr align="center" style="width: 100%; height: 5px">
-            <td style="padding-left: 10px; padding-right: 10px; padding-bottom: 20px" valign="top" align="right">
-                <hr style="width: 100%; height: 2px; background-color: red;" />
-            </td>
-        </tr>
-    </table>
-<center>
-    <table>
-
-        <tr style="width: 100%" align="center" class="darkBlueBg">
-            <td align="right" rowspan="1" style="width: 20%">
-                <label class="editlabel">Users List</label>
-            </td>
-            <td align="left" style="width:80%">
-                @Html.DropDownList("ddlUserList", Model.Select(item => new SelectListItem
-                                                               {
-                                                                   Value = item.UserID.ToString(),
-                                                                   Text = item.UserName.ToString()
-                                                               }), "--Select--", new { @class = "editdropdown" })
-
-            </td>
-        </tr>
-        <tr style="display:none; width: 100%" id="trUserId" align="center" class="darkBlueBg">
-                <td align="right" style="width: 20%">
-                    <label class="editlabel">User ID</label>
+            <tr style="width: 100%" align="center" class="darkBlueBg">
+                <td align="right" rowspan="1" style="width: 20%">
                 </td>
                 <td align="left" style="width:80%">
-                    <input type="text" id="txtUserIdForNewUser" class="txtBox" style="font-family:Verdana;" width="175px" maxlength="100" />
-                    <label style="color:red">*</label>
-                    <input type="image" id="btnSearchUser" style="height:75%;border-width:0px" value="submit" src="~/Images/search1.png" alt="Search User In AD">
+                </td>
+            </tr>
+            <tr  align="center" class="darkBlueBg">
+                <td align="right" style="width: 20%">
+                    
+                </td>
+                <td align="left" style="width:80%">
+                    
                 </td>
 
             </tr>
-    </table>
-</center>
-                                      
+        </table> *@
+    </div>
+
+</div>
+@* </div> *@
+@* </div> *@
 
 <script>
     $("#btnSearchUser").click(function () {
         var userid = $('#txtUserIdForNewUser').val();
-        if (userid.trim(' ') == "")
-
-        {
+        if (userid.trim(' ') == "") {
             alert("Please enter Userid");
             return false;
         }
         $.post('@Url.Action("GetUserDetailsForAddingUser", "Admin")', { userId: userid },
-                function (data) {
-                    if (data.indexOf("Access denied") > -1) {
-                        alert(data.replace("error", ""));
-                    }
-                    if (data.indexOf("error") == 0) {
-                        alert(data.replace("error", ""));
-                    }
-                    else {
-                        $('#txtUserIdForNewUser').attr('readonly', 'true');
+            function (data) {
+                if (data.indexOf("Access denied") > -1) {
+                    alert(data.replace("error", ""));
+                }
+                if (data.indexOf("error") == 0) {
+                    alert(data.replace("error", ""));
+                }
+                else {
+                    $('#txtUserIdForNewUser').attr('readonly', 'true');
 
-                        $('#divUserDetails').empty();
+                    $('#divUserDetails').empty();
 
-                        $('#divUserDetails').html(data);
-                    }
+                    $('#divUserDetails').html(data);
+                }
 
-                });
+            });
 
     });
     $(document).ready(function () {
 
         $(".editdropdown").change(function (evt) {
-            
+
 
             $("#txtUserIdForNewUser").val("");
             if ($("#ddlUserList option:selected").val() == "") {
@@ -96,17 +113,17 @@
                 $('#trUserId').hide();
 
                 $.post('@Url.Action("GetUserDetails", "Admin")', { userId: selectedValue },
-         function (data) {
-             if (data.indexOf("error") == 0) {
-                 alert(data.replace("error", ""));
-             }
-             else {
-                 $('#divUserDetails').empty();
+                    function (data) {
+                        if (data.indexOf("error") == 0) {
+                            alert(data.replace("error", ""));
+                        }
+                        else {
+                            $('#divUserDetails').empty();
 
-                 $('#divUserDetails').html(data);
-             }
+                            $('#divUserDetails').html(data);
+                        }
 
-         });
+                    });
             }
 
         });
