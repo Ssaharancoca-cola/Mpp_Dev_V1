@@ -6,13 +6,12 @@ html {
 
 
 @media screen and (min-width: 900px) and (max-width: 1280px) {
-    body, .form-control {
+    body {
         font-size: 1.2rem;
     }
-    
 }
 @media screen and (min-width: 1360px) and (max-width: 1920px) {
-    body, .form-control {
+    body {
         font-size: 1.4rem;
     }
 }
@@ -43,11 +42,11 @@ header .logo-brand {
     color:#fff;
 }
     .profile-dropdown .icon-profile {
-        background-color: #d90d23;
+        background-color: #fff;
         display: flex;
         justify-content: center;
         align-items: center;
-        color: #fff;
+        color: #d90d23;
         border-radius: 50% !important;
         width: 32px;
         height: 32px;
@@ -158,9 +157,9 @@ sidebar #trmenu ul.nav .nav-item .nav-link {
 
 
 .box-shadow {
-    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.10);
-    -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.10);
-    -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.10);
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.20);
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.20);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.20);
 }
 .btn-primary {
     background-color: #444444;
@@ -234,7 +233,7 @@ sidebar #trmenu ul.nav .nav-item .nav-link {
 .sidebar-filter {
     position: fixed;
     right: 0px;
-    top: 72px;
+    top: 56px;
     width: 0px;
     z-index: 1;
     height: calc(100vh - 56px);

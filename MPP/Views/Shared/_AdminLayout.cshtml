@@ -2,14 +2,19 @@
     Layout = null;
 }
 
+<!DOCTYPE html>
 
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
         <link href="~/css/Masters.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <title>_AdminLayout</title>
+    </head>
 
-
-
-
-        <table width="1004px" border="1" cellspacing="0" cellpadding="0" align="center">
+<body>
+    <div>
+        <table width="1004px" border="0" cellspacing="0" cellpadding="0" align="center">
             <tr>
                 <td style="background-image:url('../Images/Header_New.png');height:112px;background-repeat:no-repeat">
                     <div id="mainmenu">
@@ -113,3 +118,6 @@
         <div class="container body-content">
             @RenderBody()
         </div>
+    </div>
+</body>
+</html>
