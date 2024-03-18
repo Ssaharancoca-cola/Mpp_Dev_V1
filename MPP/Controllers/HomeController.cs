@@ -60,7 +60,7 @@ namespace MPP.Controllers
                 HttpContext.Session.SetString("SelectedDimensionData", dropDownData.First().ToString().ToUpper() + String.Join("", dropDownData.Skip(1)).ToLower());
                 HttpContext.Session.SetString("SelectedDimensionValue", dropDownValue);
 
-                TempData["ShowSubMenu"] = "false";
+                TempData["ShowSubMenu"] = "true";
             }
             catch (Exception ex)
             {                
