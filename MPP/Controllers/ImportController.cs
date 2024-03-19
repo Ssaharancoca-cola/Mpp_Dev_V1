@@ -199,9 +199,7 @@ namespace MPP.Controllers
                     break;
             }
             return rDataType;
-        }
-
-        [HttpGet]
+        }       
         public virtual IActionResult Download(string path)
         {
             try
