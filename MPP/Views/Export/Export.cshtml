@@ -127,6 +127,16 @@
                 this.checked = status; //change ".label" checked status
             });
         });
+        $('.label').change(function () {
+            if (this.checked === false) {
+                $('#chkSelectAll')[0].checked = false;
+            } else {
+                // Check if all other checkboxes are checked
+                if ($('.label:checked').length === $('.label').length) {
+                    $('#chkSelectAll')[0].checked = true;
+                }
+            }
+        });
     });
     $('#formid').on('submit', submitFormWithAjax);
     function onBegin() {

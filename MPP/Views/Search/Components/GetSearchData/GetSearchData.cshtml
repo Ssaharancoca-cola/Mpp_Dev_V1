@@ -163,6 +163,16 @@
                 this.checked = status; //change ".checkbox" checked status
             });
         });
+        $('.checkbox').change(function () {
+            if (this.checked === false) {
+                $('#chkSelectAll')[0].checked = false;
+            } else {
+                // Check if all other checkboxes are checked
+                if ($('.checkbox:checked').length === $('.checkbox').length) {
+                    $('#chkSelectAll')[0].checked = true;
+                }
+            }
+        });
         $(".paging").click(function (e) {
             e.preventDefault();
             $.ajax({
