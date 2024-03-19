@@ -21,5 +21,6 @@ namespace Model.Models
         public string DefaultSortOrder { get; set; }
         public string DimensionDisplayName { get; set; }
         public int? DisplayOrder { get; set; }
+        public string EntityHierarchyGroup { get; set; }
     }
 }

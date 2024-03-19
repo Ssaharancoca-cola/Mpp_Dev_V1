@@ -5,24 +5,14 @@
     ViewBag.Title = "Menu";
 }
 
-<!--Start Menu-->
-
-    @Html.ActionLink("Home", "Index", "Home")
-            @Html.DropDownList("dll", Model.Select(item => new SelectListItem
-            {
-                Value = Convert.ToString(item.Dimension),
-            Text = Convert.ToString(item.Dimension.ToString())
-            }), new { @id = "ddlDim",@class= "form-control" })
-
-<!--End Menu-->
 
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#ddlDim').prop('selectedIndex', @Context.Session.GetInt32("selectedIndex") || 0);
+        $('.customNavbar .navbar-nav li').prop('selectedIndex', @Context.Session.GetInt32("selectedIndex") || 0);
     });
 
-    $("#ddlDim").change(function () {
+    $(document).on('click', '.customNavbar .navbar-nav li', function () {
         var selectedIndex = this.selectedIndex; // Correct way to get selectedIndex.
         var selectedValue = this.options[this.selectedIndex].value;
         var selecteddropdownvalue = this.options[this.selectedIndex].text;

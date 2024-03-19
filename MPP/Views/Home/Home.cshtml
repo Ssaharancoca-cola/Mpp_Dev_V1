@@ -1,20 +1,12 @@
 ﻿
 <div class="container-fluid page-body-wrapper">
-<div class="sidebar">
-    <div id="chromemenu" class="sidebar-menu">
-        <h3>Menu</h3>
-        <div class="form-group">
-        <label>Choose Diminision:</label>
-        @{
-            @await Component.InvokeAsync("Menu")
-        }
-        </div>
-    </div>
+    <div class="mainSidebar">
+
     <div>
         <asp:Label ID="lblLeftPanelHeader"></asp:Label>
     </div>
     <div id="trmenu">
-        @if (Convert.ToString(TempData["ShowSubMenu"]) != "true")
+        @if (Convert.ToString(TempData["ShowSubMenu"]) == "true")
         {
             @await Component.InvokeAsync("SubMenu")
             ;

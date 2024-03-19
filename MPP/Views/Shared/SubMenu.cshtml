@@ -12,15 +12,30 @@
         @Html.Raw(selectedDimensionData)
     
 </div>
-<ul class="nav nav-pills flex-column mb-auto">
+@*<ul class="nav nav-pills flex-column mb-auto">
     @foreach (var menuOption in Model)
     {          
         <li class="nav-item">
             <a class="nav-link Attribute" id=@menuOption.Id> @menuOption.DisplayName</a>
         </li>
     }
-    </ul>
+    </ul>*@
+<ul class="nav nav-pills flex-column mb-auto">
+    @{
+        var grouped = Model.OrderBy(x => x.DisplayOrder).GroupBy(x => x.EntityHierarchyGroup);
+    }
 
+    @foreach (var group in grouped)
+    {
+        <li class="nav-header">@group.Key</li>
+        foreach (var menuOption in group)
+        {
+            <li class="nav-item">
+                <a class="nav-link Attribute" id="@menuOption.Id">@menuOption.DisplayName</a>
+            </li>
+        }
+    }
+</ul>
 
 <script>
 
