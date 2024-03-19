@@ -5,12 +5,13 @@ html {
 }
 
 
-@media screen and (min-width: 900px) and (max-width: 1280px) {
+@media screen and (min-width: 900px) and (max-width: 1359px) {
     body, .form-control {
         font-size: 1.2rem;
     }
     
 }
+
 @media screen and (min-width: 1360px) and (max-width: 1920px) {
     body, .form-control {
         font-size: 1.4rem;
@@ -358,11 +359,11 @@ ul.legend li.title-legend {
         background-color: #FF7F7F;
         margin-right: 12px;
     }
-    ul.legend li.not-modi::before{
-        background-color: #FF7F7F;        
+    ul.legend li.not-modi::before {
+        background-color: #fff6ca;
     }
     ul.legend li.modified::before {
-        background-color: #FF0000;
+        background-color: #fde294;
     }
 .ui-tabs-anchor {
     font-size:1.2rem;

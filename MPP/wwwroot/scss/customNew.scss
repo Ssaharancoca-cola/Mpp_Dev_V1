@@ -9,8 +9,8 @@
     background:rgba(#F30009, 60%);
 }
 
-body{
-    background-color: #efefef;
+body {
+    background-color: #f9f9f9;
 }
 .customNavbar {
     position: sticky;
@@ -66,12 +66,25 @@ body{
     .navbar-nav {
         li {
             a {
-                color: #000;
-                text-transform: uppercase;
+                color: #010101;
                 font-weight: 500;
+                position: relative;
+
+                & /*:not(:last-child)*/ {
+                    margin-right: 2rem;
+                }
 
                 &.active, &:hover {
                     color: #F30009;
+                }
+
+                &::after {
+                    content: ' ';
+                    position: absolute;
+                    border-right: 1px solid #e5e5e5;
+                    height: 1.5rem;
+                    margin-left: 1.2rem;
+                    margin-top: 0.2rem;
                 }
             }
         }
@@ -101,13 +114,25 @@ body{
     background-color: #fff;
     border-right: #ddd solid 1px;
     z-index: 1008;
-    height: calc(100vh - 72px);
+    height: calc(100vh - 107px);
     overflow-y: auto;
     transition: 0.5s all linear;
 
     li {
+        &.nav-header:not(:empty) {
+            padding: 0.6rem 1.2rem;
+            border-left: 2px solid #f30008;
+            font-weight: 500;
+        }
+
         a {
+            padding: 0.6rem 1.2rem;
             border-radius: 0 !important;
+            color: #010101;
+
+            &:not(:last-child) {
+                border-bottom: 1px solid #808080;
+            }
 
             &.active {
                 background-color: #F30009 !important;
@@ -115,7 +140,6 @@ body{
             }
         }
     }
-
     /*.sidebarToggleBtn {
         position: absolute;
         z-index: 1;
@@ -155,15 +179,44 @@ body{
             width: 200px;
         }
     }
+.btn-main-toolbar {
+    .btn{
+        white-space:nowrap;
+    }
+}
+.card {
+    .card-header {
+        background-color: #fff;
+    }
+
+    .card-body {
+        :not(.card-form) {
+            .form-group {
+                div {
+                    margin-bottom: .8rem;
+                }
+
+                label {
+                    font-weight: 500;
+                    padding-bottom: .4rem;
+                }
+            }
+        }
+    }
+}
+.btn-main-toolbar{
+
+}
 
 footer {
     width: 100%;
-    position: fixed;    
+    position: fixed;
     bottom: 0;
     background: #fff;
     padding: 0.8rem;
+    border-top: #ddd solid 1px;
     /*z-index: 9999;*/
-    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.10);
+    /*box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.10);
     -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.10);
-    -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.10);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.10);*/
 }

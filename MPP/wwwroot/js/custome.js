@@ -1,7 +1,11 @@
 //Sidebar Open and close
-//$(document).on('click', '.sidebarToggleBtn', function () {
-//    $('body').toggleClass('sideOpen');
-//})
+$(document).on('click', '.sidebarToggleBtn', function () {
+    $('body').toggleClass('sideOpen');
+})
+//Sidebar close
+$(document).on('click', '.navbar-brand, #lblAdmin', function () {
+    $('body').removeClass('sideOpen');
+})
 //Header Menu remove and add active class
 $(document).on('click', '.customNavbar .navbar-nav li', function () {
     $('.customNavbar .navbar-nav li a').removeClass('active');
