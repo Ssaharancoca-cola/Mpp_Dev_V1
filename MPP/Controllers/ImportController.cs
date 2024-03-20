@@ -10,8 +10,8 @@ using System.Text;
 
 namespace MPP.Controllers
 {
-    [SessionTimeoutDimension]
-    [SessionTimeoutEntity]
+    //[SessionTimeoutDimension]
+    //[SessionTimeoutEntity]
     public class ImportController : Controller
     {
         private readonly IHttpContextAccessor _httpContextAccessor;

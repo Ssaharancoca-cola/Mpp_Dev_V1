@@ -25,12 +25,31 @@
             this.checked = status; //change ".checkbox" checked status
         });
     });
-
+    $('.checkbox').change(function () {
+        if (this.checked === false) {
+            $('#chkSelectAll')[0].checked = false;
+        } else {
+            // Check if all other checkboxes are checked
+            if ($('.checkbox:checked').length === $('.checkbox').length) {
+                $('#chkSelectAll')[0].checked = true;
+            }
+        }
+    });
     $("#chkSelectAllRejected").change(function () {
         var status = this.checked; // "select all" checked status
         $('.checkboxRejected').each(function () { //iterate all listed checkbox items
             this.checked = status; //change ".checkbox" checked status
         });
+    });
+    $('.checkboxRejected').change(function () {
+        if (this.checked === false) {
+            $('#chkSelectAllRejected')[0].checked = false;
+        } else {
+            // Check if all other checkboxes are checked
+            if ($('.checkboxRejected:checked').length === $('.checkboxRejected').length) {
+                $('#chkSelectAllRejected')[0].checked = true;
+            }
+        }
     });
     $("#chkSelectAlApprovalPending").change(function () {
         var status = this.checked; // "select all" checked status
@@ -38,7 +57,16 @@
             this.checked = status; //change ".checkbox" checked status
         });
     });
-
+    $('.checkboxApprovalPending').change(function () {
+        if (this.checked === false) {
+            $('#chkSelectAlApprovalPending')[0].checked = false;
+        } else {
+            // Check if all other checkboxes are checked
+            if ($('.checkboxApprovalPending:checked').length === $('.checkboxApprovalPending').length) {
+                $('#chkSelectAlApprovalPending')[0].checked = true;
+            }
+        }
+    });
 
 });
 

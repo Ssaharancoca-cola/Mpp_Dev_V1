@@ -170,6 +170,16 @@
                 this.checked = status;
             });
         });
+        $('.label').change(function () {
+            if (this.checked === false) {
+                $('#chkSelectAll')[0].checked = false;
+            } else {
+                // Check if all other checkboxes are checked
+                if ($('.label:checked').length === $('.label').length) {
+                    $('#chkSelectAll')[0].checked = true;
+                }
+            }
+        });
     });
     $('#formid').on('submit', submitFormWithAjax);
 
@@ -223,6 +233,7 @@
                     });
             }
             else if (result.indexOf("import") == 0) {
+                debugger;
                 //window.location.href = 'MPP/Import/Download?path=' + result;
                 window.location.href = 'Import/Download?path=' + result;
 
