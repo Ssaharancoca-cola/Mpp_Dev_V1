@@ -74,15 +74,16 @@
         }
         $.post('@Url.Action("GetUserDetailsForAddingUser", "Admin")', { userId: userid },
             function (data) {
-                if (data.indexOf("Access denied") > -1) {
-                    alert(data.replace("error", ""));
+                if (data.indexOf("The user already exist!") > -1) {
+                    $('#divUserDetails').empty();
+                    $('#divUserDetails').html(data);
                 }
-                if (data.indexOf("error") == 0) {
-                    alert(data.replace("error", ""));
+                else if (data.indexOf("The user with the given user id is not a valid user in AD") > -1) {
+                    $('#divUserDetails').empty();
+                    $('#divUserDetails').html(data);
                 }
                 else {
                     $('#txtUserIdForNewUser').attr('readonly', 'true');
-
                     $('#divUserDetails').empty();
 
                     $('#divUserDetails').html(data);
@@ -102,12 +103,14 @@
                 $('#divUserDetails').empty();
             }
             var selectedValue = evt.currentTarget.value;
-
+            $('#txtUserIdForNewUser').removeAttr('readonly');
+            if (selectedValue === "") {
+                $('#trUserId').hide();
+                return; 
+            }
             if (selectedValue == 0) {
                 $('#trUserId').show();
                 $('#divUserDetails').empty();
-
-
             }
             else {
                 $('#trUserId').hide();

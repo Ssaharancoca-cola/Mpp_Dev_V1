@@ -53,20 +53,26 @@
                         </label>
 
                     </td>
-                    <td style="width: 50%" align="left">
+                    <td style="width: 50%" align="left">                       
                         @if (@menuOption.AttrDataType == "SUPPLIED_CODE")
                         {
                             @Html.CheckBox(@menuOption.AttrName, new { @class = "checkbox", @checked = true, @disabled = true })
+                        }
+                        else if (@menuOption.IsMandatoryFlag == 1) 
+                        {
+                            @Html.CheckBox(@menuOption.AttrName, new { @class = "label", @checked = true, @disabled = true, @data_mandatory = "true" })
                         }
                         else
                         {
                             @Html.CheckBox(@menuOption.AttrName, new { @class = "label" })
                         }
-                        <label style="color:red">*</label>
+                        @if (@menuOption.IsMandatoryFlag == 1) 
+                        {
+                            <label style="color:red">*</label>
+                        }
                         @if (@menuOption.AttrDisplayName.ToUpper() == "SORT ORDER")
                         {
                             <label id="lblSORT_ORDER_format" class="hintlabel">&nbsp;(9999999999)</label>
-
                         }
                     </td>
 
@@ -185,7 +191,19 @@
 
     function submitFormWithAjax(event) {
         event.preventDefault();
+        let isAllMandatoryChecked = true;
 
+        $('input[data-mandatory="true"]').each(function () {
+            if (!this.checked) {
+                isAllMandatoryChecked = false;
+                return false;
+            }
+        });
+
+        if (!isAllMandatoryChecked) {
+            alert('Please select all mandatory fields before importing.');
+            return;
+        }
         let form = new FormData();
         $('#formid input, #formid select').each(function () {
             if ($(this).attr('type') === 'checkbox') {
