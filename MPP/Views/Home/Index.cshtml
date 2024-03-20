@@ -72,7 +72,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body" id="navbarSupportedContent">
-                    <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
+                    <ul class="navbar-nav justify-content-center flex-grow-1">
                         @foreach (var item in Model.Select((value, i) => (value, i)))
                         {
                             <li class="nav-item"><a class="nav-link" href="javascript:void(0);" id="Dimension" onclick="loadDimension('@item.value.Dimension', @item.i)">@(item.value.Dimension)</a></li>

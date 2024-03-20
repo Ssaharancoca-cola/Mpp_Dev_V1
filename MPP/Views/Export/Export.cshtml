@@ -4,97 +4,91 @@
 <script src="~/js/Export.js"></script>
 
 <form id="formid">
-    <table style="width: 100%" border="0" cellspacing="0" cellpadding="0">
-        <tr style="width:100%;height:31px;">
-            <td colspan="2" style="padding-left:5px">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb rounded-3">
+            @if (Context.Session.GetString("SelectedDimensionData") != null && Context.Session.GetString("EntityName") != null)
+            {
+                <li class="breadcrumb-item">
+                    <a class="link-body-emphasis" href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
+                            <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z" />
+                        </svg>
+                        <span class="visually-hidden">Home</span>
+                    </a>
+                </li>
                 @if (Context.Session.GetString("SelectedDimensionData") != null && Context.Session.GetString("EntityName") != null)
                 {
-
-                    <label style="color:red;font-family:Georgia;font-size:13pt;font-weight:bold">@Context.Session.GetString("SelectedDimensionData").ToString() ></label>
-                    <label style="color:black;font-family:Georgia;font-weight:bold">@Context.Session.GetString("EntityName").ToString()</label>
+                    <li class="breadcrumb-item">
+                            <a class="link-body-emphasis fw-semibold text-decoration-none" href="#">@Context.Session.GetString("SelectedDimensionData").ToString() ></a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        @Context.Session.GetString("EntityName").ToString()
+                    </li>
                 }
-            </td>
-        </tr>
-
-        <tr style="width:100%">
-            <td colspan="2">
-
-                <hr />
-            </td>
-
-        </tr>
-        <tr style="width:100%; height:25px">
-            <td colspan="2" style="width: 100%;padding-left:10px;padding-top:8px;" align="left">
-                <label style="color:red;font-size:12pt;font-weight:bold">Export</label>
-            </td>
-        </tr>
-        <tr style="width:100%;">
-            <td colspan="2" style="padding-left:10px;padding-right:10px;padding-bottom:20px" valign="top">
-                <hr style="width:100%;height:2px;background-color:red;" />
-            </td>
-        </tr>
-        <tr style="width: 100%;padding-top:8px;">
-            <td style="width: 50%;padding-left:270px;">
-                <label id="lblSelectAll" CssClass="editlabel">Select All :</label>
-            </td>
-            <td style="width: 50%" align="left">
-                @Html.CheckBox("chkSelectAll", new { @class = "chkSelectAll" })
-            </td>
-        </tr>
-        @foreach (var menuOption in Model)
-        {
-
-            if (@menuOption.Isvisible != "N")
-            {
-                <tr style="width: 100%;padding-top:8px;">
-
-                    <td style="width: 50%;padding-left:270px;">
-                        <label id=@menuOption.AttrName CssClass="editlabel">
-                            @menuOption.AttrDisplayName :
-                        </label>
-
-                    </td>
-                    <td style="width: 50%" align="left">
-                        @if (@menuOption.AttrDataType == "SUPPLIED_CODE")
-                        {
-                            @Html.CheckBox(@menuOption.AttrName, new { @class = "checkbox", @checked = true, @disabled = true })
-                        }
-                        else
-                        {
-                            @Html.CheckBox(@menuOption.AttrName, new { @class = "label" })
-                        }
-
-                    </td>
-                </tr>
             }
-        }
-        <tr style="width: 100%;padding-top:8px;">
+        </ol>
+    </nav>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <h1 class="h2">Export</h1>
+        
+    </div>
+    <div class="card box-shadow">
+        <div class="card-header">
+            <h5 class="mb-0">Export</h5>            
+        </div>
+        <div class="card-body">
+            
+            <div class="wrapper-export">
+                @* <p>Please select fields below which you want to export:</p> *@
+                <div class="form-group">
+                    <label id="lblSelectAll" CssClass="label-select-all">Select All </label>
+                    <span>:</span>
+                    @Html.CheckBox("chkSelectAll", new { @class = "chkSelectAll" })
+                </div>
+                @foreach (var menuOption in Model)
+                {
 
-            <td style="width: 50%;padding-left:270px;">
-                <label id="lblEffectiveDate" CssClass="editlabel">
-                    Effective Date :
-                </label>
+                    if (@menuOption.Isvisible != "N")
+                    {
+                        <div class="form-group">
+                            
+                                <label id=@menuOption.AttrName CssClass="editlabel">
+                                    @menuOption.AttrDisplayName 
+                                </label>
+                            <span>:</span>
+                            
+                           
+                                @if (@menuOption.AttrDataType == "SUPPLIED_CODE")
+                                {
+                                    @Html.CheckBox(@menuOption.AttrName, new { @class = "checkbox", @checked = true, @disabled = true })
+                                }
+                                else
+                                {
+                                    @Html.CheckBox(@menuOption.AttrName, new { @class = "label" })
+                                }
 
-            </td>
-            <td style="width: 50%" align="left">
-                @Html.CheckBox("DATE_FROM", new { @class = "label" })
-
-            </td>
-        </tr>
-
-    </table>
+                            
+                        </div>
+                    }
+                }
+                <div class="form-group">
+                    <label id="lblEffectiveDate" CssClass="editlabel">Effective Date </label>
+                    
+                    @Html.CheckBox("DATE_FROM", new { @class = "label" })
+                </div>
+                <div class="ctn-export">
+                    <button type="submit" class="btn btn-primary" id="btnExport" name="Command" value="Export">Export</button>
+                    <button type="submit" class="btn btn-outline-primary" id="btnCancel" name="Command" value="Cancel">Cancel</button>
+                </div>                
+            </div>
+        </div>
+    </div>
+    
     <table style="width:100%;padding-top:10px;" border="0" cellpadding="0" cellspacing="0">
         <tr align="center" style="width: 100%">
             <td style="width: 50%" align="right"></td>
             <td style="width: 50%" align="left">
-                <button type="submit" class="button" id="btnExport" style="width:80px; margin-right: 15px;" name="Command" value="Export">
-                    <img src="~/Images/Export_Button.png" />
-                </button>&nbsp;&nbsp;&nbsp;
-
-
-                <button type="submit" class="button" id="btnCancel" style="width:80px" name="Command" value="Cancel">
-                    <img src="~/Images/Cancel.png" />
-                </button>
+                
 
             </td>
 

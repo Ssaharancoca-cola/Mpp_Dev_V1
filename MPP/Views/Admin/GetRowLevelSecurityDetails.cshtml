@@ -1,74 +1,139 @@
 ﻿@model Model.RowLevelSecurityDetail
-<div class="darkBlueBg">
-    <table style="width: 100%">
-        <tr align="center" style="width:100%; height:25px">
-            <td style="width: 100%;padding-left:10px" align="left">
-                <label style="font-size:small;font-weight:bold;color:red;font-family:Arial Black">
-                    User Rowlevel Security Details
-                </label>
-            </td>
-        </tr>
-        <tr align="left" style="width:100%; height:5px">
-            <td style="padding-left:10px;padding-right:10px;padding-bottom:20px" valign="top">
-                <hr style="width:100%;height:2px;background-color:red;" />
-            </td>
-        </tr>
-    </table>
-    <table>
-        <tr style="width: 100%" align="center" class="darkBlueBg">
-            <td align="right" style="width: 45%">
-                <label class="editlabel">User ID</label>
-            </td>
-            <td align="left" style="width: 56%">
-                <input type="text" id="txtUserId" class="edittxtfield" value=@Model.UserID readonly maxlength="100" width="160px" style="font-family:Verdana" />
-            </td>
-        </tr>
-        <tr style="width: 100%" align="center" class="darkBlueBg">
-            <td align="right" style="width: 45%">
-                <label class="editlabel">Supplied Code</label>
-            </td>
-            <td align="left" style="width: 56%">
-                <input type="text" id="txtsuppliedCode" class="edittxtfield" value=@Model.SuppliedCode readonly maxlength="100" width="160px" style="font-family:Verdana" />
-            </td>
-        </tr>
-        <tr align="center" style="width: 100%" class="darkBlueBg">
-            <td align="right" style="width: 45%">
-                <label class="editlabel">Operator</label>
-            </td>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb rounded-3">
 
-            <td align="left" style="width: 56%">
+        <li class="breadcrumb-item">
+            <a class="link-body-emphasis" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
+                    <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z" />
+                </svg>
+                <span class="visually-hidden">Home</span>
+            </a>
+        </li>
+
+        <li class="breadcrumb-item">
+            <a class="link-body-emphasis fw-semibold text-decoration-none" href="#">Admin</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            User Rowlevel Security Details
+        </li>
+
+    </ol>
+</nav>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h1 class="h2">User Rowlevel Security Details</h1>
+
+</div>
+<div class="card box-shadow">
+    <div class="card-header">
+        <h5 class="mb-0">User Rowlevel Security Details</h5>
+    </div>
+    <div class="card-body">
+        <div class="wrapper-export">
+            <div class="form-group">
+                <label class="editlabel">User ID</label>
+                <input type="text" id="txtUserId" class="edittxtfield form-control" value=@Model.UserID readonly maxlength="100" />
+            </div>
+            <div class="form-group">
+                <label class="editlabel">Supplied Code</label>
+                <input type="text" id="txtsuppliedCode" class="edittxtfield form-control" value=@Model.SuppliedCode readonly maxlength="100" />
+            </div>
+            <div class="form-group">
+                <label class="editlabel">Operator <span style="color:red">*</span></label>
                 @Html.DropDownList("ddlOperatorList", Model.RowLevelSecurityOperator.Select(item => new SelectListItem
            {
                Value = item.AttrName.ToString(),
                Text = item.AttrValue.ToString()
-           }), "--Select--", new { @class = "OperatorChange" })
+           }), "--Select--", new { @class = "OperatorChange form-control" })
+            </div>
+            <div class="form-group" style="display:none" id="trOperatorDropDown">
+                <label> <span style="color:red">*</span>>Values</label>
+                <div id="td_DropdownList">
+                    @Html.DropDownList("ddlOperatorValues", Model.RowLevelSecurityValues.Select(item => new SelectListItem
+               {
+                   Value = item.ValueMember.ToString(),
+                   Text = item.DisplayMember.ToString()
+               }), new { @class = "OperatorValuedropdown form-control" })
+                </div>
+            </div>
+            <div class="form-group" style="display:none" id="trOperatorListBox">
+                <label class="editlabel">Values <span style="color:red">*</span></label>
+                <div id="tdListBox">
+                    @Html.ListBoxFor(model => model.RowLevelSecurityValues,
+                    new MultiSelectList(Model.RowLevelSecurityValues, "ValueMember", "DisplayMember"), new { @id = "ddlOperatorListBox", @class = "OperatorValueListBox form-control" })
+                </div>
+            </div>
+            <div class="ctn-export">
+                <input type="button" id="btnSaveRowLevelSecurity" value="Submit" alt="Save" class="btn btn-primary">
+                <input type="button" id="btnCancelRowLevelSecurity" value="Cancel" alt="Cancel" class="btn btn-outline-primary">
+            </div>
+            <div class="form-group">
+            </div>
 
-                <label class="editlabel" style="color:red">*</label>
+        </div>
+        <div class="table-responsive mt-4">
+            <table border="0" id="tblRowLeveldata" class="table table-bordered">
+                <thead>
+                    <tr class="gridheader resultHeader">
+                        <th>Primary Keys</th>
+                        <th>Operator</th>
+                        <th>Values</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var data in @Model.UserSecurityValues)
+                {
+                    <tr class="trgriddata">
+                        <td> @data.v_SUPPLIED_CODE.ToString() </td>
+                        <td> @data.v_OPERATOR.ToString() </td>
+                        <td> @data.v_VALUES.ToString() </td>
+
+
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+            <div class="text-center">
+                        <input type="button" id="btnDeleteRowLevelSecurity" value="Delete" alt="Delete" class="btn btn-primary">
+                    
+            </div>
+    </div>
+</div>
+
+<div class="darkBlueBg">
+
+    <table>
+        <tr style="width: 100%" align="center" class="darkBlueBg">
+            <td align="right" style="width: 45%">
+            </td>
+            <td align="left" style="width: 56%">
             </td>
         </tr>
-        <tr align="center" class="darkBlueBg" style="width: 100%;display:none" id="trOperatorDropDown">
+        <tr style="width: 100%" align="center" class="darkBlueBg">
             <td align="right" style="width: 45%">
-                <label class="editlabel">Values</label>
             </td>
-            <td align="left" id="td_DropdownList" style="width: 56%">
-                @Html.DropDownList("ddlOperatorValues", Model.RowLevelSecurityValues.Select(item => new SelectListItem
-           {
-               Value = item.ValueMember.ToString(),
-               Text =  item.DisplayMember.ToString()
-           }),  new { @class = "OperatorValuedropdown" })
-                <label class="editlabel" style="color:red">*</label>
+            <td align="left" style="width: 56%">
+            </td>
+        </tr>
+        <tr align="center" style="width: 100%" class="darkBlueBg">
+            <td align="right" style="width: 45%">
+            </td>
+
+            <td align="left" style="width: 56%">
+            </td>
+        </tr>
+        <tr align="center" class="darkBlueBg">
+            <td align="right" style="width: 45%">
+            </td>
+            <td align="left" style="width: 56%">
             </td>
 
         </tr>
-        <tr align="center" class="darkBlueBg" style="width: 100%;display:none" id="trOperatorListBox">
+        <tr align="center" class="darkBlueBg">
             <td align="right" style="width: 45%">
-                <label class="editlabel">Values</label>
             </td>
-            <td align="left" id="tdListBox">
-                @Html.ListBoxFor(model => model.RowLevelSecurityValues,
-               new MultiSelectList(Model.RowLevelSecurityValues, "ValueMember", "DisplayMember"), new { @id = "ddlOperatorListBox", @class = "OperatorValueListBox" })
-
-                <label class="editlabel" style="color:red">*</label>
+            <td align="left">
             </td>
         </tr>
 
@@ -77,105 +142,71 @@
                 &nbsp;
             </td>
             <td style="width: 56%" align="left">
-                <input type="image" id="btnSaveRowLevelSecurity" value="submit" src="~/Images/Save.png" alt="Save">
-                <input type="image" id="btnCancelRowLevelSecurity" value="submit" src="~/Images/Cancel.png" alt="Cancel">
             </td>
             <td style="width: 30%" align="center">
                 &nbsp;
             </td>
         </tr>
     </table>
-    <table style="width: 100%" border="0" cellspacing="0" cellpadding="0">
-        <tr style="width:100%">
-            <td style="width: 100%;padding-left:20px;height:auto" align="left">
-                <table border="1" id="tblRowLeveldata" class="width-100">
-                    <thead>
-                        <tr class="gridheader resultHeader">
-                            <td>Primary Keys</td>
-                            <td>Operator</td>
-                            <td>Values</td>
-                        </tr>
-                    </thead>
-                    @foreach (var data in @Model.UserSecurityValues)
-                    {
-                        <tr class="trgriddata">
-                            <td> @data.v_SUPPLIED_CODE.ToString() </td>
-                            <td> @data.v_OPERATOR.ToString() </td>
-                            <td> @data.v_VALUES.ToString() </td>
-
-
-                        </tr>
-                    }
-                </table>
-                <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                    <tr align="center" style="width: 100%;padding-top:10px">
-                        <td style="width: 100%" align="center">
-                            <input type="image" id="btnDeleteRowLevelSecurity" value="submit" src="~/images/delete.png" alt="Delete">
-                        </td>
-                    </tr>
-                    <tr align="center" style="width: 100%;padding-top:10px">
-                        <td style="width: 100%" align="center"></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
+    
+                
+    
 </div>
 <script>
     $("#btnDeleteRowLevelSecurity").click(function () {
         var userId = $("#txtUserId").val();
         var supplyCode = $("#txtsuppliedCode").val();
         $.post('@Url.Action("DeleteRowLevelSecurity", "Admin")', { UserId: userId, SupplyCode: supplyCode },
-                          function (data) {
-                              if (data.indexOf("error") == 0) {
-                                  alert(data.replace("error", ""))
-                              }
-                              else {
-                                  alert('Row Level Security has been deleted successfully');
+            function (data) {
+                if (data.indexOf("error") == 0) {
+                    alert(data.replace("error", ""))
+                }
+                else {
+                    alert('Row Level Security has been deleted successfully');
 
-                                  $.post('@Url.Action("GetAllUsers", "Admin")',
-                                                    function (data) {
-                                                        if (data.indexOf("error") == 0) {
-                                                            alert(data.replace("error", ""))
-                                                        }
-                                                        else {
+                    $.post('@Url.Action("GetAllUsers", "Admin")',
+                        function (data) {
+                            if (data.indexOf("error") == 0) {
+                                alert(data.replace("error", ""))
+                            }
+                            else {
 
-                                                            $('#divDisplayAllUsers').html(data);
+                                $('#divDisplayAllUsers').html(data);
 
-                                                        }
+                            }
 
-                                                    });
-                                  $.post('@Url.Action("GetNewUserIndex", "Admin")', { newUserId: userId },
-                                       function (data) {
-                                           if (data.indexOf("error") == 0) {
-                                               alert(data.replace("error", ""));
-                                           }
-                                           else {
-                                               $('#ddlUserList')[0].selectedIndex = data;
+                        });
+                    $.post('@Url.Action("GetNewUserIndex", "Admin")', { newUserId: userId },
+                        function (data) {
+                            if (data.indexOf("error") == 0) {
+                                alert(data.replace("error", ""));
+                            }
+                            else {
+                                $('#ddlUserList')[0].selectedIndex = data;
 
-                                           }
+                            }
 
-                                       });
-                                  $.post('@Url.Action("GetUserDetails", "Admin")', { userId: userId },
-                                       function (data) {
-                                           if (data.indexOf("error") == 0) {
-                                               alert(data.replace("error", ""));
-                                           }
-                                           else {
+                        });
+                    $.post('@Url.Action("GetUserDetails", "Admin")', { userId: userId },
+                        function (data) {
+                            if (data.indexOf("error") == 0) {
+                                alert(data.replace("error", ""));
+                            }
+                            else {
 
-                                               $('#divUserDetails').empty();
+                                $('#divUserDetails').empty();
 
-                                               $('#divUserDetails').html(data);
-                                               $('#divEntityDetail').empty();
+                                $('#divUserDetails').html(data);
+                                $('#divEntityDetail').empty();
 
 
-                                           }
+                            }
 
-                                       });
-                                  var dimensionId = "NA";                                  
-                              }
+                        });
+                    var dimensionId = "NA";
+                }
 
-                          });
+            });
     });
     $("#btnCancelRowLevelSecurity").click(function () {
         var userId = $("#txtUserId").val();
@@ -183,57 +214,57 @@
 
 
         $.post('@Url.Action("GetAllUsers", "Admin")',
-                          function (data) {
-                              if (data.indexOf("error") == 0) {
-                                  alert(data.replace("error", ""))
-                              }
-                              else {
+            function (data) {
+                if (data.indexOf("error") == 0) {
+                    alert(data.replace("error", ""))
+                }
+                else {
 
-                                  $('#divDisplayAllUsers').html(data);
+                    $('#divDisplayAllUsers').html(data);
 
-                              }
+                }
 
-                          });
+            });
         $.post('@Url.Action("GetNewUserIndex", "Admin")', { newUserId: userId },
-             function (data) {
-                 if (data.indexOf("error") == 0) {
-                     alert(data.replace("error", ""));
-                 }
-                 else {
-                     $('#ddlUserList')[0].selectedIndex = data;
+            function (data) {
+                if (data.indexOf("error") == 0) {
+                    alert(data.replace("error", ""));
+                }
+                else {
+                    $('#ddlUserList')[0].selectedIndex = data;
 
-                 }
+                }
 
-             });
+            });
         $.post('@Url.Action("GetUserDetails", "Admin")', { userId: userId },
-             function (data) {
-                 if (data.indexOf("error") == 0) {
-                     alert(data.replace("error", ""));
-                 }
-                 else {
+            function (data) {
+                if (data.indexOf("error") == 0) {
+                    alert(data.replace("error", ""));
+                }
+                else {
 
-                     $('#divUserDetails').empty();
+                    $('#divUserDetails').empty();
 
-                     $('#divUserDetails').html(data);
-                     $('#divEntityDetail').empty();
+                    $('#divUserDetails').html(data);
+                    $('#divEntityDetail').empty();
 
 
 
-                 }
+                }
 
-             });
+            });
         $.post('@Url.Action("GetDimensionIndex", "Admin")',
-                                  function (data) {
-                                      if (data.indexOf("error") == 0) {
-                                          alert(data.replace("error", ""));
-                                      }
-                                      else {
-                                          dimensionListdata = data;
+            function (data) {
+                if (data.indexOf("error") == 0) {
+                    alert(data.replace("error", ""));
+                }
+                else {
+                    dimensionListdata = data;
 
-                                      }
+                }
 
-                                  });
-        var dimensionId = "NA";        
+            });
+        var dimensionId = "NA";
 
 
     });
@@ -241,10 +272,10 @@
         var selectedListBoxText = [];
         var selectedListBoxValues = [];
         if (!confirm("\n  ******* W A R N I N G !******* \n\n" +
-        "This action will affect all previous entries related to \n " +
-         " this Entity \n" +
-        " for this user.\n" +
-        "Click OK to Proceed or Cancel to abort this operation!")) {
+            "This action will affect all previous entries related to \n " +
+            " this Entity \n" +
+            " for this user.\n" +
+            "Click OK to Proceed or Cancel to abort this operation!")) {
             return false;
         }
 
@@ -296,62 +327,62 @@
             selectedOperatorValue = -1;
         }
         var userId = $("#txtUserId").val();
-        var supplyCode = $("#txtsuppliedCode").val();        
+        var supplyCode = $("#txtsuppliedCode").val();
         $.post('@Url.Action("SaveRowLevelSecurityDetails", "Admin")', {
             OperatorValue: selectedOperatorValue, UserId: userId, SupplyCode: supplyCode,
             SelectedData: selectedListBoxText, SelectedValues: selectedListBoxValues
         },
-               function (data) {
-                   if (data.indexOf("error") == 0) {
-                       alert(data.replace("error", ""));
-                   }
-                   else {
-                       alert("Row Level Security has been applied successfully");
-                       $.post('@Url.Action("GetAllUsers", "Admin")',
-                            function (data) {
-                                if (data.indexOf("error") == 0) {
-                                    alert(data.replace("error", ""))
-                                }
-                                else {
+            function (data) {
+                if (data.indexOf("error") == 0) {
+                    alert(data.replace("error", ""));
+                }
+                else {
+                    alert("Row Level Security has been applied successfully");
+                    $.post('@Url.Action("GetAllUsers", "Admin")',
+                        function (data) {
+                            if (data.indexOf("error") == 0) {
+                                alert(data.replace("error", ""))
+                            }
+                            else {
 
-                                    $('#divDisplayAllUsers').html(data);
+                                $('#divDisplayAllUsers').html(data);
 
-                                }
+                            }
 
-                            });
-                       $.post('@Url.Action("GetNewUserIndex", "Admin")', { newUserId: userId },
-                            function (data) {
-                                if (data.indexOf("error") == 0) {
-                                    alert(data.replace("error", ""));
-                                }
-                                else {
-                                    $('#ddlUserList')[0].selectedIndex = data;
+                        });
+                    $.post('@Url.Action("GetNewUserIndex", "Admin")', { newUserId: userId },
+                        function (data) {
+                            if (data.indexOf("error") == 0) {
+                                alert(data.replace("error", ""));
+                            }
+                            else {
+                                $('#ddlUserList')[0].selectedIndex = data;
 
-                                }
+                            }
 
-                            });
-                       $.post('@Url.Action("GetUserDetails", "Admin")', { userId: userId },
-                            function (data) {
-                                if (data.indexOf("error") == 0) {
-                                    alert(data.replace("error", ""));
-                                }
-                                else {
+                        });
+                    $.post('@Url.Action("GetUserDetails", "Admin")', { userId: userId },
+                        function (data) {
+                            if (data.indexOf("error") == 0) {
+                                alert(data.replace("error", ""));
+                            }
+                            else {
 
-                                    $('#divUserDetails').empty();
+                                $('#divUserDetails').empty();
 
-                                    $('#divUserDetails').html(data);
-                                    $('#divEntityDetail').empty();
-
-
-                                }
-
-                            });
-                       var dimensionId = "NA";                      
+                                $('#divUserDetails').html(data);
+                                $('#divEntityDetail').empty();
 
 
-                   }
+                            }
 
-               });
+                        });
+                    var dimensionId = "NA";
+
+
+                }
+
+            });
 
 
     });
@@ -376,7 +407,7 @@
     });
 </script>
 <style type="text/css">
-    .OperatorChange {
+   /*  .OperatorChange {
         width: 160px;
     }
 
@@ -386,5 +417,5 @@
 
     .OperatorValuedropdown {
         width: 160px;
-    }
+    } */
 </style>
