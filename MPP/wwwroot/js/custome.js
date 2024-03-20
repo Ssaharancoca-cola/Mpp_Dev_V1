@@ -17,3 +17,9 @@ $(document).on('click', '.mainSidebar ul li', function () {
     $('.mainSidebar ul li a').removeClass('active');
     $(this).find('a').addClass('active');
 });
+
+//Main Toolbar remove and add active class
+$(document).on('click', 'btn-group', function () {
+    $('button').removeClass('active');
+    $(this).find('button').addClass('active');
+});

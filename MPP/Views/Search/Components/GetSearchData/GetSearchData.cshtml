@@ -19,7 +19,7 @@
             {
                 <div style="display:none">totalrecord  @total</div>
 
-                <table id="tblsearchdata" rules="cols" class="alternate_color table table-data trgriddata" Cellpadding="4">
+                <table id="tblsearchdata" rules="cols" class="alternate_color table table-bordered table-data trgriddata" Cellpadding="4">
                     <thead>
                         <tr class="gridheader resultHeader">
                             <th>
@@ -34,7 +34,7 @@
                                     {
                                         <th style="white-space:nowrap">
                                             @Html.ActionLink(@item.Key.ToString(), "Index", new { sortOrder = @item.Key.ToString() + "^" + ViewBag.sortId },
-                        new { @class = "colorWhite" })
+                                                     new { @class = "colorWhite" })
                                         </th>
                                     }
                                 }
@@ -88,47 +88,67 @@
                 <input type="button" id="btnUpdate" value="Update" alt="submit Button" class="btn btn-primary">
             </div>
             <div class="col text-end">
-                <strong>
-                    @if (@Context.Session.GetInt32("currentPageNo") != null)
-                    {
-                        if (@Context.Session.GetInt32("currentPageNo") == 1)
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination pagination-lg justify-content-end">
+                        @if (@Context.Session.GetInt32("currentPageNo") != null)
                         {
-                            <label class="griddatadisabled" style="margin-left:300px" disabled id="btnPrevious">&lt;Prev</label>
-                        }
-                        else
-                        {
-                            <label class="griddata" style="margin-left:300px" id="btnPrevious">
-                                &lt;Prev
-                            </label>
-                        }
-                        if ((Math.Round(Convert.ToDecimal(total) / 50, 2)) < Convert.ToDecimal(Context.Session.GetInt32("currentPageNo")) || Math.Round(Convert.ToDecimal(total) / 50, 2) == 0)
-                        {
-                            <label class="griddatadisabled" disabled id="btnNext">Next&gt;</label>
-                        }
-                        else
-                        {
-                            <label class="griddata" id="btnNext">Next&gt;</label>
-                        }
-                        <span style="margin-left:100px">
-                            Page: @Convert.ToInt32(@Context.Session.GetInt32("currentPageNo")) of
-                            @if (@Math.Round(Convert.ToDecimal(total) / 50) == 0)
+                            if (@Context.Session.GetInt32("currentPageNo") == 1)
                             {
-                                <label>1</label>
+                                <li class="page-item">
+                                    <a class="page-link griddatadisabled" href="#" aria-label="Previous" disabled id="btnPrevious">
+                                        <span aria-hidden="true">Previous</span>
+                                    </a>
+                                </li>
                             }
                             else
                             {
-                                <label>
-                                    @pagecount
-                                </label>
+                                <li class="page-item">
+                                    <a class="page-link griddata" href="#" aria-label="Previous" disabled id="btnPrevious">
+                                        <span aria-hidden="true">Previous</span>
+                                    </a>
+                                </li>
 
                             }
-                        </span>
-                    }
-                    else
-                    {
-                        <script>alert("Session expire. Please login again")</script>
-                    }
-                </strong>
+                            if ((Math.Round(Convert.ToDecimal(total) / 50, 2)) < Convert.ToDecimal(Context.Session.GetInt32("currentPageNo")) || Math.Round(Convert.ToDecimal(total) / 50, 2) == 0)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link griddatadisabled" href="#" aria-label="Next" disabled id="btnNext">
+                                        <span aria-hidden="true">Next</span>
+                                    </a>
+                                </li>
+
+                            }
+                            else
+                            {
+                                <li class="page-item">
+                                    <a class="page-link griddata" href="#" aria-label="Next" disabled id="btnNext">
+                                        <span aria-hidden="true">Next</span>
+                                    </a>
+                                </li>
+
+                            }
+                            <li class="page-item">
+                                <a class="page-link" href="#">
+                                    Page: @Convert.ToInt32(@Context.Session.GetInt32("currentPageNo")) of
+                                </a>
+                                @if (@Math.Round(Convert.ToDecimal(total) / 50) == 0)
+                                {
+                                    <a class="page-link" href="#">1</a>
+                                }
+                               
+                                else
+                                {
+                                    <a class="page-link" href="#">@pagecount</a>
+
+                                }
+                            </li>
+                        }
+                        else
+                        {
+                            <em>alert("Session expire. Please login again")</em>
+                        }
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>
@@ -276,28 +296,28 @@
 </script>
 
 <style type="text/css">
-    .griddatadisabled {
+    /* .griddatadisabled {
         color: #E8E2E2;
         text-decoration: none;
-    }
+    } */
 
     .griddata {
-      /*   color: black;
-        text-decoration: none;
-        cursor: pointer;
-        white-space: nowrap;
-        font-family: arial;
-        font-size: 8pt;
-        font-weight: normal;
-        font-style: normal;
-        color: #000000; */
+        /*   color: black;
+            text-decoration: none;
+            cursor: pointer;
+            white-space: nowrap;
+            font-family: arial;
+            font-size: 8pt;
+            font-weight: normal;
+            font-style: normal;
+            color: #000000; */
     }
 
-    .gridpager {
+    /* .gridpager {
         font-weight: bold;
         background-color: #E8E2E2;
         font-family: verdana, helvetica, arial;
         color: #FFFFFF;
         font-size: 11px;
-    }
+    } */
 </style>

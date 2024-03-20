@@ -183,13 +183,13 @@ color:#1E323E;
 }
 
 .pagination {
-    /*font-family: Verdana, Arial, Helvetica, sans-serif;*/
+    /*font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: smaller;
     font-weight: bold;
     color: #15232B;
     font-size: smaller;
     padding-left: 5px;
-    background-color: #CACACA;
+    background-color: #CACACA;*/
 }
 
 .headingbold {
@@ -1798,8 +1798,8 @@ body .ui-tooltip {
 /* Component containers
 ----------------------------------*/
 .ui-widget {
-    font-family: Verdana,Arial,sans-serif;
-    font-size: 10px;
+    /*font-family: Verdana,Arial,sans-serif;
+    font-size: 10px;*/
 }
 
     .ui-widget .ui-widget {
@@ -2844,11 +2844,11 @@ a.Attribute:hover {
 }
 
 .alternate_color tr:nth-child(even) td {
-    background-color: White;
+    /*background-color: White;
     font-family: Arial;
     font-size: 8pt;
     color: #000000;
-    text-align: left;
+    text-align: left;*/
 }
 
 .alternate_color tr:nth-child(odd) td {

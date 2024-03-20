@@ -59,7 +59,7 @@
                             {
                                 <div style="display:none">totalrecord dataList.Count()</div>
                                 <div class="panelDataGridSearch table-responsive">
-                                    <table border="0" id="tblHistorydata" rules="cols" class="table table-data">
+                                <table border="0" id="tblHistorydata" rules="cols" class="table table-bordered table-data">
                                         <thead>
                                             <tr class="gridheader resultHeader">
                                                 @foreach (var data in dataList)
@@ -119,7 +119,7 @@
             rows = table.find('tr'), cells, background, code;
         for (var i = 0; i < rows.length; i += 1) {
             if (i != 0) {
-                $(rows[i]).css('background-color', '#f5c4c4');
+                // $(rows[i]).css('background-color', '#f5c4c4');
             }
             var entityData = [];
             cells = $(rows[i]).children('td');
@@ -135,10 +135,11 @@
                     if (data != entityData[j]) {
 
                         if (i % 2 != 0) {
-                            background = '#FF0000';
+                            // $(cells[i]).css('background-color', '#fde294');
+                            background = '#fde294';
                         }
                         else {
-                            background = '#FF7F7F';
+                            background = '#fff6ca';
 
                         }
                         $(cells[j]).css('background-color', background)

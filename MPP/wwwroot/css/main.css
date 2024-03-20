@@ -164,17 +164,17 @@ sidebar #trmenu ul.nav .nav-item .nav-link {
     -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.10);
 }
 .btn-primary {
-    background-color: #444444;
+   /* background-color: #444444;
     border-color: #444444;
     border-radius: 4px;
     font-weight: 500;
     border-radius: 2px;
-    font-size: 1.2rem;
+    font-size: 1.2rem;*/
 }
     .btn-primary:hover {
-        color: #fff;
+       /* color: #fff;
         background-color: #d60008;
-        border-color: #d60008;
+        border-color: #d60008;*/
     }
 .btn-outline-primary {
     border-color: #444444;
@@ -194,10 +194,10 @@ sidebar #trmenu ul.nav .nav-item .nav-link {
     border-left: 0px solid #ffe6e6;
     border-right: 0px solid #ffe6e6;
     border-bottom: 0px solid #ffe6e6;*/
-    border: 1px solid #ffe6e6;
+   /* border: 1px solid #ffe6e6;*/
 }
 .table-data thead tr th {
-    background-color: #ffdfdf;
+    /*background-color: #ffdfdf;*/
     text-align: left;
     
 }
@@ -209,7 +209,7 @@ sidebar #trmenu ul.nav .nav-item .nav-link {
 .table-data tbody tr td,
 .table-data thead tr th a,
 .table-data tbody tr td a {
-    font-size: 1.2rem !important;
+    /*font-size: 1.2rem !important;*/
 }
     .table-data thead tr th a:hover,
     .table-data tbody tr td a:hover {
@@ -221,7 +221,7 @@ sidebar #trmenu ul.nav .nav-item .nav-link {
     text-align: left;
 }
 #trmenu .nav-pills .nav-link {
-    color:#000;
+    /*color:#000;*/
 }
     #trmenu .nav-pills .nav-link:hover{
         background-color: #ebebeb;
