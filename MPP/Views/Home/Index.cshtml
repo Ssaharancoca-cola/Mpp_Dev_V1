@@ -77,7 +77,10 @@
                         {
                             <li class="nav-item"><a class="nav-link" href="javascript:void(0);" id="Dimension" onclick="loadDimension('@item.value.Dimension', @item.i)">@(item.value.Dimension)</a></li>
                         }
-                        <li class="nav-item" id="lblAdmin"><a class="nav-link" aria-current="home" href="#">Admin</a></li>
+                        @if (TempData["IsAdmin"] is 1)
+                        {
+                            <li class="nav-item" id="lblAdmin"><a class="nav-link" aria-current="home" href="#">Admin</a></li>
+                        }
                     </ul>                    
                 </div>                
             </div>

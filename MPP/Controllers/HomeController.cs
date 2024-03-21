@@ -88,6 +88,7 @@ namespace MPP.Controllers
                 if (currentUserInfo == null || currentUserInfo.IsActive != 1)
                     outMsg = Constant.accessDenied;
                 TempData["UserName"] = currentUserInfo.UserName;
+                TempData["IsAdmin"] = currentUserInfo.IsAdmin;
             }
             catch (Exception ex)
             {

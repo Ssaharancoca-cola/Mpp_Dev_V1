@@ -157,7 +157,19 @@
 
     function submitFormWithAjax(event) {
         event.preventDefault();
+        let isAllMandatoryChecked = true;
 
+        $('input[data-mandatory="true"]').each(function () {
+            if (!this.checked) {
+                isAllMandatoryChecked = false;
+                return false;
+            }
+        });
+
+        if (!isAllMandatoryChecked) {
+            alert('Please select all mandatory fields before importing.');
+            return;
+        }
         let form = new FormData();
         $('#formid input, #formid select').each(function () {
             if ($(this).attr('type') === 'checkbox') {
