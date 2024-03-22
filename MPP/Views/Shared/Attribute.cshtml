@@ -162,7 +162,7 @@
                                 </svg>
                                  Workflow
                             </button>
-                        @if (Context.Session.GetString("EntityName") != "Customer")
+                            @if (Context.Session.GetString("EntityName") != "Customer" && Context.Session.GetString("EntityName") != "Customer Mapping")
                         {
                                 <button type="submit" class="btn btn-sm btn-outline-secondary btnToolbarItem" id="btnViewAll" name="Command" title="ViewAll" value="ViewAll">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
