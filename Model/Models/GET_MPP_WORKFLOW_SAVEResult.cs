@@ -7,5 +7,7 @@ namespace Model.Models
 {
     public partial class GET_MPP_WORKFLOW_SAVEResult
     {
+        public string UserID { get; set; }
+        public string SessionID { get; set; }
     }
 }

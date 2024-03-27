@@ -58,11 +58,11 @@ namespace Model.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                // optionsBuilder.UseSqlServer("Data Source=zwPmyad0001;Initial Catalog=MPP_PROD;Persist Security Info=True;User ID=MPP_PROD_APP;Password=5w!p2oP&LmAvBu;Connection Timeout=180;TrustServerCertificate=True");
+                // optionsBuilder.UseSqlServer("Data Source=zwPmyad0001;Initial Catalog=MPP_PROD;Persist Security Info=True;User ID=MPP_PROD_APP;Password=5w!p2oP&LmAvBu;Connection Timeout=360;TrustServerCertificate=True");
 
-                //  optionsBuilder.UseSqlServer("Data Source=zwqmyad0001;Initial Catalog=MPP_QA;Persist Security Info=True;User ID=MPP_DEV_APP;Password=LZ/&&S]Q9rnin8)5;Connection Timeout=180;TrustServerCertificate=True");
+                //optionsBuilder.UseSqlServer("Data Source=zwqmyad0001;Initial Catalog=MPP_QA;Persist Security Info=True;User ID=MPP_DEV_APP;Password=LZ/&&S]Q9rnin8)5;Connection Timeout=360;TrustServerCertificate=True");
 
-                optionsBuilder.UseSqlServer("Data Source=zwdmyad0001;Initial Catalog=MPP_DEV;Persist Security Info=True;User ID=MPP_DEV_APP;Password=LASyYbj0ZX#B;Connection Timeout=180;TrustServerCertificate=True");
+                optionsBuilder.UseSqlServer("Data Source=zwdmyad0001;Initial Catalog=MPP_DEV;Persist Security Info=True;User ID=MPP_DEV_APP;Password=LASyYbj0ZX#B;Connection Timeout=360;TrustServerCertificate=True");
             }
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -83,7 +83,8 @@ namespace Model.Models
             modelBuilder.Entity<ApproverDetail>().HasNoKey();
             modelBuilder.Entity<CNTS>().HasNoKey();
             modelBuilder.Entity<UserDto>().HasNoKey();
-            modelBuilder.Entity<MailData>().HasNoKey(); modelBuilder.Entity<DimBusinessorg>(entity =>
+            modelBuilder.Entity<MailData>().HasNoKey();
+            modelBuilder.Entity<DimBusinessorg>(entity =>
             {
                 entity.ToTable("DIM_BUSINESSORG", "MPP_APP");
 
@@ -91,7 +92,45 @@ namespace Model.Models
                     .ValueGeneratedNever()
                     .HasColumnName("ID");
 
+                entity.Property(e => e.CusCustomerCategoryLoid).HasColumnName("CUS_CUSTOMER_CATEGORY_LOID");
+
+                entity.Property(e => e.CusCustomerCategoryOid).HasColumnName("CUS_CUSTOMER_CATEGORY_OID");
+
                 entity.Property(e => e.CusCustomerLoid).HasColumnName("CUS_CUSTOMER_LOID");
+
+                entity.Property(e => e.CusCustomerOid).HasColumnName("CUS_CUSTOMER_OID");
+
+                entity.Property(e => e.CusOutletCmgClassLoid).HasColumnName("CUS_OUTLET_CMG_CLASS_LOID");
+
+                entity.Property(e => e.CusOutletCmgClassOid).HasColumnName("CUS_OUTLET_CMG_CLASS_OID");
+
+                entity.Property(e => e.CusOutletCmgVerticalLoid).HasColumnName("CUS_OUTLET_CMG_VERTICAL_LOID");
+
+                entity.Property(e => e.CusOutletCmgVerticalOid).HasColumnName("CUS_OUTLET_CMG_VERTICAL_OID");
+
+                entity.Property(e => e.CusOutletGroupLoid).HasColumnName("CUS_OUTLET_GROUP_LOID");
+
+                entity.Property(e => e.CusOutletGroupOid).HasColumnName("CUS_OUTLET_GROUP_OID");
+
+                entity.Property(e => e.CusOutletTradeTypeLoid).HasColumnName("CUS_OUTLET_TRADE_TYPE_LOID");
+
+                entity.Property(e => e.CusOutletTradeTypeOid).HasColumnName("CUS_OUTLET_TRADE_TYPE_OID");
+
+                entity.Property(e => e.CusOutletVpoClassLoid).HasColumnName("CUS_OUTLET_VPO_CLASS_LOID");
+
+                entity.Property(e => e.CusOutletVpoClassOid).HasColumnName("CUS_OUTLET_VPO_CLASS_OID");
+
+                entity.Property(e => e.CusParentCustomerLoid).HasColumnName("CUS_PARENT_CUSTOMER_LOID");
+
+                entity.Property(e => e.CusParentCustomerOid).HasColumnName("CUS_PARENT_CUSTOMER_OID");
+
+                entity.Property(e => e.CusRegionLoid).HasColumnName("CUS_REGION_LOID");
+
+                entity.Property(e => e.CusRegionOid).HasColumnName("CUS_REGION_OID");
+
+                entity.Property(e => e.CusTownClassLoid).HasColumnName("CUS_TOWN_CLASS_LOID");
+
+                entity.Property(e => e.CusTownClassOid).HasColumnName("CUS_TOWN_CLASS_OID");
 
                 entity.Property(e => e.DateFrom)
                     .HasColumnType("date")
@@ -173,12 +212,24 @@ namespace Model.Models
 
                 entity.ToTable("ENTITY", "MPP_CORE");
 
+                entity.HasIndex(e => new { e.EntityTypeId, e.LatestFlag }, "ENTITY_IDX11");
+
+                entity.HasIndex(e => new { e.LastUpdatedTimeStamp, e.Oid }, "INDEX2")
+                    .IsUnique();
+
+                entity.HasIndex(e => e.EditLevel, "XAK2ENTITY")
+                    .IsUnique();
+
+                entity.HasIndex(e => new { e.EntityTypeId, e.EditLevel }, "XAK3ENTITY")
+                    .IsUnique();
+
                 entity.Property(e => e.Oid)
                     .ValueGeneratedNever()
                     .HasColumnName("OID");
 
                 entity.Property(e => e.CreatedBy)
                     .IsRequired()
+                    .HasMaxLength(75)
                     .HasColumnName("CREATED_BY");
 
                 entity.Property(e => e.EditLevel).HasColumnName("EDIT_LEVEL");
@@ -187,7 +238,10 @@ namespace Model.Models
                     .HasColumnType("datetime")
                     .HasColumnName("ENTITY_END_DATE");
 
-                entity.Property(e => e.EntityLatestName).HasColumnName("ENTITY_LATEST_NAME");
+                entity.Property(e => e.EntityLatestName)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .HasColumnName("ENTITY_LATEST_NAME");
 
                 entity.Property(e => e.EntityStartDate)
                     .HasColumnType("date")
@@ -197,7 +251,7 @@ namespace Model.Models
 
                 entity.Property(e => e.InternalCode)
                     .IsRequired()
-                    .IsUnicode(false)
+                    .HasMaxLength(500)
                     .HasColumnName("INTERNAL_CODE");
 
                 entity.Property(e => e.LastUpdatedTimeStamp)
@@ -211,6 +265,7 @@ namespace Model.Models
 
                 entity.Property(e => e.ModifiedBy)
                     .IsRequired()
+                    .HasMaxLength(100)
                     .HasColumnName("MODIFIED_BY");
 
                 entity.Property(e => e.SourceSystemName)
@@ -383,7 +438,7 @@ namespace Model.Models
             modelBuilder.Entity<EntityTypeAttrLov>(entity =>
             {
                 entity.HasKey(e => new { e.AttrName, e.EntityTypeId, e.ValidValues })
-                    .HasName("PK__ENTITY_T__6B57F4BB10120E73");
+                    .HasName("PK__ENTITY_T__6B57F4BB08C79B5F");
 
                 entity.ToTable("ENTITY_TYPE_ATTR_LOV", "MPP_CORE");
 
@@ -1101,16 +1156,6 @@ namespace Model.Models
                     .IsUnicode(false)
                     .HasColumnName("ACTIVE_FLAG");
 
-                entity.Property(e => e.AddressLine1)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("ADDRESS_LINE_1");
-
-                entity.Property(e => e.AddressLine2)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("ADDRESS_LINE_2");
-
                 entity.Property(e => e.ApproverId)
                     .HasMaxLength(50)
                     .IsUnicode(false)
@@ -1121,25 +1166,10 @@ namespace Model.Models
                     .HasColumnName("APPROVER_LEVEL")
                     .IsFixedLength();
 
-                entity.Property(e => e.ApproverStatus)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("APPROVER_STATUS");
-
-                entity.Property(e => e.CityName)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("CITY_NAME");
-
                 entity.Property(e => e.Comments)
                     .HasMaxLength(500)
                     .IsUnicode(false)
                     .HasColumnName("COMMENTS");
-
-                entity.Property(e => e.CountryName)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("COUNTRY_NAME");
 
                 entity.Property(e => e.CreatedDate).HasColumnName("CREATED_DATE");
 
@@ -1150,6 +1180,11 @@ namespace Model.Models
 
                 entity.Property(e => e.CurrentEditLevel).HasColumnName("CURRENT_EDIT_LEVEL");
 
+                entity.Property(e => e.CustomerCode)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("CUSTOMER_CODE");
+
                 entity.Property(e => e.DateFrom)
                     .HasColumnType("date")
                     .HasColumnName("DATE_FROM");
@@ -1157,11 +1192,6 @@ namespace Model.Models
                 entity.Property(e => e.DateTo)
                     .HasColumnType("date")
                     .HasColumnName("DATE_TO");
-
-                entity.Property(e => e.DummyFlag)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .HasColumnName("DUMMY_FLAG");
 
                 entity.Property(e => e.EffectiveEndDate)
                     .HasColumnType("datetime")
@@ -1171,39 +1201,29 @@ namespace Model.Models
                     .HasColumnType("datetime")
                     .HasColumnName("EFFECTIVE_START_DATE");
 
-                entity.Property(e => e.EntSiteCode)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("ENT_SITE_CODE");
-
-                entity.Property(e => e.EntSiteDesc)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("ENT_SITE_DESC");
-
-                entity.Property(e => e.EntSiteLongName)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("ENT_SITE_LONG_NAME");
-
-                entity.Property(e => e.EntSiteShortName)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("ENT_SITE_SHORT_NAME");
-
-                entity.Property(e => e.EntSubGroupCode)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("ENT_SUB_GROUP_CODE");
-
                 entity.Property(e => e.ErrorMessage)
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("ERROR_MESSAGE");
 
+                entity.Property(e => e.GeoDistrictCode)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("GEO_DISTRICT_CODE");
+
+                entity.Property(e => e.GeoPostalPincodeCode)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("GEO_POSTAL_PINCODE_CODE");
+
+                entity.Property(e => e.GeoSectorCode)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("GEO_SECTOR_CODE");
+
                 entity.Property(e => e.InputRowId)
                     .ValueGeneratedOnAdd()
-                    .HasColumnName("input_row_id");
+                    .HasColumnName("INPUT_ROW_ID");
 
                 entity.Property(e => e.LastModifiedBy)
                     .HasMaxLength(50)
@@ -1214,39 +1234,34 @@ namespace Model.Models
                     .HasColumnType("datetime")
                     .HasColumnName("LAST_UPDATE_TIME");
 
-                entity.Property(e => e.Latitude)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("LATITUDE");
-
                 entity.Property(e => e.LdOid).HasColumnName("LD_OID");
 
-                entity.Property(e => e.LocationName)
+                entity.Property(e => e.OrgPreSalesRepCode)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("LOCATION_NAME");
+                    .HasColumnName("ORG_PRE_SALES_REP_CODE");
 
-                entity.Property(e => e.Longitude)
+                entity.Property(e => e.OsgOutletSegmentTypeCode)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("LONGITUDE");
+                    .HasColumnName("OSG_OUTLET_SEGMENT_TYPE_CODE");
 
-                entity.Property(e => e.OtherLocationName)
+                entity.Property(e => e.PrimaryEntSiteCode)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("OTHER_LOCATION_NAME");
+                    .HasColumnName("PRIMARY_ENT_SITE_CODE");
 
-                entity.Property(e => e.Pincode)
+                entity.Property(e => e.PrincipalCode)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("PINCODE");
+                    .HasColumnName("PRINCIPAL_CODE");
 
                 entity.Property(e => e.RecLockFlag).HasColumnName("REC_LOCK_FLAG");
 
-                entity.Property(e => e.Remarks)
-                    .HasMaxLength(255)
+                entity.Property(e => e.RejectFlag)
+                    .HasMaxLength(1)
                     .IsUnicode(false)
-                    .HasColumnName("REMARKS");
+                    .HasColumnName("REJECT_FLAG");
 
                 entity.Property(e => e.RowSecFlag).HasColumnName("ROW_SEC_FLAG");
 
@@ -1257,22 +1272,52 @@ namespace Model.Models
                     .IsUnicode(false)
                     .HasColumnName("SESSION_ID");
 
-                entity.Property(e => e.SiteType)
+                entity.Property(e => e.SortOrder).HasColumnName("SORT_ORDER");
+
+                entity.Property(e => e.SourceSystemCode)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("SITE_TYPE");
-
-                entity.Property(e => e.SortOrder).HasColumnName("SORT_ORDER");
+                    .HasColumnName("SOURCE_SYSTEM_CODE");
 
                 entity.Property(e => e.SourceSystemName)
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("SOURCE_SYSTEM_NAME");
 
-                entity.Property(e => e.StateName)
+                entity.Property(e => e.SrcCusDistrict)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("STATE_NAME");
+                    .HasColumnName("SRC_CUS_DISTRICT");
+
+                entity.Property(e => e.SrcCusPinCode)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("SRC_CUS_PIN_CODE");
+
+                entity.Property(e => e.SrcCusSalesRepName)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("SRC_CUS_SALES_REP_NAME");
+
+                entity.Property(e => e.SrcCusSector)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("SRC_CUS_SECTOR");
+
+                entity.Property(e => e.SrcCustomerCode)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("SRC_CUSTOMER_CODE");
+
+                entity.Property(e => e.SrcCustomerDesc)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("SRC_CUSTOMER_DESC");
+
+                entity.Property(e => e.SrcOutletSegment)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("SRC_OUTLET_SEGMENT");
 
                 entity.Property(e => e.TreatNullsAsNulls).HasColumnName("TREAT_NULLS_AS_NULLS");
 
@@ -1296,7 +1341,6 @@ namespace Model.Models
                     .HasColumnName("USER_LEVEL");
 
                 entity.Property(e => e.Validationcode)
-                    .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("VALIDATIONCODE");
 
@@ -1569,12 +1613,10 @@ namespace Model.Models
                     .HasColumnName("VC14");
 
                 entity.Property(e => e.Vc15)
-                    .HasMaxLength(100)
                     .IsUnicode(false)
                     .HasColumnName("VC15");
 
                 entity.Property(e => e.Vc16)
-                    .HasMaxLength(100)
                     .IsUnicode(false)
                     .HasColumnName("VC16");
 
@@ -1791,14 +1833,13 @@ namespace Model.Models
                     .HasColumnName("DATE_FROM");
 
                 entity.Property(e => e.EntityInternalCode)
-                    .HasMaxLength(257)
-                    .IsUnicode(false)
+                    .HasMaxLength(769)
                     .HasColumnName("ENTITY_INTERNAL_CODE");
 
                 entity.Property(e => e.EntityTypeId).HasColumnName("ENTITY_TYPE_ID");
 
                 entity.Property(e => e.ErrorMessage)
-                    .HasMaxLength(31)
+                    .HasMaxLength(26)
                     .IsUnicode(false)
                     .HasColumnName("ERROR_MESSAGE");
 

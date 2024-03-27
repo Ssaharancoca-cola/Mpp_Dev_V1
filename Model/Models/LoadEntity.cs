@@ -9,18 +9,20 @@ namespace Model.Models
     {
         public DateTime? DateFrom { get; set; }
         public DateTime? DateTo { get; set; }
-        public string EntSiteCode { get; set; }
-        public string EntSiteLongName { get; set; }
-        public string EntSiteShortName { get; set; }
-        public string DummyFlag { get; set; }
+        public string SourceSystemCode { get; set; }
+        public string PrincipalCode { get; set; }
+        public string SrcCustomerCode { get; set; }
+        public string SrcCustomerDesc { get; set; }
+        public string CustomerCode { get; set; }
+        public string RejectFlag { get; set; }
         public string ActiveFlag { get; set; }
         public DateTime? EffectiveStartDate { get; set; }
         public DateTime? EffectiveEndDate { get; set; }
-        public string SourceSystemName { get; set; }
         public int? SortOrder { get; set; }
         public string ErrorMessage { get; set; }
         public string WarningMessage { get; set; }
         public string SessionId { get; set; }
+        public int InputRowId { get; set; }
         public TimeSpan? CreatedDate { get; set; }
         public string CreatedUserId { get; set; }
         public DateTime? UpdateDate { get; set; }
@@ -33,27 +35,23 @@ namespace Model.Models
         public string ApproverLevel { get; set; }
         public string LastModifiedBy { get; set; }
         public DateTime? LastUpdateTime { get; set; }
+        public string GeoPostalPincodeCode { get; set; }
+        public string GeoDistrictCode { get; set; }
+        public string GeoSectorCode { get; set; }
+        public string SrcCusPinCode { get; set; }
+        public string SrcCusDistrict { get; set; }
+        public string SrcCusSector { get; set; }
+        public string SrcOutletSegment { get; set; }
+        public string OsgOutletSegmentTypeCode { get; set; }
+        public string SrcCusSalesRepName { get; set; }
+        public string OrgPreSalesRepCode { get; set; }
+        public string PrimaryEntSiteCode { get; set; }
         public int? LdOid { get; set; }
         public int? RowStatus { get; set; }
-        public string LocationName { get; set; }
-        public string OtherLocationName { get; set; }
-        public string AddressLine1 { get; set; }
-        public string AddressLine2 { get; set; }
-        public string CityName { get; set; }
-        public string StateName { get; set; }
-        public string CountryName { get; set; }
-        public string Pincode { get; set; }
-        public string Latitude { get; set; }
-        public string Longitude { get; set; }
-        public string Remarks { get; set; }
         public int? RecLockFlag { get; set; }
         public int? TreatNullsAsNulls { get; set; }
         public int? CurrentEditLevel { get; set; }
-        public string EntSiteDesc { get; set; }
-        public string SiteType { get; set; }
-        public int InputRowId { get; set; }
-        public string EntSubGroupCode { get; set; }
         public string Validationcode { get; set; }
-        public string ApproverStatus { get; set; }
+        public string SourceSystemName { get; set; }
     }
 }

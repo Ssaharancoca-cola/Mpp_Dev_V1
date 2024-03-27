@@ -28,7 +28,7 @@
 
     if (ListOfRecordsForUpdate.Count() > 0)
     {
-        <nav aria-label="breadcrumb">
+        @*<nav aria-label="breadcrumb">
             <ol class="breadcrumb rounded-3">
                 @if (Context.Session.GetString("SelectedDimensionData") != null && Context.Session.GetString("EntityName") != null)
                 {
@@ -46,6 +46,17 @@
                     <li class="breadcrumb-item active" aria-current="page">
                         @Context.Session.GetString("EntityName").ToString()
                     </li>
+                }
+            </ol>
+        </nav>*@
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb rounded-3">
+                @if (Context.Session.GetString("SelectedDimensionData") != null && Context.Session.GetString("EntityName") != null)
+                {
+                    <li class="breadcrumb-item">
+                        <span class="link-body-emphasis">@Context.Session.GetString("SelectedDimensionData").ToString()</span>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page"> @Context.Session.GetString("EntityName").ToString() </li>
                 }
             </ol>
         </nav>

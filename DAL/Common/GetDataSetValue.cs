@@ -82,6 +82,7 @@ namespace DAL.Common
                 try
                 {
                     var dtDataTable = new DataTable();
+                    context.Database.SetCommandTimeout(360);
                     var command = context.Database.GetDbConnection().CreateCommand();
                     command.CommandText = selectCommand;
 

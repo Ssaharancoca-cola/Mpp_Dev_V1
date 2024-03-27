@@ -19,7 +19,7 @@ namespace Model.Models
         Task<List<MPP_LEVEL_LOADResult>> MPP_LEVEL_LOADAsync(string I_SESSION_ID, string I_ENTITY_TYPE_ID, string I_USER_ID, int? I_USER_LVL, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<MPP_LOAD_CHKResult>> MPP_LOAD_CHKAsync(string i_Session_id, string i_entity_type_id, string i_user_id, decimal? i_suppress_warnings, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<List<MPP_LOAD3Result>> MPP_LOAD3Async(string I_SESSION_ID, string I_ENTITY_TYPE_ID, string I_USER_ID, int? I_SUPPRESS_WARNINGS, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
-        Task<List<MPP_REFRESH_ROW_SECURITYResult>> MPP_REFRESH_ROW_SECURITYAsync(string I_USER_ID, string I_ENTITY_ID, string I_DIM, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
+        Task<int> MPP_REFRESH_ROW_SECURITYAsync(string I_USER_ID, string I_ENTITY_ID, string I_DIM, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
         Task<int> UPDATE_USER_PRIVILAGEAsync(string UserId, int? EntityTypeId, int? RoleId, string ApprId, OutputParameter<int> returnValue = null, CancellationToken cancellationToken = default);
     }
 }
