@@ -161,8 +161,9 @@ body {
         &.nav-header:not(:empty) {
             padding: 0.6rem 1.2rem;
             border-bottom: 2px solid #f30008;
-            font-weight: 500;
+            font-weight: 700;
             margin-top: 1.2rem;
+            text-transform:uppercase;
         }
 
         a {
