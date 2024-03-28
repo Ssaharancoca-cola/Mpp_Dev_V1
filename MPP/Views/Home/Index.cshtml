@@ -58,12 +58,12 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand me-auto" id="lblHome" href="#">
+            <a class="navbar-brand me-auto" id="lblHome" href="/Home">
                 <img src="~/Images/common/Logo-KOINE.png" class="logo-brand" alt="MPP Logo" />
                 <div class="title-mpp">
+                    <span>MPP</span>
                     <span>Master Processing Platform</span>
-@*                    <span></span>
-*@                </div>
+                </div>
             </a>
             
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -86,11 +86,20 @@
             </div>
             <div class="dropdown">
                 <a href="#" class="profile-dropdown dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <span class="icon-profile">AS</span>
+                    @if (TempData["UserName"] != null)
+                    {
+                        string userName = TempData["UserName"].ToString();
+                        string firstLetter = !string.IsNullOrEmpty(userName) ? userName.Substring(0, 1).ToUpper() : "U"; // U for Unknown
+                        <span class="icon-profile">@firstLetter</span>
+                    }
+                    else
+                    {
+                        <span class="icon-profile">U</span> <!-- Default to 'U' if UserName is not available -->
+                    }
                     @* <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle"> *@
                 </a>
                 <ul class="dropdown-menu text-small" style="">
-                    <li id="lblUserName"><a class="dropdown-item" href="#">Welcome: @TempData["UserName"]</a></li>
+                    <li id="lblUserName"><a class="dropdown-item">Welcome: @TempData["UserName"]</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="#" id="lbllogOut">Logout</a></li>
                 </ul>
@@ -107,8 +116,14 @@
         </aside>*@
     <section class="mainWrapper">
         <div class="card box-shadow" id="trDropDownData2">
-            <div class="card-body d-flex flex-wrap align-items-center justify-content-center">
-                <img src="~/Images/homepage.png" class="img-mpp" alt="MPP Schema" />
+            <div class="card-body">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-4">
+                        <img src="~/Images/homepage.png" class="img-mpp" alt="MPP Schema" /><br />
+                        <img src="~/Images/common/Image-bottles.png" class="img-mpp" alt="MPP Schema" />
+                    </div>
+                </div>
+                
             </div>
         </div>
         <div id="trContent">
