@@ -16,7 +16,7 @@
                 @if (Context.Session.GetString("SelectedDimensionData") != null && Context.Session.GetString("EntityName") != null)
                 {
                     <li class="breadcrumb-item">
-                        <a class="link-body-emphasis fw-semibold text-decoration-none" href="#">@Context.Session.GetString("SelectedDimensionData").ToString() ></a>
+                        <a class="link-body-emphasis fw-semibold text-decoration-none" >@Context.Session.GetString("SelectedDimensionData").ToString() </a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">
                         @Context.Session.GetString("EntityName").ToString()
@@ -25,17 +25,7 @@
             }
         </ol>
     </nav>
-    @* <nav aria-label="breadcrumb">
-        <ol class="breadcrumb rounded-3">
-            @if (Context.Session.GetString("SelectedDimensionData") != null && Context.Session.GetString("EntityName") != null)
-            {
-                <li class="breadcrumb-item">
-                    <span class="link-body-emphasis">@Context.Session.GetString("SelectedDimensionData").ToString()</span>
-                </li>
-                <li class="breadcrumb-item active" aria-current="page"> @Context.Session.GetString("EntityName").ToString() </li>
-            }
-        </ol>
-    </nav> *@
+ 
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
         <h1 class="h2">Import</h1>
 
