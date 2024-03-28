@@ -63,17 +63,17 @@
 
                             @if (@menuOption.AttrDataType == "SUPPLIED_CODE")
                             {
-                                @Html.CheckBox(@menuOption.AttrName, new { @class = "checkbox", @checked = true, @disabled = true })
+                                @Html.CheckBox(@menuOption.AttrName, new { @class = "checkbox", @checked = true, @disabled = true, @mandatory = true })
                             }
                             else
                             {
-                                @Html.CheckBox(@menuOption.AttrName, new { @class = "label" })
+                                @Html.CheckBox(@menuOption.AttrName, new { @class = "checkbox",@checked = true, @disabled = true })
                             }
                             
                             @if (@menuOption.AttrDisplayName.ToUpper() == "SORT ORDER")
                             {
-                                <label id="lblSORT_ORDER_format" class="hintlabel">&nbsp;(9999999999)</label>
-
+                                <label id="lblSORT_ORDER_format" class="hintlabel"> &nbsp;(9999999999)</label>
+                                
                             }
 
                         </div>
@@ -147,21 +147,32 @@
             $('#viewPlaceHolder').html();
 
         });
+        //$("#chkSelectAll").change(function () {
+        //    var status = this.checked;
+        //    $('.label').each(function () {
+        //        this.checked = status;
+        //    });
+        //});
+        //$('.label').change(function () {
+        //    if (this.checked === false) {
+        //        $('#chkSelectAll')[0].checked = false;
+        //    } else {
+        //        // Check if all other checkboxes are checked
+        //        if ($('.label:checked').length === $('.label').length) {
+        //            $('#chkSelectAll')[0].checked = true;
+        //        }
+        //    }
+        //});
         $("#chkSelectAll").change(function () {
             var status = this.checked;
-            $('.label').each(function () {
+            // Only toggle checkboxes that are not marked as mandatory
+            $('.label').not('[mandatory="true"]').each(function () {
                 this.checked = status;
             });
-        });
-        $('.label').change(function () {
-            if (this.checked === false) {
-                $('#chkSelectAll')[0].checked = false;
-            } else {
-                // Check if all other checkboxes are checked
-                if ($('.label:checked').length === $('.label').length) {
-                    $('#chkSelectAll')[0].checked = true;
-                }
-            }
+            // For checkboxes that are mandatory, ensure they remain checked
+            $('.label[mandatory="true"]').each(function () {
+                this.checked = true; // Keep mandatory checkboxes checked
+            });
         });
     });
     $('#formid').on('submit', submitFormWithAjax);
@@ -170,7 +181,8 @@
         event.preventDefault();
         let isAllMandatoryChecked = true;
 
-        $('input[data-mandatory="true"]').each(function () {
+        $('input[mandatory="true"]').each(function () {
+            debugger;
             if (!this.checked) {
                 isAllMandatoryChecked = false;
                 return false;
