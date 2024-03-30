@@ -5,6 +5,7 @@ using System.Diagnostics;
 using DAL.Common;
 using MPP.ViewModel;
 using DAL;
+using System.Linq;
 
 namespace MPP.Controllers
 {
@@ -30,9 +31,14 @@ namespace MPP.Controllers
                 {
                     dimensionsList = objMenuViewModel.ShowMenuData(out outMsg);
                     dimensionsList = dimensionsList.ToList();
-                    return View(dimensionsList);
-                }
-            }
+                    var customOrder = new List<string> { "Product", "Geography", "Customer", "Business Organization", "Sales Organization", "Calendar", "Outlet Segmentation", "Others" };
+
+                    var orderedDimensionsList = dimensionsList
+                    .OrderBy(dimension => customOrder.Contains(dimension.Dimension) ? customOrder.IndexOf(dimension.Dimension) : int.MaxValue)
+                    .ToList();
+                                    return View(orderedDimensionsList);
+                                }
+                            }
             catch (Exception ex)
             {
                 //  outMsg = ex.Message;
