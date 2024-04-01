@@ -40,8 +40,8 @@
             </div>
             <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
                 <label class="gridheader">List of Approvers</label>
-                    @Html.ListBoxFor(model => model.ApproverDetail,
-                             new MultiSelectList(Model.ApproverDetail, "ApproverId", "ApproverName"), new { @id = "ddlApproverListBox", @class = "approverdetail form-control" })
+                @Html.ListBoxFor(model => model.ApproverDetail,
+                         new MultiSelectList(Model.ApproverDetail, "ApproverId", "ApproverName"), new { @id = "ddlApproverListBox", @class = "approverdetail form-control" })
             </div>
             <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2 d-flex align-items-center justify-content-center">
                 <input type="button" id="btnMoveRight" style="font-size:larger;height:30px;width:100px" value=">>" alt="Save">
@@ -55,301 +55,294 @@
             </div>
             <div class="col text-center">
 
-                @Html.HiddenFor(x=>x.SelectedApproverId, new { @id = "hdnSelectedApprover" })
-            @Html.HiddenFor(x => x.RoleID,new {@id ="hdnRoleID"})
+                @Html.HiddenFor(x => x.SelectedApproverId, new { @id = "hdnSelectedApprover" })
+                @Html.HiddenFor(x => x.RoleID, new { @id = "hdnRoleID" })
                 <input type="button" id="btnSaveApprover" value="submit" class="btn btn-primary" alt="Save">
                 <input type="button" id="btnCancelApprover" value="Cancel" class="btn btn-outline-primary" alt="Cancel">
             </div>
-<div class="darkBlueBg">
-    @* <table style="width: 100%">
-        <tr align="center" style="width:100%; height:25px">
-            <td style="width: 100%;padding-left:10px" align="left">
-                
-            </td>
-        </tr>
-        <tr align="left" style="width:100%; height:5px">
-            <td style="padding-left:10px;padding-right:10px;padding-bottom:20px" valign="top">
+            <div class="darkBlueBg">
+                @* <table style="width: 100%">
+                <tr align="center" style="width:100%; height:25px">
+                <td style="width: 100%;padding-left:10px" align="left">
+
+                </td>
+                </tr>
+                <tr align="left" style="width:100%; height:5px">
+                <td style="padding-left:10px;padding-right:10px;padding-bottom:20px" valign="top">
                 <hr style="width:100%;height:2px;background-color:red;" />
-            </td>
-        </tr>
-    </table>
-    <centre>
-        <table>
-            <tr style="width: 100%" align="center" class="darkBlueBg">
+                </td>
+                </tr>
+                </table>
+                <centre>
+                <table>
+                <tr style="width: 100%" align="center" class="darkBlueBg">
                 <td style="width: 45%;padding-left:350px">
-                   
+
                 </td>
                 <td align="left" style="width: 56%">
-                    
+
                 </td>
-            </tr>
-            <tr style="width: 100%" align="center" class="darkBlueBg">
+                </tr>
+                <tr style="width: 100%" align="center" class="darkBlueBg">
                 <td style="width: 45%;padding-left:350px">
-                    
+
                 </td>
                 <td align="left" style="width: 56%">
-                    
+
                 </td>
-            </tr>
-            <tr align="center" style="width: 100%" class="darkBlueBg">
+                </tr>
+                <tr align="center" style="width: 100%" class="darkBlueBg">
                 <td style="width: 45%;padding-left:350px">
-                    
+
                 </td>
                 <td align="left" style="width: 56%">
-                    
+
                 </td>
-            </tr>
-        </table>
-    </centre> *@
-</div>
+                </tr>
+                </table>
+                </centre> *@
+            </div>
 
-<div>
-    <table cellpadding="0" cellspacing="0" border="0" width="100%">
-        <tr style="width:100%">
-            <td style="width:40%;padding-left:102px" rowspan="1" colspan="1">
-                
-            </td>
-            <td style="width:20%" rowspan="1" colspan="1"></td>
-            <td style="width:40%">
-                
-            </td>
-        </tr>
-        <tr style="width:100%">
-            <td style="width:40%" rowspan="1" colspan="1" align="right">
-                
-
-            </td>
-            <td style="width:20%" align="center" rowspan="1" colspan="1">
-                <table cellpadding="0" cellspacing="0" border="0">
-                    <tr>
-                        <td rowspan="1" colspan="1">
-
+            <div>
+                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                    <tr style="width:100%">
+                        <td style="width:40%;padding-left:102px" rowspan="1" colspan="1">
+                        </td>
+                        <td style="width:20%" rowspan="1" colspan="1"></td>
+                        <td style="width:40%">
                         </td>
                     </tr>
+                    <tr style="width:100%">
+                        <td style="width:40%" rowspan="1" colspan="1" align="right">
+                        </td>
+                        <td style="width:20%" align="center" rowspan="1" colspan="1">
+                            <table cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td rowspan="1" colspan="1">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="1" colspan="1">
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td style="width:40%" rowspan="1" colspan="1" align="left">
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr style="width:100%">
+                        <td style="width:40%"></td>
+                        <td style="width:20%;padding:10px" align="center">
+                        </td>
+                        <td style="width:40%"></td>
+                    </tr>
                     <tr>
-                        <td rowspan="1" colspan="1">
-                            
-
+                        <td colspan="3">
                         </td>
                     </tr>
                 </table>
-            </td>
-            <td style="width:40%" rowspan="1" colspan="1" align="left">
-                
-            </td>
-            <td>
-</td>
-        </tr>
-        <tr style="width:100%">
-            <td style="width:40%"></td>
-            <td style="width:20%;padding:10px" align="center">
+            </div>
+            <script>
+                $("#btnMoveLeft").click(function () {
+                    var selectedListBoxText = [];
+                    var selectedListBoxValues = [];
+                    var selectedItemIndex = [];
+
+                    var length = $("#ddlApproverSelectedListBox option:selected").length;
+                    if (length > 0) {
+                        for (var i = 0; i < length; i++) {
+                            selectedListBoxText[i] = $("#ddlApproverSelectedListBox option:selected")[i].text;
+                            selectedItemIndex[i] = $("#ddlApproverSelectedListBox option:selected")[i].index;
+
+                            if (selectedListBoxText[i] == "--Select--") {
+                                selectedListBoxValues[i] = "-1";
+                            }
+                            else {
+                                selectedListBoxValues[i] = $("#ddlApproverSelectedListBox option:selected")[i].value;
+
+                            }
+                        }
+                        for (var j = 0; j < selectedListBoxText.length; j++) {
+                            var newOption = new Option(); // Create a new instance of ListItem
+                            newOption.text = selectedListBoxText[j];
+                            newOption.value = selectedListBoxValues[j];
+                            ddlApproverListBox.options[ddlApproverListBox.length] = newOption; //Append the item in Target Listbox
+
+                            var hdnvalue = $("#hdnSelectedApprover").val();// + "," + newOption.value;
+                            hdnvalue = hdnvalue.replace(newOption.value, "");
+                            $("#hdnSelectedApprover").val(hdnvalue);
+
+                        }
+                        for (var j = selectedItemIndex.length - 1; j >= 0; j--) {
+                            ddlApproverSelectedListBox.remove(selectedItemIndex[j]); //Remove the item from Source Listbox
+                        }
+                    }
+                    else {
+                        alert('Please select an Item to move');
+                        return false;
+                    }
+                });
+                $("#btnMoveRight").click(function () {
+                    var $ddlApproverListBox = $("#ddlApproverListBox");
+                    var $ddlApproverSelectedListBox = $("#ddlApproverSelectedListBox"); // Assuming this is the ID for the right list box
+
+                    // Check if there is already an option in the right list box
+                    if ($ddlApproverSelectedListBox.find("option").length >= 1) {
+                        alert('Only one approver can be selected at a time.');
+                        return false;
+                    }
+
+                    var selectedListBoxText = [];
+                    var selectedListBoxValues = [];
+                    var selectedItemIndex = [];
+                    var length = $("#ddlApproverListBox option:selected").length;
+                    if (length > 0) {
+                        for (var i = 0; i < length; i++) 
+                            selectedItemIndex[i] = $("#ddlApproverListBox option:selected")[i].index;
+                            selectedListBoxText[i] = $("#ddlApproverListBox option:selected")[i].text;
+                            if (selectedListBoxText[i] == "--Select--") {
+                                selectedListBoxValues[i] = "-1";
+                            }
+                            else {
+                                selectedListBoxValues[i] = $("#ddlApproverListBox option:selected")[i].value;
 
 
+                            }
+                        }
+                        for (var j = 0; j < selectedListBoxText.length; j++) {
+                            var newOption = new Option(); // Create a new instance of ListItem
+                            newOption.text = selectedListBoxText[j];
+                            newOption.value = selectedListBoxValues[j];
+                            var hdnvalue = $("#hdnSelectedApprover").val() + "," + newOption.value;
+                            $("#hdnSelectedApprover").val(hdnvalue);
 
-            </td>
-            <td style="width:40%"></td>
-        </tr>
-        <tr>
-            <td colspan="3">               
-            </td>
-        </tr>
-    </table>
-</div>
-<script>
-    $("#btnMoveLeft").click(function () {
-        var selectedListBoxText = [];
-        var selectedListBoxValues = [];
-        var selectedItemIndex = [];
+                            ddlApproverSelectedListBox.options[ddlApproverSelectedListBox.length] = newOption; //Append the item in Target Listbox
 
-        var length = $("#ddlApproverSelectedListBox option:selected").length;
-        if (length > 0) {
-            for (var i = 0; i < length; i++) {
-                selectedListBoxText[i] = $("#ddlApproverSelectedListBox option:selected")[i].text;
-                selectedItemIndex[i] = $("#ddlApproverSelectedListBox option:selected")[i].index;
+                        }
+                        for (var j = selectedItemIndex.length - 1; j >= 0; j--) {
+                            ddlApproverListBox.remove(selectedItemIndex[j]); //Remove the item from Source Listbox
+                        }
 
-                if (selectedListBoxText[i] == "--Select--") {
-                    selectedListBoxValues[i] = "-1";
-                }
-                else {
-                    selectedListBoxValues[i] = $("#ddlApproverSelectedListBox option:selected")[i].value;
+                    }
+                    else {
+                        alert('Please select an Item to move');
+                        return false;
+                    }
+                });
+                $("#btnCancelApprover").click(function () {
+                    var userId = $("#txtUserId").val();
 
-                }
-            }
-            for (var j = 0; j < selectedListBoxText.length; j++) {
-                var newOption = new Option(); // Create a new instance of ListItem 
-                newOption.text = selectedListBoxText[j];
-                newOption.value = selectedListBoxValues[j];
-                ddlApproverListBox.options[ddlApproverListBox.length] = newOption; //Append the item in Target Listbox
+                    $.post('@Url.Action("GetAllUsers", "Admin")',
+                        function (data) {
+                            if (data.indexOf("error") == 0) {
+                                alert(data.replace("error", ""))
+                            }
+                            else {
 
-                var hdnvalue = $("#hdnSelectedApprover").val();// + "," + newOption.value;
-                hdnvalue = hdnvalue.replace(newOption.value, "");
-                $("#hdnSelectedApprover").val(hdnvalue);
+                                $('#divDisplayAllUsers').html(data);
 
-            }
-            for (var j = selectedItemIndex.length-1; j >= 0 ; j--) {
-                ddlApproverSelectedListBox.remove(selectedItemIndex[j]); //Remove the item from Source Listbox
-            }          
-        }
-        else
-        {
-            alert('Please select an Item to move');
-            return false;
-        }
-    });
-    $("#btnMoveRight").click(function ()
-    {
-        var selectedListBoxText = [];
-        var selectedListBoxValues = [];
-        var selectedItemIndex = [];
-        var length = $("#ddlApproverListBox option:selected").length;
-        if (length > 0) {
-            for (var i = 0; i < length; i++) {
-                selectedItemIndex[i] = $("#ddlApproverListBox option:selected")[i].index;
-                selectedListBoxText[i] = $("#ddlApproverListBox option:selected")[i].text;
-                if (selectedListBoxText[i] == "--Select--") {
-                    selectedListBoxValues[i] = "-1";
-                }
-                else {
-                    selectedListBoxValues[i] = $("#ddlApproverListBox option:selected")[i].value;
+                            }
+
+                        });
+                    $.post('@Url.Action("GetNewUserIndex", "Admin")', { newUserId: userId },
+                        function (data) {
+                            if (data.indexOf("error") == 0) {
+                                alert(data.replace("error", ""));
+                            }
+                            else {
+                                $('#ddlUserList')[0].selectedIndex = data;
+
+                            }
+
+                        });
+                    $.post('@Url.Action("GetUserDetails", "Admin")', { userId: userId },
+                        function (data) {
+                            if (data.indexOf("error") == 0) {
+                                alert(data.replace("error", ""));
+                            }
+                            else {
+
+                                $('#divUserDetails').empty();
+
+                                $('#divUserDetails').html(data);
+                                $('#divEntityDetail').empty();
 
 
-                }
-            }
-            for (var j = 0; j < selectedListBoxText.length;j++)
-            {
-                var newOption = new Option(); // Create a new instance of ListItem 
-                newOption.text = selectedListBoxText[j];
-                newOption.value = selectedListBoxValues[j];
-                var hdnvalue = $("#hdnSelectedApprover").val()+"," + newOption.value;
-                $("#hdnSelectedApprover").val(hdnvalue);
-            
-                ddlApproverSelectedListBox.options[ddlApproverSelectedListBox.length] = newOption; //Append the item in Target Listbox
+                            }
 
-            }
-            for (var j = selectedItemIndex.length-1; j >=0 ; j--) {
-                ddlApproverListBox.remove(selectedItemIndex[j]); //Remove the item from Source Listbox
-            }
+                        });
+                });
+                $("#btnSaveApprover").click(function () {
+                    var hdnSelectedApprover = $("#hdnSelectedApprover").val();
+                    var roleId = $("#hdnRoleID").val();
+                    var userId = $("#txtUserId").val();
+                    var entityName = $("#txtEntityName").val();
 
-        }
-        else {
-            alert('Please select an Item to move');
-            return false;
-        }
-    });
-    $("#btnCancelApprover").click(function ()
-    {
-        var userId = $("#txtUserId").val();
+                    $.post('@Url.Action("SaveSelectedApprover", "Admin")', { RoleId: roleId, UserId: userId, EntityName: entityName, SelectedApproverId: hdnSelectedApprover },
+                        function (data) {
+                            if (data.indexOf("error") == 0) {
+                                alert(data.replace("error", ""))
+                            }
+                            else {
+                                alert(data);
+                                $.post('@Url.Action("GetAllUsers", "Admin")',
+                                    function (data) {
+                                        if (data.indexOf("error") == 0) {
+                                            alert(data.replace("error", ""))
+                                        }
+                                        else {
 
-        $.post('@Url.Action("GetAllUsers", "Admin")',
-        function (data) {
-            if (data.indexOf("error") == 0) {
-                alert(data.replace("error", ""))
-            }
-            else {
+                                            $('#divDisplayAllUsers').html(data);
 
-                $('#divDisplayAllUsers').html(data);
+                                        }
 
-            }
+                                    });
+                                $.post('@Url.Action("GetNewUserIndex", "Admin")', { newUserId: userId },
+                                    function (data) {
+                                        if (data.indexOf("error") == 0) {
+                                            alert(data.replace("error", ""));
+                                        }
+                                        else {
+                                            $('#ddlUserList')[0].selectedIndex = data;
 
-        });
-        $.post('@Url.Action("GetNewUserIndex", "Admin")', { newUserId: userId },
-             function (data) {
-                 if (data.indexOf("error") == 0) {
-                     alert(data.replace("error", ""));
-                 }
-                 else {
-                     $('#ddlUserList')[0].selectedIndex = data;
+                                        }
 
-                 }
+                                    });
+                                $.post('@Url.Action("GetUserDetails", "Admin")', { userId: userId },
+                                    function (data) {
+                                        if (data.indexOf("error") == 0) {
+                                            alert(data.replace("error", ""));
+                                        }
+                                        else {
 
-             });
-        $.post('@Url.Action("GetUserDetails", "Admin")', { userId: userId },
-             function (data) {
-                 if (data.indexOf("error") == 0) {
-                     alert(data.replace("error", ""));
-                 }
-                 else {
+                                            $('#divUserDetails').empty();
 
-                     $('#divUserDetails').empty();
-
-                     $('#divUserDetails').html(data);
-                     $('#divEntityDetail').empty();
+                                            $('#divUserDetails').html(data);
+                                            $('#divEntityDetail').empty();
 
 
-                 }
+                                        }
 
-             });
-    });
-    $("#btnSaveApprover").click(function()
-    {
-        var hdnSelectedApprover = $("#hdnSelectedApprover").val();
-        var roleId = $("#hdnRoleID").val();
-        var userId = $("#txtUserId").val();
-        var entityName = $("#txtEntityName").val();
+                                    });
+                            }
 
-        $.post('@Url.Action("SaveSelectedApprover", "Admin")', { RoleId: roleId, UserId: userId, EntityName: entityName, SelectedApproverId: hdnSelectedApprover },
-                      function (data) {
-                          if (data.indexOf("error") == 0) {
-                              alert(data.replace("error", ""))
-                          }
-                          else {
-                              alert(data);
-                              $.post('@Url.Action("GetAllUsers", "Admin")',
-                                                   function (data) {
-                                                       if (data.indexOf("error") == 0) {
-                                                           alert(data.replace("error", ""))
-                                                       }
-                                                       else {
+                        });
 
-                                                           $('#divDisplayAllUsers').html(data);
-
-                                                       }
-
-                                                   });
-                              $.post('@Url.Action("GetNewUserIndex", "Admin")', { newUserId: userId },
-                                   function (data) {
-                                       if (data.indexOf("error") == 0) {
-                                           alert(data.replace("error", ""));
-                                       }
-                                       else {
-                                           $('#ddlUserList')[0].selectedIndex = data;
-
-                                       }
-
-                                   });
-                              $.post('@Url.Action("GetUserDetails", "Admin")', { userId: userId },
-                                   function (data) {
-                                       if (data.indexOf("error") == 0) {
-                                           alert(data.replace("error", ""));
-                                       }
-                                       else {
-
-                                           $('#divUserDetails').empty();
-
-                                           $('#divUserDetails').html(data);
-                                           $('#divEntityDetail').empty();
-
-
-                                       }
-
-                                   });
-                          }
-
-                      });
-    
-    });
-</script>
-<style type="text/css">
-/* .approverdetail
-{
-    width:300px;
-    height:150px;
-    font-family:Verdana;
-}
-.selectedapprover
-{
-    width:150px;
-    font-family:Verdana;
-    width:300px;
-} */
-</style>
+                });
+            </script>
+            <style type="text/css">
+                /* .approverdetail
+                                                {
+                                                    width:300px;
+                                                    height:150px;
+                                                    font-family:Verdana;
+                                                }
+                                                .selectedapprover
+                                                {
+                                                    width:150px;
+                                                    font-family:Verdana;
+                                                    width:300px;
+                                                } */
+            </style>
