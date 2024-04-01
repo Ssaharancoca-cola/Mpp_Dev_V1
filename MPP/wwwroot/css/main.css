@@ -338,12 +338,14 @@ ul.legend {
     width: 300px;
     margin: 0px auto;
 }
+    .legend.width-500 {
+        width: 500px !important;
+    }
     ul.legend li.item-legend {
         font-size: 1.2rem;
         font-weight: 500;
         display: flex;
         align-items: center;
-        
     }
 ul.legend li.title-legend {
     font-size:1.2rem;
@@ -351,7 +353,9 @@ ul.legend li.title-legend {
 }
 
     ul.legend li.not-modi::before,
-    ul.legend li.modified::before {
+    ul.legend li.modified::before,
+    ul.legend li.record-rej-approver::before,
+    ul.legend li.record-aban-user::before {
         content: ' ';
         display: inline-block;
         width: 18px;
@@ -365,6 +369,14 @@ ul.legend li.title-legend {
     ul.legend li.modified::before {
         background-color: #fde294;
     }
+
+ul.legend li.record-rej-approver::before {
+    background-color: #6E3D34;
+}
+
+ul.legend li.record-aban-user::before {
+    background-color: #E8E2E2;
+}
 .ui-tabs-anchor {
     /*font-size:1.2rem;*/
 }

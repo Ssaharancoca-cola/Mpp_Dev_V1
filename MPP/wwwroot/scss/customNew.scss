@@ -272,13 +272,17 @@ body {
         background-color: #1e1e1e;
         border-color: #1e1e1e;
         color: #fff;
-        font-size:1.2rem;
-        font-weight:400;
+        font-size: 1.2rem;
+        font-weight: 400;
+
         &:hover {
             color: #fff;
             background-color: #f40000;
             border-color: #f40000;
         }
+    }
+    &.btn-outline-primary {
+        font-size: 1.2rem;
     }
 }
 .pagination {
@@ -377,6 +381,7 @@ body {
 
     button {
         font-family: var(--bs-body-font-family) !important;
+        
     }
 }
 /*******************************
@@ -452,6 +457,18 @@ footer {
             }
         }
     }
+@media all and (min-width:1200px) and (max-width:1920px) {
+    .btn {
+
+        &.btn-primary {
+            font-size: 1.4rem;
+        }
+
+        &.btn-outline-primary {
+            font-size: 1.4rem;
+        }
+    }
+}
 
 @media all and (max-height:900px) {
     div.home-page {

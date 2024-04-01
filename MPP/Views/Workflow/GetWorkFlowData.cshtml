@@ -573,7 +573,12 @@
             }
             @if (rejectedRowData.Count() > 0)
             {
-                <table width="280" border="0" cellspacing="0" cellpadding="0" align="center" bordercolor="#E3E3E3"
+                <ul class="legend width-500">
+                    <li class="title-legend">LEGEND</li>
+                    <li class="item-legend record-rej-approver">Records rejected by the approver</li>
+                    <li class="item-legend record-aban-user">Records abandoned by the user</li>
+                </ul>
+                @* <table width="280" border="0" cellspacing="0" cellpadding="0" align="center" bordercolor="#E3E3E3"
                        bgcolor="#FFFFFF" id="tblLegend" style="border-style:solid;">
                     <tr valign="top" bgcolor="#ECEBE9">
                         <td width="280" colspan="2" align="center">
@@ -590,7 +595,7 @@
                             <font  size="1">Records abandoned by the user</font>
                         </td>
                     </tr>
-                </table>
+                </table> *@
                 <div class="row">
                     <div class="col" id="TableTopView">
 
