@@ -199,7 +199,7 @@
                     var selectedItemIndex = [];
                     var length = $("#ddlApproverListBox option:selected").length;
                     if (length > 0) {
-                        for (var i = 0; i < length; i++) 
+                        for (var i = 0; i < length; i++) { 
                             selectedItemIndex[i] = $("#ddlApproverListBox option:selected")[i].index;
                             selectedListBoxText[i] = $("#ddlApproverListBox option:selected")[i].text;
                             if (selectedListBoxText[i] == "--Select--") {
@@ -207,10 +207,8 @@
                             }
                             else {
                                 selectedListBoxValues[i] = $("#ddlApproverListBox option:selected")[i].value;
-
-
                             }
-                        }
+                        } 
                         for (var j = 0; j < selectedListBoxText.length; j++) {
                             var newOption = new Option(); // Create a new instance of ListItem
                             newOption.text = selectedListBoxText[j];
@@ -218,11 +216,11 @@
                             var hdnvalue = $("#hdnSelectedApprover").val() + "," + newOption.value;
                             $("#hdnSelectedApprover").val(hdnvalue);
 
-                            ddlApproverSelectedListBox.options[ddlApproverSelectedListBox.length] = newOption; //Append the item in Target Listbox
+                            $ddlApproverSelectedListBox[0].options[$ddlApproverSelectedListBox[0].length] = newOption; //Append the item in Target Listbox
 
                         }
                         for (var j = selectedItemIndex.length - 1; j >= 0; j--) {
-                            ddlApproverListBox.remove(selectedItemIndex[j]); //Remove the item from Source Listbox
+                            $ddlApproverListBox[0].remove(selectedItemIndex[j]); //Remove the item from Source Listbox
                         }
 
                     }
@@ -334,15 +332,15 @@
             </script>
             <style type="text/css">
                 /* .approverdetail
-                                                {
-                                                    width:300px;
-                                                    height:150px;
-                                                    font-family:Verdana;
-                                                }
-                                                .selectedapprover
-                                                {
-                                                    width:150px;
-                                                    font-family:Verdana;
-                                                    width:300px;
-                                                } */
+                                                                                                {
+                                                                                                    width:300px;
+                                                                                                    height:150px;
+                                                                                                    font-family:Verdana;
+                                                                                                }
+                                                                                                .selectedapprover
+                                                                                                {
+                                                                                                    width:150px;
+                                                                                                    font-family:Verdana;
+                                                                                                    width:300px;
+                                                                                                } */
             </style>
