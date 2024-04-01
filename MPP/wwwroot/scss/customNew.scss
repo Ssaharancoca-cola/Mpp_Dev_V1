@@ -372,6 +372,13 @@ body {
         }
     }
 }
+.ui-widget {
+    font-family: var(--bs-body-font-family) !important;
+
+    button {
+        font-family: var(--bs-body-font-family) !important;
+    }
+}
 /*******************************
     Footer
 */
