@@ -184,6 +184,18 @@
                         return false;
                     }
                 });
+                // To avoid user from selecting mulitple approvers at a time from the multiselect list
+                $(document).ready(function () {
+                    $('#ddlApproverListBox').on('change', function () {
+                        var selectedOptions = $(this).find('option:selected');
+
+                        if (selectedOptions.length > 1) {
+                            selectedOptions.removeAttr('selected');
+
+                            $(this).find('option').eq(selectedOptions[0].index).attr('selected', 'selected');
+                        }
+                    });
+                });
                 $("#btnMoveRight").click(function () {
                     var $ddlApproverListBox = $("#ddlApproverListBox");
                     var $ddlApproverSelectedListBox = $("#ddlApproverSelectedListBox");
