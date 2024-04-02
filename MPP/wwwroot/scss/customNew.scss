@@ -247,6 +247,15 @@ body {
         }
     }
 }
+.welcome-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img{
+        width:49.99%;
+        height:auto;
+    }
+}
 .btn-main-toolbar {
     .btn {
         &.btn-outline-secondary {
