@@ -163,96 +163,97 @@
                 }
                 else {
                     alert('Row Level Security has been deleted successfully');
+                    GetAndSetUserDetails();
+                    // $.post('@Url.Action("GetAllUsers", "Admin")',
+                    //     function (data) {
+                    //         if (data.indexOf("error") == 0) {
+                    //             alert(data.replace("error", ""))
+                    //         }
+                    //         else {
 
-                    $.post('@Url.Action("GetAllUsers", "Admin")',
-                        function (data) {
-                            if (data.indexOf("error") == 0) {
-                                alert(data.replace("error", ""))
-                            }
-                            else {
+                    //             $('#divDisplayAllUsers').html(data);
 
-                                $('#divDisplayAllUsers').html(data);
+                    //         }
 
-                            }
+                    //     });
+                    // $.post('@Url.Action("GetNewUserIndex", "Admin")', { newUserId: userId },
+                    //     function (data) {
+                    //         if (data.indexOf("error") == 0) {
+                    //             alert(data.replace("error", ""));
+                    //         }
+                    //         else {
+                    //             $('#ddlUserList')[0].selectedIndex = data;
 
-                        });
-                    $.post('@Url.Action("GetNewUserIndex", "Admin")', { newUserId: userId },
-                        function (data) {
-                            if (data.indexOf("error") == 0) {
-                                alert(data.replace("error", ""));
-                            }
-                            else {
-                                $('#ddlUserList')[0].selectedIndex = data;
+                    //         }
 
-                            }
+                    //     });
+                    // $.post('@Url.Action("GetUserDetails", "Admin")', { userId: userId },
+                    //     function (data) {
+                    //         if (data.indexOf("error") == 0) {
+                    //             alert(data.replace("error", ""));
+                    //         }
+                    //         else {
 
-                        });
-                    $.post('@Url.Action("GetUserDetails", "Admin")', { userId: userId },
-                        function (data) {
-                            if (data.indexOf("error") == 0) {
-                                alert(data.replace("error", ""));
-                            }
-                            else {
+                    //             $('#divUserDetails').empty();
 
-                                $('#divUserDetails').empty();
-
-                                $('#divUserDetails').html(data);
-                                $('#divEntityDetail').empty();
+                    //             $('#divUserDetails').html(data);
+                    //             $('#divEntityDetail').empty();
 
 
-                            }
+                    //         }
 
-                        });
+                    //     });
                     var dimensionId = "NA";
                 }
 
             });
     });
-    $("#btnCancelRowLevelSecurity").click(function () {
-        var userId = $("#txtUserId").val();
+    $("#btnCancelRowLevelSecurity").click(function (event) {
+        event.stopPropagation();
+        // var userId = $("#txtUserId").val();
         var dimensionListdata = 0;
 
+        GetAndSetUserDetails();
+        // $.post('@Url.Action("GetAllUsers", "Admin")',
+        //     function (data) {
+        //         if (data.indexOf("error") == 0) {
+        //             alert(data.replace("error", ""))
+        //         }
+        //         else {
 
-        $.post('@Url.Action("GetAllUsers", "Admin")',
-            function (data) {
-                if (data.indexOf("error") == 0) {
-                    alert(data.replace("error", ""))
-                }
-                else {
+        //             $('#divDisplayAllUsers').html(data);
 
-                    $('#divDisplayAllUsers').html(data);
+        //         }
 
-                }
+        //     });
+        // $.post('@Url.Action("GetNewUserIndex", "Admin")', { newUserId: userId },
+        //     function (data) {
+        //         if (data.indexOf("error") == 0) {
+        //             alert(data.replace("error", ""));
+        //         }
+        //         else {
+        //             $('#ddlUserList')[0].selectedIndex = data;
 
-            });
-        $.post('@Url.Action("GetNewUserIndex", "Admin")', { newUserId: userId },
-            function (data) {
-                if (data.indexOf("error") == 0) {
-                    alert(data.replace("error", ""));
-                }
-                else {
-                    $('#ddlUserList')[0].selectedIndex = data;
+        //         }
 
-                }
+        //     });
+        // $.post('@Url.Action("GetUserDetails", "Admin")', { userId: userId },
+        //     function (data) {
+        //         if (data.indexOf("error") == 0) {
+        //             alert(data.replace("error", ""));
+        //         }
+        //         else {
 
-            });
-        $.post('@Url.Action("GetUserDetails", "Admin")', { userId: userId },
-            function (data) {
-                if (data.indexOf("error") == 0) {
-                    alert(data.replace("error", ""));
-                }
-                else {
+        //             $('#divUserDetails').empty();
 
-                    $('#divUserDetails').empty();
-
-                    $('#divUserDetails').html(data);
-                    $('#divEntityDetail').empty();
+        //             $('#divUserDetails').html(data);
+        //             $('#divEntityDetail').empty();
 
 
 
-                }
+        //         }
 
-            });
+        //     });
         $.post('@Url.Action("GetDimensionIndex", "Admin")',
             function (data) {
                 if (data.indexOf("error") == 0) {
@@ -268,7 +269,8 @@
 
 
     });
-    $("#btnSaveRowLevelSecurity").click(function () {
+    $("#btnSaveRowLevelSecurity").click(function (event) {
+        event.stopPropagation();
         var selectedListBoxText = [];
         var selectedListBoxValues = [];
         if (!confirm("\n  ******* W A R N I N G !******* \n\n" +
@@ -338,18 +340,66 @@
                 }
                 else {
                     alert("Row Level Security has been applied successfully");
-                    $.post('@Url.Action("GetAllUsers", "Admin")',
-                        function (data) {
-                            if (data.indexOf("error") == 0) {
-                                alert(data.replace("error", ""))
-                            }
-                            else {
+                    GetAndSetUserDetails();
 
-                                $('#divDisplayAllUsers').html(data);
+                    // $.post('@Url.Action("GetAllUsers", "Admin")',
+                    //     function (data) {
+                    //         if (data.indexOf("error") == 0) {
+                    //             alert(data.replace("error", ""))
+                    //         }
+                    //         else {
 
-                            }
+                    //             $('#divDisplayAllUsers').html(data);
 
-                        });
+                    //         }
+
+                    //     });
+                    // $.post('@Url.Action("GetNewUserIndex", "Admin")', { newUserId: userId },
+                    //     function (data) {
+                    //         if (data.indexOf("error") == 0) {
+                    //             alert(data.replace("error", ""));
+                    //         }
+                    //         else {
+                    //             $('#ddlUserList')[0].selectedIndex = data;
+
+                    //         }
+
+                    //     });
+                    // $.post('@Url.Action("GetUserDetails", "Admin")', { userId: userId },
+                    //     function (data) {
+                    //         if (data.indexOf("error") == 0) {
+                    //             alert(data.replace("error", ""));
+                    //         }
+                    //         else {
+
+                    //             $('#divUserDetails').empty();
+
+                    //             $('#divUserDetails').html(data);
+                    //             $('#divEntityDetail').empty();
+
+
+                    //         }
+
+                    //     });
+                    var dimensionId = "NA";
+
+
+                }
+
+            });
+
+
+    });
+    function GetAndSetUserDetails() {
+        var userId = $("#txtUserId").val();
+        $.post('@Url.Action("GetAllUsers", "Admin")',
+            function (data) {
+                if (data.indexOf("error") == 0) {
+                    alert(data.replace("error", ""))
+                }
+                else {
+
+                    $('#divDisplayAllUsers').html(data);
                     $.post('@Url.Action("GetNewUserIndex", "Admin")', { newUserId: userId },
                         function (data) {
                             if (data.indexOf("error") == 0) {
@@ -361,33 +411,23 @@
                             }
 
                         });
-                    $.post('@Url.Action("GetUserDetails", "Admin")', { userId: userId },
-                        function (data) {
-                            if (data.indexOf("error") == 0) {
-                                alert(data.replace("error", ""));
-                            }
-                            else {
-
-                                $('#divUserDetails').empty();
-
-                                $('#divUserDetails').html(data);
-                                $('#divEntityDetail').empty();
-
-
-                            }
-
-                        });
-                    var dimensionId = "NA";
-
-
                 }
 
             });
+        
+        $.post('@Url.Action("GetUserDetails", "Admin")', { userId: userId },
+            function (data) {
+                if (data.indexOf("error") == 0) {
+                    alert(data.replace("error", ""));
+                }
+                else {
 
+                    $('#divUserDetails').empty();
 
-    });
-    function Refresh() {
-
+                    $('#divUserDetails').html(data);
+                    $('#divEntityDetail').empty();
+                }
+            });
     }
     $(document).ready(function () {
         $(".OperatorChange").change(function (evt) {
