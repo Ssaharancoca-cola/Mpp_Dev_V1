@@ -94,7 +94,7 @@
     $("#btnCancel").click(function () {
         $('#AttributeDetail').empty();
         $('#viewPlaceHolder').empty();
-        $.post('@Url.Action("GetSearchData", "Search")',
+        $.post('@Url.Action("CancelAbandonRecord", "WorkFlow")',
             function (data) {
                 $('#viewPlaceHolder').empty();
                 $('#AttributeDetail').html(data);
