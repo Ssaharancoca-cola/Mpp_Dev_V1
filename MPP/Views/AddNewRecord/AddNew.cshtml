@@ -46,6 +46,10 @@
                             <label style="color:red">*</label>
 
                             }
+                            @if (@menuOption.AttrDisplayName.ToUpper() == ("SORT ORDER"))
+                            {
+                                <label id="lblSORT_ORDER_format" class="hintlabel">(9999999999)</label>
+                            }
                                 @switch (@menuOption.DisplayType.ToLower())
                                 {
                                     case "textbox":
