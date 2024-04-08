@@ -261,17 +261,23 @@ sidebar #trmenu ul.nav .nav-item .nav-link {
         width: 300px;
         text-align: center;
     }
-    .sidebar-filter .card-body .card-form {
-       /* display: flex;*/
-        /*flex-flow: wrap;*/
-        /* justify-content: space-between; */
-        /* grid-gap: 10px;*/
-        /*flex-direction: column;*/
-        padding-left: 1.6rem;
-        padding-right: 1.6rem;
-        overflow-y: auto;
-        height: calc(100% - 60px);
+    .sidebar-filter .card-body {
+        
+        height: 100%;
+       
     }
+        .sidebar-filter .card-body .card-form {
+            /* display: flex;*/
+            /*flex-flow: wrap;*/
+            /* justify-content: space-between; */
+            /* grid-gap: 10px;*/
+            /*flex-direction: column;*/
+            padding-left: 1.6rem;
+            padding-right: 1.6rem;
+            height: calc(100% - 20%);
+            overflow-y: auto;
+            /*border: 1px solid #000;*/
+        }
 
         .sidebar-filter .card-body .card-form .form-group {
             /*width: 25%;*/
