@@ -311,7 +311,8 @@ body {
     }
 }
 .table-responsive {
-    margin-bottom:.8rem;
+    margin-bottom: .8rem;
+
     .table {
         border: 1px solid #dddddd;
 
@@ -320,6 +321,7 @@ body {
                 tr {
                     th {
                         border: 1px solid #dddddd;
+                        text-align: left;
                     }
                 }
             }
@@ -328,6 +330,7 @@ body {
                 tr {
                     td {
                         border: 1px solid #dddddd;
+                        text-align: left;
                     }
                 }
             }
