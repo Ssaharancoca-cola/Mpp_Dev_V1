@@ -428,7 +428,7 @@
                 <div class="row mb-3">
                     <div class="col" id="TableTopView">
                         <label asp-for="@Context.Session.GetString("EntityName")" class="whiteTextNormal" id="lblcaption"></label>
-                        | <span class="whiteTextNormal">
+                        @* | *@ <span class="whiteTextNormal">
                             Total Records : <strong>
                                 <label>@submittedRowData.Count()</label>
                             </strong>
@@ -567,7 +567,7 @@
                     <div class="col" id="TableTopView">
 
                         <label asp-for="@Context.Session.GetString("EntityName")" class="whiteTextNormal" id="lblcaption"></label>
-                        | <span class="whiteTextNormal">
+                        @* | *@ <span class="whiteTextNormal">
                             Total Records : <strong>
                                 <label>@rejectedRowData.Count()</label>
                             </strong>
@@ -681,7 +681,7 @@
                 <div class="row mb-3">
                     <div class="col" id="TableTopView">
                         <label asp-for="@Context.Session.GetString("EntityName")" class="whiteTextNormal" id="lblcaption"></label>
-                        | <span class="whiteTextNormal">
+                        @* | *@ <span class="whiteTextNormal">
                             Total Records : <strong>
                                 <label>@approvalPendingRowData.Count()</label>
                             </strong>
