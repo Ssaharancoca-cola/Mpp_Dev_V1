@@ -36,7 +36,7 @@
                                             @Html.ActionLink(@item.Key.ToString(), "Index", new { sortOrder = @item.Key.ToString() + "^" + ViewBag.sortId },
                                                      new { @class = "colorWhite" })
                                         </th>*@
-                                        <th style="white-space:nowrap">
+                                        <th>
                                             @Html.ActionLink(@item.Key.ToString() + " ↕", "Index", new { sortOrder = @item.Key.ToString() + "^" + ViewBag.sortId },
                         new { @class = "colorWhite" })
                                         </th>
@@ -306,6 +306,8 @@
 
         });
     });
+
+
 
 </script>
 
