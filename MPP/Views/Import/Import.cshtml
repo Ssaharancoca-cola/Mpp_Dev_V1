@@ -16,7 +16,7 @@
                 @if (Context.Session.GetString("SelectedDimensionData") != null && Context.Session.GetString("EntityName") != null)
                 {
                     <li class="breadcrumb-item">
-                        <a class="link-body-emphasis fw-semibold text-decoration-none" >@Context.Session.GetString("SelectedDimensionData").ToString() </a>
+                        <a class="link-body-emphasis fw-semibold text-decoration-none">@Context.Session.GetString("SelectedDimensionData").ToString() </a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">
                         @Context.Session.GetString("EntityName").ToString()
@@ -25,7 +25,7 @@
             }
         </ol>
     </nav>
- 
+
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
         <h1 class="h2">Import</h1>
 
@@ -48,7 +48,13 @@
                     if (@menuOption.Isvisible != "N")
                     {
                         <div class="form-group">
-                            <label id=@menuOption.AttrName>@menuOption.AttrDisplayName <em style="color:red">*</em></label>
+                            <label id="@menuOption.AttrName">
+                                @menuOption.AttrDisplayName
+                                @if (menuOption.IsMandatoryFlag == 1)
+                                {
+                                    <em style="color:red">*</em>
+                                }
+                            </label>
                             <span>:</span>
 
                             @if (@menuOption.AttrDataType == "SUPPLIED_CODE")
@@ -57,14 +63,14 @@
                             }
                             else
                             {
-                                @Html.CheckBox(@menuOption.AttrName, new { @class = "checkbox",@checked = true, @disabled = true })
+                                @Html.CheckBox(@menuOption.AttrName, new { @class = "checkbox", @checked = true, @disabled = true })
                             }
-                            
+
                             @*@if (@menuOption.AttrDisplayName.ToUpper() == "SORT ORDER")
-                            {
-                                <label id="lblSORT_ORDER_format" class="hintlabel"> &nbsp;(9999999999)</label>
-                                
-                            }*@
+                    {
+                    <label id="lblSORT_ORDER_format" class="hintlabel"> &nbsp;(9999999999)</label>
+
+                    }*@
 
                         </div>
                     }
@@ -82,7 +88,7 @@
                     { /*new SelectListItem{Text="Excel", Value="Excel"},*/
                     new SelectListItem{Text="Csv", Value="Csv"}}, new { @class = "editdropdown form-control", @id = "ddlFileFormat" })
                     <input type="file" name="file" id="file" />
-                </div>                
+                </div>
                 <div class="ctn-export mb-3">
                     <button type="submit" class="btn btn-primary" id="btnImport" name="Command" value="Import">
                         Import
